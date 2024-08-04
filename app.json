@@ -1,0 +1,74 @@
+{
+  "expo": {
+    "name": "Fonotherapp",
+    "slug": "fonotherapp",
+    "version": "1.0.0",
+    "schema": "fonotherapp",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#159797",
+      "androidStatusBar": {
+        "backgroundColor": "white",
+        "style": "light"
+      }
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.projetofono.fonotherapp",
+      "infoPlist": {
+        "NSFileProtection": "CompleteUnlessOpen",
+        "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to use Face ID.",
+        "UIBackgroundModes": [
+          "audio",
+          "fetch",
+          "remote-notification",
+          "video"
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.projetofono.fonotherapp",
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "plugins": [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+        }
+      ],
+      "expo-video",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.864119244538-3di8ur7li5egpo6k7pe24qscqtr1gm16"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cdecc953-c4e2-4151-9029-9049c232e217"
+      }
+    }
+  }
+}

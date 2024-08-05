@@ -3,13 +3,14 @@ import { CommonActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Home from '../../../pages/home';
-import Videos from '../../../pages/Videos';
-import MyAccount from '../../../pages/MyAccount';
+
 import { StatusBar } from 'expo-status-bar';
 import { colorPrimary } from '../../../style/ColorPalette';
 import { View } from 'react-native-animatable';
 import { Image, Text } from 'react-native';
+import Home from '../../../pages/doctorServices/Home';
+import Videos from '../../../pages/doctorServices/Videos';
+import MyAccount from '../../../pages/account/MyAccount';
 
 const Tab = createBottomTabNavigator();
 const arrayEmojis = ["🫂", "🫂", "😊", "🥰", "🗣️",];

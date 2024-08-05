@@ -1,0 +1,264 @@
+import React, { useContext, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { StyleSheet, View, Text } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+import { DatePickerInput } from 'react-native-paper-dates';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import { ScrollView } from 'react-native-gesture-handler';
+import { cpf } from 'cpf-cnpj-validator';
+import { useFocusEffect } from '@react-navigation/native';
+import MaskInput, { Masks } from 'react-native-mask-input';
+import dayjs from 'dayjs';
+
+import { Context } from '../../context/AuthProvider';
+import { ContextPacient } from '../../context/PacientContext';
+import { api } from '../../config/Api';
+import { colorSecundary } from '../../style/ColorPalette';
+import { ContextGlobal } from '../../context/GlobalContext';
+import LabelInput from '../../components/LabelInput';
+import ErrorMessage from '../../components/errorMessage';
+
+
+
+const CreatePacient = ({ navigation }) => {
+  const [loading, setLoading] = useState<boolean>(false)
+  const { user } = useContext(Context);
+  const { setPac_id, setPacient } = useContext(ContextPacient);
+  const formatCpf = cpf;
+  const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
+  const [isFocus, setIsFocus] = useState(false);
+
+
+  useEffect(() => {
+    let cpf = "";
+    const names = [
+      "João Santos ",
+      "Maria Ferreira",
+      "Pedro Alves Cabral",
+      "Ana Santana",
+      "Carlos Santos",
+      "Julia Santos",
+      "Fernando Bragança",
+      "Luisa sonça",
+      "Mariana Silva",
+      "Rafael Boaventura"
+    ];
+    while (cpf.length < 11) {
+      cpf += Math.floor(Math.random() * 10);
+    }
+    if (isDevelopment) {
+      setValue("cpf", cpf);
+      setValue("first_name", names[Math.floor(Math.random() * names.length)]);
+      setValue("birthday", "20/10/1998");
+    }
+
+  }, []);
+  const today = new Date();
+  const twoYearsAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+
+
+
+  const schema = yup.object({
+    first_name: yup
+      .string()
+      .required("Paciente é obrigatório")
+      .matches(/^(?!^\d+$).+$/, {
+        message: 'Não são permitidas entradas numéricas'
+      }),
+
+    cpf: yup
+      .string()
+      .matches(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/, {
+        message: "CPF inválido",
+        excludeEmptyString: false
+      })
+      .required("CPF obrigatório"),
+
+    birthday: yup
+      .string()
+      .transform((value, originalValue) => {
+        if (originalValue) {
+          const [day, month, year] = originalValue.split('/');
+          return `${year}-${month}-${day}`;
+        }
+        return originalValue;
+      })
+      .test('is-date', 'Data inválida', value => dayjs(value, 'YYYY-MM-DD', true).isValid())
+      .transform((value) => dayjs(value).format('YYYY-MM-DD'))
+      .required("Obrigatório"),
+
+    last_name: yup.string()
+  }).required();
+
+  const { reset, handleSubmit, watch, setValue, formState: { errors }, control, setError } = useForm({
+    resolver: yupResolver(schema),
+    mode: 'all',
+    defaultValues: {
+      first_name: "",
+      last_name: "null",
+      cpf: "",
+      birthday: "",
+    }
+  });
+
+
+  const onSubmit = async (data) => {
+
+    try {
+      /*
+      if (!cpf.isValid(data.cpf)) {
+        setError("cpf", { message: "CPF inválido" });
+        setLoading(false);
+        return;
+      }*/
+
+      setLoading(true);
+      const response = await api.post("/pacient", { ...data, doc_id: user.doc_id });
+      setPac_id(response.data.pac_id);
+      setPacient(response?.data?.person);
+      reset();
+      navigation.navigate("Anamnese");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      if (error?.response) {
+        setError("cpf", { message: "Paciente já existe." });
+      } else {
+        setError("cpf", { message: "Sem conexão com a internet, tente novamente" });
+      }
+    }
+  };
+
+
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.containerChildren}>
+
+        <LabelInput value='Nome' />
+        <Controller control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              value={value}
+              autoFocus
+              onChangeText={onChange}
+              mode='outlined'
+              dense
+              activeOutlineColor="#376fe8" />
+          )}
+          name='first_name'
+        />
+
+        <ErrorMessage name={"first_name"} errors={errors} />
+
+        <LabelInput value='CPF' />
+        <Controller control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              value={formatCpf.format(value)}
+              onChangeText={onChange}
+              mode='outlined'
+              dense
+              activeOutlineColor="#376fe8" />
+          )}
+          name='cpf'
+        />
+        <ErrorMessage name={"cpf"} errors={errors} />
+
+        <LabelInput value='Data de nascimento' />
+        <Controller control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <MaskInput
+              style={[styles.maskInput, { borderColor: isFocus ? colorSecundary : "#848484", borderWidth: isFocus ? 2 : 1 }]}
+              value={(value)}
+              placeholder={null}
+              cursorColor={colorSecundary}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChangeText={(masked) => {
+                onChange(masked);
+              }}
+              mask={Masks.DATE_DDMMYYYY}
+            />
+
+          )}
+
+          name='birthday'
+        />
+        <ErrorMessage name={"birthday"} errors={errors} />
+
+      </ScrollView>
+
+      <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
+        <Button icon="arrow-right"
+          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+          Próximo
+        </Button>
+      </View>
+
+    </View>
+  );
+};
+
+
+export default CreatePacient;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  containerChildren: {
+    fontFamily: "Poppins_600SemiBold",
+    flex: 1,
+    backgroundColor: 'transparent',
+    padding: 20,
+    width: "100%"
+  },
+
+  button: {
+    width: '100%',
+    marginTop: 20,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+  },
+  maskInput: {
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 4,
+    backgroundColor: "transparent",
+    fontSize: 16
+  }
+});
+
+
+/*
+import React from 'react';
+import MaskInput, { Masks } from 'react-native-mask-input';
+import { colorSecundary } from '../style/ColorPalette';
+
+export default function MyComponent() {
+  const [phone, setPhone] = React.useState('');
+
+  return (
+    <MaskInput
+      style={{borderWidth:2, borderColor:colorSecundary, padding:10}}
+      value={phone}
+      placeholder='Data de nascimento'
+      cursorColor={"gray"}
+      onChangeText={(masked, unmasked) => {
+        setPhone(masked); // you can use the unmasked value as well
+      }}
+      mask={Masks.DATE_DDMMYYYY}
+    />
+  );
+}
+
+*/

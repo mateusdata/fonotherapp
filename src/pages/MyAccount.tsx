@@ -27,7 +27,7 @@ const MyAccount = ({ navigation }) => {
       <YStack space="$3" style={{ borderColor: 'yellow', borderWidth: 0, alignItems: "center", marginTop: 0, marginBottom: 40 }}>
         <YStack style={{ width: '100%', alignItems: 'center', marginTop: 5, top: 22 }}>
           {true && <>
-            {!google.photo ? <FontAwesome6 name="user-doctor" size={56} color={colorPrimary} />
+            {!google?.photo ? <FontAwesome6 name="user-doctor" size={56} color={colorPrimary} />
               :
               <Avatar.Image size={100} source={{ uri: google?.photo }} />
             }

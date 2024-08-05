@@ -49,7 +49,7 @@ const CurrentProtocol = ({ navigation, route }) => {
     useEffect(() => {
         const fetchProtocol = async () => {
             try {
-                const response = await api.get(`/info-session/${protocolId}`);
+                const response = await api.get(`/session/${protocolId}`);
                 setProtocol(response.data.protocol);
                 console.log(response.data.protocol)
             } catch (error) {

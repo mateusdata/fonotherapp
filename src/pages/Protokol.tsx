@@ -4,7 +4,7 @@ import { Avatar, Button, Card, Modal, Title } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
 import SkelectonView from '../components/SkelectonView';
-import { api }  from '../config/Api';
+import { api } from '../config/Api';
 import { Dialog, Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
 import { Context } from '../context/AuthProvider';
@@ -29,7 +29,7 @@ const Protokol = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [firstModal, setFirstModal] = useState<boolean>(true);
     const [page, setPage] = React.useState(0);
-    const { setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
+    const { setLocation, thereSession } = useContext(ContextGlobal);
     const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
     const [visible, setVisible] = useState(false);
 
@@ -92,7 +92,6 @@ const Protokol = ({ navigation }) => {
                 }
 
                 try {
-                    setProtocols([])
                     const protocol = await api.get(`last-sessions/${pac_id}/${user.doc_id}?pageSize=100&page=1`);
                     setProtocols(protocol.data);
                     setLoading(false)
@@ -255,7 +254,7 @@ const Protokol = ({ navigation }) => {
 
                 <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário</Text>
 
-                <Animatable.View animation={protocols?.count ? "slideInUp" : ""} >
+                <View >
                     <Card onPress={() => {
                         if (protocols?.count) {
                             setFirstModal(true)
@@ -266,23 +265,17 @@ const Protokol = ({ navigation }) => {
                         } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={!protocols?.count ? colorRed : colorGreen} /> :
                             <AntDesign name='sharealt' size={30} color={colorGreen} />} />
                     </Card>
-                </Animatable.View>
+                </View>
 
 
             </ScrollView>
 
 
             <View style={{ bottom: 10, paddingHorizontal: 15, marginHorizontal: 5, paddingBottom: Platform.OS === "ios" && 20 }}>
-                <Button buttonColor={thereSession ? colorRed : colorSecundary} icon="content-save" mode="contained" onPress={() => {
-                    if (!thereSession) {
-                        return navigation.navigate("Section");
-                    }
-
-                    setPac_id(null)
-                    navigation.navigate("Root");
-                    setThereSession(false)
+                <Button buttonColor={colorSecundary} icon="content-save" mode="contained" onPress={() => {
+                    navigation.navigate("Section")
                 }} style={{ marginTop: 10 }}>
-                    {`${thereSession ? "Sair" : " Iniciar sessão"}`}
+                    Iniciar sessão
                 </Button>
 
             </View>

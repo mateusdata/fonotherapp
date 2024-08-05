@@ -6,6 +6,7 @@ export interface LoginInterface {
 }
 export interface FormatPacient {
     pac_id: number;
+    current_food_intake_method: string;
     base_diseases: string;
     consultation_reason: string;
     food_profile: string;

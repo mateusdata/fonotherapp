@@ -145,7 +145,7 @@ export default function Section({ navigation }) {
       };
       exercisePlans = [...exercisePlans, data];
     } else {
-      setMensageToast("Informe a series e repetição");
+      setMensageToast("Ocorreu um error");
       setShowToast(true);
       return;
     }
@@ -183,7 +183,8 @@ export default function Section({ navigation }) {
 
 
   const createProtocol = async () => {
-    if (!!watch("exercise_plans")) {
+    
+    if (!!watch("exercise_plans")?.length) {
       try {
         const session: any = await api.post("/session", { pac_id });
         setValue("ses_id", session.data.ses_id);
@@ -205,7 +206,9 @@ export default function Section({ navigation }) {
   const renderItem = ({ item }) => {
     const isExerciseAdded = watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id);
     return (
-      <Pressable onPress={() => {
+      <Pressable onLongPress={() => {
+        addExercice(item.exe_id)
+      }} onPress={() => {
         handleVideoPress(item);
         setIsVideoPlaying(true);
       }}
@@ -229,6 +232,7 @@ export default function Section({ navigation }) {
   }
   return (
     <View style={{ flex: 1 }}>
+
       <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 8, paddingVertical: 5 }}>
         <Searchbar
           onChange={seachVideos}
@@ -295,7 +299,7 @@ export default function Section({ navigation }) {
 
                     <LabelInput value='Series' />
                     <TextInput
-                      dense
+                      
                       mode='outlined'
                       keyboardType='numeric'
                       style={{ width: "auto", height: 35 }}
@@ -305,7 +309,7 @@ export default function Section({ navigation }) {
 
                     <LabelInput value='Repetições' />
                     <TextInput
-                      dense
+                      
                       mode='outlined'
                       keyboardType='numeric'
                       style={{ width: "auto", height: 35 }}
@@ -318,7 +322,7 @@ export default function Section({ navigation }) {
                 <Text style={{ color: "red" }}>{errorInput}</Text>
                 <View style={{ width: "50%" }}>
                   <Button onPress={() => addExercice(selectedVideo.exe_id)} style={{ marginTop: 5 }}
-                    textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? colorRed : "#848383"}`} mode='contained-tonal' >
+                    textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? colorRed : colorPrimary}`} mode='contained-tonal' >
                     {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "Remover exercicio" : "Adicionar"}`}
                   </Button>
                 </View>

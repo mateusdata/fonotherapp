@@ -11,6 +11,7 @@ import ErrorMessage from '../errorMessage';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import Toast from '../toast';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import LabelInput from '../LabelInput';
 
 
 const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints }: { pacient: FormatPacient, setShowToast: Function, setModalVisible: Function, setSnapPoints: Function }) => {
@@ -23,6 +24,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
         food_profile: yup.string().required("Obrigatorio"),
         chewing_complaint: yup.string().required("Obrigatorio"),
         consultation_reason: yup.string().required("Obrigatorio"),
+        current_food_intake_method:yup.string().required("Obrigatorio"),
 
     }).required();
 
@@ -35,6 +37,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
             chewing_complaint: pacient?.chewing_complaint,
             consultation_reason: pacient?.consultation_reason,
             food_profile: pacient?.food_profile,
+            current_food_intake_method: pacient?.current_food_intake_method
         }
 
     });
@@ -69,21 +72,22 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
         <View style={styles.container}>
             <ScrollView style={styles.containerChildren}>
 
-
+                <LabelInput value='Doenças base' />    
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             onPress={changeSnapPoints}                           
                             value={value}
+                            dense
                             onChangeText={onChange}
                             mode='outlined'
-                            label="Doenças base"
                             activeOutlineColor="#376fe8" />
                     )}
                     name='base_diseases'
                 />
                 <ErrorMessage name={"base_diseases"} errors={errors} />
 
+                <LabelInput value='Histórico alimentar' />    
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
@@ -91,13 +95,14 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'
-                            label="Histórico alimentar"
+                            dense
                             activeOutlineColor="#376fe8" />
                     )}
                     name='food_profile'
                 />
                 <ErrorMessage name={"food_profile"} errors={errors} />
-
+                
+                <LabelInput value='Queichas a deglutição' />  
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
@@ -105,13 +110,14 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'
-                            label="Queichas a deglutição"
+                            dense
                             activeOutlineColor="#376fe8" />
                     )}
                     name='chewing_complaint'
                 />
                 <ErrorMessage name={"chewing_complaint"} errors={errors} />
 
+                <LabelInput value='Escolaridade' />  
                 <Controller  control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
@@ -119,13 +125,15 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             value={value}                           
                             onChangeText={onChange}
                             mode='outlined'
-                            label="Escolaridade"
+                            dense
                             activeOutlineColor="#376fe8" />
                     )}
                     name='education'
                 />
                 <ErrorMessage name={"education"} errors={errors} />
 
+
+                <LabelInput value='Motivo da consulta' />  
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
@@ -133,14 +141,28 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'
-                            label="Motivo da consulta"
+                            dense
                             activeOutlineColor="#376fe8" />
                     )}
                     name='consultation_reason'
                 />
                 <ErrorMessage name={"consultation_reason"} errors={errors} />
 
-
+                <LabelInput value='Via de alimentação atual' />  
+                <Controller control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            onPress={changeSnapPoints}
+                            value={value}
+                            onChangeText={onChange}
+                            mode='outlined'
+                            dense
+                            activeOutlineColor="#376fe8" />
+                    )}
+                    name='current_food_intake_method'
+                />
+                <ErrorMessage name={"current_food_intake_method"} errors={errors} />
+                       
             </ScrollView>
 
 

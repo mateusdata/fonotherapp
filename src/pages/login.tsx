@@ -120,7 +120,7 @@ const Login = ({ navigation }: any) => {
             <StatusBar animated hideTransitionAnimation='fade' style='light' />
 
             <Animatable.View style={styles.titleContainer}>
-                <CustomText style={styles.titleText}>Bem-vindo de volta asafsjkdfkajdfkdsjfsdfjdjsdfsdjffhhfdjjdjjjfjjfj dos  santos silva </CustomText>
+                <CustomText style={styles.titleText}>Bem-vindo de volta</CustomText>
             </Animatable.View>
 
             <View style={styles.formContainer}>

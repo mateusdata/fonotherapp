@@ -49,10 +49,17 @@ const AnsweredQuestions = () => {
     try {
       setLoading(true);
       const response: any = await api.get(`/generate-report/${pac_id}`)
-      await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
+      console.log(response)
+      const getPdf =  await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
+      console.log(getPdf);
+      
+    
     } catch (error) {
       console.error("Ocorreu um erro" + error.message)
       setLoading(false)
+    } finally {
+      setLoading(false)
+
     }
   }
 
@@ -151,6 +158,13 @@ const AnsweredQuestions = () => {
               <Text style={styles.anamneseText}>{`Motivo da consulta: `}</Text>
               <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.consultation_reason}`}</Text>
             </View>
+
+            <View style={{ width: "95%" }}>
+              <Text style={styles.anamneseText}>{`Via de alimentação atual: `}</Text>
+              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.current_food_intake_method}`}</Text>
+            </View>
+
+            
           </>
         }
       </Animatable.View>

@@ -51,7 +51,7 @@ const Anamnese = ({ navigation }) => {
     food_profile: yup.string().required("Obrigatorio"),
     chewing_complaint: yup.string().required("Obrigatorio"),
     consultation_reason: yup.string().required("Obrigatorio"),
-    current_power_path: yup.string().optional()
+    current_food_intake_method: yup.string().optional()
 
   }).required();
 
@@ -64,7 +64,7 @@ const Anamnese = ({ navigation }) => {
       chewing_complaint: isDevelopment ? "Queixa mastigatória" : "",
       consultation_reason: isDevelopment ? "indicação da Flavia, fonoaudióloga" : "",
       food_profile: isDevelopment ? "Vegetariano" : "",
-      current_power_path: false ? "Via narina" : ""
+      current_food_intake_method: false ? "Via narina" : ""
     }
 
   });
@@ -151,9 +151,9 @@ const Anamnese = ({ navigation }) => {
               />
             </View>
           )}
-          name='current_power_path'
+          name='current_food_intake_method'
         />
-        <ErrorMessage name={"current_power_path"} errors={errors} />
+        <ErrorMessage name={"current_food_intake_method"} errors={errors} />
 
         <LabelInput value='Doenças base' />
         <Controller control={control}

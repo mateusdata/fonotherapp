@@ -32,7 +32,7 @@ export default function ChangeGovLicense() {
 
     const onSubmit = (data: string) => {
         setLoading(true);
-        api.post(`/doctor/${user?.doc_id}`, data).then(async (response) => {
+        api.put(`/doctor/${user?.doc_id}`, data).then(async (response) => {
             setShowToast(true);
             try {
                 const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));

@@ -3,8 +3,7 @@ import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHan
 import { Video, ResizeMode } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 
-import { ActivityIndicator, Button, FAB, Modal, Searchbar, TextInput } from 'react-native-paper';
-import { Dialog } from 'tamagui';
+import {  Button, Searchbar, TextInput } from 'react-native-paper';
 import dayjs from 'dayjs';
 import * as yup from "yup"
 import { Controller, useForm } from 'react-hook-form';
@@ -13,10 +12,8 @@ import { Sheet } from 'tamagui';
 
 import { api } from '../../config/Api'
 import CustomText from '../../components/customText'
-import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette'
-import ErrorMessage from '../../components/errorMessage'
+import { colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette'
 import { ContextPacient } from '../../context/PacientContext';
-import { FormatPacient } from '../../interfaces/globalInterface';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import { Context } from '../../context/AuthProvider';
@@ -64,7 +61,7 @@ export default function Section({ navigation }) {
     defaultValues: {
       doc_id: user.doc_id,
       ses_id: null,
-      name: "Sessão - " + dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS"),
+      name: "",
       description: "sem descrição",
     },
     resolver: yupResolver(schema)
@@ -162,7 +159,8 @@ export default function Section({ navigation }) {
     setLoadingBottom(true)
     try {
 
-      const response: any = await api.post("protocol", data);
+      await api.post("protocol", data);
+      await api.get(`/end-session/${watch("ses_id")}`);
       setLoadingBottom(false)
       setThereSession(true)
 
@@ -175,8 +173,6 @@ export default function Section({ navigation }) {
       setMensageToast(!error.response ? "Sem conexão com a internet" : "Erro ao criar sessão")
       setShowToast(true)
       console.log(error);
-
-
     }
   };
 
@@ -187,7 +183,7 @@ export default function Section({ navigation }) {
 
 
   const createProtocol = async () => {
-    
+    setLoadingBottom(true)
     if (!!watch("exercise_plans")?.length) {
       try {
         const session: any = await api.post("/session", { pac_id });
@@ -203,7 +199,7 @@ export default function Section({ navigation }) {
     }
     setMensageToast("Error: atribua um exercicio")
     setShowToast(true)
-
+    setLoadingBottom(false)
   }
 
 

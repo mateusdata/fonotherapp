@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Linking } from 'react-native';
 import { TextArea } from 'tamagui';
 import { useForm } from 'react-hook-form';
 import { Button } from 'react-native-paper';
@@ -21,18 +21,20 @@ const Feedback = () => {
     const { user } = useContext(Context);
 
     const onSubmit = async (data) => {
-        try {
-            await api.post("/send-feedback", { suggestion: data.suggestion, name: user.nick_name });
-            setMensageToast("Obrigado pelo Feedback")
-            setShowToast(true);
-            reset({ suggestion: '' });
-        } catch (error) {
-            console.log(error);
-            setShowToast(true);
-            setMensageToast("Ocorreu um error")
-
+        const email = 'fonoterapp@gmail.com';
+        const subject = `Susgestão do app - Paciente ${user?.nick_name}`;
+        const body =  data?.suggestion;
+        const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const canOpen = await Linking.canOpenURL(url);
+        if (canOpen) {
+            Linking.openURL(url);
+            reset()
+        } else {
+            alert("error")
 
         }
+
+     
     };
 
     return (

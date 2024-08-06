@@ -37,7 +37,7 @@ const UpdatePacient = ({ route }) => {
         resolver: yupResolver(schema),
         mode: 'onChange',
         defaultValues: {
-            first_name: pacient?.person?.first_name,
+            first_name: pacient?.first_name,
             birthday: pacient?.person?.birthday ? dayjs(pacient?.person?.birthday, 'DD/MM/YYYY').toDate() : null,
         }
     });
@@ -46,7 +46,7 @@ const UpdatePacient = ({ route }) => {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const response = await api.post(`/pacient/${pacient?.pac_id}`, data);
+            const response = await api.put(`/pacient/${pacient?.pac_id}`, data);
             setLoading(false);
             setShowToast(true)
         } catch (e) {
@@ -87,6 +87,7 @@ const UpdatePacient = ({ route }) => {
                             <SafeAreaProvider>
                                 <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
                                     <DatePickerInput
+                                        disabled
                                         error
                                         locale='pt-BR'
                                         label="Data de nascimento "

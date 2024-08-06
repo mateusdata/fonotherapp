@@ -18,7 +18,7 @@ export default function ChangeCredential() {
     new_password: yup.string().min(3, "Nova senha é muito pequena"),
     current_password: yup.string().min(6, "Senha atual é muito pequena")
   })
-  const { control, handleSubmit, setError, watch, formState: { errors } } = useForm({
+  const { control, handleSubmit, setError, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
     defaultValues: {
@@ -29,10 +29,13 @@ export default function ChangeCredential() {
   const onSubmit = async (data: string) => {
     try {
       setLoading(true);
-      const response = await api.post(`/password/${user?.usu_id}`, data);
+      const response = await api.post(`/password`, data);
       setLoading(false);
       setShowToast(true);
-    } catch (e) {
+      reset();
+    } catch (error) {
+      console.log(error);
+      
       setLoading(false);
       setError("new_password", { message: "Ocorreu um erro" });
       setError("current_password", { message: "" })
@@ -50,10 +53,10 @@ export default function ChangeCredential() {
             <TextInput
               autoFocus
               dense
+              secureTextEntry
               error={!!errors.current_password}
               onChangeText={onChange}
               mode="outlined"
-              style={styles.input}
               activeOutlineColor='#376fe8'
               value={value}
             />
@@ -68,10 +71,10 @@ export default function ChangeCredential() {
           render={({ field: { onChange, value } }) => (
             <TextInput        
               dense
+              secureTextEntry
               error={!!errors.new_password}
               onChangeText={onChange}
               mode="outlined"
-              style={styles.input}
               activeOutlineColor='#376fe8'
               value={value}
             />
@@ -108,9 +111,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     padding: 8,
-  },
-  input: {
-    marginBottom: 10,
   },
   button: {
     padding: 5

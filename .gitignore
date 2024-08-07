@@ -2,15 +2,13 @@
 
 # dependencies
 node_modules/
-android
-ios
-package copy.json 
 credentials.json
+credentials
 # Expo
 .expo/
 dist/
 web-build/
-
+.env
 # Native
 *.orig.*
 *.jks
@@ -18,12 +16,11 @@ web-build/
 *.p12
 *.key
 *.mobileprovision
-*.obb
-*.apk
-
+android
+ios
 # Metro
 .metro-health-check*
-
+credentials.json
 # debug
 npm-debug.*
 yarn-debug.*

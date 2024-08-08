@@ -28,8 +28,8 @@ const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
     });
     const [thereSession, setThereSession] = useState<boolean>(false);
     const [isFromRegistration, setIsFromRegistration] = useState<boolean>(false);
-    const [isDevelopment, setIsdevelopment] = useState<boolean>(true)
-    const [useBiometrics, setUseBiometrics] = useState(false);
+    const [isDevelopment, setIsdevelopment] = useState<boolean>(false)
+    const [useBiometrics, setUseBiometrics] = useState(true);
 
 
 

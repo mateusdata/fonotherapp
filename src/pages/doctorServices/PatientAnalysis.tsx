@@ -72,6 +72,7 @@ const PatientAnalysis = ({ navigation }) => {
   }
   if (isLoading) {
     return <>
+    
       <SkelectonView delay={100} />
     </>;
   }

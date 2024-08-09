@@ -15,7 +15,7 @@ import ChangeEmail from '../../pages/account/ChangeEmail';
 import ChangeCredential from '../../pages/account/ChangeCredential';
 import Help from '../../pages/support/Help';
 import Feedback from '../../pages/support/Feedback';
-import PatientQuestionnaire from '../../pages/doctorServices/PatientQuestionnaire';
+import PatientAnalysis from '../../pages/doctorServices/PatientAnalysis';
 import PacientUnansweredQuestions from '../../pages/doctorServices/PacientUnansweredQuestions';
 import Protokol from '../../pages/doctorServices/Protokol';
 import PatientInfo from '../../pages/doctorServices/PacientInfo';
@@ -58,7 +58,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Alterar senha" }} />
         <AppStack.Screen name='Help' component={Help} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Feedback' component={Feedback} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Feedback" }} />
-        <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "", headerShown:true }} />
+        <AppStack.Screen name='PatientAnalysis' component={PatientAnalysis} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "", headerShown:true }} />
         <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Concluir cadastro" }}/>
 
         <AppStack.Screen name='Protokol' component={Protokol} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />

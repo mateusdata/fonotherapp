@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View, ScrollView, Text, Alert, Platform } from "react-native";
-import { Button, RadioButton } from "react-native-paper";
+import { Button, RadioButton, TextInput } from "react-native-paper";
 import { z } from "zod";
 import { useFocusEffect } from '@react-navigation/native';
 import { registerAnimation } from "react-native-animatable";
@@ -16,8 +16,9 @@ import { ContextPacient } from "../../context/PacientContext";
 import LoadingComponent from "../../components/LoadingComponent";
 import SkelectonView from "../../components/SkelectonView";
 import Toast from "../../components/toast";
+import LabelInput from "../../components/LabelInput";
 
-const PatientQuestionnaire = ({ navigation }) => {
+const PatientAnalysis = ({ navigation }) => {
   const [showToast, setShowToast] = useState<boolean>(false);
   const { control, handleSubmit } = useForm();
   const [analysis, setAnalysis] = useState<any>({});
@@ -37,6 +38,7 @@ const PatientQuestionnaire = ({ navigation }) => {
           setIsLoading(true)
           const response = await api.get(`/next-questionnaire/${pac_id}`);
           setAnalysis(response.data);
+          console.log(analysis)
           setIsLoading(false);
 
         } catch (error) {
@@ -59,7 +61,8 @@ const PatientQuestionnaire = ({ navigation }) => {
     pac_id: z.number().int().positive(),
     answers: z.array(z.object({
       que_id: z.number().int().positive(),
-      alternative: z.string().max(150)
+      alternative: z.string().max(150),
+      comment: z.string().max(300, "Comentario muito grande").nullish()
     })).min(1)
   });
 
@@ -71,6 +74,17 @@ const PatientQuestionnaire = ({ navigation }) => {
     return <>
       <SkelectonView delay={100} />
     </>;
+  }
+
+
+  if (false) {
+    return (
+      <ScrollView>
+        <Text>
+          {JSON.stringify(analysis, null, 2)}
+        </Text>
+      </ScrollView>
+    )
   }
 
   const onSubmit = async () => {
@@ -96,7 +110,7 @@ const PatientQuestionnaire = ({ navigation }) => {
     } catch (error) {
       console.log("error", error);
       setLoading(false)
-      Alert.alert( "Ocorreu um error", "Não foi possivel cadastrar essas perguntas")
+      Alert.alert("Ocorreu um error", "Não foi possivel cadastrar essas perguntas")
       if (!error.response) {
         setShowToast(true)
       }
@@ -133,6 +147,17 @@ const PatientQuestionnaire = ({ navigation }) => {
                     />
                   ))}
                 </RadioButton.Group>
+
+              {question?.has_comments  &&  <Text style={{left:2, padding:2, fontSize:15, paddingBottom:10}}>{question?.comment_statement}</Text>}
+                <View style={{ justifyContent:"center", alignItems:"center"}}>
+                  {question?.has_comments &&
+                    <TextInput
+                      style={{ width: "96%", marginBottom:16 }}                      
+                      mode="outlined"
+                      dense
+                    />
+                  }
+                </View>
               </View>
             ))}
           </View>
@@ -157,4 +182,4 @@ const PatientQuestionnaire = ({ navigation }) => {
   );
 };
 
-export default PatientQuestionnaire;
+export default PatientAnalysis;

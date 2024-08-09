@@ -49,7 +49,7 @@ export default function ChangeName() {
     <View style={styles.container}>
       <View style={{ flex: 0.9 }}>
 
-      <LabelInput value='Aterar nome' />
+      <LabelInput value='Alterar nome' />
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => (

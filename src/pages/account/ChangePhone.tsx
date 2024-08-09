@@ -54,7 +54,7 @@ export default function ChangePhone() {
             <View style={{ flex: 0.9 }}>
                {<View style={{flexDirection:"row"}}> 
                     <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >{`${!user?.ddd ? "Você ainda não cadastrou seu telefone": "Meu telefone atual"}`}</Text>
-                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >{ `(${user?.ddd}) ` + user.number }</Text>
+                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >{ `(${!user?.ddd && user?.ddd}) ` + !user?.ddd && user.number }</Text>
                 </View>}
 
                 <LabelInput value='Telefone'/>

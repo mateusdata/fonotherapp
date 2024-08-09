@@ -20,7 +20,7 @@ const MyInformation = ({ navigation }) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="create-outline" size={28} color={colorPrimary} />
-          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Nome de usuario</CustomText>
+          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Nome de úsuario</CustomText>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
       </Pressable>

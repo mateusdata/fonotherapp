@@ -73,7 +73,7 @@ const PacientUnansweredQuestions  = ({ navigation }) => {
                             renderItem={({ item }) => (
                                 <Pressable onPress={() => {
                                     setPac_id(item?.pac_id);
-                                    navigation.navigate((!!item?.base_diseases) ? "PatientQuestionnaire" : "Anamnese")
+                                    navigation.navigate((!!item?.base_diseases) ? "PatientAnalysis" : "Anamnese")
                                 }} android_ripple={{ color: "#36B3B9" }}>
                                     <List.Item
                                         style={{ borderBottomWidth: 0.3, borderColor: "gray", width: "96%" }}

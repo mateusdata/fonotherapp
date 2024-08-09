@@ -75,7 +75,7 @@ const Anamnese = ({ navigation }) => {
       const response = await api.put(`/pacient/${pac_id}`, data);
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
-      navigation.navigate("PatientQuestionnaire");
+      navigation.navigate("PatientAnalysis");
       setLoading(false);
       reset();
     } catch (error) {

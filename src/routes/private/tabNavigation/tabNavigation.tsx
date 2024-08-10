@@ -8,9 +8,9 @@ import { StatusBar } from 'expo-status-bar';
 import { colorPrimary } from '../../../style/ColorPalette';
 import { View } from 'react-native-animatable';
 import { Image, Text } from 'react-native';
-import Home from '../../../pages/doctorServices/Home';
-import Videos from '../../../pages/doctorServices/Videos';
-import MyAccount from '../../../pages/account/MyAccount';
+import Home from '../../../screens/doctorServices/Home';
+import Videos from '../../../screens/doctorServices/Videos';
+import MyAccount from '../../../screens/account/MyAccount';
 
 const Tab = createBottomTabNavigator();
 const arrayEmojis = ["🫂", "🫂", "😊", "🥰", "🗣️",];

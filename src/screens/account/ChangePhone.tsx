@@ -32,7 +32,7 @@ export default function ChangePhone() {
 
     const onSubmit = (data: any) => {
         setLoading(true);
-        api.post(`/phone`, {phone: data.phone, usu_id:user?.usu_id}).then(async (response) => {
+        api.post(`/phone`, { phone: data.phone, usu_id: user?.usu_id }).then(async (response) => {
             setShowToast(true);
             try {
                 const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
@@ -52,12 +52,17 @@ export default function ChangePhone() {
     return (
         <View style={styles.container}>
             <View style={{ flex: 0.9 }}>
-               {<View style={{flexDirection:"row"}}> 
-                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >{`${!user?.ddd ? "Você ainda não cadastrou seu telefone": "Meu telefone atual"}`}</Text>
-                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >{ `(${!user?.ddd && user?.ddd}) ` + !user?.ddd && user.number }</Text>
+                {<View style={{ flexDirection: "row" }}>
+                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >
+                        {`${!user?.ddd ? "Você ainda não cadastrou seu telefone" : "Meu telefone atual"}`}
+                    </Text>
+                    <Text
+                        style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >
+                        {user.ddd ? (`(${user?.ddd}) `) + user?.number: false}
+                    </Text>
                 </View>}
 
-                <LabelInput value='Telefone'/>
+                <LabelInput value='Telefone' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -92,7 +97,7 @@ export default function ChangePhone() {
                 style={styles.button}
                 onPress={handleSubmit(onSubmit)}
             >
-                {user.phone? "Alterar telefone": "Criar telefone"}
+                {user.phone ? "Alterar telefone" : "Criar telefone"}
             </Button>
         </View>
     );

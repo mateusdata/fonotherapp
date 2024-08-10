@@ -9,7 +9,7 @@ const SkelectonView = ({delay}:{delay?:any}) => {
     useEffect(()=>{
         setTimeout(() => {
             setVisible(false)
-        }, delay? delay : 3000);
+        }, delay? delay : 1000);
     },[visible])
     if(visible){
         return null

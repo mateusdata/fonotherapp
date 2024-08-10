@@ -57,7 +57,7 @@ const Routes = () => {
     } else {
       setIsCheckingAuth(false);
     }
-  }, [user]);
+  }, [useBiometrics]);
 
   if (isCheckingAuth) {
     return <LoadingComponent />;

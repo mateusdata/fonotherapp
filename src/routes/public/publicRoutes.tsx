@@ -1,13 +1,13 @@
 import React from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import PreLogin from '../../pages/authentication/PreLogin';
-import Login from '../../pages/authentication/Login';
-import ChangePassword from '../../pages/authentication/ChangePassword';
-import SendEmail from '../../pages/authentication/SendEmail';
-import CheckCode from '../../pages/authentication/CheckCode';
-import CreateAccount from '../../pages/authentication/CreateAccount';
-import FinishRegistration from '../../pages/authentication/FinishRegistration';
+import PreLogin from '../../screens/authentication/PreLogin';
+import Login from '../../screens/authentication/Login';
+import ChangePassword from '../../screens/authentication/ChangePassword';
+import SendEmail from '../../screens/authentication/SendEmail';
+import CheckCode from '../../screens/authentication/CheckCode';
+import CreateAccount from '../../screens/authentication/CreateAccount';
+import FinishRegistration from '../../screens/authentication/FinishRegistration';
 
 
 const AppStack = createStackNavigator();

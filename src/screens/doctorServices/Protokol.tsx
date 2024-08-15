@@ -263,9 +263,9 @@ const Protokol = ({ navigation }) => {
                             setFirstModal(true)
                             setModalVisible(true)
                         }
-                    }} style={{ marginBottom: 10 }}>
+                    }} style={{ marginBottom: 10, backgroundColor:"white"}}>
                         <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : "Nenhuma sessão"}`
-                        } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={ "white"} /> :
+                        } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={ "black"} /> :
                             <AntDesign name='sharealt' size={30} color={colorPrimary} />} />
                     </Card>
                 </View>

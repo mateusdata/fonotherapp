@@ -171,7 +171,7 @@ const CreatePacient = ({ navigation }) => {
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <MaskInput
-              style={[styles.maskInput, { borderColor: isFocus ? colorSecundary : "#848484", borderWidth: isFocus ? 2 : 1 }]}
+              style={[styles.maskInput, { backgroundColor:"white", borderColor: isFocus ? colorSecundary : "#848484", borderWidth: isFocus ? 2 : 1 }]}
               value={(value)}
               placeholder={null}
               cursorColor={colorSecundary}

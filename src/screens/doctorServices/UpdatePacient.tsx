@@ -12,6 +12,7 @@ import { api } from '../../config/Api'
 import ErrorMessage from '../../components/errorMessage'
 import { FormatPacient } from '../../interfaces/globalInterface';
 import Toast from '../../components/toast';
+import LabelInput from '../../components/LabelInput';
 
 
 
@@ -65,14 +66,16 @@ const UpdatePacient = ({ route }) => {
             <View style={styles.container}>
                 <Text>{false && JSON.stringify(pacient?.person, null, 2)}</Text>
                 <View style={styles.containerChildren}>
+
+                    <LabelInput value='Nome'/>
                     <Controller control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 value={value}
                                 autoFocus
+                                dense
                                 onChangeText={onChange}
                                 mode='outlined'
-                                label="Nome"
                                 activeOutlineColor="#376fe8" />
                         )}
                         name='first_name'
@@ -82,7 +85,9 @@ const UpdatePacient = ({ route }) => {
 
 
 
-                    <Controller control={control}
+                   { false && 
+                    <>
+                     <Controller control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <SafeAreaProvider>
                                 <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
@@ -107,6 +112,8 @@ const UpdatePacient = ({ route }) => {
                     />
                     <ErrorMessage name={"birthday"} errors={errors} />
 
+                    </>
+                   }
 
                 </View>
 

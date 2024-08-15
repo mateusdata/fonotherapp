@@ -70,9 +70,9 @@ const PatientAnalysis = ({ navigation }) => {
   if (isFromRegistration) {
     return <LoadingComponent />;
   }
-  if (isLoading) {
+  if (isLoading && !analysis?.sections) {
     return <>
-    
+
       <SkelectonView delay={100} />
     </>;
   }
@@ -90,7 +90,7 @@ const PatientAnalysis = ({ navigation }) => {
 
   const onSubmit = async () => {
     let formattedAnswers: any = Object.values(selectedAnswers).map((answer: any) => ({
-      que_id: answer.qus_id,
+      que_id: answer.que_id,
       alternative: answer.value
     }));
 
@@ -131,9 +131,10 @@ const PatientAnalysis = ({ navigation }) => {
                   onValueChange={(selectedValue) => setSelectedAnswers((prevAnswers) => ({
                     ...prevAnswers,
                     [question.que_id]: {
-                      qus_id: question.que_id,
+                      que_id: question.que_id,
                       name: question.name,
                       value: selectedValue,
+                      comment: selectedAnswers[question?.que_id]?.comment
                     }
                   }))}
                   value={selectedAnswers[question.que_id]?.value ?? null}
@@ -149,15 +150,24 @@ const PatientAnalysis = ({ navigation }) => {
                   ))}
                 </RadioButton.Group>
 
-              {question?.has_comments  &&  <Text style={{left:2, padding:2, fontSize:15, paddingBottom:10}}>{question?.comment_statement}</Text>}
-                <View style={{ justifyContent:"center", alignItems:"center"}}>
+                {question?.has_comments && <Text style={{ left: 2, padding: 2, fontSize: 15, paddingBottom: 10 }}>{question?.comment_statement}</Text>}
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
                   {question?.has_comments &&
                     <TextInput
-                      style={{ width: "96%", marginBottom:16 }}                      
+                    activeOutlineColor={colorSecundary}
+                      onChangeText={(selectedValue) => setSelectedAnswers((prevAnswers) => ({
+                        ...prevAnswers,
+                        [question.que_id]: {
+                          ...selectedAnswers[question?.que_id],
+                          comment: selectedValue
+                        }
+                      }))}
+                      style={{ width: "96%", marginBottom: 16 }}
                       mode="outlined"
                       dense
                     />
                   }
+                  {false && <Text>{JSON.stringify(selectedAnswers[question.que_id], null, 2)}</Text>}
                 </View>
               </View>
             ))}

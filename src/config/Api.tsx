@@ -6,7 +6,7 @@ import Toast from 'react-native-toast-message';
 import { showToast } from '../utils/showToast';
 
 const api = axios.create({
-  baseURL: 'https://api.fonotherapp.com.br',
+  baseURL: 'https://1a75-200-26-254-64.ngrok-free.app/',
   //baseURL: 'https://1a9b-200-26-254-64.ngrok-free.app',
   //baseURL: "https://fono-api-solitary-surf-9909.fly.dev",
 });

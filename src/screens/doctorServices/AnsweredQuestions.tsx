@@ -11,10 +11,7 @@ import { number } from 'yup';
 import { Context } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { background, colorGray, colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette';
-import { ContextGlobal } from '../../context/GlobalContext';
-import LabelInput from '../../components/LabelInput';
-import ErrorMessage from '../../components/errorMessage';
+import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import downloadPDF from '../../utils/downloadPDF';
 import SkelectonView from '../../components/SkelectonView';
@@ -53,10 +50,10 @@ const AnsweredQuestions = () => {
       setLoading(true);
       const response: any = await api.get(`/generate-report/${pac_id}`)
       console.log(response)
-      const getPdf =  await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
+      const getPdf = await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
       console.log(getPdf);
-      
-    
+
+
     } catch (error) {
       console.error("Ocorreu um erro" + error.message)
       setLoading(false)
@@ -104,7 +101,8 @@ const AnsweredQuestions = () => {
 
   const renderQuestions = (questions) => {
     return questions.map((question) => (
-      <Animatable.View animation="" key={question.que_id} style={{ right: 30, padding: 10 }}>
+      <View key={question.que_id} style={{ right: 0, padding: 10, }}>
+        {false && <Text>{JSON.stringify(questions, null, 2)}</Text>}
         <Text style={{ flex: 1, fontSize: 18 }}>{question.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
           {question.alternatives.map((alternative, index) => {
@@ -120,7 +118,7 @@ const AnsweredQuestions = () => {
             );
           })}
         </View>
-      </Animatable.View>
+      </View>
     ));
   };
 
@@ -167,7 +165,7 @@ const AnsweredQuestions = () => {
               <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.current_food_intake_method}`}</Text>
             </View>
 
-            
+
           </>
         }
       </Animatable.View>
@@ -196,7 +194,7 @@ const AnsweredQuestions = () => {
   return (
     <>
       <ScrollView style={styles.container}>
-        <Text> { false &&  JSON.stringify(answered, null, 2)}
+        <Text> {false && JSON.stringify(answered, null, 2)}
         </Text>
         <Pressable onPress={getPdf} style={styles.pressable}>
           <View style={styles.row}>
@@ -217,26 +215,28 @@ const AnsweredQuestions = () => {
             {renderAnamnese()}
           </List.Accordion>
 
-          {answered && answered.map((item, index) => (
-            <List.Accordion
-              key={index + 1}
-              titleStyle={{ color: expandedIndex === index + 1 ? colorGreen : "#2a7c6c" }}
+          <ScrollView style={{maxHeight:500}}>
+            {answered && answered.map((item, index) => (
+              <List.Accordion
+                key={index + 1}
+                titleStyle={{ color: expandedIndex === index + 1 ? colorGreen : "#2a7c6c" }}
 
-              title={item.name}
-              style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
-              left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === index + 1 ? colorGreen : "#2a7c6c"} size={24} />}
-              expanded={expandedIndex === index + 1}
-              onPress={() => {
-                setQuestionareId(item?.qus_id)
-                handleAccordionPress(index + 1)
-              }}>
-              {item.sections.map((section) => (
-                <View key={section.qhs_id}>
-                  {renderQuestions(section.questions)}
-                </View>
-              ))}
-            </List.Accordion>
-          ))}
+                title={item.name}
+                style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
+                left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === index + 1 ? colorGreen : "#2a7c6c"} size={24} />}
+                expanded={expandedIndex === index + 1}
+                onPress={() => {
+                  setQuestionareId(item?.qus_id)
+                  handleAccordionPress(index + 1)
+                }}>
+                {item.sections.map((section) => (
+                  <ScrollView style={{ width: "100%", right: 22, }} key={section.qhs_id}>
+                    {renderQuestions(section.questions)}
+                  </ScrollView>
+                ))}
+              </List.Accordion>
+            ))}
+          </ScrollView>
 
         </List.Section>
 

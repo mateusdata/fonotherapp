@@ -59,7 +59,7 @@ export default function Section({ navigation }) {
   });
   const { control, formState: { errors }, watch, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
-      doc_id: user.doc_id,
+      doc_id: user?.doctor?.doc_id,
       ses_id: null,
       name: "",
       description: "sem descrição",

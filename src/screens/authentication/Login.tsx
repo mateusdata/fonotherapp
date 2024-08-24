@@ -19,7 +19,7 @@ import ErrorMessage from '../../components/errorMessage';
 
 
 const Login = ({ navigation }: any) => {
-    const { setLoadingAuth, setUser, user } = useContext(Context);
+    const { setLoadingAuth, setUser, setAccessToken } = useContext(Context);
     const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
 
     const schema = yup.object({
@@ -47,19 +47,18 @@ const Login = ({ navigation }: any) => {
         resolver: yupResolver(schema)
     });
 
-    const infoUser = async (doc_id: number) => {
 
-
+    const getUser = async () => {
 
         try {
-            const response = await api.get(`/info-user/${doc_id}`);
-            alert(JSON.stringify(response.data))
-            const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
-            const updatedUser = { ...recoveryUser, gov_license: response.data.doctor.gov_license };
-            setUser(updatedUser);
-            await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
+            const response = await api.get(`/my-user`);
+            await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
+            setUser(response.data);
+            await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
         } catch (error) {
             alert("error")
+            console.log(error);
+
         }
 
     }
@@ -71,16 +70,16 @@ const Login = ({ navigation }: any) => {
 
             try {
 
-                await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
-
+                await AsyncStorage.setItem("accessToken", JSON.stringify(response?.data?.token));
+                setAccessToken(response?.data?.token)                               
+                
                 if (response.status === 202) {
                     setLoading(false)
                     setError("email", {})
                     return setError("password", { message: response?.data?.message });
                 }
                 setLoadingAuth(true);
-                setUser(response.data);
-
+               await getUser()
             } catch (error) {
                 alert("erro")
             }
@@ -134,7 +133,7 @@ const Login = ({ navigation }: any) => {
                             outlineStyle={{ borderWidth: (watch("email") && !errors.email) ? 2 : 2 }}
                             outlineColor={(watch("email") && !errors.email) ? colorSecundary : "gray"}
                             activeOutlineColor={!watch("email") ? colorSecundary : !(errors?.email) ? "green" : "red"}
-                            error={!!errors.email} 
+                            error={!!errors.email}
                             onBlur={onBlur} onChangeText={onChange} value={value}
                         />
                     )}
@@ -153,7 +152,7 @@ const Login = ({ navigation }: any) => {
                             outlineStyle={{ borderWidth: (watch("password") && !errors.password) ? 2 : 2 }}
                             outlineColor={(watch("password") && !errors.password) ? colorSecundary : "gray"}
                             activeOutlineColor={!watch("password") ? colorSecundary : !(errors?.password) ? "green" : "red"}
-                            error={!!errors.password} 
+                            error={!!errors.password}
                             onBlur={onBlur} onChangeText={onChange} value={value} secureTextEntry
                         />
                     )}

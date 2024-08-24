@@ -20,7 +20,7 @@ import CustomText from '../../components/customText'
 const DischargeReportPdf = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
-  const { user } = useContext(Context);
+  const { user, accessToken } = useContext(Context);
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const pdfName = `Relatório de alta  ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`;
@@ -62,7 +62,7 @@ const DischargeReportPdf = ({ route }: any) => {
       setLoading(true);
       const response: any = await api.post(`/discharg-report/${pacient?.pac_id}`, values)
 
-      await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
+      await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
     } catch (error) {
       console.error("Ocorreu um erro", error)
       alert("Erro ao gerar pdf")

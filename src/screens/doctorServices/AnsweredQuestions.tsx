@@ -50,7 +50,7 @@ const AnsweredQuestions = () => {
       setLoading(true);
       const response: any = await api.get(`/generate-report/${pac_id}`)
       console.log(response)
-      const getPdf = await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
+      const getPdf = await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
       console.log(getPdf);
 
 

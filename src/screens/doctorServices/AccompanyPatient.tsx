@@ -27,7 +27,7 @@ const AccompanyPatient = ({ navigation }) => {
         if (search.length > 0) {
             setisPacientsLocal(false)
             try {
-                const response = await api.post(`/search-pacient`, { doc_id: user.doc_id, search: search })
+                const response = await api.post(`/search-pacient`, { doc_id: user?.doctor?.doc_id, search: search })
                 console.log(response.data)
                 setPacients(response?.data);
             } catch (error) {

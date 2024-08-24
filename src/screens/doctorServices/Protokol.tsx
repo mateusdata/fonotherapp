@@ -40,7 +40,7 @@ const Protokol = ({ navigation }) => {
     const hideModal = () => setVisible(false);
 
     useEffect(() => {
-        if (!user?.phone || !user?.gov_license) {
+        if (!user?.phone || !user?.doctor?.gov_license) {
             setTimeout(() => {
                 //showModal()
 
@@ -95,7 +95,7 @@ const Protokol = ({ navigation }) => {
                 }
 
                 try {
-                    const protocol = await api.get(`last-sessions/${pac_id}/${user.doc_id}?pageSize=100&page=1`);
+                    const protocol = await api.get(`last-sessions/${pac_id}/${user?.doctor?.doc_id}?pageSize=100&page=1`);
                     setProtocols(protocol.data);
                     setLoading(false)
 
@@ -105,7 +105,7 @@ const Protokol = ({ navigation }) => {
             };
 
             fetchData();
-        }, [pac_id, user.doc_id])
+        }, [pac_id, user?.doctor?.doc_id])
     );
 
     if (!pacient || loading) {

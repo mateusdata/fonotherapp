@@ -21,18 +21,17 @@ export default function ChangeGovLicense() {
     const schema = yup.object({
         gov_license: yup.string().required("Obrigatório").max(15, "CRFA Inválido").min(5, "CRFA Inválido"),
     });
-
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
         mode: "onSubmit",
         defaultValues: {
-            gov_license: user.gov_license
+            gov_license: user?.doctor?.gov_license
         }
     });
 
     const onSubmit = (data: string) => {
         setLoading(true);
-        api.put(`/doctor/${user?.doc_id}`, data).then(async (response) => {
+        api.put(`/doctor/${user?.doctor?.doc_id}`, data).then(async (response) => {
             setShowToast(true);
             try {
                 const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
@@ -53,8 +52,8 @@ export default function ChangeGovLicense() {
         <View style={styles.container}>
             <View style={{ flex: 0.9 }}>
                 {<View style={{ flexDirection: "row" }}>
-                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >{`${!user.gov_license ? "Você ainda não cadastrou seu CRFA" : "Meu CRFA atual"}`}</Text>
-                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >{user?.gov_license}</Text>
+                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >{`${!user?.doctor?.gov_license ? "Você ainda não cadastrou seu CRFA" : "Meu CRFA atual"}`}</Text>
+                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >{user?.doctor?.gov_license}</Text>
                 </View>}
 
                 <LabelInput value='CRFA' />
@@ -92,7 +91,7 @@ export default function ChangeGovLicense() {
                 style={styles.button}
                 onPress={handleSubmit(onSubmit)}
             >
-                {user.gov_license ? "Alterar CRFA" : "Criar CRFA"}
+                {user?.doctor?.gov_license ? "Alterar CRFA" : "Criar CRFA"}
             </Button>
         </View>
     );

@@ -25,7 +25,7 @@ const PacientUnansweredQuestions  = ({ navigation }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await api.get(`/pending-pacients/${user.doc_id}`)
+                const response = await api.get(`/pending-pacients/${user?.doctor?.doc_id}`)
                 setPacients(response?.data.pacients);
                 setLoading(false)
             } catch (error) {

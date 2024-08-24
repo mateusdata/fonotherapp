@@ -19,7 +19,7 @@ import ErrorMessage from '../../components/errorMessage'
 const MonitoringReportPdf = ({ route }: any) => {
 
     const { pacient, }: { pacient: FormatPacient } = route.params;
-    const { user } = useContext(Context);
+    const { user, accessToken } = useContext(Context);
     const [loading, setLoading] = useState(false);
 
     const schema = yup.object({
@@ -61,7 +61,7 @@ const MonitoringReportPdf = ({ route }: any) => {
 
             const response: any = await api.post(`/follow-up-report/${pacient?.pac_id}`, values)
 
-            await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
+            await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
         } catch (error) {
             console.error("Ocorreu um erro", error)
         }

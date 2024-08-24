@@ -3,54 +3,68 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingComponent from "../components/LoadingComponent";
 import { ContextProps, FormatUser } from "../interfaces/globalInterface";
 import { setInterceptors } from "../config/Api";
-
-
+import { Text } from "react-native";
 
 export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<FormatUser | null>(null);
+    const [accessToken, setAccessToken] = useState<string>(null);
+
     const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
 
     useEffect(() => {
         setInterceptors(setUser, logOut)
     }, [user])
 
-    useEffect(() => {
-        setLoadingAuth(true)
-        AsyncStorage.getItem("usuario").then((response) => {
-            if (response != null) {
-                setUser(JSON.parse(response));
+
+
+
+    async function recovereData() {
+        try {
+
+            setLoadingAuth(true)
+            const user = await AsyncStorage.getItem("usuario");
+            const token = await AsyncStorage.getItem("accessToken");
+
+
+            if (user != null && token != null) {
+                setUser(JSON.parse(user));
+                setAccessToken(token)
                 setLoadingAuth(false);
                 return
             }
             setLoadingAuth(false)
+        } catch (error) {
 
-        }).catch((erro) => {
-            setLoadingAuth(false);
-            alert("error")
-        });
+        }
+    }
+
+
+
+    useEffect(() => {
+        recovereData()
     }, []);
 
 
 
 
     const logOut = async () => {
-        setLoadingAuth(true)
         try {
-            await AsyncStorage.removeItem("pacientes");
-            
+
+            setLoadingAuth(true)
+            setUser(null);
+            setAccessToken(null);
+            await AsyncStorage.clear()
+            setLoadingAuth(false)
+
         } catch (error) {
             alert("Ocoreu um error")
+            setUser(null);
+            setLoadingAuth(false)
+
         }
-        AsyncStorage.removeItem("usuario").then((response) => {
-            setTimeout(() => {
-                setUser(null);
-                setLoadingAuth(false)
-            }, 400);
-        }).catch((e) => {
-            alert("erro" + JSON.stringify(e))
-        });
+
 
     };
     if (loadingAuth) {
@@ -60,10 +74,17 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <Context.Provider
             value={{
-                user, setUser, logado: !!user, logOut, loadingAuth, setLoadingAuth
+                user,
+                setUser,
+                logOut,
+                loadingAuth,
+                setLoadingAuth,
+                accessToken,
+                setAccessToken
             }}
         >
             {children}
+           
         </Context.Provider>
     );
 

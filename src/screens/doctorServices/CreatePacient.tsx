@@ -115,7 +115,7 @@ const CreatePacient = ({ navigation }) => {
       }*/
 
       setLoading(true);
-      const response = await api.post("/pacient", { ...data, doc_id: user.doc_id });
+      const response = await api.post("/pacient", { ...data, doc_id: user?.doctor?.doc_id });
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
       reset();

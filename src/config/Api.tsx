@@ -17,18 +17,19 @@ let isSessionExpiredToastShown = false; // Variável para controlar se o toast j
 
 api.interceptors.request.use(async (config) => {
   try {
-    const userString = await AsyncStorage.getItem("usuario");
-    if (userString !== null) {
-      const recoverUser = JSON.parse(userString);
+    const accessToken = await AsyncStorage.getItem("accessToken");
+    if (accessToken !== null) {
+      const token = JSON.parse(accessToken);
 
-      if (recoverUser && recoverUser.token) {
-        config.headers.Authorization = `Bearer ${recoverUser.token}`;
+      if (token) {
+
+        config.headers.Authorization = `Bearer ${token}`;
       }
     }
-
     return config;
   } catch (error) {
     console.error("Error getting user from AsyncStorage:", error);
+    
     return config;
   }
 });
@@ -45,12 +46,12 @@ async function setInterceptors(setUser: Function, logOut: any) {
         isSessionExpiredToastShown = true;
         showToast("error", "Voçê perdeu a coneção com a internet", "Verifique sua conexão", "top")
       }
-      
+
       if (error.response && error.response.status === 401) {
         try {
           // Se o toast ainda não foi mostrado, mostre-o e marque como mostrado
-           // isSessionExpiredToastShown = true;
-            showToast("error", "Sessão expirada", "faça login novamente", "bottom")
+          // isSessionExpiredToastShown = true;
+          showToast("error", "Sessão expirada", "faça login novamente", "bottom")
 
 
           // Limpe o AsyncStorage e faça logout

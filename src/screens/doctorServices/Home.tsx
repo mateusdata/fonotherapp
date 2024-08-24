@@ -71,12 +71,12 @@ const Home = ({ navigation }: { navigation: any }) => {
       setThereSession(false)
       fectData()
 
-    }, [pac_id && thereSession, user?.doc_id])
+    }, [pac_id && thereSession, user?.doctor?.doc_id])
   );
 
   const fectData = async () => {
     try {
-      const response = await api.get(`/count-pacients/${user?.doc_id}`);
+      const response = await api.get(`/count-pacients/${user?.doctor?.doc_id}`);
       setTotalPacient(response?.data.num_pacients);
     } catch (error) {
       if (!error.response) {

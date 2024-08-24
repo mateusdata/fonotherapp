@@ -26,7 +26,7 @@ export default function ChangeEmail() {
   })
   const onSubmit = (data: string) => {
     setLoading(true);
-    api.put(`/user/${user?.usu_id}`, data).then(async (response) => {
+    api.put(`/user/${user?.use_id}`, data).then(async (response) => {
       setShowToast(true);
       try {
         const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));

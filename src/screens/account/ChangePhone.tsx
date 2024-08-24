@@ -26,13 +26,13 @@ export default function ChangePhone() {
         resolver: yupResolver(schema),
         mode: "onSubmit",
         defaultValues: {
-            phone: user.ddd + user.number
+            phone: user.person.phone_numbers[0].ddd + user.person.phone_numbers[0].number
         }
     });
 
     const onSubmit = (data: any) => {
         setLoading(true);
-        api.post(`/phone`, { phone: data.phone, usu_id: user?.usu_id }).then(async (response) => {
+        api.post(`/phone`, { phone: data.phone, usu_id: user?.use_id }).then(async (response) => {
             setShowToast(true);
             try {
                 const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
@@ -54,11 +54,11 @@ export default function ChangePhone() {
             <View style={{ flex: 0.9 }}>
                 {<View style={{ flexDirection: "row" }}>
                     <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >
-                        {`${!user?.ddd ? "Você ainda não cadastrou seu telefone" : "Meu telefone atual"}`}
+                        {`${! user.person.phone_numbers[0].ddd ? "Você ainda não cadastrou seu telefone" : "Meu telefone atual"}`}
                     </Text>
                     <Text
                         style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >
-                        {user.ddd ? (`(${user?.ddd}) `) + user?.number: false}
+                        { user.person.phone_numbers[0].ddd ? (`(${ user.person.phone_numbers[0].ddd}) `) +  user.person.phone_numbers[0].ddd: false}
                     </Text>
                 </View>}
 
@@ -97,7 +97,7 @@ export default function ChangePhone() {
                 style={styles.button}
                 onPress={handleSubmit(onSubmit)}
             >
-                {user.phone ? "Alterar telefone" : "Criar telefone"}
+                { user.person.phone_numbers[0].number ? "Alterar telefone" : "Criar telefone"}
             </Button>
         </View>
     );

@@ -15,6 +15,7 @@ import { api } from '../../config/Api'
 import CustomText from '../../components/customText'
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
 import ErrorMessage from '../../components/errorMessage'
+import LabelInput from '../../components/LabelInput'
 
 const MonitoringReportPdf = ({ route }: any) => {
 
@@ -75,64 +76,108 @@ const MonitoringReportPdf = ({ route }: any) => {
             </CustomText>
 
             <View>
+
+                <LabelInput value='Diagnóstico' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Diagnóstico" mode='outlined' value={value} onChangeText={onChange} />
+                        <TextInput
+                            activeOutlineColor={colorPrimary}
+                            mode='outlined'
+                            dense
+                            value={value}
+                            onChangeText={onChange} />
                     )}
                     name='diagnoses'
                 />
                 <ErrorMessage errors={errors} name="diagnoses" />
 
+                <LabelInput value='Avaliação Estrutural' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação Estrutural" mode='outlined' value={value} onChangeText={onChange} />
+                        <TextInput
+                            activeOutlineColor={colorPrimary}
+                            dense
+                            mode='outlined'
+                            value={value}
+                            onChangeText={onChange} />
                     )}
                     name='structural_assessment'
                 />
                 <ErrorMessage errors={errors} name="structural_assessment" />
 
+                <LabelInput value='Avaliação Funcional' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação Funcional" mode='outlined' value={value} onChangeText={onChange} />
+                        <TextInput
+                            activeOutlineColor={colorPrimary}
+                            dense
+                            mode='outlined'
+                            value={value}
+                            onChangeText={onChange} />
                     )}
                     name='functional_assessment'
                 />
                 <ErrorMessage errors={errors} name="functional_assessment" />
 
+
+                <LabelInput value='Avaliação de Deglutição' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação de Deglutição" mode='outlined' value={value} onChangeText={onChange} />
+                        <TextInput
+                            activeOutlineColor={colorPrimary}
+                            dense
+                            mode='outlined'
+                            value={value}
+                            onChangeText={onChange} />
                     )}
                     name='swallowing_assessment'
                 />
                 <ErrorMessage errors={errors} name="swallowing_assessment" />
 
+                <LabelInput value='Orientações Gerais' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Orientações Gerais" mode='outlined' value={value} onChangeText={onChange} />
+                        <TextInput
+                            activeOutlineColor={colorPrimary}
+                            dense
+                            mode='outlined'
+                            value={value}
+                            onChangeText={onChange} />
                     )}
                     name='general_guidelines'
                 />
                 <ErrorMessage errors={errors} name="general_guidelines" />
 
+                <LabelInput value='Conclusão' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Conclusão" mode='outlined' value={value} onChangeText={onChange} />
+                        <TextInput
+                            activeOutlineColor={colorPrimary}
+                            dense
+                            mode='outlined'
+                            value={value}
+                            onChangeText={onChange} />
                     )}
                     name='conclusion'
                 />
                 <ErrorMessage errors={errors} name="conclusion" />
 
+                <LabelInput value='Próximos Passos' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Próximos Passos" mode='outlined' value={value} onChangeText={onChange} />
+                        <TextInput
+                            activeOutlineColor={colorPrimary}
+                            dense
+                            mode='outlined'
+                            value={value}
+                            onChangeText={onChange} />
                     )}
                     name='next_steps'
                 />

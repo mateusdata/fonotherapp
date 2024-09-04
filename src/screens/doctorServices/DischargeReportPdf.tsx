@@ -15,6 +15,7 @@ import ErrorMessage from '../../components/errorMessage';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import downloadPDF from '../../utils/downloadPDF';
 import CustomText from '../../components/customText'
+import LabelInput from '../../components/LabelInput'
 
 
 const DischargeReportPdf = ({ route }: any) => {
@@ -95,22 +96,26 @@ const DischargeReportPdf = ({ route }: any) => {
       </View>
 
       <View>
-        {Object.keys(schema.fields).filter((item)=> item!="lat" && item!=="lon").map((key) => (
+        {Object.keys(schema.fields).filter((item) => item != "lat" && item !== "lon").map((key) => (
           <React.Fragment key={key}>
             {schema.fields.hasOwnProperty(key) && (
-              <Controller
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <TextInput
-                    activeOutlineColor={colorSecundary}
-                    label={nomeChaves[key]}
-                    mode='outlined'
-                    value={value.toString()}
-                    onChangeText={onChange}
-                  />
-                )}
-                name={key as keyof typeof schema.fields}
-              />
+              <View>
+                <LabelInput value={nomeChaves[key]} />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <TextInput
+                      activeOutlineColor={colorPrimary}
+                      dense
+                      mode='outlined'
+                      value={value.toString()}
+                      onChangeText={onChange}
+                    />
+                  )}
+                  name={key as keyof typeof schema.fields}
+                />
+
+              </View>
             )}
             <ErrorMessage errors={errors} name={key} />
           </React.Fragment>

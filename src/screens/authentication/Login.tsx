@@ -14,8 +14,9 @@ import { api } from '../../config/Api';
 import { styleGradient } from '../../style/styleGradient';
 import CustomText from '../../components/customText';
 import LabelInput from '../../components/LabelInput';
-import { colorSecundary } from '../../style/ColorPalette';
+import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
 import ErrorMessage from '../../components/errorMessage';
+import { getUser } from '../../utils/getUser';
 
 
 const Login = ({ navigation }: any) => {
@@ -48,20 +49,7 @@ const Login = ({ navigation }: any) => {
     });
 
 
-    const getUser = async () => {
 
-        try {
-            const response = await api.get(`/my-user`);
-            await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
-            setUser(response.data);
-            await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
-        } catch (error) {
-            alert("error")
-            console.log(error);
-
-        }
-
-    }
 
     const onSubmit = async (data: object) => {
         try {
@@ -79,7 +67,7 @@ const Login = ({ navigation }: any) => {
                     return setError("password", { message: response?.data?.message });
                 }
                 setLoadingAuth(true);
-               await getUser()
+               await getUser(setUser)
             } catch (error) {
                 alert("erro")
             }
@@ -129,10 +117,9 @@ const Login = ({ navigation }: any) => {
                         <TextInput
                             mode="outlined"
                             dense
-                            autoCorrect={false}
-                            outlineStyle={{ borderWidth: (watch("email") && !errors.email) ? 2 : 2 }}
-                            outlineColor={(watch("email") && !errors.email) ? colorSecundary : "gray"}
-                            activeOutlineColor={!watch("email") ? colorSecundary : !(errors?.email) ? "green" : "red"}
+                            autoCorrect={false}                            
+                            outlineColor={errors?.email? "red": "gray"}   
+                            activeOutlineColor={errors?.email? "red" : colorPrimary}
                             error={!!errors.email}
                             onBlur={onBlur} onChangeText={onChange} value={value}
                         />
@@ -148,10 +135,9 @@ const Login = ({ navigation }: any) => {
                         <TextInput
                             mode="outlined"
                             dense
-                            autoCorrect={false}
-                            outlineStyle={{ borderWidth: (watch("password") && !errors.password) ? 2 : 2 }}
-                            outlineColor={(watch("password") && !errors.password) ? colorSecundary : "gray"}
-                            activeOutlineColor={!watch("password") ? colorSecundary : !(errors?.password) ? "green" : "red"}
+                            autoCorrect={false}                            
+                            outlineColor={errors?.password? "red": "gray"}   
+                            activeOutlineColor={errors?.password? "red" : colorPrimary}
                             error={!!errors.password}
                             onBlur={onBlur} onChangeText={onChange} value={value} secureTextEntry
                         />

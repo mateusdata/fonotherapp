@@ -17,7 +17,7 @@ import Help from '../../screens/support/Help';
 import Feedback from '../../screens/support/Feedback';
 import PatientAnalysis from '../../screens/doctorServices/PatientAnalysis';
 import PacientUnansweredQuestions from '../../screens/doctorServices/PacientUnansweredQuestions';
-import Protokol from '../../screens/doctorServices/Protokol';
+import PatientProfile from '../../screens/doctorServices/PatientProfile';
 import PatientInfo from '../../screens/doctorServices/PacientInfo';
 import AccompanyPatient from '../../screens/doctorServices/AccompanyPatient';
 import AnsweredQuestions from '../../screens/doctorServices/AnsweredQuestions';
@@ -60,7 +60,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='PatientAnalysis' component={PatientAnalysis} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "", headerShown:true }} />
         <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Concluir cadastro" }}/>
 
-        <AppStack.Screen name='Protokol' component={Protokol} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />
+        <AppStack.Screen name='PatientProfile' component={PatientProfile} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />        

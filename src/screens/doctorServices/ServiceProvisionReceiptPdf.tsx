@@ -16,6 +16,7 @@ import ErrorMessage from '../../components/errorMessage'
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
+import LabelInput from '../../components/LabelInput'
 
 const ServiceProvisionReceiptPdf = ({ route }: any) => {
 
@@ -36,7 +37,7 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
       price: null,
       number_of_sessions: null,
       lat: location.latitude,
-      lon:location.longitude
+      lon: location.longitude
     },
     resolver: yupResolver(schema)
   })
@@ -63,27 +64,41 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
     <View style={{ padding: 10 }}>
       <View >
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-          Recibo de prestação de serviço do paciente
+          Recibo de prestação de serviço de
         </CustomText>
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
           {pacient.first_name}
         </CustomText>
       </View>
       <View>
+
+        <LabelInput value='Preço' />
         <Controller
           control={control}
           render={({ field: { onChange, name, value } }) => (
-            <TextInput keyboardType='numeric' activeOutlineColor={colorSecundary} autoFocus label="Preço" mode='outlined' value={value?.toString()} onChangeText={onChange} />
+            <TextInput
+              keyboardType='numeric'
+              activeOutlineColor={colorPrimary}
+              autoFocus 
+              dense              
+              mode='outlined'
+              value={value?.toString()}
+              onChangeText={onChange} />
           )}
           name='price'
         />
         <ErrorMessage errors={errors} name="price" />
 
-
+        <LabelInput value='Número de sessões' />
         <Controller
           control={control}
           render={({ field: { onChange, name, value } }) => (
-            <TextInput keyboardType='number-pad' activeOutlineColor={colorSecundary} label="Número de sessões" mode='outlined' value={value?.toString()} onChangeText={onChange} />
+            <TextInput keyboardType='number-pad'
+              activeOutlineColor={colorPrimary}
+              dense              
+              mode='outlined'
+              value={value?.toString()}
+              onChangeText={onChange} />
           )}
           name='number_of_sessions'
         />

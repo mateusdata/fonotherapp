@@ -24,7 +24,7 @@ const AnsweredQuestions = () => {
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
-  const { user } = useContext(Context);
+  const { accessToken } = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showToast, setShowToast] = useState<boolean>(false);

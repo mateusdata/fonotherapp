@@ -3,7 +3,9 @@ import { View, StatusBar, Image, Linking } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../../style/styleGradient';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorGreen, colorPrimary } from '../../style/ColorPalette';
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 const ImageTerminate = require("../../assets/images/animate.gif"); 
 
 interface FormatUser {
@@ -17,7 +19,7 @@ const FinishRegistration = ({ navigation, route }) => {
     };
 
     return (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#F5F7FF" }}>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", paddingTop:20, backgroundColor: "#F5F7FF" }}>
               <LinearGradient
                 colors={[
                     'hsla(320, 100%, 98%, 1)',
@@ -30,22 +32,19 @@ const FinishRegistration = ({ navigation, route }) => {
                 end={{ x: 1, y: 1 }}
                 style={styleGradient.background}
             />
-            <View style={{justifyContent:"center", alignItems:"center", padding:12}}>
+            <View style={{justifyContent:"center", alignItems:"center", padding:12,}}>
 
                 <StatusBar animated={true} barStyle='light-content' />
                 <Text style={{ fontSize: 25, color: colorPrimary }}>{`Olá ${user?.nick_name}`}</Text>
-                <Text style={{ fontSize: 17,}}>Verifique seu email {user?.email}</Text>
-                <Text style={{ fontSize: 17 }}> para confirmar sua conta</Text>
-                <Image style={{ height:60, width: 60, }}
-                source={ImageTerminate}
-                 />
-               
+                <Text style={{ fontSize: 18, top:2}}>Verifique seu email {user?.email}</Text>
+                <Text style={{ fontSize: 18, top:2}}> para ativar sua conta</Text>
+                <AntDesign style={{padding:10}} name="checkcircle" size={34} color={colorGreen} />               
                 <Button
                     mode="contained"
                     onPress={() => navigation.navigate("Login")}
                     style={{ marginTop: 5, backgroundColor: colorPrimary }}
                 >
-                    Verificar Email
+                   Fazer login
                 </Button>
             </View>
         </View>

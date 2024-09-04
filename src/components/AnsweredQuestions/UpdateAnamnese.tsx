@@ -12,6 +12,7 @@ import { FormatPacient } from '../../interfaces/globalInterface';
 import Toast from '../toast';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LabelInput from '../LabelInput';
+import { colorPrimary } from '../../style/ColorPalette';
 
 
 const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints }: { pacient: FormatPacient, setShowToast: Function, setModalVisible: Function, setSnapPoints: Function }) => {
@@ -81,7 +82,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             dense
                             onChangeText={onChange}
                             mode='outlined'
-                            activeOutlineColor="#376fe8" />
+                            activeOutlineColor={colorPrimary} />
                     )}
                     name='base_diseases'
                 />
@@ -96,7 +97,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             onChangeText={onChange}
                             mode='outlined'
                             dense
-                            activeOutlineColor="#376fe8" />
+                            activeOutlineColor={colorPrimary} />
                     )}
                     name='food_profile'
                 />
@@ -111,7 +112,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             onChangeText={onChange}
                             mode='outlined'
                             dense
-                            activeOutlineColor="#376fe8" />
+                            activeOutlineColor={colorPrimary} />
                     )}
                     name='chewing_complaint'
                 />
@@ -126,7 +127,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             onChangeText={onChange}
                             mode='outlined'
                             dense
-                            activeOutlineColor="#376fe8" />
+                            activeOutlineColor={colorPrimary} />
                     )}
                     name='education'
                 />
@@ -142,7 +143,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             onChangeText={onChange}
                             mode='outlined'
                             dense
-                            activeOutlineColor="#376fe8" />
+                            activeOutlineColor={colorPrimary} />
                     )}
                     name='consultation_reason'
                 />
@@ -157,7 +158,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints 
                             onChangeText={onChange}
                             mode='outlined'
                             dense
-                            activeOutlineColor="#376fe8" />
+                            activeOutlineColor={colorPrimary} />
                     )}
                     name='current_food_intake_method'
                 />

@@ -4,14 +4,10 @@ import { View, ScrollView, Text, Alert, Platform } from "react-native";
 import { Button, RadioButton, TextInput } from "react-native-paper";
 import { z } from "zod";
 import { useFocusEffect } from '@react-navigation/native';
-import { registerAnimation } from "react-native-animatable";
-import { Context } from '../../context/AuthProvider'
 import { ContextGlobal } from '../../context/GlobalContext'
-import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
 import CustomText from '../../components/customText'
-import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
-import ErrorMessage from '../../components/errorMessage'
+import { colorPrimary } from '../../style/ColorPalette'
 import { ContextPacient } from "../../context/PacientContext";
 import LoadingComponent from "../../components/LoadingComponent";
 import SkelectonView from "../../components/SkelectonView";
@@ -43,7 +39,7 @@ const PatientAnalysis = ({ navigation }) => {
 
         } catch (error) {
           if (error?.response?.status === 404) {
-            navigation.navigate(isFromRegistration ? "Root" : "Protokol");
+            navigation.navigate(isFromRegistration ? "Root" : "PatientProfile");
           }
           setIsLoading(false);
         }
@@ -78,16 +74,6 @@ const PatientAnalysis = ({ navigation }) => {
   }
 
 
-  if (false) {
-    return (
-      <ScrollView>
-        <Text>
-          {JSON.stringify(analysis, null, 2)}
-        </Text>
-      </ScrollView>
-    )
-  }
-
   const onSubmit = async () => {
     let formattedAnswers: any = Object.values(selectedAnswers).map((answer: any) => ({
       que_id: answer.que_id,
@@ -111,7 +97,7 @@ const PatientAnalysis = ({ navigation }) => {
     } catch (error) {
       console.log("error", error);
       setLoading(false)
-      Alert.alert("Ocorreu um error", "Não foi possivel cadastrar essas perguntas")
+     
       if (!error.response) {
         setShowToast(true)
       }
@@ -154,7 +140,7 @@ const PatientAnalysis = ({ navigation }) => {
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                   {question?.has_comments &&
                     <TextInput
-                    activeOutlineColor={colorSecundary}
+                    activeOutlineColor={colorPrimary}
                       onChangeText={(selectedValue) => setSelectedAnswers((prevAnswers) => ({
                         ...prevAnswers,
                         [question.que_id]: {

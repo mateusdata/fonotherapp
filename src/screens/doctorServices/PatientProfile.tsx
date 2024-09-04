@@ -22,7 +22,7 @@ import { FormatPacient } from '../../interfaces/globalInterface';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 
-const Protokol = ({ navigation }) => {
+const PatientProfile = ({ navigation }) => {
 
     const { pac_id, setPac_id } = useContext(ContextPacient);
     const { user } = useContext(Context);
@@ -40,7 +40,7 @@ const Protokol = ({ navigation }) => {
     const hideModal = () => setVisible(false);
 
     useEffect(() => {
-        if (!user?.phone || !user?.doctor?.gov_license) {
+        if (!user?.person.phone_numbers[0] || !user?.doctor?.gov_license) {
             setTimeout(() => {
                 //showModal()
 
@@ -286,4 +286,4 @@ const Protokol = ({ navigation }) => {
     );
 };
 
-export default Protokol;
+export default PatientProfile;

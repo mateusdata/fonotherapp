@@ -10,6 +10,7 @@ import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import { colorSecundary } from '../../style/ColorPalette';
 import ErrorMessage from '../../components/errorMessage';
+import { getUser } from '../../utils/getUser';
 
 export default function ChangePhone() {
     const { user, setUser } = React.useContext(Context);
@@ -26,27 +27,23 @@ export default function ChangePhone() {
         resolver: yupResolver(schema),
         mode: "onSubmit",
         defaultValues: {
-            phone: user.person.phone_numbers[0].ddd + user.person.phone_numbers[0].number
+            phone: user?.person?.phone_numbers[0]?.ddd + user?.person?.phone_numbers[0]?.number
         }
     });
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         setLoading(true);
-        api.post(`/phone`, { phone: data.phone, usu_id: user?.use_id }).then(async (response) => {
-            setShowToast(true);
-            try {
-                const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
-                const updatedUser = { ...recoveryUser, ...response.data };
-                setUser(updatedUser);
-                await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
-            } catch (error) {
-                console.error("Erro ao atualizar usuário:", error);
-            }
+        try {
+            await api.post(`/phone`, { phone: data.phone, usu_id: user?.use_id });
+            await getUser(setUser)
             setLoading(false);
-        }).catch((e) => {
+            setShowToast(true);
+
+        } catch (error) {
             setLoading(false);
             setError("phone", { message: "Ocorreu um erro" });
-        });
+        }
+
     };
 
     return (
@@ -54,11 +51,11 @@ export default function ChangePhone() {
             <View style={{ flex: 0.9 }}>
                 {<View style={{ flexDirection: "row" }}>
                     <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >
-                        {`${! user.person.phone_numbers[0].ddd ? "Você ainda não cadastrou seu telefone" : "Meu telefone atual"}`}
+                        {`${!user?.person?.phone_numbers[0]?.ddd ? "Você ainda não cadastrou seu telefone" : "Meu telefone atual"}`}
                     </Text>
                     <Text
                         style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >
-                        { user.person.phone_numbers[0].ddd ? (`(${ user.person.phone_numbers[0].ddd}) `) +  user.person.phone_numbers[0].ddd: false}
+                        {user?.person?.phone_numbers[0]?.ddd ? (`(${user?.person?.phone_numbers[0]?.ddd}) `) + user?.person?.phone_numbers[0]?.number : false}
                     </Text>
                 </View>}
 
@@ -97,7 +94,7 @@ export default function ChangePhone() {
                 style={styles.button}
                 onPress={handleSubmit(onSubmit)}
             >
-                { user.person.phone_numbers[0].number ? "Alterar telefone" : "Criar telefone"}
+                {user?.person?.phone_numbers[0]?.number ? "Alterar telefone" : "Criar telefone"}
             </Button>
         </View>
     );

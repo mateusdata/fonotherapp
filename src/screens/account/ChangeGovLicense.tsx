@@ -29,10 +29,13 @@ export default function ChangeGovLicense() {
         }
     });
 
-    const onSubmit = (data: string) => {
+    const onSubmit = async (data: string) => {
         setLoading(true);
-        api.put(`/doctor/${user?.doctor?.doc_id}`, data).then(async (response) => {
+        try {
+            const response = await api.put(`/doctor/${user?.doctor?.doc_id}`, data);
             setShowToast(true);
+            console.log(response.data);            
+                        
             try {
                 const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
                 const updatedUser = { ...recoveryUser, ...response.data };
@@ -41,12 +44,14 @@ export default function ChangeGovLicense() {
             } catch (error) {
                 console.error("Erro ao atualizar usuário:", error);
             }
-            setLoading(false);
-        }).catch((e) => {
-            setLoading(false);
+    
+        } catch (e) {
             setError("gov_license", { message: "Ocorreu um erro" });
-        });
+        } finally {
+            setLoading(false);
+        }
     };
+    
 
     return (
         <View style={styles.container}>

@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import { Context } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { colorSecundary } from '../../style/ColorPalette';
+import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
 import { ContextGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
@@ -146,7 +146,7 @@ const CreatePacient = ({ navigation }) => {
               onChangeText={onChange}
               mode='outlined'
               dense
-              activeOutlineColor="#376fe8" />
+              activeOutlineColor={colorPrimary} />
           )}
           name='first_name'
         />
@@ -161,7 +161,7 @@ const CreatePacient = ({ navigation }) => {
               onChangeText={onChange}
               mode='outlined'
               dense
-              activeOutlineColor="#376fe8" />
+              activeOutlineColor={colorPrimary} />
           )}
           name='cpf'
         />
@@ -171,7 +171,7 @@ const CreatePacient = ({ navigation }) => {
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <MaskInput
-              style={[styles.maskInput, { backgroundColor:"white", borderColor: isFocus ? colorSecundary : "#848484", borderWidth: isFocus ? 2 : 1 }]}
+              style={[styles.maskInput, { backgroundColor:"white", borderColor: isFocus ? colorPrimary : "#848484", borderWidth: isFocus ? 2 : 1 }]}
               value={(value)}
               placeholder={null}
               cursorColor={colorSecundary}

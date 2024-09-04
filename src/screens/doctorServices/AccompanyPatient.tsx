@@ -126,7 +126,7 @@ async function cleanSeach() {
                             <Pressable onPress={() => {
                                 setPac_id(item?.pacient?.pac_id);
                                 saveLocalStorage(item)
-                                navigation.navigate("Protokol")
+                                navigation.navigate("PatientProfile")
                             }} android_ripple={{ color: "#36B3B9" }}>
                                 <>
                                     {isPacientsLocal &&  index === 0 && <Text>Útimas pesquisas</Text>}

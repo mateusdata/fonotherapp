@@ -13,6 +13,7 @@ import ErrorMessage from '../../components/errorMessage'
 import { FormatPacient } from '../../interfaces/globalInterface';
 import Toast from '../../components/toast';
 import LabelInput from '../../components/LabelInput';
+import { colorPrimary } from '../../style/ColorPalette';
 
 
 
@@ -76,7 +77,7 @@ const UpdatePacient = ({ route }) => {
                                 dense
                                 onChangeText={onChange}
                                 mode='outlined'
-                                activeOutlineColor="#376fe8" />
+                                activeOutlineColor={colorPrimary} />
                         )}
                         name='first_name'
                     />

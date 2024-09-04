@@ -12,9 +12,10 @@ import PacientContext from './src/context/PacientContext';
 import GlobalContext from './src/context/GlobalContext';
 import * as Notifications from 'expo-notifications';
 import Toast from 'react-native-toast-message';
+import BottomSheetProvider from './src/context/BottomSheetProvider';
 
 export default function App() {
-//app
+  //app
   const [tamaguiLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
@@ -59,9 +60,11 @@ export default function App() {
           <GlobalContext>
             <TamaguiProvider config={config}>
               <AuthProvider>
-                <PacientContext>
-                  <Routes />
-                </PacientContext>
+                <BottomSheetProvider>
+                  <PacientContext>
+                    <Routes />
+                  </PacientContext>
+                </BottomSheetProvider>
               </AuthProvider>
             </TamaguiProvider>
           </GlobalContext>

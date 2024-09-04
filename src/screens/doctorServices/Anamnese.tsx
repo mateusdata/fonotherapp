@@ -11,7 +11,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { Context } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { background, colorGray, colorRed, colorSecundary } from '../../style/ColorPalette';
+import { background, colorGray, colorPrimary, colorRed } from '../../style/ColorPalette';
 import { ContextGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
@@ -96,7 +96,7 @@ const Anamnese = ({ navigation }) => {
             <View style={styles.container2}>
               <LabelInput value='Escolaridade' />
               <Dropdown
-                style={[styles.dropdown, isFocusEducation && { borderColor: colorSecundary, borderWidth: 2 }]}
+                style={[styles.dropdown, isFocusEducation && { borderColor: colorPrimary, borderWidth: 2 }]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
@@ -128,7 +128,7 @@ const Anamnese = ({ navigation }) => {
 
               <LabelInput value='Via de alimentação atual' />
               <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: colorSecundary, borderWidth: 2 }]}
+                style={[styles.dropdown, isFocus && { borderColor: colorPrimary, borderWidth: 2 }]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
@@ -163,7 +163,7 @@ const Anamnese = ({ navigation }) => {
               value={value}
               onChangeText={onChange}
               mode='outlined'
-              activeOutlineColor="#376fe8" />
+              activeOutlineColor={colorPrimary} />
           )}
           name='base_diseases'
         />
@@ -177,7 +177,7 @@ const Anamnese = ({ navigation }) => {
               value={value}
               onChangeText={onChange}
               mode='outlined'
-              activeOutlineColor="#376fe8" />
+              activeOutlineColor={colorPrimary} />
           )}
           name='food_profile'
         />
@@ -191,7 +191,7 @@ const Anamnese = ({ navigation }) => {
               value={value}
               onChangeText={onChange}
               mode='outlined'
-              activeOutlineColor="#376fe8" />
+              activeOutlineColor={colorPrimary} />
           )}
           name='chewing_complaint'
         />
@@ -205,7 +205,7 @@ const Anamnese = ({ navigation }) => {
               value={value}
               onChangeText={onChange}
               mode='outlined'
-              activeOutlineColor="#376fe8" />
+              activeOutlineColor={colorPrimary} />
           )}
           name='consultation_reason'
         />

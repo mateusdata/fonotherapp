@@ -13,6 +13,7 @@ import ErrorMessage from '../../components/errorMessage';
 import { Context } from '../../context/AuthProvider';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../../style/styleGradient';
+import { colorPrimary } from '../../style/ColorPalette';
 
 
 
@@ -110,7 +111,7 @@ const CreateAccount = ({ navigation }: any) => {
                 dense
                 mode="outlined"
                 autoFocus
-                activeOutlineColor="#376fe8"
+                activeOutlineColor={colorPrimary}
                 error={!!errors.nick_name}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -129,7 +130,7 @@ const CreateAccount = ({ navigation }: any) => {
               <TextInput
                 dense
                 mode="outlined"
-                activeOutlineColor="#376fe8"
+                activeOutlineColor={colorPrimary}
                 error={!!errors.email}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -152,7 +153,7 @@ const CreateAccount = ({ navigation }: any) => {
               <TextInput
                 dense
                 mode="outlined"
-                activeOutlineColor="#376fe8"
+                activeOutlineColor={colorPrimary}
                 error={!!errors.password}
                 onBlur={onBlur}
                 onChangeText={onChange}

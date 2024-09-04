@@ -9,9 +9,9 @@ const Toast = ({visible, setVisible, mensage, backgroundColor = "#2d292d", textC
   const onDismissSnackBar = () => setVisible(false);
 
   return (
-    <Animatable.View animation={visible ? "fadeInUp" : "fadeOutDown"}>
+    <Animatable.View animation={visible ? "" : ""}>
       <Snackbar style={{ backgroundColor: backgroundColor, bottom: bottom }}
-        visible={visible} duration={duration} onDismiss={() => setVisible(false)}
+        visible={visible} duration={2000} onDismiss={() => setVisible(false)}
         action={{
           labelStyle: { color: labelColor },
           label: label,

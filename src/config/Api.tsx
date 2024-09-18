@@ -7,8 +7,6 @@ import { showToast } from '../utils/showToast';
 
 const api = axios.create({
   baseURL: 'https://api.fonotherapp.com.br',
-  //baseURL: 'https://1a9b-200-26-254-64.ngrok-free.app',
-  //baseURL: "https://fono-api-solitary-surf-9909.fly.dev",
 });
 
 let isSessionExpiredToastShown = false; // Variável para controlar se o toast já foi mostrado
@@ -29,7 +27,7 @@ api.interceptors.request.use(async (config) => {
     return config;
   } catch (error) {
     console.error("Error getting user from AsyncStorage:", error);
-    
+
     return config;
   }
 });

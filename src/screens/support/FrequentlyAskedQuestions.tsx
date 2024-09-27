@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import * as Animatable from "react-native-animatable";
 import { ScrollView } from 'react-native-gesture-handler';
 import { api } from '../../config/Api';
+import LoadingComponent from '../../components/LoadingComponent';
 
 interface FormatFac {
   faq_id: number
@@ -15,7 +16,7 @@ const FrequentlyAskedQuestions = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [faq, setFaq] = useState<Array<FormatFac>>()
 
-  async function fetchFaq () {
+  async function fetchFaq() {
     try {
       const response = await api.get("/frequent-questions");
       setFaq(response.data.data)
@@ -23,17 +24,23 @@ const FrequentlyAskedQuestions = () => {
       console.log(error);
     }
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     fetchFaq()
-  },[]);
-  
+  }, []);
+
   function handleAccordionPress(index) {
     if (expandedIndex === index) {
       setExpandedIndex(null);
     } else {
       setExpandedIndex(index);
     }
+  }
+
+  if (!faq?.length) {
+    return (
+      <LoadingComponent />
+    )
   }
 
   const renderFAQ = () => {
@@ -48,7 +55,7 @@ const FrequentlyAskedQuestions = () => {
         onPress={() => handleAccordionPress(index)}
       >
         <Animatable.View animation="fadeIn" style={{ paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 16, marginBottom:15, right:15 }}>{item.response}</Text>
+          <Text style={{ fontSize: 16, marginBottom: 15, right: 15 }}>{item.response}</Text>
         </Animatable.View>
       </List.Accordion>
     ));
@@ -57,7 +64,7 @@ const FrequentlyAskedQuestions = () => {
   return (
     <ScrollView style={styles.container}>
       {/* Seção de Perguntas Frequentes */}
-      <List.Section title='Perguntas frequentes' titleStyle={{ color: "black", fontSize: 18, marginBottom:10, right: 10 }} style={{ gap: 0 }}>
+      <List.Section title='Perguntas frequentes' titleStyle={{ color: "black", fontSize: 18, marginBottom: 10, right: 10 }} style={{ gap: 0 }}>
         {renderFAQ()}
       </List.Section>
     </ScrollView>

@@ -64,7 +64,7 @@ export default function ChangePhone() {
                     control={control}
                     render={({ field: { onChange, value } }) => (
                         <TextInput
-                            autoFocus
+                            
                             dense
                             keyboardType='numeric'
                             onChangeText={onChange}

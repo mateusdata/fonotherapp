@@ -245,6 +245,10 @@ const PatientProfile = ({ navigation }) => {
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação fonoaudiológica
                     </Button>
+                    <Button buttonColor='#36B3B9' icon="clipboard" mode="contained" onPress={() => navigation.navigate("PatientInfo")} style={{ marginBottom: 10 }}>
+                       Orientação ao paciente-familiares
+                    </Button>
+                    
                     <Button icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={20} />} buttonColor={colorPrimary} mode='contained' onPress={() => {
                         setFirstModal(false)
                         setModalVisible(true)

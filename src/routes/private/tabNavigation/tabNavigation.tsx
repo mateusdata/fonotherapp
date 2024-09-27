@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,12 +11,14 @@ import { Image, Text } from 'react-native';
 import Home from '../../../screens/doctorServices/Home';
 import Videos from '../../../screens/doctorServices/Videos';
 import MyAccount from '../../../screens/account/MyAccount';
+import ButtonHelp from '../../../components/ButtonHelp';
 
 const Tab = createBottomTabNavigator();
 const arrayEmojis = ["🫂", "🫂", "😊", "🥰", "🗣️",];
 
 
 export default function MyComponent() {
+  const navigation = useNavigation<any>();
   return (
     <>
       <Tab.Navigator
@@ -24,8 +26,12 @@ export default function MyComponent() {
           headerShown: false,
           headerStyle: {
             backgroundColor: colorPrimary
-          }
+          },
+          headerRight: () =>(
+            <ButtonHelp onPress={() => { navigation.navigate("FrequentlyAskedQuestions") }} /> 
+          )
         }}
+        
         tabBar={({ navigation, state, descriptors, insets }) => (
           <BottomNavigation.Bar
             activeColor='#36B3B9'
@@ -77,8 +83,8 @@ export default function MyComponent() {
           component={Home}
           options={{
             tabBarLabel: 'Início',
-            tabBarIcon: ({ color, size }) => {
-              return <Icon name="home" size={size} color={color} />;
+            tabBarIcon: ({ color, size,focused }) => {
+              return <Icon name="home" size={size} color={!focused? colorPrimary: "#2A9095"}/>;
             },
             tabBarActiveTintColor: "white",
             tabBarActiveBackgroundColor: "white",
@@ -101,8 +107,8 @@ export default function MyComponent() {
           component={Videos}
           options={{
             tabBarLabel: 'Exercícios',
-            tabBarIcon: ({ color, size }) => {
-              return <Icon name="video" size={size} color={color} />;
+            tabBarIcon: ({ color, size, focused }) => {
+              return <Icon name="video" size={size} color={!focused? colorPrimary: "#2A9095"} />;
             },
             headerShown: true,
             headerTitleAlign: "left",
@@ -115,8 +121,8 @@ export default function MyComponent() {
           component={MyAccount}
           options={{
             tabBarLabel: 'Conta',
-            tabBarIcon: ({ color, size }) => {
-              return <Icon name="account" size={size} color={color} />;
+            tabBarIcon: ({ color, size, focused}) => {
+              return <Icon name="account" size={size} color={!focused? colorPrimary: "#2A9095"} />;
             },
             headerShown: true,
             headerTitleAlign: "left",

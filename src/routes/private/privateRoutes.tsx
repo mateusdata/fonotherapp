@@ -31,6 +31,11 @@ import ChangeGovLicense from '../../screens/account/ChangeGovLicense';
 import ChangePhone from '../../screens/account/ChangePhone';
 import UpdatePacient from '../../screens/doctorServices/UpdatePacient';
 
+import AccessHistory from '../../screens/doctorServices/AccessHistory';
+import AgendaDoctor from '../../screens/doctorServices/AgendaDoctor';
+import NoticeBoard from '../../screens/doctorServices/NoticeBoard;';
+import Configuration from '../../screens/account/Configuration';
+
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
   const navigation = useNavigation();
@@ -76,8 +81,12 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Meu Telefone" }} />
 
         <AppStack.Screen name='UpdatePacient' component={UpdatePacient} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Atualizar paciente" }} />
-
         
+        <AppStack.Screen name='Configuration' component={Configuration} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Configurações" }} />
+        <AppStack.Screen name='AccessHistory' component={AccessHistory} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Historico de acesso" }} />
+        <AppStack.Screen name='AgendaDoctor' component={AgendaDoctor} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Agenda" }} />
+        <AppStack.Screen name='NoticeBoard' component={NoticeBoard} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Mural de avisos" }} />
+
 
       </AppStack.Navigator>
     </>

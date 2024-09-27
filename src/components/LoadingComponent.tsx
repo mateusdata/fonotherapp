@@ -1,5 +1,6 @@
 import React from "react";
-import { ActivityIndicator, StatusBar, View } from "react-native";
+import {  StatusBar, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 
 const LoadingComponent= () => {
@@ -13,7 +14,7 @@ const LoadingComponent= () => {
       }}
     >
     
-      <ActivityIndicator animating={true} color={"#36B3B9"} size={50} />
+      <ActivityIndicator animating={true} color={"#36B3B9"} size={30} />
     </View>
   );
 };

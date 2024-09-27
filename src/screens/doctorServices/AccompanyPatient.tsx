@@ -23,7 +23,7 @@ const AccompanyPatient = ({ navigation }) => {
   
     const onChangeSearch = async (search) => {
 
-        setSearchQuery(search)
+        setSearchQuery(search)  
         if (search.length > 0) {
             setisPacientsLocal(false)
             try {

@@ -42,9 +42,9 @@ const Login = ({ navigation }: any) => {
     const { watch, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
             email: isDevelopment ? "mateuspele2015@gmail.com" : "",
-            password: isDevelopment ? "1234567" : ""
+            password: isDevelopment ? "123456" : ""
         },
-        mode: "onChange",
+        mode: "onSubmit",
         resolver: yupResolver(schema)
     });
 

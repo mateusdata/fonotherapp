@@ -6,7 +6,7 @@ import Toast from 'react-native-toast-message';
 import { showToast } from '../utils/showToast';
 
 const api = axios.create({
-  baseURL: 'https://api.fonotherapp.com.br',
+  baseURL: 'https://645b-179-186-19-111.ngrok-free.app',
 });
 
 let isSessionExpiredToastShown = false; // Variável para controlar se o toast já foi mostrado

@@ -72,7 +72,7 @@ const Home = ({ navigation }: { navigation: any }) => {
   const renderButton = (icon: any, label: string, onPress: () => void) => (
     <Pressable onPress={onPress} style={[styles.button, {}]}>
       <View style={{flex:0.5, borderWidth:0, width:"100%", justifyContent:"flex-start", alignItems:"center"}}>
-        <AntDesign name={icon} style={{top:20}} size={20} color={colorPrimary} />
+        <AntDesign name={icon} style={{top:20}} size={24} color={colorPrimary} />
       </View>
       <View style={{flex:0.5, borderWidth:0, width:"100%", justifyContent:"flex-start", alignItems:"center"}}>
         <Text style={styles.buttonText}>{label}</Text>
@@ -92,7 +92,7 @@ const Home = ({ navigation }: { navigation: any }) => {
         <View style={styles.header}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title style={{ color: colorPrimary }}>{user?.nick_name}</Title>
+              <Title style={{ color: colorPrimary }}>{user?.person.first_name}</Title>
               <View style={styles.pacientsInfo}>
                 <AntDesign name="addusergroup" size={22} color="#36B3B9" />
                 <Paragraph>
@@ -110,9 +110,9 @@ const Home = ({ navigation }: { navigation: any }) => {
           {renderButton("addfile", "Paciente", () => navigation.navigate("CreatePacient"))}
           {renderButton("addusergroup", "Acompanhar", () => navigation.navigate("AccompanyPatient"))}
           {renderButton("check", "Concluir Cadastro", () => navigation.navigate("PacientUnansweredQuestions"))}
-          {renderButton("clockcircleo", "Historico de acesso", () => navigation.navigate("AccessHistory"))}
+          {renderButton("clockcircleo", "Historico           de acesso", () => navigation.navigate("AccessHistory"))}
           {renderButton("calendar", "Agenda", () => navigation.navigate("AgendaDoctor"))}
-          {renderButton("notification", "Mural de  Avisos", () => navigation.navigate("NoticeBoard"))}
+          {renderButton("notification", "Mural de     Avisos", () => navigation.navigate("NoticeBoard"))}
           {renderButton("filetext1", "Documentos", () => navigation.navigate("FrequentlyAskedQuestions"))}
           {renderButton("wallet", "Financeiro", handleShareApp)}
           {renderButton("setting", "Configurações", () => navigation.navigate("Configuration"))}

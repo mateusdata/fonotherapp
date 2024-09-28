@@ -47,7 +47,7 @@ const CreateAccount = ({ navigation }: any) => {
       password: "",
       email: ""
     },
-    mode: "onChange",
+  mode: "onSubmit",
     resolver: yupResolver(schema)
 
   });

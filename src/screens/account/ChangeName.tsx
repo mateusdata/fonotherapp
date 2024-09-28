@@ -19,7 +19,7 @@ export default function ChangeName() {
   })
   const { control, handleSubmit, setError, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
-    mode: "onChange",
+  mode: "onSubmit",
     defaultValues: {
       nick_name: user?.nick_name
     }

@@ -20,7 +20,7 @@ export default function ChangeCredential() {
   })
   const { control, handleSubmit, setError, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
-    mode: "onChange",
+  mode: "onSubmit",
     defaultValues: {
       new_password: "",
       current_password: ''

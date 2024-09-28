@@ -19,7 +19,7 @@ export default function ChangeEmail() {
   })
   const { control, handleSubmit, setError, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
-    mode: "onChange",
+  mode: "onSubmit",
     defaultValues: {
       email: user?.email
     }

@@ -19,7 +19,7 @@ export default function SendEmail({ navigation }) {
     })
     const { control, handleSubmit, setError, watch, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
-        mode: "onChange",
+      mode: "onSubmit",
         defaultValues: {
             email: "",
         }

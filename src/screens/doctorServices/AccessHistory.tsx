@@ -19,7 +19,7 @@ export default function AccessHistory({ navigation }) {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
     try {
-      const response = await api.get(`last-appointents/${user?.doctor?.doc_id}?page=${page}&pageSize=7`);
+      const response = await api.get(`last-appointents/${user?.doctor?.doc_id}?page=${page}&pageSize=14`);
       const newSessions = response.data.data;
 
       if (newSessions.length === 0) {

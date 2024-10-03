@@ -3,7 +3,6 @@ import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 
 export default async function downloadPDF(pdfUri: string, pdfName: string, token: string, setLoading: any) {
-
     try {
         setTimeout( async() => {
             const fileUri = FileSystem.documentDirectory + pdfName

@@ -45,7 +45,7 @@ const Routes = () => {
           }
         }
       } catch (error) {
-        console.error('Erro na autenticação biométrica', error);
+        console.error('cautenticação biométrica', error);
         Alert.alert('Erro', 'Ocorreu um erro ao tentar autenticar biometricamente');
       } finally {
         setIsCheckingAuth(false);

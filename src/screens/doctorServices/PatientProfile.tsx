@@ -35,6 +35,8 @@ const PatientProfile = ({ navigation }) => {
     const { setLocation, thereSession } = useContext(ContextGlobal);
     const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
     const [visible, setVisible] = useState(false);
+    const { accessToken } = useContext(Context);
+
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -71,6 +73,18 @@ const PatientProfile = ({ navigation }) => {
     });
 
 
+    async function getPdf() {
+        try {
+          setLoading(true);
+          const response: any = await api.get("/food-intake-report");
+    
+          await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
+        } catch (error) {
+          console.error("Ocorreu Ezum erro", error)
+          alert("Erro ao gerar pdf")
+    
+        }
+      }
 
 
     const getLocation = async () => {
@@ -245,7 +259,7 @@ const PatientProfile = ({ navigation }) => {
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação fonoaudiológica
                     </Button>
-                    <Button buttonColor='#36B3B9' icon="clipboard" mode="contained" onPress={() => navigation.navigate("PatientInfo")} style={{ marginBottom: 10 }}>
+                    <Button buttonColor='#36B3B9' icon="clipboard" mode="contained" onPress={getPdf} style={{ marginBottom: 10 }}>
                        Orientação ao paciente-familiares
                     </Button>
                     

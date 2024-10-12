@@ -59,7 +59,6 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoadingAuth(false)
 
         } catch (error) {
-            alert("Ocoreu um error")
             setUser(null);
             setLoadingAuth(false)
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet, Dimensions, RefreshControl, Linking, Share, Pressable } from 'react-native';
+import { View, ScrollView, StyleSheet, Dimensions, RefreshControl, Linking, Share, Pressable, ImageBackground } from 'react-native';
 import { Button, Card, Title, Paragraph, Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import NetInfo from "@react-native-community/netinfo";
@@ -56,7 +56,7 @@ const Home = ({ navigation }: { navigation: any }) => {
     }
   };
 
- 
+
 
 
   const [refreshing, setRefreshing] = useState(false);
@@ -71,10 +71,10 @@ const Home = ({ navigation }: { navigation: any }) => {
 
   const renderButton = (icon: any, label: string, onPress: () => void) => (
     <Pressable onPress={onPress} style={[styles.button, {}]}>
-      <View style={{flex:0.5, borderWidth:0, width:"100%", justifyContent:"flex-start", alignItems:"center"}}>
-        <AntDesign name={icon} style={{top:20}} size={24} color={colorPrimary} />
+      <View style={{ flex: 0.5, borderWidth: 0, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
+        <AntDesign name={icon} style={{ top: 25 }} size={24} color={colorPrimary} />
       </View>
-      <View style={{flex:0.5, borderWidth:0, width:"100%", justifyContent:"flex-start", alignItems:"center"}}>
+      <View style={{ flex: 0.5, borderWidth: 0, top: 8, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
         <Text style={styles.buttonText}>{label}</Text>
       </View>
 
@@ -82,7 +82,8 @@ const Home = ({ navigation }: { navigation: any }) => {
   );
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
+
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -106,6 +107,8 @@ const Home = ({ navigation }: { navigation: any }) => {
           </Card>
         </View>
 
+
+
         <View style={styles.buttonContainer}>
           {renderButton("addfile", "Paciente", () => navigation.navigate("CreatePacient"))}
           {renderButton("addusergroup", "Acompanhar", () => navigation.navigate("AccompanyPatient"))}
@@ -116,11 +119,22 @@ const Home = ({ navigation }: { navigation: any }) => {
           {renderButton("filetext1", "Documentos", () => navigation.navigate("FrequentlyAskedQuestions"))}
           {renderButton("wallet", "Financeiro", handleShareApp)}
           {renderButton("setting", "Configurações", () => navigation.navigate("Configuration"))}
+          <ImageBackground
+            resizeMode='cover'
+            blurRadius={5}
+            style={{ height: 220, width: 220, left:90}}
+            source={require("../../../src/assets/images/marca.png")}
+          >
+          </ImageBackground>
         </View>
+
+
+
       </ScrollView>
 
       <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} duration={6000} />
-    </>
+
+    </View>
   );
 };
 
@@ -131,6 +145,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: 10,
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     padding: 5,
@@ -149,6 +169,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: 40,
+    gap: 10
   },
   button: {
     margin: 5,
@@ -163,6 +184,6 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     marginTop: 10,
-    bottom:10
+    bottom: 10
   },
 });

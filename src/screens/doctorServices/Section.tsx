@@ -215,8 +215,8 @@ export default function Section({ navigation }) {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          backgroundColor: isExerciseAdded ? "#38CB89" : "#d2d4db",
-          marginVertical: 5
+          backgroundColor: isExerciseAdded ? "#38CB89" : "white",
+          marginVertical: 0
         }}>
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8 }}>
           <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "white" : colorPrimary} />

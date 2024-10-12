@@ -8,7 +8,7 @@ import { ActivityIndicator, Button, FAB, Modal, Searchbar, TextInput } from 'rea
 import { Context } from '../../context/AuthProvider'
 import { api } from '../../config/Api'
 import CustomText from '../../components/customText'
-import { colorSecundary } from '../../style/ColorPalette'
+import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 
@@ -96,9 +96,9 @@ export default function Videos({ navigation }) {
       handleVideoPress(item);
       setIsVideoPlaying(true)
     }}
-
+    android_ripple={{color:colorPrimary}}
       style={{
-        flexDirection: "row", alignItems: "center", backgroundColor: "#d2d4db", marginVertical: 5
+        flexDirection: "row", alignItems: "center", backgroundColor: "white", marginVertical: 0
       }}>
       <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8, }}>
         <AntDesign name="play" size={30} color={"#36B3B9"} />
@@ -111,7 +111,7 @@ export default function Videos({ navigation }) {
     return <SkelectonView />
   }
   return (
-    <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 5 }}>
+    <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 5, backgroundColor:"white"}}>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}

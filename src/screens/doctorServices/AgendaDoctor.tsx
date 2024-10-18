@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, Button, Modal, TextInput } from 'react-native-paper';
+import { View, StyleSheet, Alert } from 'react-native';
+import { Text, Modal, TextInput, Button } from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Agenda } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorPrimary } from '../../style/ColorPalette';
+import dayjs from 'dayjs';
 
 const AgendaDoctor = () => {
   const [agendaItems, setAgendaItems] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [newEvent, setNewEvent] = useState({ date: '2024-10-20', name: 'Consulta de rotina', time: '10:30 AM' });
+  const [newEvent, setNewEvent] = useState({ date: '', name: '', time: '' });
+  const [timePickerVisible, setTimePickerVisible] = useState(false);
 
   // Carregar a agenda do AsyncStorage quando o componente monta
   useEffect(() => {
@@ -41,39 +44,35 @@ const AgendaDoctor = () => {
     }
   };
 
-  // Renderizar cada item da agenda
-  const renderItem = (item) => (
-    <View style={styles.item}>
-      <Text style={styles.itemText}>{item.name}</Text>
-      <Text style={styles.itemTime}>{item.time}</Text>
-    </View>
-  );
-
-  // Renderizar quando não houver eventos para uma data
-  const renderEmptyDate = () => (
-    <View style={styles.emptyDate}>
-      <Text>Sem eventos para este dia!</Text>
-    </View>
-  );
-
-  // Abrir o modal para adicionar um novo evento
-  const handleAddEvent = () => {
+  // Função para abrir o modal ao clicar em um dia
+  const handleDayPress = (day) => {
+    setNewEvent({ ...newEvent, date: day.dateString });
     setModalVisible(true);
+  };
+
+  const handleTimeChange = (event, selectedTime) => {
+    const currentTime = selectedTime || new Date();
+    setTimePickerVisible(false);
+    setNewEvent({
+      ...newEvent,
+      time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
+    });
+  };
+
+  const openTimePicker = () => {
+    setTimePickerVisible(true);
   };
 
   // Salvar o novo evento e fechar o modal
   const handleSaveEvent = () => {
     if (newEvent.date && newEvent.name && newEvent.time) {
-      setAgendaItems((prevItems) => {
-        const updatedItems = { ...prevItems };
-        if (!updatedItems[newEvent.date]) {
-          updatedItems[newEvent.date] = [];
-        }
-        updatedItems[newEvent.date].push(newEvent);
-        return updatedItems;
-      });
+      setAgendaItems((prevItems) => ({
+        ...prevItems,
+        [newEvent.date]: [...(prevItems[newEvent.date] || []), newEvent],
+      }));
       setModalVisible(false);
-      setNewEvent({ date: '2024-10-21', name: '', time: '' });
+      setNewEvent({ date: '', name: '', time: '' });
+      Alert.alert("Novo evento", "Novo evento criado com sucesso")
     } else {
       alert('Preencha todos os campos para adicionar um evento.');
     }
@@ -83,47 +82,49 @@ const AgendaDoctor = () => {
     <View style={styles.container}>
       <Agenda
         items={agendaItems}
-        renderItem={renderItem}
-        renderEmptyDate={renderEmptyDate}
+        renderItem={(item) => (
+          <View style={styles.item}>
+            <Text style={styles.itemText}>{item.name}</Text>
+            <Text style={styles.itemTime}>{item.time}</Text>
+          </View>
+        )}
+        renderEmptyDate={() => (
+          <View style={styles.emptyDate}>
+            <Text>Sem eventos para este dia!</Text>
+          </View>
+        )}
         theme={{
           agendaDayTextColor: '#4A90E2',
           agendaDayNumColor: '#4A90E2',
           agendaTodayColor: '#D32F2F',
           agendaKnobColor: '#FFC107',
         }}
+        onDayPress={handleDayPress}
       />
-      <Button
-        mode="contained"
-        buttonColor={colorPrimary}
-        onPress={handleAddEvent}
-        style={styles.addButton}
-      >
-        Adicionar Novo Evento
-      </Button>
 
       <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)} contentContainerStyle={styles.modal}>
-        <Text style={styles.modalTitle}>Novo Evento</Text>
-        <TextInput
-          label="Data (YYYY-MM-DD)"
-          value={newEvent.date}
-          onChangeText={(text) => setNewEvent({ ...newEvent, date: text })}
-          style={styles.input}
-        />
+        <Text style={styles.modalTitle}>Novo Evento em {dayjs(newEvent.date).format("DD/MM/YYYY")}</Text>
         <TextInput
           label="Nome do Evento"
           value={newEvent.name}
           onChangeText={(text) => setNewEvent({ ...newEvent, name: text })}
           style={styles.input}
         />
-        <TextInput
-          label="Hora (HH:MM AM/PM)"
-          value={newEvent.time}
-          onChangeText={(text) => setNewEvent({ ...newEvent, time: text })}
-          style={styles.input}
-        />
-        <Button mode="contained" onPress={handleSaveEvent} style={styles.saveButton}>
+        <Button buttonColor={colorPrimary} textColor='white' mode="outlined" onPress={openTimePicker} style={styles.pickerButton}>
+          Selecionar Hora
+        </Button>
+        <Button buttonColor={colorPrimary} textColor='white' mode="contained" onPress={handleSaveEvent} style={styles.saveButton}>
           Salvar Evento
         </Button>
+
+        {timePickerVisible && (
+          <DateTimePicker
+            value={new Date()}
+            mode="time"
+            display="default"
+            onChange={handleTimeChange}
+          />
+        )}
       </Modal>
     </View>
   );
@@ -161,10 +162,6 @@ const styles = StyleSheet.create({
     borderColor: '#e0e0e0',
     borderWidth: 1,
   },
-  addButton: {
-    margin: 20,
-    borderRadius: 5,
-  },
   modal: {
     backgroundColor: 'white',
     padding: 20,
@@ -184,9 +181,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#ffffff',
   },
+  pickerButton: {
+  },
   saveButton: {
     marginTop: 10,
-    borderRadius: 5,
   },
 });
 

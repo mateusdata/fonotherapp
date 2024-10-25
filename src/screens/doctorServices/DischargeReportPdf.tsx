@@ -88,7 +88,7 @@ const DischargeReportPdf = ({ route }: any) => {
     <ScrollView style={{ padding: 10 }}>
       <View >
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-          Relatório de alta do paciente
+          Relatório de alta do paciente  {accessToken}
         </CustomText>
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
           {pacient.person.first_name}

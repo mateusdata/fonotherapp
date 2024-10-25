@@ -33,9 +33,10 @@ import UpdatePacient from '../../screens/doctorServices/UpdatePacient';
 
 import AccessHistory from '../../screens/doctorServices/AccessHistory';
 import AgendaDoctor from '../../screens/doctorServices/AgendaDoctor';
-import NoticeBoard from '../../screens/doctorServices/NoticeBoard;';
+import NoticeBoard from '../../screens/doctorServices/NoticeBoard';
 import Configuration from '../../screens/account/Configuration';
 import SecuritySettings from '../../screens/account/SecuritySettings';
+import DocumentPacient from '../../screens/doctorServices/DocumentPacient';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
@@ -88,6 +89,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='AgendaDoctor' component={AgendaDoctor} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Agenda" }} />
         <AppStack.Screen name='NoticeBoard' component={NoticeBoard} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Mural de avisos" }} />
         <AppStack.Screen name='SecuritySettings' component={SecuritySettings} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Segurança" }} />
+        <AppStack.Screen name='DocumentPacient' component={DocumentPacient} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Ducumentos" }} />
 
         
       </AppStack.Navigator>

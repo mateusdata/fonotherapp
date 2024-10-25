@@ -1,38 +1,34 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Switch, Button } from 'react-native-paper';
+import { Text, Switch } from 'react-native-paper';
 import { ContextGlobal } from '../../context/GlobalContext';
 import { colorPrimary } from '../../style/ColorPalette';
 
 const SecuritySettings = () => {
-    const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal);
-    //const [biometricsEnabled, setBiometricsEnabled] = React.useState(false);
+    const { useBiometrics, setUseBiometrics } = useContext(ContextGlobal);
 
     const toggleBiometrics = () => {
-        //setBiometricsEnabled(!biometricsEnabled);
-        setIsdevelopment(!isDevelopment)
+        setUseBiometrics(prev => !prev);
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.optionContainer}>
-                <Text>Biometria {(isDevelopment)? "ativada": "desativada"}</Text>
+                <Text>Biometria {(useBiometrics) ? "ativada" : "desativada"}</Text>
                 <Switch
                     color={colorPrimary}
-                    value={isDevelopment}
+                    value={useBiometrics}
                     onValueChange={toggleBiometrics}
                 />
             </View>
             <Text style={styles.description}>
-                A biometria é usada apenas para acessar o aplicativo. O Inter não coleta, trata ou armazena essa informação. Ela é utilizada apenas no aparelho e segue os termos de uso e as políticas de privacidade de cada fabricante.
+                A biometria é usada apenas para acessar o aplicativo. O Fonotherapp não coleta, trata ou armazena essa informação. Ela é utilizada apenas no aparelho e segue os termos de uso e as políticas de privacidade de cada fabricante.
             </Text>
 
             <View style={styles.optionContainer}>
                 <Text>Bloqueio de tela</Text>
                 <Text>Nunca</Text>
             </View>
-
-           
         </View>
     );
 };
@@ -42,11 +38,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: '#ffffff',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
     },
     optionContainer: {
         flexDirection: 'row',
@@ -58,9 +49,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 20,
         color: '#555555',
-    },
-    devButton: {
-        marginTop: 20,
     },
 });
 

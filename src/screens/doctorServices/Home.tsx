@@ -110,22 +110,17 @@ const Home = ({ navigation }: { navigation: any }) => {
 
 
         <View style={styles.buttonContainer}>
+
           {renderButton("addfile", "Paciente", () => navigation.navigate("CreatePacient"))}
           {renderButton("addusergroup", "Acompanhar", () => navigation.navigate("AccompanyPatient"))}
           {renderButton("check", "Concluir Cadastro", () => navigation.navigate("PacientUnansweredQuestions"))}
           {renderButton("clockcircleo", "Historico           de acesso", () => navigation.navigate("AccessHistory"))}
           {renderButton("calendar", "Agenda", () => navigation.navigate("AgendaDoctor"))}
           {renderButton("notification", "Mural de     Avisos", () => navigation.navigate("NoticeBoard"))}
-          {renderButton("filetext1", "Documentos", () => navigation.navigate("FrequentlyAskedQuestions"))}
+          {renderButton("filetext1", "Documentos", () => navigation.navigate("DocumentPacient"))}
           {renderButton("wallet", "Financeiro", handleShareApp)}
           {renderButton("setting", "Configurações", () => navigation.navigate("Configuration"))}
-          <ImageBackground
-            resizeMode='cover'
-            blurRadius={5}
-            style={{ height: 220, width: 220, left:90}}
-            source={require("../../../src/assets/images/marca.png")}
-          >
-          </ImageBackground>
+          
         </View>
 
 
@@ -169,7 +164,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: 40,
-    gap: 10
+    gap: 0
   },
   button: {
     margin: 5,

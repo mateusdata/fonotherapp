@@ -1,8 +1,9 @@
-import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useState, useEffect } from 'react';
 
 interface Location {
-    latitude: number,
-    longitude: number
+    latitude: number | null,
+    longitude: number | null
 }
 
 interface FormatGlobal {
@@ -21,17 +22,27 @@ interface FormatGlobal {
 export const ContextGlobal = createContext<FormatGlobal>({} as FormatGlobal);
 
 const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
-
-    const [location, setLocation] = useState<any>({
-        latitude: null,
-        longitude: null
-    });
+    const [location, setLocation] = useState<Location>({ latitude: null, longitude: null });
     const [thereSession, setThereSession] = useState<boolean>(false);
     const [isFromRegistration, setIsFromRegistration] = useState<boolean>(false);
-    const [isDevelopment, setIsdevelopment] = useState<boolean>(true)
-    const [useBiometrics, setUseBiometrics] = useState(false);
+    const [isDevelopment, setIsdevelopment] = useState<boolean>(true);
+    const [useBiometrics, setUseBiometrics] = useState<boolean>(false);
 
+    // Recuperar o valor de useBiometrics do localStorage ao inicializar
+    useEffect(() => {
+        const fetchBiometrics = async () => {
+            const storedBiometrics = await AsyncStorage.getItem('useBiometrics');
+            if (storedBiometrics !== null) {
+                setUseBiometrics(JSON.parse(storedBiometrics));
+            }
+        };
+        fetchBiometrics();
+    }, []);
 
+    // Atualizar o localStorage sempre que useBiometrics mudar
+    useEffect(() => {
+        AsyncStorage.setItem('useBiometrics', JSON.stringify(useBiometrics));
+    }, [useBiometrics]);
 
     return (
         <ContextGlobal.Provider

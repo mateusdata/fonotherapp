@@ -15,6 +15,7 @@ import HeaderSheet from '../../components/HeaderSheet';
 import { Sheet } from 'tamagui';
 import { videoUrl } from '../../utils/videoUrl';
 import { urlPosterSouce } from '../../utils/urlPosterSource';
+import Segmenteds from '../../components/Segmenteds';
 
 export default function Videos({ navigation }) {
   const [page, setPage] = useState(1);
@@ -124,6 +125,8 @@ export default function Videos({ navigation }) {
         style={{ marginBottom: 10 }}
 
       />
+
+      <Segmenteds />
 
       <FlatList
         data={videosFono}

@@ -22,7 +22,7 @@ const SecuritySettings = () => {
                 />
             </View>
             <Text style={styles.description}>
-                A biometria é usada apenas para acessar o aplicativo. O Fonotherapp não coleta, trata ou armazena essa informação. Ela é utilizada apenas no aparelho e segue os termos de uso e as políticas de privacidade de cada fabricante.
+                A biometria é usada apenas para acessar o aplicativo. O fonotherApp não coleta, trata ou armazena essa informação. Ela é utilizada apenas no aparelho e segue os termos de uso e as políticas de privacidade de cada fabricante.
             </Text>
 
             <View style={styles.optionContainer}>

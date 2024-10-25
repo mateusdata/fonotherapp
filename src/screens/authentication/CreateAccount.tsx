@@ -60,7 +60,7 @@ const CreateAccount = ({ navigation }: any) => {
       setLoading(true)
       const response = await api.post("/user", data)
       setLoading(false);
-      WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à Fonotherapp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
+      WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à fonotherApp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
       navigation.navigate("FinishRegistration", { user: watch() })
       reset();
     } catch (error) {

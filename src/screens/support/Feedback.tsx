@@ -40,7 +40,7 @@ const Feedback = () => {
     return (
         <>
             <View style={styles.container}>
-                <CustomText fontFamily='Poppins_300Light' style={styles.text}>Fonotherapp</CustomText>
+                <CustomText fontFamily='Poppins_300Light' style={styles.text}>fonotherApp</CustomText>
                 <CustomText style={styles.text}>{`Olá ${user.nick_name}, Envie seu Feedback`}</CustomText>
                 <TextArea
                     multiline

@@ -1,1 +1,1 @@
-export const videoUrl =  "https://api.fonotherapp.com.br/videos/"
+export const videoUrl =  "https://api.fonotherApp.com.br/videos/"

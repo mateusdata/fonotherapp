@@ -20,7 +20,7 @@ const Help = () => {
   const handlePressEmail = async () => {
     const email = 'fonoterapp@gmail.com';
     const subject = 'Ajuda com o app Fonotheapp';
-    const body = 'Olá, preciso de assistência com o app Fonotherapp.';
+    const body = 'Olá, preciso de assistência com o app fonotherApp.';
     const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     const canOpen = await Linking.canOpenURL(url);
     if (canOpen) {

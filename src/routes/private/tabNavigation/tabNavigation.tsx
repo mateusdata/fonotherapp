@@ -94,7 +94,7 @@ export default function MyComponent() {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ flexDirection: "row", gap: 1 }}>
                   <Text style={{ color: "white", fontSize: 20, fontWeight: 600 }}>Fonother</Text>
-                  <Text style={{ color: "white", fontSize: 20, fontWeight: 600 }}>app</Text>
+                  <Text style={{ color: "white", fontSize: 20, fontWeight: 600 }}>App</Text>
                 </View>
                 <Image resizeMode='contain' style={{ width: 40, height: 40, right: 8, bottom: 1 }} source={require("../../../assets/images/logo.png")} />
               </View>

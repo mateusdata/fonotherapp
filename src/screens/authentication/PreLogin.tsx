@@ -36,7 +36,7 @@ const PreLogin = ({ navigation }: any) => {
 
                     <Animatable.View animation="fadeInLeft">
                         <CustomText fontFamily="Poppins_600SemiBold" style={{ color: "#3b3d3d", fontSize: 25, textAlign: "center", paddingTop: 15 }}>
-                            Descubra o seu melhor com o Fonotherapp
+                            Descubra o seu melhor com o fonotherApp
                         </CustomText>
                         <CustomText style={{ fontSize: 16, textAlign: "center" }}>
                             Explore um mundo de saúde e Tenha controle dos seus pacientes com o nosso app de

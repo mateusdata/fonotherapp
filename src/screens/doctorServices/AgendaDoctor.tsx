@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Modal, TextInput, Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Agenda } from 'react-native-calendars';
+import { Agenda, CalendarProvider } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorPrimary } from '../../style/ColorPalette';
 import dayjs from 'dayjs';
@@ -80,28 +80,36 @@ const AgendaDoctor = () => {
 
   return (
     <View style={styles.container}>
-      <Agenda
-        items={agendaItems}
-        renderItem={(item) => (
-          <View style={styles.item}>
-            <Text style={styles.itemText}>{item.name}</Text>
-            <Text style={styles.itemTime}>{item.time}</Text>
-          </View>
-        )}
-        renderEmptyDate={() => (
-          <View style={styles.emptyDate}>
-            <Text>Sem eventos para este dia!</Text>
-          </View>
-        )}
-        theme={{
-          agendaDayTextColor: '#4A90E2',
-          agendaDayNumColor: '#4A90E2',
-          agendaTodayColor: '#D32F2F',
-          agendaKnobColor: '#FFC107',
-        }}
-        onDayPress={handleDayPress}
-      />
 
+      <CalendarProvider 
+      date='2024-10-24'
+
+      >
+
+
+        <Agenda
+          showClosingKnob
+          items={agendaItems}
+          renderItem={(item) => (
+            <View style={styles.item}>
+              <Text style={styles.itemText}>{item.name}</Text>
+              <Text style={styles.itemTime}>{item.time}</Text>
+            </View>
+          )}
+          renderEmptyDate={() => (
+            <View style={styles.emptyDate}>
+              <Text>Sem eventos para este dia!</Text>
+            </View>
+          )}
+          theme={{
+            agendaDayTextColor: '#4A90E2',
+            agendaDayNumColor: '#4A90E2',
+            agendaTodayColor: '#D32F2F',
+            agendaKnobColor: '#FFC107',
+          }}
+          onDayPress={() => alert("OIii")}
+        />
+      </CalendarProvider>
       <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)} contentContainerStyle={styles.modal}>
         <Text style={styles.modalTitle}>Novo Evento em {dayjs(newEvent.date).format("DD/MM/YYYY")}</Text>
         <TextInput

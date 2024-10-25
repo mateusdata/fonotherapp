@@ -2,11 +2,10 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastAndroid } from 'react-native';
 import { colorRed } from '../style/ColorPalette';
-import Toast from 'react-native-toast-message';
 import { showToast } from '../utils/showToast';
 
 const api = axios.create({
-  baseURL: 'api.fonotherApp.com.br',
+  baseURL: 'https://api.fonotherapp.com.br',
 });
 
 let isSessionExpiredToastShown = false; 

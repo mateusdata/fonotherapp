@@ -128,14 +128,7 @@ export default function Videos({ navigation }) {
 
       <Segmenteds />
 
-      <FlatList
-        data={videosFono}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => renderItem({ item })}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-      />
-
+     
       <Sheet
         modal
         open={modalVisible}

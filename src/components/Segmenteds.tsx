@@ -3,23 +3,24 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 
 const Segmenteds = () => {
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState('Categoria1');
 
   return (
     <SafeAreaView style={styles.container}>
       <SegmentedButtons
         value={value}
         onValueChange={setValue}
+        
         buttons={[
           {
-            value: 'walk',
-            label: 'Walking',
+            value: 'Categoria1',
+            label: 'Categoria1',
           },
           {
-            value: 'train',
-            label: 'Transit',
+            value: 'Categoria2',
+            label: 'Categoria2',
           },
-          { value: 'drive', label: 'Driving' },
+          { value: 'Categoria3', label: 'Categoria3' },
         ]}
       />
     </SafeAreaView>

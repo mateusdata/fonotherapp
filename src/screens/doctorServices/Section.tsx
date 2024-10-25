@@ -22,6 +22,7 @@ import { urlPosterSouce } from '../../utils/urlPosterSource';
 import LabelInput from '../../components/LabelInput';
 import Toast from '../../components/toast';
 import { videoUrl } from '../../utils/videoUrl';
+import Segmenteds from '../../components/Segmenteds';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
@@ -246,13 +247,15 @@ export default function Section({ navigation }) {
           style={{ marginBottom: 10 }}
 
         />
-
+  
         <FlatList
           data={videosFono}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => renderItem({ item })}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
+          ListHeaderComponent={<Segmenteds />} 
+
         />
 
         <Sheet

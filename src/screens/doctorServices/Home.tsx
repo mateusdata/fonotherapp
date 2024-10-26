@@ -12,6 +12,7 @@ import SkelectonSmall from '../../components/SkelectonSmall';
 import Toast from '../../components/toast';
 import { colorPrimary } from '../../style/ColorPalette';
 import { handleShareApp } from '../../utils/handleShareApp';
+const { width, height } = Dimensions.get('window');
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [totalPacient, setTotalPacient] = useState<any>('');
@@ -21,8 +22,6 @@ const Home = ({ navigation }: { navigation: any }) => {
   const [mensageToast, setMensageToast] = useState<string>("");
   const { setThereSession, thereSession } = useContext(ContextGlobal);
   const { setIsFromRegistration } = useContext(ContextGlobal);
-  const [screenHeight, setScreenHeight] = useState(Dimensions.get('window').height);
-
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
@@ -70,9 +69,9 @@ const Home = ({ navigation }: { navigation: any }) => {
   };
 
   const renderButton = (icon: any, label: string, onPress: () => void) => (
-    <Pressable onPress={onPress} style={[styles.button, {}]}>
+    <Pressable onPress={onPress} style={[styles.button, {  }]}>
       <View style={{ flex: 0.5, borderWidth: 0, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
-        <AntDesign name={icon} style={{ top: 25 }} size={24} color={colorPrimary} />
+        <AntDesign name={icon} style={{ top: width  < 400 ? 22: 25 }} size={ width < 400? 22: 24} color={colorPrimary} />
       </View>
       <View style={{ flex: 0.5, borderWidth: 0, top: 8, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
         <Text style={styles.buttonText}>{label}</Text>
@@ -90,6 +89,8 @@ const Home = ({ navigation }: { navigation: any }) => {
         }
         style={styles.container}
       >
+
+       {false &&  <Text>{"Largura da tela" + width + "Largura da tela" + height}</Text>}
         <View style={styles.header}>
           <Card style={styles.card}>
             <Card.Content>
@@ -118,9 +119,9 @@ const Home = ({ navigation }: { navigation: any }) => {
           {renderButton("calendar", "Agenda", () => navigation.navigate("AgendaDoctor"))}
           {renderButton("notification", "Mural de     Avisos", () => navigation.navigate("NoticeBoard"))}
           {renderButton("filetext1", "Documentos", () => navigation.navigate("DocumentPacient"))}
-          {renderButton("wallet", "Financeiro", handleShareApp)}
+          {renderButton("wallet", "Financeiro", () => navigation.navigate("Finance"))}
           {renderButton("setting", "Configurações", () => navigation.navigate("Configuration"))}
-          
+
         </View>
 
 
@@ -168,8 +169,8 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 5,
-    width: 110,
-    height: 105,
+    width: width < 400 ? 100 : 110,
+    height: width < 400 ? 95 : 105,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,

@@ -107,7 +107,7 @@ const AgendaDoctor = () => {
             agendaTodayColor: '#D32F2F',
             agendaKnobColor: '#FFC107',
           }}
-          onDayPress={() => alert("OIii")}
+          onDayPress={handleDayPress}
         />
       </CalendarProvider>
       <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)} contentContainerStyle={styles.modal}>

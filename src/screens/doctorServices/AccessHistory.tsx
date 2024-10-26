@@ -56,7 +56,7 @@ export default function AccessHistory({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Histórico de Acesso</Text>
+     {false &&  <Text style={styles.title}>Histórico de Acesso</Text>}
 
       <View style={styles.listContainer}>
         <FlatList

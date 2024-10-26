@@ -70,7 +70,7 @@ export default function DocumentPacient({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Últimos relatórios</Text>
+     { false &&  <Text style={styles.title}>Últimos relatórios</Text>}
 
       <View style={styles.listContainer}>
         <FlatList

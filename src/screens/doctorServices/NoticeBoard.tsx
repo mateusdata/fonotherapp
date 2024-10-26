@@ -13,6 +13,7 @@ const App = () => {
   const [dateString, setDateString] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -89,12 +90,28 @@ const App = () => {
     setShowDatePicker(true);
   };
 
+  const showTimePickerModal = () => {
+    setShowTimePicker(true);
+  };
+
   const onDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (event.type === 'set') {
       const currentDate = selectedDate || date;
       setDate(currentDate);
       setDateString(currentDate.toISOString());
+    }
+  };
+
+  const onTimeChange = (event: any, selectedTime?: Date) => {
+    setShowTimePicker(false);
+    if (event.type === 'set') {
+      const currentTime = selectedTime || date;
+      const updatedDate = new Date(date);
+      updatedDate.setHours(currentTime.getHours());
+      updatedDate.setMinutes(currentTime.getMinutes());
+      setDate(updatedDate);
+      setDateString(updatedDate.toISOString());
     }
   };
 
@@ -128,14 +145,34 @@ const App = () => {
                 style={styles.input}
               />
             </TouchableOpacity>
+            <TouchableOpacity onPress={showTimePickerModal}>
+              <TextInput
+                mode='outlined'
+                activeOutlineColor={colorPrimary}
+                label="Hora do Aviso"
+                value={dateString ? new Date(dateString).toLocaleTimeString() : ''}
+                editable={false}
+                style={styles.input}
+              />
+            </TouchableOpacity>
 
             {showDatePicker && (
               <DateTimePicker
                 value={date}
-                mode="datetime"
+                mode="date"
                 is24Hour={true}
                 display="default"
                 onChange={onDateChange}
+              />
+            )}
+
+            {showTimePicker && (
+              <DateTimePicker
+                value={date}
+                mode="time"
+                is24Hour={true}
+                display="default"
+                onChange={onTimeChange}
               />
             )}
 

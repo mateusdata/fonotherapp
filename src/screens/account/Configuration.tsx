@@ -21,28 +21,20 @@ export default function Configuration() {
   const navigation = useNavigation<any>();
 
   const handleOptionPress = async (name: string) => {
-    switch (name) {
-      case 'Notificações':
-      case 'Permissões do App':
-        // Abrir configurações do aplicativo
-        const url = Platform.OS === 'android' 
-          ? 'app-settings:' 
-          : 'app-settings:';
-        Linking.openURL(url);
-        break;
-      case 'Segurança':
-        navigation.navigate('SecuritySettings'); // Navegar para a tela de segurança
-        break;
-      case 'Checar Atualizações':
-        // Abrir Play Store ou App Store
-        const appStoreUrl = Platform.OS === 'android'
-          ? 'https://play.google.com/store/apps/details?id=com.seuapp' // Substitua 'com.seuapp' pelo seu ID do pacote
-          : 'https://apps.apple.com/app/idSEU_APP_ID'; // Substitua 'SEU_APP_ID' pelo ID do seu aplicativo na App Store
-        Linking.openURL(appStoreUrl);
-        break;
-      default:
-        Alert.alert('Opção Selecionada', `Você clicou em: ${name}`);
+    if(name === "Segurança"){
+      navigation.navigate('SecuritySettings'); 
     }
+    else if (name === "Checar Atualizações"){
+      const appStoreUrl = Platform.OS === 'android'
+      ? 'https://play.google.com/store/apps/details?id=com.nianticlabs.pokemongo&hl=pt_BR' 
+      : 'https://apps.apple.com/br/app/pok%C3%A9mon-go/id1094591345'; 
+     Linking.openURL(appStoreUrl);
+   
+    }
+    else{
+      Linking.openSettings().catch(err => console.error("Failed to open settings:", err))
+    }
+    
   };
 
   const renderItem = ({ item }: { item: ConfigOption }) => (

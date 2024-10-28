@@ -1,0 +1,26 @@
+appId: com.projetofono.fonotherapp
+---
+#- openLink: exp://192.168.25.91:8082
+- launchApp
+- tapOn: 
+    id: login
+
+
+- tapOn: 
+    id: email
+- inputText:
+    id: email
+    text: "mateuspele2015@gmail.com"
+- tapOn: 
+    id: password
+- inputText:
+    id: password
+    text: "123456"
+- tapOn: 
+    id: login
+- tapOn: 
+    id: conta
+- tapOn: 
+    id: logout
+    
+# Aqui essa bagaça vai entrar no app eu acho - negocio massa de mais tamaluc

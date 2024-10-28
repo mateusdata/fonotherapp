@@ -69,7 +69,7 @@ const MyAccount = ({ navigation }) => {
         </Button>
 
 
-        <Button onPress={logOut} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button testID='logout' onPress={logOut} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
           <View style={{ flexDirection: 'row', gap: 10, borderColor: 'red', borderWidth: 0, width: 130 }}>
             <SimpleLineIcons name="logout" size={23} color={colorPrimary} />
             <Text style={{ minWidth: 850, fontSize: 19, color: "#474747" }} >Sair da conta</Text>

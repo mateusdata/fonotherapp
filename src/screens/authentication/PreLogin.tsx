@@ -44,17 +44,26 @@ const PreLogin = ({ navigation }: any) => {
 
                     </Animatable.View>
                 </View>
-                <View style={{ width: "90%", marginTop: 10, gap:5 }} >
+                <View style={{ width: "90%", marginTop: 10, gap: 5 }} >
                     <View style={{ padding: 0 }}>
-                        <PrimaryButton name="Criar conta" handleButton={() => navigation.navigate("CreateAccount")} />
+                        <Button
+                        testID='create-account'
+                            style={{ padding: 5 }}
+                            buttonColor='#36B3B1'
+                            onPress={() => navigation.navigate("CreateAccount")} 
+
+                            textColor={"white"}
+                        >
+                           Criar conta
+                        </Button>
                     </View>
-                    <Button focusable mode='contained-tonal' onPress={() => navigation.navigate("Login")} style={{
+                    <Button testID='login' focusable mode='contained-tonal' onPress={() => navigation.navigate("Login")} style={{
                         borderColor: "#daebf2", backgroundColor: "#ECF2FF", padding: 2, borderWidth: 1,
                         marginTop: 6
                     }}>
                         Login
                     </Button>
-                    
+
 
                 </View>
             </View>

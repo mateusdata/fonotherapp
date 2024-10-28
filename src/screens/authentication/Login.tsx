@@ -116,6 +116,7 @@ const Login = ({ navigation }: any) => {
                     render={({ field: { onChange, onBlur, value, } }) => (
                         <TextInput
                             mode="outlined"
+                            testID='email'
                             dense
                             autoCorrect={false}                            
                             outlineColor={errors?.email? "red": "gray"}   
@@ -133,6 +134,7 @@ const Login = ({ navigation }: any) => {
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value, } }) => (
                         <TextInput
+                            testID='password'
                             mode="outlined"
                             dense
                             autoCorrect={false}                            
@@ -150,6 +152,7 @@ const Login = ({ navigation }: any) => {
 
                 <View>
                     <Button
+                        testID='login'
                         mode='contained-tonal'
                         loading={loading}
                         disabled={loading}

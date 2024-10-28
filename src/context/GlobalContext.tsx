@@ -25,7 +25,7 @@ const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
     const [location, setLocation] = useState<Location>({ latitude: null, longitude: null });
     const [thereSession, setThereSession] = useState<boolean>(false);
     const [isFromRegistration, setIsFromRegistration] = useState<boolean>(false);
-    const [isDevelopment, setIsdevelopment] = useState<boolean>(true);
+    const [isDevelopment, setIsdevelopment] = useState<boolean>(false);
     const [useBiometrics, setUseBiometrics] = useState<boolean>(false);
 
     // Recuperar o valor de useBiometrics do localStorage ao inicializar

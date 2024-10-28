@@ -1,23 +1,12 @@
 {
-  "cli": {
-    "version": ">= 10.2.1",
-    "appVersionSource": "remote"
-  },
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "credentialsSource": "local"
+      "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "credentialsSource": "remote"
+      "distribution": "internal"
     },
-    "production": {
-      "autoIncrement": true
-    }
-  },
-  "submit": {
     "production": {}
   }
 }

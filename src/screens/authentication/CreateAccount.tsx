@@ -109,6 +109,7 @@ const CreateAccount = ({ navigation }: any) => {
             render={({ field: { onChange, onBlur, value, } }) => (
               <TextInput
                 dense
+                testID='name'
                 mode="outlined"
                 autoFocus
                 activeOutlineColor={colorPrimary}
@@ -129,6 +130,7 @@ const CreateAccount = ({ navigation }: any) => {
             render={({ field: { onChange, onBlur, value, } }) => (
               <TextInput
                 dense
+                testID='email'
                 mode="outlined"
                 activeOutlineColor={colorPrimary}
                 error={!!errors.email}
@@ -152,6 +154,7 @@ const CreateAccount = ({ navigation }: any) => {
             render={({ field: { onChange, onBlur, value, } }) => (
               <TextInput
                 dense
+                testID='password'
                 mode="outlined"
                 activeOutlineColor={colorPrimary}
                 error={!!errors.password}
@@ -167,6 +170,7 @@ const CreateAccount = ({ navigation }: any) => {
           <ErrorMessage name={"password"} errors={errors} />
 
           <Button
+            testID='create-account'
             disabled={loading}
             loading={loading}
             buttonColor='#36B3B1'

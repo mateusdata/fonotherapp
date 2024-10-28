@@ -84,7 +84,7 @@ export default function MyComponent() {
           options={{
             tabBarLabel: 'Início',
             tabBarIcon: ({ color, size,focused }) => {
-              return <Icon name="home" size={size} color={!focused? colorPrimary: "#2A9095"}/>;
+              return <Icon testID='home' name="home" size={size} color={!focused? colorPrimary: "#2A9095"}/>;
             },
             tabBarActiveTintColor: "white",
             tabBarActiveBackgroundColor: "white",
@@ -99,7 +99,8 @@ export default function MyComponent() {
                 <Image resizeMode='contain' style={{ width: 40, height: 40, right: 8, bottom: 1 }} source={require("../../../assets/images/logo.png")} />
               </View>
             ),
-            headerTintColor: "white"
+            headerTintColor: "white",
+             tabBarTestID:"home"
           }}
         />
         <Tab.Screen
@@ -108,11 +109,12 @@ export default function MyComponent() {
           options={{
             tabBarLabel: 'Exercícios',
             tabBarIcon: ({ color, size, focused }) => {
-              return <Icon name="video" size={size} color={!focused? colorPrimary: "#2A9095"} />;
+              return <Icon testID='videos' name="video" size={size} color={!focused? colorPrimary: "#2A9095"} />;
             },
             headerShown: true,
             headerTitleAlign: "left",
-            headerTintColor: "white"
+            headerTintColor: "white",
+            tabBarTestID:"videos",
           }}
         />
 
@@ -122,11 +124,12 @@ export default function MyComponent() {
           options={{
             tabBarLabel: 'Conta',
             tabBarIcon: ({ color, size, focused}) => {
-              return <Icon name="account" size={size} color={!focused? colorPrimary: "#2A9095"} />;
+              return <Icon testID='conta' name="account" size={size} color={!focused? colorPrimary: "#2A9095"} />;
             },
             headerShown: true,
             headerTitleAlign: "left",
-            headerTitle: ""
+            headerTitle: "",
+            tabBarTestID:"conta"
           }}
         />
       </Tab.Navigator>

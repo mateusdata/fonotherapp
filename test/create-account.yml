@@ -1,0 +1,21 @@
+appId: com.projetofono.fonotherapp
+---
+- repeat:
+    times: 2
+    commands:
+      - launchApp  # Abre o aplicativo no início de cada repetição
+      - tapOn: 
+          id: create-account
+      - tapOn: 
+          id: name
+      - inputRandomPersonName
+      - tapOn: 
+          id: email
+      - inputRandomEmail
+      - tapOn: 
+          id: password
+      - inputText:
+          id: password
+          text: "123456"
+      - tapOn: 
+          id: create-account

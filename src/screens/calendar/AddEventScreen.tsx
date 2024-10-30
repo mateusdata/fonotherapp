@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Pressable, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Pressable, ToastAndroid, Platform } from 'react-native';
 import { colorPrimary } from '../../style/ColorPalette';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { api } from '../../config/Api';
 import { Context } from '../../context/AuthProvider';
+import { WelcomeNotification } from '../../utils/WelcomeNotification';
 
 dayjs.locale('pt-br');
 
@@ -29,7 +30,9 @@ const AddEventScreen = ({ navigation }) => {
 
     const handleTimeChange = (event, selectedTime) => {
         const currentTime = selectedTime || new Date();
+       if(Platform.OS==="android"){
         setShowTimePicker(false);
+       }
         setNewEvent({
             ...newEvent,
             time: dayjs(currentTime).format('HH:mm'),
@@ -37,7 +40,10 @@ const AddEventScreen = ({ navigation }) => {
     };
 
     const onDateChange = (event, selectedDate) => {
-        setShowDatePicker(false);
+      
+        if(Platform.OS==="android"){
+            setShowDatePicker(false);
+           }
         if (event.type === 'set') {
             const currentDate = selectedDate || date;
             setDate(currentDate);
@@ -91,7 +97,10 @@ const AddEventScreen = ({ navigation }) => {
             }
             );
             console.log(response.data);
+            WelcomeNotification(`Evento criado`,`seu evento é:  ${title}`, 20 )
+           if(Platform.OS==="android"){
             ToastAndroid.show("Evento criado", ToastAndroid.BOTTOM)
+           }
             navigation.goBack()
 
         } catch (error) {
@@ -160,7 +169,8 @@ const AddEventScreen = ({ navigation }) => {
                     <DateTimePicker
                         value={new Date()}
                         mode="time"
-                        display="default"
+                        style={{backgroundColor:"white"}}
+                        display={Platform.OS === "ios" ? "spinner" :"default"}
                         onChange={handleTimeChange}
                     />
                 )}
@@ -170,7 +180,7 @@ const AddEventScreen = ({ navigation }) => {
                         value={date}
                         mode="date"
                         is24Hour={true}
-                        display="default"
+                        display={Platform.OS === "ios" ? "default" :"default"}
                         onChange={onDateChange}
                         minimumDate={new Date()}
                     />

@@ -104,7 +104,7 @@ const App = () => {
   };
 
   const onTimeChange = (event: any, selectedTime?: Date) => {
-    setShowTimePicker(false);
+    showTimePickerModal();
     if (event.type === 'set') {
       const currentTime = selectedTime || date;
       const updatedDate = new Date(date);

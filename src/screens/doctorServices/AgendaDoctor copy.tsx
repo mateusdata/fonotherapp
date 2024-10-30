@@ -98,7 +98,7 @@ const AgendaDoctor = () => {
           )}
           renderEmptyDate={() => (
             <View style={styles.emptyDate}>
-              <Text>Sem eventos para este dia!</Text>
+              <Text>Sem eventos para este disa!</Text>
             </View>
           )}
           theme={{
@@ -134,6 +134,8 @@ const AgendaDoctor = () => {
           />
         )}
       </Modal>
+
+     
     </View>
   );
 };

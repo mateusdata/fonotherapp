@@ -116,7 +116,7 @@ const Home = ({ navigation }: { navigation: any }) => {
           {renderButton("addusergroup", "Acompanhar", () => navigation.navigate("AccompanyPatient"))}
           {renderButton("check", "Concluir Cadastro", () => navigation.navigate("PacientUnansweredQuestions"))}
           {renderButton("clockcircleo", "Historico           de acesso", () => navigation.navigate("AccessHistory"))}
-          {renderButton("calendar", "Agenda", () => navigation.navigate("AgendaDoctor"))}
+          {renderButton("calendar", "Agenda", () => navigation.navigate("CalendarScreen"))}
           {renderButton("notification", "Mural de     Avisos", () => navigation.navigate("NoticeBoard"))}
           {renderButton("filetext1", "Documentos", () => navigation.navigate("DocumentPacient"))}
           {renderButton("wallet", "Financeiro", () => navigation.navigate("Finance"))}

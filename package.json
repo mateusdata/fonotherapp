@@ -71,7 +71,8 @@
     "tamagui": "^1.76.0",
     "validator": "^13.12.0",
     "yup": "^1.4.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "expo-calendar": "~13.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

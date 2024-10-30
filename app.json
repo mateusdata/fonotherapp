@@ -53,19 +53,7 @@
       "policy": "appVersion"
     },
     "plugins": [
-      [
-        "expo-local-authentication",
-        {
-          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
-        }
-      ],
-      "expo-video",
-      [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps.864119244538-3di8ur7li5egpo6k7pe24qscqtr1gm16"
-        }
-      ]
+      
     ],
     "extra": {
       "eas": {

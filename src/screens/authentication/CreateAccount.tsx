@@ -4,7 +4,7 @@ import { Button, TextInput } from 'react-native-paper';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup"
-import { WelcomeNotification } from '../../utils/WelcomeNotification';
+import { WelcomeNotification } from '../../utils/AgendaNotification';
 
 import { api } from '../../config/Api';
 import CustomText from '../../components/customText';

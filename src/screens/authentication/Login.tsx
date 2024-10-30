@@ -41,7 +41,7 @@ const Login = ({ navigation }: any) => {
     const [loading, setLoading] = useState(false);
     const { watch, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            email: isDevelopment ? "mateuspele2015@gmail.com" : "",
+            email: isDevelopment ? "doutor@gmail.com" : "",
             password: isDevelopment ? "123456" : ""
         },
         mode: "onSubmit",

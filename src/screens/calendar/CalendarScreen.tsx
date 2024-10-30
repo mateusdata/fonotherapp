@@ -14,11 +14,14 @@ const AgendaScreen = () => {
 
   async function fetchData() {
     try {
-      const response = await api.get("/appointments");
+      const response = await api.get("/appointments/?page=1&pageSize=10000");
       console.log('Response from API:', response.data);
       const { formattedItems, markedDates } = makeDates(response.data.data);
       setItems(formattedItems);
       setMarkedDates(markedDates); // Atualiza o estado com as datas marcadas
+      const d =  markedDates
+      console.log("Imprimando os eventros criados \n", d);
+      
     } catch (error) {
       console.error(error);
     }

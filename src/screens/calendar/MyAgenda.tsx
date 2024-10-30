@@ -5,6 +5,8 @@ import { api } from '../../config/Api';
 import { FlatList } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export default function MyAppointments({ navigation }) {
   const [appointments, setAppointments] = useState([]);
@@ -43,6 +45,8 @@ export default function MyAppointments({ navigation }) {
       appointment.title.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredAppointments(results);
+    console.log(results);
+    
   }, [search, appointments]);
 
   const renderFooter = () => {
@@ -79,19 +83,23 @@ export default function MyAppointments({ navigation }) {
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.1}
           ListFooterComponent={renderFooter}
-          renderItem={({ item }) => (
-            <Pressable
-              style={styles.pressable}
-              onPress={() => handleProfile(item)}
-              key={item.app_id}>
-              <List.Item
-                title={item.title}
-                description={`Data: ${dayjs(item.time).format('DD/MM/YYYY - HH:mm')}`}
-                left={(props) => <List.Icon {...props} icon="calendar" />} // Ícone de calendário
-              />
-              <Divider />
-            </Pressable>
-          )}
+          renderItem={({ item }) => {
+            // Cria um objeto dayjs em UTC
+            const date = dayjs.utc(item.time);        
+            return (
+              <Pressable
+                style={styles.pressable}
+                onPress={() => handleProfile(item)}
+                key={item.app_id}>
+                <List.Item
+                  title={item.title}
+                  description={`${date.format('ddd, D [de] MMM [de] YYYY')} - ${date.format('HH:mm')}`}
+                  left={(props) => <List.Icon {...props} icon="calendar" />} 
+                />
+                <Divider />
+              </Pressable>
+            );
+          }}
         />
       </View>
     </View>

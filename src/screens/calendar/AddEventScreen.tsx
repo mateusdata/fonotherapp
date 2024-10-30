@@ -5,45 +5,31 @@ import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
 import { api } from '../../config/Api';
 import { Context } from '../../context/AuthProvider';
-import { WelcomeNotification } from '../../utils/WelcomeNotification';
-
+import { AgendaNotification } from '../../utils/AgendaNotification';
+import 'dayjs/locale/pt-br';
 dayjs.locale('pt-br');
 
 const AddEventScreen = ({ navigation }) => {
     const [isAllDay, setIsAllDay] = useState(true);
     const [title, setTitle] = useState('');
     const [details, setDetails] = useState('');
-    const { user } = useContext(Context)
+    const { user } = useContext(Context);
     const [newEvent, setNewEvent] = useState({
         title: "",
         description: "",
         date: new Date(),
-        time: dayjs(new Date()).format('HH:mm'),
     });
 
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
     const [date, setDate] = useState(new Date());
 
-    const handleTimeChange = (event, selectedTime) => {
-        const currentTime = selectedTime || new Date();
-       if(Platform.OS==="android"){
-        setShowTimePicker(false);
-       }
-        setNewEvent({
-            ...newEvent,
-            time: dayjs(currentTime).format('HH:mm'),
-        });
-    };
-
     const onDateChange = (event, selectedDate) => {
-      
-        if(Platform.OS==="android"){
+        if (Platform.OS === "android") {
             setShowDatePicker(false);
-           }
+        }
         if (event.type === 'set') {
             const currentDate = selectedDate || date;
             setDate(currentDate);
@@ -54,61 +40,55 @@ const AddEventScreen = ({ navigation }) => {
         }
     };
 
-    const showDatePickerModal = () => {
-        setShowDatePicker(true);
+    const onTimeChange = (event, selectedTime) => {
+        if (Platform.OS === "android") {
+            setShowTimePicker(false);
+        }
+        if (event.type === 'set') {
+            const currentTime = selectedTime || date;
+            const updatedDateTime = dayjs(newEvent.date)
+                .hour(currentTime.getHours())
+                .minute(currentTime.getMinutes())
+                .toDate();
+            setDate(updatedDateTime);
+            setNewEvent({
+                ...newEvent,
+                date: updatedDateTime,
+            });
+        }
     };
 
-    const showTimePickerModal = () => {
-        setShowTimePicker(true);
-    };
-
+    const showDatePickerModal = () => setShowDatePicker(true);
+    const showTimePickerModal = () => setShowTimePicker(true);
 
     async function createEvent() {
         try {
-
-
-            if (!newEvent || !newEvent.date || !newEvent.time) {
+            if (!newEvent || !newEvent.date) {
                 alert("Evento inválido. Verifique os dados.");
                 return;
             }
 
-            const date = dayjs(newEvent.date);
-            const timeParts: any = newEvent.time.split(':');
-            const time = dayjs().hour(timeParts[0]).minute(timeParts[1]);
-
-            if (!date.isValid()) {
-                alert("Data inválida.");
-                return;
-            }
-            if (!time.isValid()) {
-                alert("Hora inválida.");
-                return;
-            }
-
-            const updatedDate = date.hour(time.hour()).minute(time.minute()).toISOString();
-
-            const formattedDate = date.format("YYYY-MM-DD");
-            console.log(formattedDate) 
-            //que gambiarra da peste isso aqui pelo amor de Deus bichu
+            const fullDateTime = dayjs(newEvent.date).format("YYYY-MM-DD HH:mm:ss");
+             console.log(fullDateTime);
             
             const response = await api.post("/appointment", {
                 title: title,
-                time: formattedDate
-            }
-            );
+                time: fullDateTime
+            });
             console.log(response.data);
-            WelcomeNotification(`Evento criado`,`seu evento é:  ${title}`, 20 )
-           if(Platform.OS==="android"){
-            ToastAndroid.show("Evento criado", ToastAndroid.BOTTOM)
-           }
-            navigation.goBack()
+
+            AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20 , fullDateTime);
+
+            if (Platform.OS === "android") {
+                ToastAndroid.show("Evento criado", ToastAndroid.BOTTOM);
+            }
+            navigation.goBack();
 
         } catch (error) {
             console.error("Erro ao criar o evento:", error);
             alert("Ocorreu um erro ao criar o evento.");
         }
     }
-
 
     return (
         <View style={styles.container}>
@@ -159,36 +139,33 @@ const AddEventScreen = ({ navigation }) => {
                             {dayjs(newEvent.date).format('ddd, D [de] MMM [de] YYYY')}
                         </Text>
                     </Pressable>
-
                     <Pressable onPress={showTimePickerModal}>
-                        <Text style={styles.sectionTitle}>{newEvent.time}</Text>
+                        <Text style={styles.sectionTitle}>
+                            {dayjs(newEvent.date).format('HH:mm')}
+                        </Text>
                     </Pressable>
                 </View>
-
-                {showTimePicker && (
-                    <DateTimePicker
-                        value={new Date()}
-                        mode="time"
-                        style={{backgroundColor:"white"}}
-                        display={Platform.OS === "ios" ? "spinner" :"default"}
-                        onChange={handleTimeChange}
-                    />
-                )}
 
                 {showDatePicker && (
                     <DateTimePicker
                         value={date}
                         mode="date"
                         is24Hour={true}
-                        display={Platform.OS === "ios" ? "default" :"default"}
+                        display={Platform.OS === "ios" ? "default" : "default"}
                         onChange={onDateChange}
                         minimumDate={new Date()}
                     />
                 )}
 
-                {false && <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Não se repete</Text>
-                </View>}
+                {showTimePicker && (
+                    <DateTimePicker
+                        value={date}
+                        mode="time"
+                        is24Hour={true}
+                        display={Platform.OS === "ios" ? "default" : "default"}
+                        onChange={onTimeChange}
+                    />
+                )}
 
                 <View style={styles.addDetailsButton}>
                     <View style={styles.header}>
@@ -199,7 +176,6 @@ const AddEventScreen = ({ navigation }) => {
                             onChangeText={setDetails}
                         />
                     </View>
-                    {false && <Text>{dayjs(details).format('DD/MM/YYYY HH:mm')}</Text>}
                 </View>
             </ScrollView>
         </View>

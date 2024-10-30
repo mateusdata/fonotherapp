@@ -1,0 +1,32 @@
+appId: com.projetofono.fonotherapp
+---
+
+
+# Fazendo teste com campos nulos
+- launchApp
+- tapOn: 
+    id: login
+- tapOn: 
+    id: email
+- inputText:
+    id: email
+    text: "email_invalido@gmail.com"  # Insira um e-mail inválido
+- tapOn: 
+    id: password
+- inputText:
+    id: password
+    text: "senha_errada"  # Insira uma senha incorreta
+- tapOn: 
+    id: login
+
+# Limpando os campos
+- tapOn: 
+    id: password
+- eraseText
+- tapOn: 
+    id: email
+
+# Selecionar todo o texto antes de apagar
+- longPressOn: 
+    id: email  # Pressiona longamente para ativar a seleção
+- eraseText

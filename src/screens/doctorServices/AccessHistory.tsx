@@ -13,7 +13,9 @@ export default function AccessHistory({ navigation }) {
   const { setPac_id } = useContext(ContextPacient);
   const [sessionsHistory, setSessionsHistory] = useState([]);
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false); const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); 
+  const [hasMore, setHasMore] = useState(true);
+  const [isEmpty, setIsEmpty]  =  useState<boolean>(false)
 
   async function fetchSessions() {
     if (isLoading || !hasMore) return;
@@ -30,6 +32,7 @@ export default function AccessHistory({ navigation }) {
 
     } catch (error) {
       console.log(error);
+      
     } finally {
       setIsLoading(false);
     }

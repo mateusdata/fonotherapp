@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
 import { ContextPacient } from '../../context/PacientContext';
 import downloadPDF from '../../utils/downloadPDF';
+import NotFoudMessageList from '../../components/NotFoudMessageList';
 
 export default function DocumentPacient({ navigation }) {
   const { user, accessToken } = useContext(Context);
@@ -17,10 +18,12 @@ export default function DocumentPacient({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [isEmpty, setIsEmpty]  =  useState<boolean>(false)
 
   async function fetchSessions() {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
+    setIsEmpty(false)
     try {
       const response = await api.get(`reports?page=${page}&pageSize=20`);
       const newSessions = response.data.data;
@@ -29,9 +32,16 @@ export default function DocumentPacient({ navigation }) {
         setHasMore(false);
       } else {
         setSessionsHistory(prevSessions => [...prevSessions, ...newSessions]);
+        setIsEmpty(false)
+
       }
     } catch (error) {
-      console.error('Erro ao buscar os relatórios:', error);
+      if (error.response?.status === 404) {
+        setHasMore(false); 
+        setIsEmpty(true)
+      } else {
+        console.error('Erro ao buscar os relatórios:', error);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -68,6 +78,10 @@ export default function DocumentPacient({ navigation }) {
     }
   };
 
+  if(isEmpty){
+    return <NotFoudMessageList/>
+  }
+
   return (
     <View style={styles.container}>
      { false &&  <Text style={styles.title}>Últimos relatórios</Text>}
@@ -75,7 +89,7 @@ export default function DocumentPacient({ navigation }) {
       <View style={styles.listContainer}>
         <FlatList
           data={sessionsHistory}
-          keyExtractor={(item) => item?.rep_id?.toString()} // Use rep_id como key
+          keyExtractor={(item) => item?.rep_id?.toString()}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.1}
           ListFooterComponent={renderFooter}

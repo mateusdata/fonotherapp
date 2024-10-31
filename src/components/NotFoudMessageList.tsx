@@ -1,29 +1,31 @@
 import React from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
 import { View } from 'react-native-animatable';
-import { Image, ScrollView, StyleSheet, Text } from 'react-native';
-const NotFouundGIf = require("../assets/images/marca.png");
+import { Image,  StyleSheet, Text } from 'react-native';
+const NotFouundGIf = require("../assets/images/notFound.gif");
 
 export default function NotFoudMessageList() {
     return (
-        <ScrollView style={styles.button} >
-            <Image source={NotFouundGIf}
-                resizeMode='contain'
+        <View style={styles.button} >
+            <Image source={{uri:"https://cdni.iconscout.com/illustration/premium/thumb/not-found-illustration-download-in-svg-png-gif-file-formats--404-error-page-pack-network-communication-illustrations-6167023.png"}}
+                resizeMode='cover'
                 style={styles.image} />
-            <Text>Nenhum conteúdo encontrado</Text>
-        </ScrollView>
+            <Text style={styles.text}>Nenhum conteúdo encontrado</Text>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     button: {
-        flex:1,
-        padding: 10,
+        padding: 20,
+        justifyContent:"center",
+        alignItems:"center"
        
     },
     image: {
-        flex: 1,
-        width: 200,
+        width: "80%",
         height: 200
+    },
+    text:{
+        fontSize:18
     }
 });

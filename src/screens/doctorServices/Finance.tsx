@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
 import { ContextPacient } from '../../context/PacientContext';
 import downloadPDF from '../../utils/downloadPDF';
+import NotFoudMessageList from '../../components/NotFoudMessageList';
 
 export default function Finance({ navigation }) {
     const { user, accessToken } = useContext(Context);
@@ -17,6 +18,7 @@ export default function Finance({ navigation }) {
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [isEmpty, setIsEmpty]  =  useState<boolean>(false)
 
     async function fetchSessions() {
         if (isLoading || !hasMore) return;
@@ -31,7 +33,12 @@ export default function Finance({ navigation }) {
                 setSessionsHistory(prevSessions => [...prevSessions, ...newSessions]);
             }
         } catch (error) {
-            console.error('Erro ao buscar os relatórios:', error);
+            if (error.response?.status === 404) {
+                setHasMore(false); 
+                setIsEmpty(true)
+              } else {
+                console.error('Erro ao buscar os relatórios:', error);
+              }
         } finally {
             setIsLoading(false);
         }
@@ -68,6 +75,10 @@ export default function Finance({ navigation }) {
         }
     };
 
+
+    if(isEmpty){
+        return <NotFoudMessageList/>
+      }
     return (
         <View style={styles.container}>
            {false && <Text style={styles.title}>Relatórios financeiros</Text>}

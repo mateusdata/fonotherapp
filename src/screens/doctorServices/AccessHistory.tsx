@@ -7,6 +7,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
 import { ContextPacient } from '../../context/PacientContext';
+import NotFoudMessageList from '../../components/NotFoudMessageList';
 
 export default function AccessHistory({ navigation }) {
   const { user } = useContext(Context);
@@ -23,15 +24,25 @@ export default function AccessHistory({ navigation }) {
     try {
       const response = await api.get(`last-appointents/${user?.doctor?.doc_id}?page=${page}&pageSize=14`);
       const newSessions = response.data.data;
-
+      console.log(response.data.data);
+      
       if (newSessions.length === 0) {
         setHasMore(false);
+        setIsEmpty(true)
       } else {
         setSessionsHistory(prevSessions => [...prevSessions, ...newSessions]);
       }
 
+      
+
     } catch (error) {
       console.log(error);
+      if (error.response?.status === 404) {
+        setHasMore(false); 
+        setIsEmpty(true)
+      } else {
+        console.error('Erro ao buscar os relatórios:', error);
+      }
       
     } finally {
       setIsLoading(false);
@@ -56,6 +67,11 @@ export default function AccessHistory({ navigation }) {
       setPage(prevPage => prevPage + 1);
     }
   };
+
+
+  if(isEmpty){
+    return <NotFoudMessageList/>
+  }
 
   return (
     <View style={styles.container}>

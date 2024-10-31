@@ -13,6 +13,7 @@ import { colorGreen, colorPrimary, colorSecundary } from '../../style/ColorPalet
 import ErrorMessage from '../../components/errorMessage'
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonView from '../../components/SkelectonView';
+import NotFoudMessageList from '../../components/NotFoudMessageList';
 
 const PacientUnansweredQuestions  = ({ navigation }) => {
 
@@ -49,15 +50,7 @@ const PacientUnansweredQuestions  = ({ navigation }) => {
                     Pacientes com cadastro incompletos
                 </CustomText>
                 :
-                <View style={{ flexDirection: "column", gap: 0 }}>
-                    <CustomText style={{ fontSize: 18, padding: 2, textAlign: "center" }}>
-                        Nenhum paciente com cadastro incompleto
-                    </CustomText>
-                    <Text style={{ textAlign: "center" }}>
-                        <AntDesign name="checkcircle" size={40} color={colorGreen} />
-                    </Text>
-
-                </View>
+                <NotFoudMessageList/>
             }
 
 

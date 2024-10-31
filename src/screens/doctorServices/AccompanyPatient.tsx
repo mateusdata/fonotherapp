@@ -20,10 +20,10 @@ const AccompanyPatient = ({ navigation }) => {
     const [isPacientsLocal, setisPacientsLocal] = useState(false);
 
 
-  
+
     const onChangeSearch = async (search) => {
 
-        setSearchQuery(search)  
+        setSearchQuery(search)
         if (search.length > 0) {
             setisPacientsLocal(false)
             try {
@@ -50,7 +50,7 @@ const AccompanyPatient = ({ navigation }) => {
     const loadData = async () => {
         try {
             const pacientesString = await AsyncStorage.getItem('pacientes');
-            if (pacientesString !== null) {
+            if (pacientesString !== null && false) {
                 setPacients(JSON.parse(pacientesString));
                 setisPacientsLocal(true)
                 const newPacient = JSON.parse(pacientesString)
@@ -77,7 +77,7 @@ const AccompanyPatient = ({ navigation }) => {
             }
             pacientesAtualizados.push(data);
 
-            await AsyncStorage.setItem('pacientes', JSON.stringify(pacientesAtualizados));
+            //await AsyncStorage.setItem('pacientes', JSON.stringify(pacientesAtualizados));
 
             setPacients(pacientesAtualizados);
 
@@ -96,11 +96,11 @@ const AccompanyPatient = ({ navigation }) => {
             console.error('Erro ao limpar LocalStorage dos pacientes:', error);
         }
     };
-async function cleanSeach() {
-    setSearchQuery("")
-    setPacients(pacients)
-    setisPacientsLocal(true)
-}
+    async function cleanSeach() {
+        setSearchQuery("")
+        setPacients([])
+        setisPacientsLocal(false)
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -115,21 +115,23 @@ async function cleanSeach() {
                     cursorColor={"gray"}
                     onClearIconPress={cleanSeach}
                 />
-
+                { pacients.length === 0 && <Text style={{ justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+                    Nenhum paciente encontrado
+                </Text>}
                 <Animatable.View animation="">
 
                     <FlatList
-                        data={isPacientsLocal? pacients?.reverse(): pacients}
+                        data={isPacientsLocal ? pacients?.reverse() : pacients}
                         style={{ top: 5, marginTop: 5, paddingLeft: 6 }}
                         keyExtractor={(item) => item?.pacient?.pac_id}
-                        renderItem={({ item, index}) => (
+                        renderItem={({ item, index }) => (
                             <Pressable onPress={() => {
                                 setPac_id(item?.pacient?.pac_id);
                                 saveLocalStorage(item)
                                 navigation.navigate("PatientProfile")
                             }} android_ripple={{ color: "#36B3B9" }}>
                                 <>
-                                    {isPacientsLocal &&  index === 0 && <Text>Útimas pesquisas</Text>}
+                                    {false && index === 0 && <Text>Útimas pesquisas</Text>}
                                     <List.Item
                                         style={{ borderBottomWidth: 0.3, borderColor: "gray", width: "96%" }}
                                         title={item?.first_name + (!item?.pacient?.food_profile ? "❓" : "")}
@@ -145,7 +147,7 @@ async function cleanSeach() {
 
             </Animatable.View>
 
-            {pacients?.length ?
+            {pacients?.length && false ?
                 <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
                     <Button icon="delete"
                         buttonColor={colorRed} mode="contained" onPress={cleanLocalStorage}>

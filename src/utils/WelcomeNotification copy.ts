@@ -1,7 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import dayjs from 'dayjs'; // Certifique-se de importar dayjs
 
-export const WelcomeNotification = async (title: string, message: string, delay: number, date: string) => {
+export const WelcomeNotification = async (title: string, message: string, delay: number, date?: string) => {
   // Passo 1: Solicitar permissão para notificações
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
@@ -38,9 +38,6 @@ export const WelcomeNotification = async (title: string, message: string, delay:
       vibrate: [10, 2000], // Vibra uma vez por 500ms
       data: { example: 'data' }
     },
-    trigger: {
-      // Utiliza a data convertida
-      date: notificationDate, 
-    },
+    trigger: null
   });
 };

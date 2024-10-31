@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { colorPrimary } from '../../style/ColorPalette';
 
-const App = () => {
+const NoticeBoardScreen = () => {
   const [notices, setNotices] = useState<{ id: string; title: string; date: string }[]>([]);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date());
@@ -104,7 +104,7 @@ const App = () => {
   };
 
   const onTimeChange = (event: any, selectedTime?: Date) => {
-    showTimePickerModal();
+    setShowTimePicker(false);
     if (event.type === 'set') {
       const currentTime = selectedTime || date;
       const updatedDate = new Date(date);
@@ -124,7 +124,7 @@ const App = () => {
           renderItem={renderItem}
           style={styles.list}
         />
-
+        <Text>{String(!!showTimePicker)}</Text>
         <Portal>
           <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)} contentContainerStyle={styles.modalContainer}>
             <TextInput
@@ -241,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default NoticeBoardScreen;

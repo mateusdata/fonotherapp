@@ -73,7 +73,7 @@ const AddEventScreen = ({ navigation }) => {
             
             const response = await api.post("/appointment", {
                 title: title,
-                time: fullDateTime
+                starts_at: fullDateTime
             });
             console.log(response.data);
 

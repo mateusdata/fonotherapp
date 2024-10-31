@@ -3,81 +3,75 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Agenda, CalendarProvider } from 'react-native-calendars';
 import { colorPrimary } from '../../style/ColorPalette';
 import ButtonEvents from '../../components/ButtonEvents';
-import { api } from '../../config/Api';
 import dayjs from 'dayjs';
-import '../../utils/calendarConfig';
+import { api } from '../../config/Api';
 
 const AgendaScreen = () => {
   const [items, setItems] = useState({});
-  const [markedDates, setMarkedDates] = useState({}); // Estado para as datas marcadas
+  const [markedDates, setMarkedDates] = useState({});
   const [loading, setLoading] = useState(false);
 
-  async function fetchData() {
+  
+  const fetchAppointments = async () => {
+    setLoading(true);
+
+    
+    const year = dayjs().year();
+    const month = dayjs().month() + 1; 
+
     try {
-      const response = await api.get("/appointments/?page=1&pageSize=10000");
-      console.log('Response from API:', response.data);
-      const { formattedItems, markedDates } = makeDates(response.data.data);
-      setItems(formattedItems);
-      setMarkedDates(markedDates); // Atualiza o estado com as datas marcadas
-      const d =  markedDates
-      console.log("Imprimando os eventros criados \n", d);
+      const response = await api.post("appointments-of-the-day", {
+        year,
+        month,
+      });
+
+      const data = response.data;
+      const formattedItems = {};
+      const markedDates = {};
+
       
-    } catch (error) {
-      console.error(error);
-    }
-  }
+      Object.keys(data).forEach((date) => {
+        const appointments = data[date];
 
-  // Função para formatar as datas
-  const makeDates = (appointments) => {
-    const formattedItems = {};
-    const markedDates = {};
+        formattedItems[date] = appointments.map((appointment) => ({
+          name: appointment.title,
+          time: appointment.time,
+        }));
 
-    if (Array.isArray(appointments)) {
-      appointments.forEach((item) => {
-        const date = item.time.split('T')[0]; // Obtém a data no formato 'YYYY-MM-DD'
-
-        // Adiciona o compromisso ao objeto de itens
-        if (!formattedItems[date]) {
-          formattedItems[date] = [];
-        }
-        formattedItems[date].push({ name: item.title }); // Adiciona o título ao array da data correspondente
-
-        // Adiciona a data ao objeto de datas marcadas
         markedDates[date] = {
-          marked: true, // Marca a data
-          dotColor: 'orange', // Cor do ponto
-
+          marked: true,
+          dotColor: 'orange',
         };
       });
-    } else {
-      console.error('Expected appointments to be an array but got:', appointments);
+
+      setItems(formattedItems);
+      setMarkedDates(markedDates);
+    } catch (error) {
+      console.error('Erro ao buscar eventos:', error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    console.log('Formatted items:', formattedItems);
-    console.log('Marked dates:', markedDates); // Log para verificar a estrutura das datas marcadas
-    return { formattedItems, markedDates };
-  }
-
+  
   useEffect(() => {
-    fetchData();
+    fetchAppointments();
   }, []);
 
-  const loadItemsForMonth = (month) => {
-    console.log('Trigger items loading for month: ', month);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+  const loadItemsForMonth = (date) => {
+    console.log('Carregando itens para o mês de: ', date);
+    fetchAppointments();
   };
 
   const onDayChange = (day) => {
-    console.log('Day changed: ', day);
+    console.log('Dia mudado: ', day);
   };
 
   const renderItem = (item) => {
     return (
       <View style={styles.item}>
         <Text>{item.name}</Text>
+        <Text>{item.time}</Text>
       </View>
     );
   };
@@ -89,23 +83,32 @@ const AgendaScreen = () => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{flex:1, paddingBottom:20,}}>
-        <CalendarProvider date={dayjs(new Date()).format()}>
-          <Agenda
+    <View style={{ flex: 1,  }}>
+      <View style={{ flex: 1, paddingBottom: 20 }}>
+        <CalendarProvider testID='cal-provider' date={dayjs(new Date()).format()}>
+          <Agenda            
+            showClosingKnob
             items={items}
             loadItemsForMonth={loadItemsForMonth}
             onDayChange={onDayChange}
-            selected={new Date()}
+            selected={dayjs().format('YYYY-MM-DD')}
             renderItem={renderItem}
             renderEmptyData={renderEmptyDate}
-            markedDates={markedDates} // Passar aqui
-           
+            markedDates={markedDates}
+            theme={{
+              agendaDayTextColor: '#4A90E2',
+              agendaDayNumColor: '#4A90E2',
+              agendaTodayColor: '#D32F2F',
+              agendaKnobColor: colorPrimary,
+            }}
             style={styles.agenda}
+            
           />
         </CalendarProvider>
+        <View style={{ flex: 0.34, }}>
+          <ButtonEvents />
+        </View>
       </View>
-      <ButtonEvents />
     </View>
   );
 };

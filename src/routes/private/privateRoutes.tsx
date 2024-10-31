@@ -33,7 +33,7 @@ import UpdatePacient from '../../screens/doctorServices/UpdatePacient';
 import { Ionicons } from '@expo/vector-icons'
 import AccessHistory from '../../screens/doctorServices/AccessHistory';
 import AgendaDoctor from '../../screens/doctorServices/AgendaDoctor';
-import NoticeBoard from '../../screens/doctorServices/NoticeBoard';
+import NoticeBoard from '../../screens/calendar/NoticeBoardScreen';
 import Configuration from '../../screens/account/Configuration';
 import SecuritySettings from '../../screens/account/SecuritySettings';
 import DocumentPacient from '../../screens/doctorServices/DocumentPacient';

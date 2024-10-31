@@ -1,8 +1,8 @@
 import * as Notifications from 'expo-notifications';
-import dayjs from 'dayjs'; // Certifique-se de importar dayjs
+import dayjs from 'dayjs'; 
 
 export const AgendaNotification = async (title: string, message: string, delay: number, date: string) => {
-  // Passo 1: Solicitar permissão para notificações
+  
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
   if (existingStatus !== 'granted') {
@@ -14,10 +14,10 @@ export const AgendaNotification = async (title: string, message: string, delay: 
     return;
   }
 
-  // Passo 2: Configurar o manuseio de notificações
+  
   Notifications.setNotificationHandler({
     handleNotification: async () => {
-      // Faça o que quiser com a notificação recebida
+      
       return {
         shouldShowAlert: true,
         shouldPlaySound: true,
@@ -26,20 +26,20 @@ export const AgendaNotification = async (title: string, message: string, delay: 
     },
   });
 
-  // Passo 3: Converter a data recebida de string para objeto Date
-  const notificationDate = dayjs(date).toDate(); // Converte a string em Date
+  
+  const notificationDate = dayjs(date).toDate(); 
 
-  // Passo 4: Enviar uma notificação
+  
   await Notifications.scheduleNotificationAsync({
     content: {
       title: title,
       body: message,
       sound: true,
-      vibrate: [10, 2000], // Vibra uma vez por 500ms
+      vibrate: [10, 2000], 
       data: { example: 'data' }
     },
     trigger: {
-      // Utiliza a data convertida
+      
       date: notificationDate, 
     },
   });

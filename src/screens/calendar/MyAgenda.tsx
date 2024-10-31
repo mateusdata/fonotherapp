@@ -85,7 +85,7 @@ export default function MyAppointments({ navigation }) {
           ListFooterComponent={renderFooter}
           renderItem={({ item }) => {
             // Cria um objeto dayjs em UTC
-            const date = dayjs.utc(item.time);        
+            const date = dayjs.utc(item.starts_at);        
             return (
               <Pressable
                 style={styles.pressable}

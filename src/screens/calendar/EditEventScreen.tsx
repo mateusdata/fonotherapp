@@ -12,26 +12,26 @@ import { Context } from '../../context/AuthProvider';
 dayjs.locale('pt-br');
 
 const EditEventScreen = ({ navigation, route }) => {
-    const { eventId, title: initialTitle, time: initialTime, details: initialDetails } = route.params.event; // Recebe os dados do evento
+    const { app_id, title: initialTitle, starts_at: initialTime, details: initialDetails } = route.params.event; // Recebe os dados do evento
     const [isAllDay, setIsAllDay] = useState(true);
     const [title, setTitle] = useState(initialTitle);
     const [details, setDetails] = useState(initialDetails);
     const { user } = useContext(Context);
 
     useEffect(() => {
-       // alert(JSON.stringify(route.params, null, 2))
+        // alert(JSON.stringify(route.params, null, 2))
 
     }, [])
     const [newEvent, setNewEvent] = useState({
         title: initialTitle,
         description: initialDetails,
-        date: dayjs(route.params.event.time),
-        time: dayjs(initialTime).format('HH:mm'), 
+        date: dayjs(route.params.event.starts_at),
+        time: dayjs(initialTime).format('HH:mm'),
     });
 
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
-    const [date, setDate] = useState(dayjs(route.params.event.time));
+    const [date, setDate] = useState(dayjs(route.params.event.starts_at));
 
     const handleTimeChange = (event, selectedTime) => {
         const currentTime = selectedTime || new Date();
@@ -82,12 +82,10 @@ const EditEventScreen = ({ navigation, route }) => {
                 return;
             }
 
-            const updatedDate = date.hour(time.hour()).minute(time.minute()).toISOString();
-
-            const response = await api.put(`/appointment/${eventId}`, {
+            const updatedDate = date.hour(time.hour()).minute(time.minute()).format("YYYY-MM-DD HH:mm:ss");
+            const response = await api.put(`/appointment/${app_id}`, {
                 title: title,
-                time: updatedDate, 
-                description: details, 
+                starts_at: updatedDate
             });
 
             console.log(response.data);

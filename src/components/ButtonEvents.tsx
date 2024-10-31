@@ -16,7 +16,7 @@ const ButtonEvents = () => {
                 <FAB.Group
                     open={open}
                     visible
-                    backdropColor='#f2f2f0'
+                    backdropColor={true ? '#f2f2f0': "white"}
                     color={colorPrimary}
                     icon={open ? 'calendar-today' : 'plus'}
                     actions={[

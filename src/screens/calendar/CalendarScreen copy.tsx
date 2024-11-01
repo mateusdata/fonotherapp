@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Agenda, CalendarProvider } from 'react-native-calendars';
 import { colorPrimary } from '../../style/ColorPalette';
 import ButtonEvents from '../../components/ButtonEvents';
@@ -11,11 +11,9 @@ const AgendaScreen = () => {
   const [items, setItems] = useState({});
   const [markedDates, setMarkedDates] = useState({});
   const [loadedMonths, setLoadedMonths] = useState(new Set());
-  const [loading, setLoading] = useState(false);
 
   // Função para buscar compromissos do mês e atualizar os dados da agenda
   const fetchAppointments = async (year, month) => {
-    setLoading(true); // Inicia o carregamento
     try {
       const response = await api.post("appointments-of-the-day", { year, month });
       const data = response.data;
@@ -40,14 +38,12 @@ const AgendaScreen = () => {
       setMarkedDates((prevDates) => ({ ...prevDates, ...updatedMarkedDates }));
     } catch (error) {
       console.error('Erro ao buscar eventos:', error);
-    } finally {
-      setLoading(false); // Finaliza o carregamento
     }
   };
 
   // Função que carrega eventos para o mês selecionado se ainda não tiver sido carregado
   const loadItemsForMonth = useCallback(({ year, month }) => {
-    const monthsToLoad = [0, 1, 2, 3 , 4,]; // Representa o mês atual e os próximos dois meses
+    const monthsToLoad = [0, 1, 2]; // Representa o mês atual e os próximos dois meses
     
     monthsToLoad.forEach(offset => {
       const loadMonth = month + offset;
@@ -81,14 +77,10 @@ const AgendaScreen = () => {
     </View>
   );
 
-  // Renderiza a mensagem para dias sem eventos ou um indicador de carregamento
+  // Renderiza a mensagem para dias sem eventos
   const renderEmptyDate = () => (
     <View style={styles.emptyDate}>
-      {loading ? (
-        <ActivityIndicator size="large" color={colorPrimary} />
-      ) : (
-        <Text>Sem eventos para hoje</Text>
-      )}
+      <Text>Sem eventos para hoje</Text>
     </View>
   );
 

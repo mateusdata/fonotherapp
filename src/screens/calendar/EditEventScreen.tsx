@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Pressable, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Pressable, ToastAndroid, Platform } from 'react-native';
 import { colorPrimary } from '../../style/ColorPalette';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,14 +12,14 @@ import { Context } from '../../context/AuthProvider';
 dayjs.locale('pt-br');
 
 const EditEventScreen = ({ navigation, route }) => {
-    const { app_id, title: initialTitle, starts_at: initialTime, details: initialDetails } = route.params.event; // Recebe os dados do evento
+    const { app_id, title: initialTitle, starts_at: initialTime, details: initialDetails } = route.params.event; 
     const [isAllDay, setIsAllDay] = useState(true);
     const [title, setTitle] = useState(initialTitle);
     const [details, setDetails] = useState(initialDetails);
     const { user } = useContext(Context);
 
     useEffect(() => {
-        // alert(JSON.stringify(route.params, null, 2))
+        
 
     }, [])
     const [newEvent, setNewEvent] = useState({
@@ -88,8 +88,10 @@ const EditEventScreen = ({ navigation, route }) => {
                 starts_at: updatedDate
             });
 
-            console.log(response.data);
+          if(Platform.OS==="android"){
             ToastAndroid.show("Evento atualizado", ToastAndroid.BOTTOM);
+          }
+          
             navigation.goBack();
 
         } catch (error) {

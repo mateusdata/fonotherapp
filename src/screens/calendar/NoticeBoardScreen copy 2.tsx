@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, StyleSheet, Pressable, RefreshControl } from 'react-native';
+import { View, StyleSheet, Pressable, RefreshControl, Text } from 'react-native';
 import { List, Divider, Searchbar } from 'react-native-paper';
 import { api } from '../../config/Api';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
 import utc from 'dayjs/plugin/utc';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
 import { useFocusEffect } from '@react-navigation/native';
+import { colorPrimary } from '../../style/ColorPalette';
 
 dayjs.extend(utc);
 
-export default function MyAppointments({ navigation }) {
+export default function FinanceScreen({ navigation }) {
   const [appointments, setAppointments] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,9 +72,9 @@ export default function MyAppointments({ navigation }) {
 
   async function handleRefresh() {
     setRefreshing(true);
-    setAppointments([]); 
-    setPage(1); 
-    setIsEmpty(false); 
+    setAppointments([]); // Limpa a lista antes de carregar novos dados
+    setPage(1); // Redefine a página para o valor inicial
+    setIsEmpty(false); // Garante que a mensagem "Not Found" não seja exibida durante o refresh
   }
 
   if (isEmpty) {
@@ -120,6 +121,10 @@ export default function MyAppointments({ navigation }) {
             );
           }}
         />
+
+        <TouchableOpacity style={styles.floatingButton} onPress={() => navigation.navigate("AddNotiecBoardScreen.tsx")}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -138,5 +143,22 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: '100%',
     borderWidth: 0,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 28,
+    lineHeight: 28,
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    backgroundColor: colorPrimary,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
   },
 });

@@ -44,6 +44,7 @@ import EditEventScreen from '../../screens/calendar/EditEventScreen';
 import MyAgenda from '../../screens/calendar/MyAgenda';
 import AddNoticeBoardScreen from '../../screens/calendar/AddNoticeBoardScreen';
 import Consultancy from '../../screens/support/Consultancy';
+import EditNoticeBoardScreen from '../../screens/calendar/EditNoticeBoardScreen';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
@@ -76,7 +77,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Help' component={Help} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Consultancy' component={Consultancy} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Consultoria" }} />
 
-        
+
         <AppStack.Screen name='Feedback' component={Feedback} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Feedback" }} />
         <AppStack.Screen name='PatientAnalysis' component={PatientAnalysis} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "", headerShown: true }} />
         <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Concluir cadastro" }} />
@@ -130,9 +131,22 @@ const PrivateRoutes = () => {
           headerShown: false
 
         }} />
+
         <AppStack.Screen name='MyAgenda' component={MyAgenda} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Agenda" }} />
 
         <AppStack.Screen name='AddNoticeBoardScreen' component={AddNoticeBoardScreen} options={{
+          headerBackTitleVisible: false,
+          headerTitleAlign: "center",
+          headerTitle: "",
+          headerTintColor: "black",
+          headerStyle: {
+            backgroundColor: "white"
+          },
+          headerShown: false
+
+        }} />
+
+        <AppStack.Screen name='EditNoticeBoardScreen' component={EditNoticeBoardScreen} options={{
           headerBackTitleVisible: false,
           headerTitleAlign: "center",
           headerTitle: "",

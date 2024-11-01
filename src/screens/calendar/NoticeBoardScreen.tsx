@@ -25,9 +25,9 @@ export default function FinanceScreen({ navigation }) {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
     try {
-      const response = await api.get(`/appointments/?page=${page}&pageSize=10`);
+      const response = await api.get(`/reminders/?page=${page}&pageSize=10`);
       const newAppointments = response.data.data;
-
+      
       if (newAppointments.length === 0) {
         setHasMore(false);
       } else {
@@ -61,7 +61,7 @@ export default function FinanceScreen({ navigation }) {
   };
 
   const handleProfile = (event) => {
-    navigation.navigate('EditEventScreen', { event });
+    navigation.navigate('EditNoticeBoardScreen', { event });
   };
 
   const handleEndReached = () => {
@@ -72,13 +72,20 @@ export default function FinanceScreen({ navigation }) {
 
   async function handleRefresh() {
     setRefreshing(true);
-    setAppointments([]); 
-    setPage(1); 
-    setIsEmpty(false); 
+    setAppointments([]);
+    setPage(1);
+    setIsEmpty(false);
   }
 
   if (isEmpty) {
-    return <NotFoudMessageList />;
+    return (
+      <View style={{flex:1, justifyContent:'space-between'}}>
+        <NotFoudMessageList />
+        <TouchableOpacity style={[styles.floatingButton2]} onPress={() => navigation.navigate("AddNoticeBoardScreen")}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   return (
@@ -96,7 +103,7 @@ export default function FinanceScreen({ navigation }) {
       <View style={styles.listContainer}>
         <FlatList
           data={filteredAppointments}
-          keyExtractor={(item) => item.app_id.toString()}
+          keyExtractor={(item) => item.rem_id.toString()}
           onEndReached={handleEndReached}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
@@ -109,7 +116,7 @@ export default function FinanceScreen({ navigation }) {
               <Pressable
                 style={styles.pressable}
                 onPress={() => handleProfile(item)}
-                key={item.app_id}
+                key={item.rem_id}
               >
                 <List.Item
                   title={item.title}
@@ -151,8 +158,21 @@ const styles = StyleSheet.create({
   },
   floatingButton: {
     position: 'absolute',
-    bottom: 60,
-    right: 0,
+    bottom: 80,
+    right: 10,
+    width: 56,
+    height: 56,
+    backgroundColor: colorPrimary,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+  },
+  floatingButton2: {
+    position: 'absolute',
+    bottom: 30,
+    right: 10,
+    margin:10,
     width: 56,
     height: 56,
     backgroundColor: colorPrimary,

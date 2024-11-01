@@ -10,6 +10,7 @@ import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorSecundary } from '../../style/ColorPalette';
+import { getUser } from '../../utils/getUser';
 
 export default function ChangeGovLicense() {
     const { user, setUser } = React.useContext(Context);
@@ -33,18 +34,8 @@ export default function ChangeGovLicense() {
         setLoading(true);
         try {
             const response = await api.put(`/doctor/${user?.doctor?.doc_id}`, data);
-            setShowToast(true);
-            console.log(response.data);            
-                        
-            try {
-                const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
-                const updatedUser = { ...recoveryUser, ...response.data };
-                setUser(updatedUser);
-                await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
-            } catch (error) {
-                console.error("Erro ao atualizar usuário:", error);
-            }
-    
+            setShowToast(true);           
+            await getUser(setUser)
         } catch (e) {
             setError("gov_license", { message: "Ocorreu um erro" });
         } finally {

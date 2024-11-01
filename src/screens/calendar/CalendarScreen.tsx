@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Agenda, CalendarProvider } from 'react-native-calendars';
 import { colorPrimary } from '../../style/ColorPalette';
@@ -10,23 +10,19 @@ import { useFocusEffect } from '@react-navigation/native';
 const AgendaScreen = () => {
   const [items, setItems] = useState({});
   const [markedDates, setMarkedDates] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loadedMonths, setLoadedMonths] = useState(new Set());
 
+  // Função para buscar compromissos do mês e atualizar os dados da agenda
   const fetchAppointments = async (year, month) => {
-    setLoading(true);
     try {
-      const response = await api.post("appointments-of-the-day", {
-        year,
-        month,
-      });
-
+      const response = await api.post("appointments-of-the-day", { year, month });
       const data = response.data;
-      const formattedItems = { ...items }; // Mantém os itens já carregados
-      const updatedMarkedDates = { ...markedDates }; // Mantém as datas já marcadas
+
+      const formattedItems = {};
+      const updatedMarkedDates = {};
 
       Object.keys(data).forEach((date) => {
         const appointments = data[date];
-
         formattedItems[date] = appointments.map((appointment) => ({
           name: appointment.title,
           time: appointment.time,
@@ -38,42 +34,39 @@ const AgendaScreen = () => {
         };
       });
 
-      setItems(formattedItems);
-      setMarkedDates(updatedMarkedDates);
+      setItems((prevItems) => ({ ...prevItems, ...formattedItems }));
+      setMarkedDates((prevDates) => ({ ...prevDates, ...updatedMarkedDates }));
     } catch (error) {
       console.error('Erro ao buscar eventos:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
+  // Função que carrega eventos para o mês selecionado se ainda não tiver sido carregado
+  const loadItemsForMonth = useCallback(({ year, month }) => {
+    if (!loadedMonths.has(`${year}-${month}`)) {
+      fetchAppointments(year, month);
+      setLoadedMonths((prevLoadedMonths) => new Set(prevLoadedMonths).add(`${year}-${month}`));
+    }
+  }, [loadedMonths]);
+
+  // Carrega eventos do mês atual sempre que a tela for focada
   useFocusEffect(
     useCallback(() => {
       const year = dayjs().year();
       const month = dayjs().month() + 1;
-      fetchAppointments(year, month);
-    }, [])
+      loadItemsForMonth({ year, month });
+    }, [loadItemsForMonth])
   );
 
-  const loadItemsForMonth = (date) => {
-    const year = dayjs(date.timestamp).year();
-    const month = dayjs(date.timestamp).month() + 1;
-    fetchAppointments(year, month);
-  };
+  // Renderiza cada item do compromisso na agenda
+  const renderItem = (item) => (
+    <View style={styles.item}>
+      <Text style={styles.text}>{item.name}</Text>
+      <Text style={styles.text}>{item.time}</Text>
+    </View>
+  );
 
-  const onDayChange = (day) => {
-    console.log('Dia mudado: ', day);
-  };
-
-  const renderItem = (item) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.text}>{item.name}</Text>
-        <Text style={styles.text}>{item.time}</Text>
-      </View>
-    );
-  };
-
+  // Renderiza a mensagem para dias sem eventos
   const renderEmptyDate = () => (
     <View style={styles.emptyDate}>
       <Text>Sem eventos para hoje</Text>
@@ -82,29 +75,26 @@ const AgendaScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, paddingBottom: 20 }}>
-        <CalendarProvider testID="cal-provider" date={dayjs(new Date()).format()}>
-          <Agenda
-            showClosingKnob
-            items={items}
-            loadItemsForMonth={loadItemsForMonth}
-            onDayChange={onDayChange}
-            selected={dayjs().format('YYYY-MM-DD')}
-            renderItem={renderItem}
-            renderEmptyData={renderEmptyDate}
-            markedDates={markedDates}
-            theme={{
-              agendaDayTextColor: '#4A90E2',
-              agendaDayNumColor: '#4A90E2',
-              agendaTodayColor: '#D32F2F',
-              agendaKnobColor: colorPrimary,
-            }}
-            style={styles.agenda}
-          />
-        </CalendarProvider>
-        <View style={{ flex: 0.34 }}>
-          <ButtonEvents />
-        </View>
+      <CalendarProvider testID="cal-provider" date={dayjs().format()}>
+        <Agenda
+          showClosingKnob
+          items={items}
+          selected={dayjs().format('YYYY-MM-DD')}
+          loadItemsForMonth={loadItemsForMonth}
+          renderItem={renderItem}
+          renderEmptyData={renderEmptyDate}
+          markedDates={markedDates}
+          theme={{
+            agendaDayTextColor: '#4A90E2',
+            agendaDayNumColor: '#4A90E2',
+            agendaTodayColor: '#D32F2F',
+            agendaKnobColor: colorPrimary,
+          }}
+          style={styles.agenda}
+        />
+      </CalendarProvider>
+      <View style={{ flex: 0.34 }}>
+        <ButtonEvents />
       </View>
     </View>
   );

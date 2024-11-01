@@ -3,32 +3,31 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 import { colorPrimary } from '../style/ColorPalette';
 
-const Segmenteds = () => {
-  const [value, setValue] = React.useState('Categoria1');
+const Segmenteds = ({setVideosType, videosType, }:{setVideosType?:any, videosType: any}) => {
 
   return (
     <SafeAreaView style={styles.container}>
       <SegmentedButtons
-        value={value}
-        onValueChange={setValue}
+        value={videosType}
+        onValueChange={setVideosType}
         buttons={[
           {
-            value: 'Categoria1',
-            label: 'Categoria1',
+            value: 'degluticao',
+            label: 'Deglutição',
             checkedColor: 'white',
-            style: value === 'Categoria1' ? styles.selectedButton : styles.button,
+            style: videosType === 'degluticao' ? styles.selectedButton : styles.button,
           },
           {
-            value: 'Categoria2',
-            label: 'Categoria2',
+            value: 'mimica_facial',
+            label: 'Mímica facial',
             checkedColor: 'white',
-            style: value === 'Categoria2' ? styles.selectedButton : styles.button,
+            style: videosType === 'mimica_facial' ? styles.selectedButton : styles.button,
           },
           {
-            value: 'Categoria3',
-            label: 'Categoria3',
+            value: 'manobras',
+            label: 'Manobras',
             checkedColor: 'white',
-            style: value === 'Categoria3' ? styles.selectedButton : styles.button,
+            style: videosType === 'manobras' ? styles.selectedButton : styles.button,
           },
         ]}
       />

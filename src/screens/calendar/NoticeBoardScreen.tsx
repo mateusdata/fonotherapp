@@ -1,226 +1,152 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Pressable } from 'react-native';
-import { Provider as PaperProvider, Text, Button, TextInput, List, Divider, Modal, Portal } from 'react-native-paper';
-import * as Notifications from 'expo-notifications';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { Text, List, Divider } from 'react-native-paper';
+import { api } from '../../config/Api';
+import { Context } from '../../context/AuthProvider';
+import { FlatList } from 'react-native-gesture-handler';
+import dayjs from 'dayjs';
+import LoadingComponent from '../../components/LoadingComponent';
+import { ContextPacient } from '../../context/PacientContext';
+import downloadPDF from '../../utils/downloadPDF';
+import NotFoudMessageList from '../../components/NotFoudMessageList';
 import { colorPrimary } from '../../style/ColorPalette';
 
-const NoticeBoardScreen = () => {
-  const [notices, setNotices] = useState<{ id: string; title: string; date: string }[]>([]);
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState(new Date());
-  const [dateString, setDateString] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
+export default function Finance({ navigation }) {
+  const { user, accessToken } = useContext(Context);
+  const { setPac_id } = useContext(ContextPacient);
+  const [sessionsHistory, setSessionsHistory] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false)
 
-  useEffect(() => {
-    const getPermissions = async () => {
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Você precisa permitir notificações para usar este recurso.');
-      }
-    };
-    getPermissions();
-    loadNotices();
-  }, []);
-
-  const loadNotices = async () => {
+  async function fetchSessions() {
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
     try {
-      const savedNotices = await AsyncStorage.getItem('notices');
-      if (savedNotices) {
-        setNotices(JSON.parse(savedNotices));
+      const response = await api.get(`reports?page=${page}&pageSize=20&type=termo_de_servico`);
+      const newSessions = response.data.data;
+
+      if (newSessions.length === 0) {
+        setHasMore(false);
+      } else {
+        setSessionsHistory(prevSessions => [...prevSessions, ...newSessions]);
       }
     } catch (error) {
-      console.error("Erro ao carregar os avisos: ", error);
+      if (error.response?.status === 404) {
+        setHasMore(false);
+        setIsEmpty(true)
+      } else {
+        console.error('Erro ao buscar os relatórios:', error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchSessions();
+  }, [page]);
+
+
+  async function downloadPdf(rep_id: any) {
+    try {
+      const response = await api.get(`/reports/${rep_id}`)
+      await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
+    } catch (error) {
+      alert("Ocorreu um error")
+    }
+  }
+
+
+  const renderFooter = () => {
+    if (!isLoading) return null;
+    return <LoadingComponent />;
+  };
+
+  const handleProfile = (id: number) => {
+    setPac_id(id);
+    navigation.navigate('PatientProfile');
+  };
+
+  const handleEndReached = () => {
+    if (!isLoading && hasMore) {
+      setPage(prevPage => prevPage + 1);
     }
   };
 
-  const handleAddNotice = async () => {
-    if (!title || !dateString) {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
 
-    const newNotice = { id: Date.now().toString(), title, date: dateString };
-    const updatedNotices = [...notices, newNotice];
+  if (isEmpty) {
+    return (
+      <View style={{ flex: 1 }}>
+        <NotFoudMessageList />
 
-    setNotices(updatedNotices);
-    await AsyncStorage.setItem('notices', JSON.stringify(updatedNotices));
-    scheduleNotification(newNotice);
-    setTitle('');
-    setDate(new Date());
-    setDateString('');
-    setModalVisible(false);
-  };
+        <TouchableOpacity style={[styles.floatingButton, {margin:16}]} onPress={() => navigation.navigate("AddNoticeBoardScreen")}>
+          <Text style={styles.buttonText}>+</Text>
 
-  const handleRemoveNotice = async (id: string) => {
-    const updatedNotices = notices.filter(notice => notice.id !== id);
-    setNotices(updatedNotices);
-    await AsyncStorage.setItem('notices', JSON.stringify(updatedNotices));
-  };
+        </TouchableOpacity>
+      </View>
 
-  const scheduleNotification = async (notice: { id: string; title: string; date: string }) => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: 'Novo Aviso',
-        body: `${notice.title} - ${notice.date}`,
-      },
-      trigger: { date: new Date(notice.date) },
-    });
-  };
-
-  const renderItem = ({ item }: { item: { id: string; title: string; date: string } }) => (
-    <View style={{ borderWidth: 1, borderColor: colorPrimary, borderRadius: 12 }}>
-      <List.Item
-        title={item.title}
-        description={item.date}
-        right={() => (
-          <Pressable style={{ justifyContent: "center", alignItems: "center" }} android_ripple={{ color: colorPrimary }} onPress={() => handleRemoveNotice(item.id)}>
-            <Text style={styles.removeText}>Remover</Text>
-          </Pressable>
-        )}
-      />
-      <Divider />
-    </View>
-  );
-
-  const showDatePickerModal = () => {
-    setShowDatePicker(true);
-  };
-
-  const showTimePickerModal = () => {
-    setShowTimePicker(true);
-  };
-
-  const onDateChange = (event: any, selectedDate?: Date) => {
-    setShowDatePicker(false);
-    if (event.type === 'set') {
-      const currentDate = selectedDate || date;
-      setDate(currentDate);
-      setDateString(currentDate.toISOString());
-    }
-  };
-
-  const onTimeChange = (event: any, selectedTime?: Date) => {
-    setShowTimePicker(false);
-    if (event.type === 'set') {
-      const currentTime = selectedTime || date;
-      const updatedDate = new Date(date);
-      updatedDate.setHours(currentTime.getHours());
-      updatedDate.setMinutes(currentTime.getMinutes());
-      setDate(updatedDate);
-      setDateString(updatedDate.toISOString());
-    }
-  };
-
+    )
+  }
   return (
-    <PaperProvider>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      {false && <Text style={styles.title}>Relatórios financeiros</Text>}
+
+      <View style={styles.listContainer}>
         <FlatList
-          data={notices}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          style={styles.list}
+          data={sessionsHistory}
+          keyExtractor={(item, index) => `${item?.rep_id}-${index}`} // Garante a unicidade da chave
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={renderFooter}
+          renderItem={({ item }) => (
+            <Pressable
+              style={styles.pressable}
+              onPress={() => downloadPdf(item?.rep_id)} // Navegar para o perfil do paciente
+            >
+              <List.Item
+                title={item.pacient.first_name} // Nome do paciente
+                description={`Sessão: ${dayjs(item.created_at).format('DD/MM/YYYY - HH:mm')}`} // Data da sessão
+                left={(props) => <List.Icon {...props} icon="file-document" color='#FF4D4D' />}
+              />
+              <Divider />
+            </Pressable>
+          )}
         />
-        <Text>{String(!!showTimePicker)}</Text>
-        <Portal>
-          <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)} contentContainerStyle={styles.modalContainer}>
-            <TextInput
-              mode='outlined'
-              activeOutlineColor={colorPrimary}
-              label="Título do Aviso"
-              value={title}
-              onChangeText={setTitle}
-              style={styles.input}
-            />
-            <TouchableOpacity onPress={showDatePickerModal}>
-              <TextInput
-                mode='outlined'
-                activeOutlineColor={colorPrimary}
-                label="Data do Aviso"
-                value={dateString ? new Date(dateString).toLocaleString() : ''}
-                editable={false}
-                style={styles.input}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={showTimePickerModal}>
-              <TextInput
-                mode='outlined'
-                activeOutlineColor={colorPrimary}
-                label="Hora do Aviso"
-                value={dateString ? new Date(dateString).toLocaleTimeString() : ''}
-                editable={false}
-                style={styles.input}
-              />
-            </TouchableOpacity>
 
-            {showDatePicker && (
-              <DateTimePicker
-                value={date}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={onDateChange}
-              />
-            )}
 
-            {showTimePicker && (
-              <DateTimePicker
-                value={date}
-                mode="time"
-                is24Hour={true}
-                display="default"
-                onChange={onTimeChange}
-              />
-            )}
-
-            <Button
-              mode="contained"
-              onPress={handleAddNotice}
-              style={styles.addButton}>
-              Adicionar Aviso
-            </Button>
-            <Button mode="text" textColor={colorPrimary} onPress={() => setModalVisible(false)}>
-              Cancelar
-            </Button>
-          </Modal>
-        </Portal>
-
-        <TouchableOpacity style={styles.floatingButton} onPress={() => setModalVisible(true)}>
+        <TouchableOpacity style={styles.floatingButton} onPress={() => navigation.navigate("AddNotiecBoardScreen.tsx")}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
-    </PaperProvider>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 15,
     backgroundColor: '#fff',
   },
-  input: {
-    marginBottom: 10,
-  },
-  addButton: {
-    backgroundColor: colorPrimary,
-  },
-  removeText: {
-    color: 'red',
+  title: {
+    fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 15,
   },
-  list: {
-    flex: 1,
+  pressable: {
+    paddingVertical: 2,
   },
-  modalContainer: {
-    backgroundColor: 'white',
-    padding: 20,
-    margin: 20,
-    borderRadius: 10,
-    elevation: 5,
+  listContainer: {
+    flexGrow: 1,
+    width: '100%',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 28,
+    lineHeight: 28,
   },
   floatingButton: {
     position: 'absolute',
@@ -234,11 +160,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 28,
-    lineHeight: 28,
-  },
 });
-
-export default NoticeBoardScreen;

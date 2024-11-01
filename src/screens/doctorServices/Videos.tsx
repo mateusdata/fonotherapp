@@ -28,6 +28,7 @@ export default function Videos({ navigation }) {
   const [changeList, setChangeList] = useState(true);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [videosType, setVideosType] = useState('degluticao');
 
 
   useEffect(() => {
@@ -55,16 +56,17 @@ export default function Videos({ navigation }) {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
+        const response = await api.get(`/list-exercise?pageSize=100&page=${1}&type=${videosType}`);
+        setVideosFono(response.data.data);
 
-        setVideosFono([...videosFono, ...response.data.rows]);
+        //setVideosFono([...videosFono, ...response.data.data]);  //mudou aqui
         setLoading(false)
       } catch (error) {
         setLoading(false)
       }
     };
     fetchVideos();
-  }, [page, changeList]);
+  }, [page, changeList, videosType]);
 
 
 
@@ -133,9 +135,8 @@ export default function Videos({ navigation }) {
         renderItem={({ item }) => renderItem({ item })}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
-        ListHeaderComponent={<Segmenteds />} 
+        ListHeaderComponent={<Segmenteds videosType={videosType} setVideosType={setVideosType} />} 
       />
-
       <Sheet
         modal
         open={modalVisible}

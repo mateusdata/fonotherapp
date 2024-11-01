@@ -77,7 +77,7 @@ const MyAccount = ({ navigation }) => {
           <MaterialIcons name="arrow-forward-ios" size={15} color={colorPrimary} />
         </Button>
 
-        <Button onPress={() => navigation.navigate("Help")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button onPress={() => navigation.navigate("Consultancy")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
           <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
             <MaterialCommunityIcons name="message-badge-outline" size={23} color={colorPrimary} />
             <Text style={{ minWidth: 850, fontSize: 19, color: "#474747" }} >Consultoria</Text>

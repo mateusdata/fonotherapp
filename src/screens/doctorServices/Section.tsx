@@ -44,6 +44,7 @@ export default function Section({ navigation }) {
   const [series, setSeries] = useState<any>("");
   const [repetitions, setRepetitions] = useState<any>("");
   const { setThereSession, thereSession } = useContext(ContextGlobal);
+  const [videosType, setVideosType] = useState('degluticao');
 
   const schema = yup.object().shape({
     doc_id: yup.number(),
@@ -97,16 +98,17 @@ export default function Section({ navigation }) {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
-
-        setVideosFono([...videosFono, ...response.data.rows]);
+        
+        const response = await api.get(`/list-exercise?pageSize=100&page=${1}&type=${videosType}`);
+        setVideosFono(response.data.data);
+       // setVideosFono([...videosFono, ...response.data.data]); //mudou aqui
         setLoading(false)
       } catch (error) {
         setLoading(false)
       }
     };
     fetchVideos();
-  }, [page, changeList]);
+  }, [page, changeList, videosType]);
 
 
   const seachVideos = async () => {
@@ -232,7 +234,7 @@ export default function Section({ navigation }) {
     return <SkelectonView />
   }
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor:"white" }}>
 
       <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 8, paddingVertical: 5 }}>
         <Searchbar
@@ -254,7 +256,7 @@ export default function Section({ navigation }) {
           renderItem={({ item }) => renderItem({ item })}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
-          ListHeaderComponent={<Segmenteds />} 
+          ListHeaderComponent={<Segmenteds videosType={videosType} setVideosType={setVideosType} />} 
 
         />
 

@@ -78,7 +78,7 @@ const PatientProfile = ({ navigation }) => {
           setLoading(true);
           const response: any = await api.get("/food-intake-report");
     
-          await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
+          await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading  )
         } catch (error) {
           console.error("Ocorreu Ezum erro", error)
           alert("Erro ao gerar pdf")
@@ -110,6 +110,7 @@ const PatientProfile = ({ navigation }) => {
 
                 try {
                     const protocol = await api.get(`last-sessions/${pac_id}/${user?.doctor?.doc_id}?pageSize=100&page=1`);
+                    
                     setProtocols(protocol.data);
                     setLoading(false)
 
@@ -122,7 +123,7 @@ const PatientProfile = ({ navigation }) => {
         }, [pac_id, user?.doctor?.doc_id])
     );
 
-    if (!pacient || loading) {
+    if (!pacient) {
         return <SkelectonView />
     }
     return (
@@ -176,7 +177,7 @@ const PatientProfile = ({ navigation }) => {
                             <Text style={{ textAlign: "center", fontSize: 22 }}> Sessões</Text>
                             <FlatList
                                 style={{ top: 10, padding: 15 }}
-                                data={protocols?.rows}
+                                data={protocols?.data}
                                 keyExtractor={(item) => item?.ses_id}
                                 renderItem={({ item, index }) => (
                                     <ScrollView>
@@ -277,13 +278,13 @@ const PatientProfile = ({ navigation }) => {
 
                 <View >
                     <Card onPress={() => {
-                        if (protocols?.count) {
+                        if (protocols?.meta?.total) {
                             setFirstModal(true)
                             setModalVisible(true)
                         }
                     }} style={{ marginBottom: 10, backgroundColor:"white"}}>
-                        <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : "Nenhuma sessão"}`
-                        } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={ "black"} /> :
+                        <Card.Title style={{}} title={`${protocols?.meta?.total ? protocols?.meta?.total + " Sessões" : "Nenhuma sessão"}`
+                        } left={(props) => !protocols?.meta?.total ? <AntDesign name='closecircleo' size={30} color={ "black"} /> :
                             <AntDesign name='sharealt' size={30} color={colorPrimary} />} />
                     </Card>
                 </View>

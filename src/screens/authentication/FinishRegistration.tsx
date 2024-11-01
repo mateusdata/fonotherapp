@@ -39,7 +39,9 @@ const FinishRegistration = ({ navigation, route }) => {
                 <Text style={{ fontSize: 18, top:2}}>Verifique seu email {user?.email}</Text>
                 <Text style={{ fontSize: 18, top:2}}> para ativar sua conta</Text>
                 <AntDesign style={{padding:10}} name="checkcircle" size={34} color={colorGreen} />               
+                
                 <Button
+                    testID='created-account'
                     mode="contained"
                     onPress={() => navigation.navigate("Login")}
                     style={{ marginTop: 5, backgroundColor: colorPrimary }}

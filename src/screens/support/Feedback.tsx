@@ -8,7 +8,6 @@ import { api } from '../../config/Api';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
 import Toast from '../../components/toast';
-import CustomText from '../../components/customText';
 
 const Feedback = () => {
     const [showToast, setShowToast] = useState(false);
@@ -40,8 +39,8 @@ const Feedback = () => {
     return (
         <>
             <View style={styles.container}>
-                <CustomText fontFamily='Poppins_300Light' style={styles.text}>fonotherApp</CustomText>
-                <CustomText style={styles.text}>{`Olá ${user.nick_name}, Envie seu Feedback`}</CustomText>
+                <Text style={styles.text}>fonotherApp</Text>
+                <Text style={styles.text}>{`Olá ${user.nick_name}, Envie seu Feedback`}</Text>
                 <TextArea
                     multiline
                     autoFocus
@@ -81,7 +80,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         marginBottom: 10,
-        color: colorPrimary
     },
     textArea: {
         minHeight: 200,

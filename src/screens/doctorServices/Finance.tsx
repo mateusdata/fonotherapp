@@ -18,7 +18,7 @@ export default function Finance({ navigation }) {
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [isEmpty, setIsEmpty]  =  useState<boolean>(false)
+    const [isEmpty, setIsEmpty] = useState<boolean>(false)
 
     async function fetchSessions() {
         if (isLoading || !hasMore) return;
@@ -34,11 +34,11 @@ export default function Finance({ navigation }) {
             }
         } catch (error) {
             if (error.response?.status === 404) {
-                setHasMore(false); 
+                setHasMore(false);
                 setIsEmpty(true)
-              } else {
+            } else {
                 console.error('Erro ao buscar os relatórios:', error);
-              }
+            }
         } finally {
             setIsLoading(false);
         }
@@ -76,12 +76,13 @@ export default function Finance({ navigation }) {
     };
 
 
-    if(isEmpty){
-        return <NotFoudMessageList/>
-      }
+    if (isEmpty) {
+        return <NotFoudMessageList />
+    }
+
     return (
         <View style={styles.container}>
-           {false && <Text style={styles.title}>Relatórios financeiros</Text>}
+            {false && <Text style={styles.title}>Relatórios financeiros</Text>}
 
             <View style={styles.listContainer}>
                 <FlatList

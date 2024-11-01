@@ -1,11 +1,13 @@
-import React, {  useEffect, useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
-import {  List, Divider, Searchbar } from 'react-native-paper';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, StyleSheet, Pressable, RefreshControl } from 'react-native';
+import { List, Divider, Searchbar } from 'react-native-paper';
 import { api } from '../../config/Api';
 import { FlatList } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
 import utc from 'dayjs/plugin/utc';
+import NotFoudMessageList from '../../components/NotFoudMessageList';
+import { useFocusEffect } from '@react-navigation/native';
 dayjs.extend(utc);
 
 export default function MyAppointments({ navigation }) {
@@ -15,6 +17,8 @@ export default function MyAppointments({ navigation }) {
   const [hasMore, setHasMore] = useState(true);
   const [search, setSearch] = useState('');
   const [filteredAppointments, setFilteredAppointments] = useState([]);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false)
+  const [refreshing, setRefreshing] = useState(false);
 
   async function fetchAppointments() {
     if (isLoading || !hasMore) return;
@@ -25,14 +29,23 @@ export default function MyAppointments({ navigation }) {
 
       if (newAppointments.length === 0) {
         setHasMore(false);
+
       } else {
         setAppointments(prevAppointments => [...prevAppointments, ...newAppointments]);
       }
 
     } catch (error) {
-      console.log(error);
+
+      if (error.response?.status === 404) {
+        setHasMore(false);
+        setIsEmpty(true)
+      } else {
+        console.error('Erro ao buscar os relatórios:', error);
+      }
+
     } finally {
       setIsLoading(false);
+      setRefreshing(false);
     }
   }
 
@@ -40,13 +53,19 @@ export default function MyAppointments({ navigation }) {
     fetchAppointments();
   }, [page]);
 
+
+
+
+
+
+
   useEffect(() => {
     const results = appointments.filter(appointment =>
       appointment.title.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredAppointments(results);
     console.log(results);
-    
+
   }, [search, appointments]);
 
   const renderFooter = () => {
@@ -54,8 +73,8 @@ export default function MyAppointments({ navigation }) {
     return <LoadingComponent />;
   };
 
-  const handleProfile = (event:any) => {
-    navigation.navigate('EditEventScreen', {event});
+  const handleProfile = (event: any) => {
+    navigation.navigate('EditEventScreen', { event });
   };
 
   const handleEndReached = () => {
@@ -64,6 +83,13 @@ export default function MyAppointments({ navigation }) {
     }
   };
 
+  async function handleRefresh() {
+    fetchAppointments()
+    setRefreshing(true);
+  }
+  if (isEmpty) {
+    return <NotFoudMessageList />
+  }
   return (
     <View style={styles.container}>
       <Searchbar
@@ -81,11 +107,14 @@ export default function MyAppointments({ navigation }) {
           data={filteredAppointments}
           keyExtractor={(item) => item.app_id.toString()}
           onEndReached={handleEndReached}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }          
           onEndReachedThreshold={0.1}
           ListFooterComponent={renderFooter}
           renderItem={({ item }) => {
             // Cria um objeto dayjs em UTC
-            const date = dayjs.utc(item.starts_at);        
+            const date = dayjs.utc(item.starts_at);
             return (
               <Pressable
                 style={styles.pressable}
@@ -94,7 +123,7 @@ export default function MyAppointments({ navigation }) {
                 <List.Item
                   title={item.title}
                   description={`${date.format('ddd, D [de] MMM [de] YYYY')} - ${date.format('HH:mm')}`}
-                  left={(props) => <List.Icon {...props} icon="calendar" />} 
+                  left={(props) => <List.Icon {...props} icon="calendar" />}
                 />
                 <Divider />
               </Pressable>

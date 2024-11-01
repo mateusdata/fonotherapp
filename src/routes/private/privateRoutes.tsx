@@ -42,6 +42,8 @@ import CalendarScreen from '../../screens/calendar/CalendarScreen';
 import AddEventScreen from '../../screens/calendar/AddEventScreen';
 import EditEventScreen from '../../screens/calendar/EditEventScreen';
 import MyAgenda from '../../screens/calendar/MyAgenda';
+import AddNoticeBoardScreen from '../../screens/calendar/AddNoticeBoardScreen';
+import Consultancy from '../../screens/support/Consultancy';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
@@ -72,6 +74,9 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Alterar email" }} />
         <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Alterar senha" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Contato" }} />
+        <AppStack.Screen name='Consultancy' component={Consultancy} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Consultoria" }} />
+
+        
         <AppStack.Screen name='Feedback' component={Feedback} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Feedback" }} />
         <AppStack.Screen name='PatientAnalysis' component={PatientAnalysis} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "", headerShown: true }} />
         <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Concluir cadastro" }} />
@@ -126,6 +131,19 @@ const PrivateRoutes = () => {
 
         }} />
         <AppStack.Screen name='MyAgenda' component={MyAgenda} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Agenda" }} />
+
+        <AppStack.Screen name='AddNoticeBoardScreen' component={AddNoticeBoardScreen} options={{
+          headerBackTitleVisible: false,
+          headerTitleAlign: "center",
+          headerTitle: "",
+          headerTintColor: "black",
+          headerStyle: {
+            backgroundColor: "white"
+          },
+          headerShown: false
+
+        }} />
+
 
 
 

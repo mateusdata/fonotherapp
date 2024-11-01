@@ -1,9 +1,9 @@
 appId: com.projetofono.fonotherapp
 ---
 - repeat:
-    times: 2
+    times: 1
     commands:
-      - launchApp  # Abre o aplicativo no início de cada repetição
+      - launchApp  
       - tapOn: 
           id: create-account
       - tapOn: 
@@ -19,3 +19,23 @@ appId: com.projetofono.fonotherapp
           text: "123456"
       - tapOn: 
           id: create-account
+      - tapOn: created-account 
+      #A partir daqui vai fazer login
+      - tapOn: 
+          id: email
+      - inputText:
+          id: email
+          text: "mateuspele2015@gmail.com"
+      - tapOn: 
+          id: password
+      - inputText:
+          id: password
+          text: "123456"
+      - tapOn: 
+          id: login
+      - tapOn: 
+          id: conta
+      - tapOn: 
+          id: logout
+            
+    

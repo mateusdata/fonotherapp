@@ -26,7 +26,7 @@ export default function Configuration() {
     }
     else if (name === "Checar Atualizações"){
       const appStoreUrl = Platform.OS === 'android'
-      ? 'https://play.google.com/store/apps/details?id=com.nianticlabs.pokemongo&hl=pt_BR' 
+      ? 'https://play.google.com/store/apps/details?id=com.projetofono.fonotherapp&hl=pt_BR' 
       : 'https://apps.apple.com/br/app/pok%C3%A9mon-go/id1094591345'; 
      Linking.openURL(appStoreUrl);
    

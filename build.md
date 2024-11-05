@@ -1,5 +1,9 @@
 
 # Build para publicação
+  eas build --platform android --profile production  execultar o build de produção
+  eas submit -p android --profile production enviar para playstore (opcional)
+  eas build --local --platform android --profile production  execultar o build de produção localmente
+
 
 
 # comandos para build

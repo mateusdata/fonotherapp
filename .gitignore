@@ -19,6 +19,8 @@ web-build/
 android
 ios
 *.apk
+*.aab
+
 # Metro
 .metro-health-check*
 credentials.json

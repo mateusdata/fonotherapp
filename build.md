@@ -1,4 +1,7 @@
 
+# Build para publicação
+
+
 # comandos para build
 Fazer build remoto expo: 
   eas build -p android --profile preview  => build expo generate apk for install

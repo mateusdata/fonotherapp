@@ -160,7 +160,7 @@ const EditEventScreen = ({ navigation, route }) => {
                     <DateTimePicker
                         value={new Date()}
                         mode="time"
-                        display="default"
+                        display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={handleTimeChange}
                     />
                 )}
@@ -170,7 +170,7 @@ const EditEventScreen = ({ navigation, route }) => {
                         value={new Date(date.toISOString())}
                         mode="date"
                         is24Hour={true}
-                        display="default"
+                        display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={onDateChange}
                         minimumDate={new Date()}
                     />

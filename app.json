@@ -32,9 +32,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
         "versionCode": 4
-
       },
-      "package": "com.projetofono.fonotherapp"
+      "package": "com.projetofono.fonotherapp",
+      "blockedPermissions": [
+        "FOREGROUND_SERVICE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

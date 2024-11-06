@@ -71,9 +71,9 @@ const Home = ({ navigation }: { navigation: any }) => {
   const renderButton = (icon: any, label: string, onPress: () => void) => (
     <Pressable onPress={onPress} style={[styles.button, {  }]}>
       <View style={{ flex: 0.5, borderWidth: 0, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
-        <AntDesign name={icon} style={{ top: width  < 400 ? 22: 25 }} size={ width < 400? 22: 24} color={colorPrimary} />
+        <AntDesign name={icon} style={{ top: width  < 400 ? 19: 22 }} size={ width < 400? 22: 24} color={colorPrimary} />
       </View>
-      <View style={{ flex: 0.5, borderWidth: 0, top: 8, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
+      <View style={{ flex: 0.5, borderWidth: 0, top: 4, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
         <Text style={styles.buttonText}>{label}</Text>
       </View>
 

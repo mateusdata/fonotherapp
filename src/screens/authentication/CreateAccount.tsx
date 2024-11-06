@@ -47,13 +47,13 @@ const CreateAccount = ({ navigation }: any) => {
       password: "",
       email: ""
     },
-  mode: "onSubmit",
+    mode: "onSubmit",
     resolver: yupResolver(schema)
 
   });
 
-  
-  
+
+
   const onSubmit = async (data) => {
 
     try {
@@ -89,109 +89,112 @@ const CreateAccount = ({ navigation }: any) => {
         end={{ x: 1, y: 1 }}
         style={styleGradient.background}
       />
+              <ScrollView style={{width:"100%"}}>
+
       <View style={styles.contentContainer}>
-        <View style={{ gap: 10, marginTop: 10 }}>
-          <CustomText fontFamily='Poppins_300Light' style={{
-            fontSize: 25,
-            marginBottom: 0,
-            marginTop: 0,
-            color: "#4d4d4f",
-            textAlign: "center"
-          }}>
-            Criar conta
-          </CustomText>
+          <View style={{ gap: 10, marginTop: 10 }}>
+            <CustomText fontFamily='Poppins_300Light' style={{
+              fontSize: 25,
+              marginBottom: 0,
+              marginTop: 0,
+              color: "#4d4d4f",
+              textAlign: "center"
+            }}>
+              Criar conta
+            </CustomText>
 
-        </View>
-        <View style={styles.inputContainer}>
-
-          <LabelInput value='Nome' />
-          <Controller control={control}
-            render={({ field: { onChange, onBlur, value, } }) => (
-              <TextInput
-                dense
-                testID='name'
-                mode="outlined"
-                autoFocus
-                activeOutlineColor={colorPrimary}
-                error={!!errors.nick_name}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-
-            name="nick_name"
-          />
-
-          <ErrorMessage name={"nick_name"} errors={errors} />
-
-          <LabelInput value='Email' />
-          <Controller control={control}
-            render={({ field: { onChange, onBlur, value, } }) => (
-              <TextInput
-                dense
-                testID='email'
-                mode="outlined"
-                activeOutlineColor={colorPrimary}
-                error={!!errors.email}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-
-            name="email"
-          />
-
-          <ErrorMessage name={"email"} errors={errors} />
-
-          <LabelInput value='Senha' />
-          <Controller control={control} rules={
-            {
-              required: 'Obrigatório', maxLength: { value: 40, message: "Nome muito grande" },
-              minLength: { value: 5, message: "Informe uma senha maior" },
-            }}
-            render={({ field: { onChange, onBlur, value, } }) => (
-              <TextInput
-                dense
-                testID='password'
-                mode="outlined"
-                activeOutlineColor={colorPrimary}
-                error={!!errors.password}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry
-              />
-            )}
-            name="password"
-          />
-
-          <ErrorMessage name={"password"} errors={errors} />
-
-          <Button
-            testID='create-account'
-            disabled={loading}
-            loading={loading}
-            buttonColor='#36B3B1'
-            textColor='white'
-            style={styles.button}
-            onPress={handleSubmit(onSubmit)}>
-            Criar conta
-          </Button>
-
-
-          <View>
-         
           </View>
-        </View>
-        <View style={styles.footerContainer}>
-          <Text style={styles.footerText}>Já tem uma conta?</Text>
-          <Pressable onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.linkText}>Fazer login</Text>
-          </Pressable>
-        </View>
+          <View style={styles.inputContainer}>
+
+            <LabelInput value='Nome' />
+            <Controller control={control}
+              render={({ field: { onChange, onBlur, value, } }) => (
+                <TextInput
+                  dense
+                  testID='name'
+                  mode="outlined"
+                  autoFocus
+                  activeOutlineColor={colorPrimary}
+                  error={!!errors.nick_name}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+
+              name="nick_name"
+            />
+
+            <ErrorMessage name={"nick_name"} errors={errors} />
+
+            <LabelInput value='Email' />
+            <Controller control={control}
+              render={({ field: { onChange, onBlur, value, } }) => (
+                <TextInput
+                  dense
+                  testID='email'
+                  mode="outlined"
+                  activeOutlineColor={colorPrimary}
+                  error={!!errors.email}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+
+              name="email"
+            />
+
+            <ErrorMessage name={"email"} errors={errors} />
+
+            <LabelInput value='Senha' />
+            <Controller control={control} rules={
+              {
+                required: 'Obrigatório', maxLength: { value: 40, message: "Nome muito grande" },
+                minLength: { value: 5, message: "Informe uma senha maior" },
+              }}
+              render={({ field: { onChange, onBlur, value, } }) => (
+                <TextInput
+                  dense
+                  testID='password'
+                  mode="outlined"
+                  activeOutlineColor={colorPrimary}
+                  error={!!errors.password}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry
+                />
+              )}
+              name="password"
+            />
+
+            <ErrorMessage name={"password"} errors={errors} />
+
+            <Button
+              testID='create-account'
+              disabled={loading}
+              loading={loading}
+              buttonColor='#36B3B1'
+              textColor='white'
+              style={styles.button}
+              onPress={handleSubmit(onSubmit)}>
+              Criar conta
+            </Button>
+
+
+            <View>
+
+            </View>
+          </View>
+          <View style={styles.footerContainer}>
+            <Text style={styles.footerText}>Já tem uma conta?</Text>
+            <Pressable onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.linkText}>Fazer login</Text>
+            </Pressable>
+          </View>
       </View>
+      </ScrollView>
 
     </View>
   );

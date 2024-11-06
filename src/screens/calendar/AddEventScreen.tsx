@@ -58,8 +58,14 @@ const AddEventScreen = ({ navigation }) => {
         }
     };
 
-    const showDatePickerModal = () => setShowDatePicker(true);
-    const showTimePickerModal = () => setShowTimePicker(true);
+    const showDatePickerModal = () => {
+        setShowDatePicker(true)
+        setShowTimePicker(false);
+    };
+    const showTimePickerModal = () => {
+        setShowTimePicker(true)
+        setShowDatePicker(false);
+    };
 
     async function createEvent() {
         try {

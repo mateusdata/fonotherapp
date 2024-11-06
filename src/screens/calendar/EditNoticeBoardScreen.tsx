@@ -55,11 +55,12 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
     };
 
     const showDatePickerModal = () => {
-        setShowDatePicker(true);
+        setShowDatePicker(true)
+        setShowTimePicker(false);
     };
-
     const showTimePickerModal = () => {
-        setShowTimePicker(true);
+        setShowTimePicker(true)
+        setShowDatePicker(false);
     };
 
     async function updateEvent() {

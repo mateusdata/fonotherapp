@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, StyleSheet, Pressable, RefreshControl, Text } from 'react-native';
 import { List, Divider, Searchbar } from 'react-native-paper';
 import { api } from '../../config/Api';
@@ -21,17 +21,26 @@ export default function FinanceScreen({ navigation }) {
   const [isEmpty, setIsEmpty] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  async function fetchAppointments() {
-    if (isLoading || !hasMore) return;
+  async function fetchAppointments(reset = false) {
+    if (isLoading || (!reset && !hasMore)) return;
     setIsLoading(true);
     try {
-      const response = await api.get(`/reminders/?page=${page}&pageSize=10`);
+      const response = await api.get(`/reminders/?page=${reset ? 1 : page}&pageSize=10`);
       const newAppointments = response.data.data;
-      
-      if (newAppointments.length === 0) {
-        setHasMore(false);
+
+      if (reset) {
+        // Reseta a lista ao atualizar
+        setAppointments(newAppointments);
+        setPage(2); // Próxima página será a 2
       } else {
         setAppointments(prevAppointments => [...prevAppointments, ...newAppointments]);
+        setPage(prevPage => prevPage + 1);
+      }
+
+      if (newAppointments.length === 0) {
+        setHasMore(false);
+      } else if (reset) {
+        setHasMore(true);
       }
 
     } catch (error) {
@@ -47,16 +56,18 @@ export default function FinanceScreen({ navigation }) {
     }
   }
 
-  useEffect(() => {
-    fetchAppointments();
-  }, [page]);
+  useFocusEffect(
+    useCallback(() => {
+      fetchAppointments(true);
+    }, [])
+  );
 
   const filteredAppointments = appointments.filter(appointment =>
     appointment.title.toLowerCase().includes(search.toLowerCase())
   );
 
   const renderFooter = () => {
-    if (!isLoading) return null;
+    if (!isLoading || refreshing) return null;
     return <LoadingComponent />;
   };
 
@@ -66,15 +77,14 @@ export default function FinanceScreen({ navigation }) {
 
   const handleEndReached = () => {
     if (!isLoading && hasMore) {
-      setPage(prevPage => prevPage + 1);
+      fetchAppointments();
     }
   };
 
   async function handleRefresh() {
     setRefreshing(true);
-    setAppointments([]);
-    setPage(1);
     setIsEmpty(false);
+    await fetchAppointments(true);
   }
 
   if (isEmpty) {
@@ -129,9 +139,9 @@ export default function FinanceScreen({ navigation }) {
           }}
         />
 
-        <TouchableOpacity style={styles.floatingButton} onPress={() => navigation.navigate("AddNoticeBoardScreen")}>
+        <Pressable style={styles.floatingButton} onPress={() => navigation.navigate("AddNoticeBoardScreen")}>
           <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

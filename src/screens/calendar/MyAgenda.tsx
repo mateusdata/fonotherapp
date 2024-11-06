@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, StyleSheet, Pressable, RefreshControl } from 'react-native';
 import { List, Divider, Searchbar } from 'react-native-paper';
 import { api } from '../../config/Api';
@@ -20,17 +20,26 @@ export default function MyAppointments({ navigation }) {
   const [isEmpty, setIsEmpty] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  async function fetchAppointments() {
-    if (isLoading || !hasMore) return;
+  async function fetchAppointments(reset = false) {
+    if (isLoading || (!reset && !hasMore)) return;
     setIsLoading(true);
     try {
-      const response = await api.get(`/appointments/?page=${page}&pageSize=10`);
+      const response = await api.get(`/appointments/?page=${reset ? 1 : page}&pageSize=10`);
       const newAppointments = response.data.data;
+
+      if (reset) {
+        // Reseta a lista ao atualizar
+        setAppointments(newAppointments);
+        setPage(2); // Próxima página será a 2
+      } else {
+        setAppointments(prevAppointments => [...prevAppointments, ...newAppointments]);
+        setPage(prevPage => prevPage + 1);
+      }
 
       if (newAppointments.length === 0) {
         setHasMore(false);
-      } else {
-        setAppointments(prevAppointments => [...prevAppointments, ...newAppointments]);
+      } else if (reset) {
+        setHasMore(true);
       }
 
     } catch (error) {
@@ -46,16 +55,18 @@ export default function MyAppointments({ navigation }) {
     }
   }
 
-  useEffect(() => {
-    fetchAppointments();
-  }, [page]);
+  useFocusEffect(
+    useCallback(() => {
+      fetchAppointments(true); // Reseta a lista quando a tela é focada
+    }, [])
+  );
 
   const filteredAppointments = appointments.filter(appointment =>
     appointment.title.toLowerCase().includes(search.toLowerCase())
   );
 
   const renderFooter = () => {
-    if (!isLoading) return null;
+    if (!isLoading || refreshing) return null;
     return <LoadingComponent />;
   };
 
@@ -65,15 +76,14 @@ export default function MyAppointments({ navigation }) {
 
   const handleEndReached = () => {
     if (!isLoading && hasMore) {
-      setPage(prevPage => prevPage + 1);
+      fetchAppointments();
     }
   };
 
   async function handleRefresh() {
     setRefreshing(true);
-    setAppointments([]); 
-    setPage(1); 
-    setIsEmpty(false); 
+    setIsEmpty(false);
+    await fetchAppointments(true); // Reseta ao atualizar
   }
 
   if (isEmpty) {

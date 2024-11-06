@@ -40,6 +40,11 @@ const AddNoticeBoardScreen = ({ navigation }) => {
         }
     };
 
+    const closeDateTime = ()=> {
+        setShowDatePicker(false);
+        setShowTimePicker(false);
+    }
+    
     const onTimeChange = (event, selectedTime) => {
         if (Platform.OS === "android") {
             setShowTimePicker(false);
@@ -58,8 +63,14 @@ const AddNoticeBoardScreen = ({ navigation }) => {
         }
     };
 
-    const showDatePickerModal = () => setShowDatePicker(true);
-    const showTimePickerModal = () => setShowTimePicker(true);
+    const showDatePickerModal = () => {
+        setShowDatePicker(true)
+        setShowTimePicker(false);
+    };
+    const showTimePickerModal = () => {
+        setShowTimePicker(true)
+        setShowDatePicker(false);
+    };
 
     async function createEvent() {
         try {
@@ -151,7 +162,7 @@ const AddNoticeBoardScreen = ({ navigation }) => {
                         value={date}
                         mode="date"
                         is24Hour={true}
-                        display={Platform.OS === "ios" ? "default" : "default"}
+                        display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={onDateChange}
                         minimumDate={new Date()}
                     />
@@ -162,12 +173,12 @@ const AddNoticeBoardScreen = ({ navigation }) => {
                         value={date}
                         mode="time"
                         is24Hour={true}
-                        display={Platform.OS === "ios" ? "default" : "default"}
+                        display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={onTimeChange}
                     />
                 )}
 
-                <View style={styles.addDetailsButton}>
+                <View onTouchStart={closeDateTime} style={styles.addDetailsButton}>
                     <View style={styles.header}>
                         <TextInput
                             style={styles.detailsInput}

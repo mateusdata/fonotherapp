@@ -178,7 +178,7 @@ const AddNoticeBoardScreen = ({ navigation }) => {
                     />
                 )}
 
-                <View onTouchStart={closeDateTime} style={styles.addDetailsButton}>
+                <View style={styles.addDetailsButton} onTouchStart={closeDateTime}>
                     <View style={styles.header}>
                         <TextInput
                             style={styles.detailsInput}

@@ -101,6 +101,11 @@ const EditEventScreen = ({ navigation, route }) => {
         }
     }
 
+    const closeDateTime = ()=> {
+        setShowDatePicker(false);
+        setShowTimePicker(false);
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar animated style='dark' />
@@ -176,7 +181,7 @@ const EditEventScreen = ({ navigation, route }) => {
                     />
                 )}
 
-                <View style={styles.addDetailsButton}>
+                <View style={styles.addDetailsButton} onTouchStart={closeDateTime}>
                     <View style={styles.header}>
                         <TextInput
                             style={styles.detailsInput}

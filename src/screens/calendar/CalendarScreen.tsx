@@ -1,21 +1,23 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import { Agenda, CalendarProvider } from 'react-native-calendars';
 import { colorPrimary } from '../../style/ColorPalette';
 import ButtonEvents from '../../components/ButtonEvents';
 import dayjs from 'dayjs';
 import { api } from '../../config/Api';
 import { useFocusEffect } from '@react-navigation/native';
+import '../../utils/calendarConfig';
 
 const AgendaScreen = () => {
   const [items, setItems] = useState({});
   const [markedDates, setMarkedDates] = useState({});
   const [loadedMonths, setLoadedMonths] = useState(new Set());
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Função para buscar compromissos do mês e atualizar os dados da agenda
   const fetchAppointments = async (year, month) => {
-    setLoading(true); // Inicia o carregamento
+    setLoading(true);
     try {
       const response = await api.post("appointments-of-the-day", { year, month });
       const data = response.data;
@@ -41,30 +43,37 @@ const AgendaScreen = () => {
     } catch (error) {
       console.error('Erro ao buscar eventos:', error);
     } finally {
-      setLoading(false); // Finaliza o carregamento
+      setLoading(false);
     }
   };
 
   // Função que carrega eventos para o mês selecionado se ainda não tiver sido carregado
   const loadItemsForMonth = useCallback(({ year, month }) => {
-    const monthsToLoad = [0, 1, 2, 3 , 4,]; // Representa o mês atual e os próximos dois meses
-    
+    const monthsToLoad = [0, 1, 2, 3, 4];
+
     monthsToLoad.forEach(offset => {
       const loadMonth = month + offset;
       const loadYear = year + Math.floor((month - 1 + offset) / 12);
-  
+
       const adjustedMonth = (loadMonth % 12) || 12;
       const monthYearKey = `${loadYear}-${adjustedMonth}`;
-  
+
       if (!loadedMonths.has(monthYearKey)) {
         fetchAppointments(loadYear, adjustedMonth);
         setLoadedMonths(prevLoadedMonths => new Set(prevLoadedMonths).add(monthYearKey));
       }
     });
   }, [loadedMonths]);
-  
 
-  // Carrega eventos do mês atual sempre que a tela for focada
+  // Função para atualizar ao deslizar para baixo
+  const onRefresh = async () => {
+    setRefreshing(true);
+    const year = dayjs().year();
+    const month = dayjs().month() + 1;
+    await fetchAppointments(year, month);
+    setRefreshing(false);
+  };
+
   useFocusEffect(
     useCallback(() => {
       const year = dayjs().year();
@@ -73,7 +82,6 @@ const AgendaScreen = () => {
     }, [loadItemsForMonth])
   );
 
-  // Renderiza cada item do compromisso na agenda
   const renderItem = (item) => (
     <View style={styles.item}>
       <Text style={styles.text}>{item.name}</Text>
@@ -81,7 +89,6 @@ const AgendaScreen = () => {
     </View>
   );
 
-  // Renderiza a mensagem para dias sem eventos ou um indicador de carregamento
   const renderEmptyDate = () => (
     <View style={styles.emptyDate}>
       {loading ? (
@@ -109,6 +116,8 @@ const AgendaScreen = () => {
             agendaTodayColor: '#D32F2F',
             agendaKnobColor: colorPrimary,
           }}
+          disabledByDefault={true}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           style={styles.agenda}
         />
       </CalendarProvider>

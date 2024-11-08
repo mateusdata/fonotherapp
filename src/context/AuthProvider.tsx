@@ -30,7 +30,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
             if (user != null && token != null) {
                 setUser(JSON.parse(user));
-                setAccessToken(token)
+                setAccessToken(JSON.parse(token))
                 setLoadingAuth(false);
                 return
             }

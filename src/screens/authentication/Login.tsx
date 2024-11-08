@@ -58,16 +58,16 @@ const Login = ({ navigation }: any) => {
 
             try {
 
-                await AsyncStorage.setItem("accessToken", JSON.stringify(response?.data?.token));
-                setAccessToken(response?.data?.token)                               
-                
+                const buceta = await AsyncStorage.setItem("accessToken", JSON.stringify(response?.data?.token));
+                setAccessToken(response?.data?.token)
+
                 if (response.status === 202) {
                     setLoading(false)
                     setError("email", {})
                     return setError("password", { message: response?.data?.message });
                 }
                 setLoadingAuth(true);
-               await getUser(setUser)
+                await getUser(setUser)
             } catch (error) {
                 alert("erro")
             }
@@ -118,9 +118,9 @@ const Login = ({ navigation }: any) => {
                             mode="outlined"
                             testID='email'
                             dense
-                            autoCorrect={false}                            
-                            outlineColor={errors?.email? "red": "gray"}   
-                            activeOutlineColor={errors?.email? "red" : colorPrimary}
+                            autoCorrect={false}
+                            outlineColor={errors?.email ? "red" : "gray"}
+                            activeOutlineColor={errors?.email ? "red" : colorPrimary}
                             error={!!errors.email}
                             onBlur={onBlur} onChangeText={onChange} value={value}
                         />
@@ -137,9 +137,9 @@ const Login = ({ navigation }: any) => {
                             testID='password'
                             mode="outlined"
                             dense
-                            autoCorrect={false}                            
-                            outlineColor={errors?.password? "red": "gray"}   
-                            activeOutlineColor={errors?.password? "red" : colorPrimary}
+                            autoCorrect={false}
+                            outlineColor={errors?.password ? "red" : "gray"}
+                            activeOutlineColor={errors?.password ? "red" : colorPrimary}
                             error={!!errors.password}
                             onBlur={onBlur} onChangeText={onChange} value={value} secureTextEntry
                         />

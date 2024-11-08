@@ -35,6 +35,7 @@ const AnsweredQuestions = () => {
     const fetchData = async () => {
       const response = await api.get(`/pacient/${pac_id}`);
       setPacient(response.data);
+      
     };
     fetchData();
   }, [pac_id, showToast]);
@@ -199,10 +200,11 @@ const AnsweredQuestions = () => {
         <Pressable onPress={getPdf} style={styles.pressable}>
           <View style={styles.row}>
             <AntDesign name="pdffile1" size={34} color="red" />
-            <Text style={styles.text}>{`Relatório de anamnese do paciente ${pacient?.first_name.split(' ')[0]}`}</Text>
+            <Text style={styles.text}>{`Relatório de Avaliação do paciente ${pacient?.first_name.split(' ')[0]}`}</Text>
           </View>
         </Pressable>
         {loading && <ActivityIndicator size="small" color={colorPrimary} />}
+        
 
         <List.Section title='Perguntas respondidas' titleStyle={{ color: "black", fontSize: 15, right: 10 }} style={{ gap: 0, }}>
           <List.Accordion

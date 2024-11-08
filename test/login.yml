@@ -15,7 +15,7 @@ appId: com.projetofono.fonotherapp
     id: password
 - inputText:
     id: password
-    text: "123456"
+    text: "1234567"
 - tapOn: 
     id: login
 - tapOn: 

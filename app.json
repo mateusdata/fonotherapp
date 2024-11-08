@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Fonotherapp",
+    "name": "FonotherApp",
     "slug": "fonotherapp",
     "version": "1.0.0",
     "schema": "fonotherapp",
@@ -16,7 +16,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.projetofono.fonotherapp",
       "infoPlist": {
         "NSFileProtection": "CompleteUnlessOpen",
@@ -36,7 +36,8 @@
       "package": "com.projetofono.fonotherapp",
       "blockedPermissions": [
         "FOREGROUND_SERVICE_LOCATION"
-      ]
+      ],
+      "supportsTablet": false
     },
     "web": {
       "favicon": "./assets/favicon.png"

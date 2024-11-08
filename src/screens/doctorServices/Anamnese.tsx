@@ -46,7 +46,7 @@ const Anamnese = ({ navigation }) => {
   const [isFocusEducation, setIsFocusEducation] = useState(false);
 
   const schema = yup.object({
-    education: yup.string().required("Obrigatorio"),
+    education: yup.string().optional(),
     base_diseases: yup.string().required("Obrigatorio"),
     food_profile: yup.string().required("Obrigatorio"),
     chewing_complaint: yup.string().required("Obrigatorio"),
@@ -183,7 +183,7 @@ const Anamnese = ({ navigation }) => {
         />
         <ErrorMessage name={"food_profile"} errors={errors} />
 
-        <LabelInput value='Queixas a deglutição' />
+        <LabelInput value='Queixas de deglutição' />
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -211,15 +211,17 @@ const Anamnese = ({ navigation }) => {
         />
         <ErrorMessage name={"consultation_reason"} errors={errors} />
 
+        <View style={{ marginBottom: 40 }}>
+
+          <Button icon="arrow-right"
+            disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+            Próximo
+          </Button>
+
+        </View>
 
       </ScrollView>
 
-      <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
-        <Button icon="arrow-right"
-          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
-          Próximo
-        </Button>
-      </View>
 
     </View>
   );

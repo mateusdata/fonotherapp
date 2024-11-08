@@ -75,7 +75,7 @@ const DischargeReportPdf = ({ route }: any) => {
 
   const nomeChaves: { [key: string]: string } = {
     medical_diagnoses: "Diagnósticos",
-    how_it_was_discovered: "Como foi descoberto",
+    how_it_was_discovered: "História clínica",
     first_session_findings: "Avaliação Inicial",
     therapeutic_plan: "Plano Terapêutico",
     patients_progress: "Progresso dos Pacientes",

@@ -171,7 +171,7 @@ const CreatePacient = ({ navigation }) => {
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <MaskInput
-              style={[styles.maskInput, { backgroundColor:"white", borderColor: isFocus ? colorPrimary : "#848484", borderWidth: isFocus ? 2 : 1 }]}
+              style={[styles.maskInput, { backgroundColor: "white", borderColor: isFocus ? colorPrimary : "#848484", borderWidth: isFocus ? 2 : 1 }]}
               value={(value)}
               placeholder={null}
               cursorColor={colorSecundary}
@@ -189,14 +189,18 @@ const CreatePacient = ({ navigation }) => {
         />
         <ErrorMessage name={"birthday"} errors={errors} />
 
+        <View style={{ marginBottom: 40 }}>
+
+          <Button icon="arrow-right"
+            disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+            Próximo
+          </Button>
+          
+        </View>
+
       </ScrollView>
 
-      <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
-        <Button icon="arrow-right"
-          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
-          Próximo
-        </Button>
-      </View>
+
 
     </View>
   );

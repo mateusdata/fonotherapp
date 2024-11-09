@@ -17,7 +17,11 @@ const ButtonEvents = () => {
                     open={open}
                     visible
                     backdropColor={true ? '#f2f2f0': "white"}
-                    color={colorPrimary}
+                    fabStyle={{
+                        backgroundColor: colorPrimary
+                    }}
+                    
+                    color={"white"}
                     icon={open ? 'calendar-today' : 'plus'}
                     actions={[
 

@@ -1,7 +1,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { ActivityIndicator, List } from 'react-native-paper';
+import { ActivityIndicator, Button, List } from 'react-native-paper';
 import { Keyboard, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as  Animatable from "react-native-animatable"
@@ -35,7 +35,7 @@ const AnsweredQuestions = () => {
     const fetchData = async () => {
       const response = await api.get(`/pacient/${pac_id}`);
       setPacient(response.data);
-      
+
     };
     fetchData();
   }, [pac_id, showToast]);
@@ -197,14 +197,29 @@ const AnsweredQuestions = () => {
       <ScrollView style={styles.container}>
         <Text> {false && JSON.stringify(answered, null, 2)}
         </Text>
-        <Pressable onPress={getPdf} style={styles.pressable}>
-          <View style={styles.row}>
-            <AntDesign name="pdffile1" size={34} color="red" />
-            <Text style={styles.text}>{`Relatório de Avaliação do paciente ${pacient?.first_name.split(' ')[0]}`}</Text>
-          </View>
-        </Pressable>
+
+        <View style={{gap:8}}>
+          <Pressable onPress={getPdf}>
+            <Button
+            icon={(props) => <AntDesign name="pdffile1" size={23} color="white" />}
+            buttonColor={colorPrimary} mode='elevated' textColor='white' >
+              {`Relatório de Avaliação do paciente ${pacient?.first_name.split(' ')[0]}`}
+            </Button>
+          </Pressable>
+
+
+          {false && <AntDesign name="pdffile1" size={34} color="red" />}
+
+          <Pressable onPress={getPdf}>
+            <Button buttonColor={colorPrimary} mode='elevated' textColor='white' >
+              Evolução Diária
+            </Button>
+          </Pressable>
+
+        </View>
+
         {loading && <ActivityIndicator size="small" color={colorPrimary} />}
-        
+
 
         <List.Section title='Perguntas respondidas' titleStyle={{ color: "black", fontSize: 15, right: 10 }} style={{ gap: 0, }}>
           <List.Accordion
@@ -217,7 +232,7 @@ const AnsweredQuestions = () => {
             {renderAnamnese()}
           </List.Accordion>
 
-          <ScrollView style={{maxHeight:500}}>
+          <ScrollView style={{ maxHeight: 500 }}>
             {answered && answered.map((item, index) => (
               <List.Accordion
                 key={index + 1}

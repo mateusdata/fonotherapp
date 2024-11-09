@@ -258,8 +258,9 @@ const PatientProfile = ({ navigation }) => {
                     </Button>
 
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
-                        Avaliação fonoaudiológica
+                        Avaliação/Evolução fonoaudiológica
                     </Button>
+                    
                     <Button buttonColor='#36B3B9' icon="clipboard" mode="contained" onPress={getPdf} style={{ marginBottom: 10 }}>
                        Orientação ao paciente-familiares
                     </Button>

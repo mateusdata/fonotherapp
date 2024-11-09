@@ -46,7 +46,13 @@
       "policy": "appVersion"
     },
     "plugins": [
-      
+      [
+        "expo-location",
+        {
+          "isAndroidForegroundServiceEnabled": false
+        }
+      ]
+
     ],
     "extra": {
       "eas": {

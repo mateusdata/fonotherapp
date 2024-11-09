@@ -39,7 +39,7 @@ const PreLogin = ({ navigation }: any) => {
                             Descubra o seu melhor com o fonotherApp
                         </CustomText>
                         <CustomText style={{ fontSize: 16, textAlign: "center" }}>
-                            Explore um mundo de saúde e Tenha controle dos seus pacientes com o nosso app de
+                            Explore diversas possibilidades e tenha a sua terapia na palma da  mão
                         </CustomText>
 
                     </Animatable.View>
@@ -47,14 +47,14 @@ const PreLogin = ({ navigation }: any) => {
                 <View style={{ width: "90%", marginTop: 10, gap: 5 }} >
                     <View style={{ padding: 0 }}>
                         <Button
-                        testID='create-account'
+                            testID='create-account'
                             style={{ padding: 5 }}
                             buttonColor='#36B3B1'
-                            onPress={() => navigation.navigate("CreateAccount")} 
+                            onPress={() => navigation.navigate("CreateAccount")}
 
                             textColor={"white"}
                         >
-                           Criar conta
+                            Criar conta
                         </Button>
                     </View>
                     <Button testID='login' focusable mode='contained-tonal' onPress={() => navigation.navigate("Login")} style={{

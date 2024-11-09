@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const ButtonEvents = () => {
     const [state, setState] = React.useState({ open: false });
-    const navigate:any = useNavigation()
+    const navigate:any = useNavigation();
     const onStateChange = ({ open }) => setState({ open });
 
     const { open } = state;
@@ -16,30 +16,34 @@ const ButtonEvents = () => {
                 <FAB.Group
                     open={open}
                     visible
-                    backdropColor={true ? '#f2f2f0': "white"}
+                    backdropColor={true ? '#f2f2f0' : 'white'}
                     fabStyle={{
                         backgroundColor: colorPrimary
                     }}
-                    
                     color={"white"}
                     icon={open ? 'calendar-today' : 'plus'}
                     actions={[
-
                         {
                             icon: 'bell',
-                            label: 'Meus evento',
-                            onPress: () =>  navigate.navigate("MyAgenda"),
+                            label: 'Meus eventos',
+                            onPress: () => navigate.navigate("MyAgenda"),
+                            color: "white", 
+                            style: { backgroundColor: colorPrimary }, 
+                            labelTextColor: "black" 
                         },
                         {
                             icon: 'plus',
                             label: 'Criar evento',
-                            onPress: () =>  navigate.navigate("AddEventScreen"),
+                            onPress: () => navigate.navigate("AddEventScreen"),
+                            color: "white", 
+                            style: { backgroundColor: colorPrimary }, 
+                            labelTextColor: "black" 
                         },
                     ]}
                     onStateChange={onStateChange}
                     onPress={() => {
                         if (open) {
-                            // do something if the speed dial is open
+                            
                         }
                     }}
                 />

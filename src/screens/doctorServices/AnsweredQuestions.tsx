@@ -19,7 +19,7 @@ import HeaderSheet from '../../components/HeaderSheet';
 import UpdateAnamnese from '../../components/AnsweredQuestions/UpdateAnamnese';
 import Toast from '../../components/toast';
 
-const AnsweredQuestions = () => {
+const AnsweredQuestions = ({navigation}) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
@@ -208,9 +208,8 @@ const AnsweredQuestions = () => {
           </Pressable>
 
 
-          {false && <AntDesign name="pdffile1" size={34} color="red" />}
 
-          <Pressable onPress={getPdf}>
+          <Pressable onPress={()=> navigation.navigate("PatientEvolution")}>
             <Button buttonColor={colorPrimary} mode='elevated' textColor='white' >
               Evolução Diária
             </Button>

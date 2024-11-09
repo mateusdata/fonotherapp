@@ -23,6 +23,7 @@ import AccompanyPatient from '../../screens/doctorServices/AccompanyPatient';
 import AnsweredQuestions from '../../screens/doctorServices/AnsweredQuestions';
 import Section from '../../screens/doctorServices/Section';
 import CurrentProtocol from '../../screens/doctorServices/CurrentProtocol';
+import PatientEvolution from '../../screens/doctorServices/PatientEvolution';
 import ServiceProvisionReceiptPdf from '../../screens/doctorServices/ServiceProvisionReceiptPdf';
 import MonitoringReportPdf from '../../screens/doctorServices/MonitoringReportPdf';
 import DischargeReportPdf from '../../screens/doctorServices/DischargeReportPdf';
@@ -88,6 +89,10 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
         <AppStack.Screen name='Section' component={Section} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Sessão" }} />
         <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
+        <AppStack.Screen name='PatientEvolution' component={PatientEvolution} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Evolução do paciente" }} />
+
+        
+
 
         <AppStack.Screen name='ServiceProvisionReceiptPdf' component={ServiceProvisionReceiptPdf} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Recibo de prestação de serviço" }} />
         <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Relatório de acompanhamento" }} />

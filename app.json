@@ -20,7 +20,7 @@
       "bundleIdentifier": "com.projetofono.fonotherapp",
       "infoPlist": {
         "NSFileProtection": "CompleteUnlessOpen",
-        "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to use Face ID.",
+        "NSFaceIDUsageDescription": "Allow $(FonotherApp) to use Face ID.",
         "UIBackgroundModes": [
           "fetch",
           "remote-notification"
@@ -35,7 +35,8 @@
       },
       "package": "com.projetofono.fonotherapp",
       "blockedPermissions": [
-        "FOREGROUND_SERVICE_LOCATION"
+        "FOREGROUND_SERVICE_LOCATION",
+        "FOREGROUND_SERVICE_MEDIA_PLAYBACK"
       ],
       "supportsTablet": false
     },
@@ -52,7 +53,6 @@
           "isAndroidForegroundServiceEnabled": false
         }
       ]
-
     ],
     "extra": {
       "eas": {

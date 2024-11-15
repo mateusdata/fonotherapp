@@ -33,7 +33,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.projetofono.fonotherapp"
-     
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -42,6 +41,13 @@
       "policy": "appVersion"
     },
     "plugins": [
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": false,
+          "supportsPictureInPicture": false
+        }
+      ]
     ],
     "extra": {
       "eas": {

@@ -1,16 +1,13 @@
-import { config } from '@tamagui/config/v2-native';
+import { config } from '@tamagui/config/v3'
+import { createTamagui } from 'tamagui' // or '@tamagui/core'
 
-import { createTamagui } from 'tamagui';
-const tamaguiConfig = createTamagui(config)
-// this makes typescript properly type everything based on the config
+const appConfig = createTamagui(config)
 
-type Conf = typeof tamaguiConfig
+export type AppConfig = typeof appConfig
 
 declare module 'tamagui' {
-
-  interface TamaguiCustomConfig extends Conf {}
-
+ 
+  interface TamaguiCustomConfig extends AppConfig {}
 }
-export default tamaguiConfig
-// depending on if you chose tamagui, @tamagui/core, or @tamagui/web
-// be sure the import and declare module lines both use that same namer
+
+export default appConfig

@@ -5,7 +5,7 @@ import { colorRed } from '../style/ColorPalette';
 import { showToast } from '../utils/showToast';
 
 const api = axios.create({
-  baseURL: 'https://f423-200-26-254-64.ngrok-free.app',
+  baseURL: 'https://api.fonotherapp.com.br',
 });
 
 let isSessionExpiredToastShown = false; 

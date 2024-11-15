@@ -7,7 +7,6 @@ import * as yup from "yup"
 import { cpf } from 'cpf-cnpj-validator';
 import dayjs from 'dayjs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { DatePickerInput } from 'react-native-paper-dates';
 import { api } from '../../config/Api'
 import ErrorMessage from '../../components/errorMessage'
 import { FormatPacient } from '../../interfaces/globalInterface';
@@ -92,18 +91,7 @@ const UpdatePacient = ({ route }) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <SafeAreaProvider>
                                 <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
-                                    <DatePickerInput
-                                        disabled
-                                        error
-                                        locale='pt-BR'
-                                        label="Data de nascimento "
-                                        value={(watch().birthday)}
-                                        onChange={onChange}
-                                        inputMode="start"
-                                        mode='outlined'
-                                        activeOutlineColor={`${errors.birthday ? "red" : "#376fe8"}`}
-                                        iconStyle={{ display: 'none' }}
-                                    />
+                                 
                                 </View>
                             </SafeAreaProvider>
 

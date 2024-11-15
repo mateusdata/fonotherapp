@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-import { DatePickerInput } from 'react-native-paper-dates';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { ScrollView } from 'react-native-gesture-handler';

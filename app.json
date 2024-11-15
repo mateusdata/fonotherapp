@@ -3,12 +3,12 @@
     "name": "FonotherApp",
     "slug": "fonotherapp",
     "version": "1.0.0",
-    "schema": "fonotherapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#159797"
     },
@@ -30,15 +30,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff",
-        "versionCode": 4
+        "backgroundColor": "#ffffff"
       },
-      "package": "com.projetofono.fonotherapp",
-      "blockedPermissions": [
-        "FOREGROUND_SERVICE_LOCATION",
-        "FOREGROUND_SERVICE_MEDIA_PLAYBACK"
-      ],
-      "supportsTablet": false
+      "package": "com.projetofono.fonotherapp"
+     
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -47,12 +42,6 @@
       "policy": "appVersion"
     },
     "plugins": [
-      [
-        "expo-location",
-        {
-          "isAndroidForegroundServiceEnabled": false
-        }
-      ]
     ],
     "extra": {
       "eas": {

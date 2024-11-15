@@ -33,52 +33,50 @@ export default function MyComponent() {
         )
       }}
 
-      tabBar={({ navigation, state, descriptors, insets }: any) => (
-        <>
-          <BottomNavigation.Bar
-            activeColor='#36B3B9'
-            compact
-            style={{ backgroundColor: "white", borderTopWidth: 1, borderTopColor: "#ECF2FF" }}
-            navigationState={state}
-            safeAreaInsets={insets}
-            onTabPress={({ route, preventDefault }: any) => {
-              const event = navigation.emit({
-                type: 'tabPress',
-                target: route.key,
-                canPreventDefault: true,
+      tabBar={({ navigation, state, descriptors, insets }) => (
+        <BottomNavigation.Bar
+          activeColor='#36B3B9'
+          compact
+          style={{ backgroundColor: "white", borderTopWidth: 1, borderTopColor: "#ECF2FF" }}
+          navigationState={state}
+          safeAreaInsets={insets}
+          onTabPress={({ route, preventDefault }) => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+
+            if (event.defaultPrevented) {
+              preventDefault();
+            } else {
+              navigation.dispatch({
+                ...CommonActions.navigate(route.name, route.params),
+                target: state.key,
               });
+            }
+          }}
+          renderIcon={({ route, focused, color }) => {
+            const { options } = descriptors[route.key];
+            if (options.tabBarIcon) {
+              return options.tabBarIcon({ focused, color, size: 24 });
+            }
 
-              if (event.defaultPrevented) {
-                preventDefault();
-              } else {
-                navigation.dispatch({
-                  ...CommonActions.navigate(route.name, route.params),
-                  target: state.key,
-                });
-              }
-            }}
-            renderIcon={({ route, focused, color }: any) => {
-              const { options } = descriptors[route.key];
-              if (options.tabBarIcon) {
-                return options.tabBarIcon({ focused, color, size: 24 });
-              }
+            return null;
+          }}
+          getLabelText={({ route }: any) => {
+            const { options } = descriptors[route.key];
+            const label =
+              options.tabBarLabel !== undefined
+                ? options.tabBarLabel
+                : options.title !== undefined
+                  ? options.title
+                  : route.name;
 
-              return null;
-            }}
-            getLabelText={({ route }: any) => {
-              const { options } = descriptors[route.key];
-              const label =
-                options.tabBarLabel !== undefined
-                  ? options.tabBarLabel
-                  : options.title !== undefined
-                    ? options.title
-                    : route.name;
+            return label;
+          }}
 
-              return label;
-            }}
-
-          />
-        </>
+        />
       )}
     >
       <Tab.Screen

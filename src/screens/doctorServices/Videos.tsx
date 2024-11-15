@@ -16,6 +16,10 @@ import { Sheet } from 'tamagui';
 import { videoUrl } from '../../utils/videoUrl';
 import { urlPosterSouce } from '../../utils/urlPosterSource';
 import Segmenteds from '../../components/Segmenteds';
+import { useVideoPlayer, VideoView } from 'expo-video';
+
+const videoSource =
+  'https://api.fonotherapp.com.br/videos/bico_e_sorriso.mp4';
 
 export default function Videos({ navigation }) {
   const [page, setPage] = useState(1);
@@ -29,6 +33,11 @@ export default function Videos({ navigation }) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videosType, setVideosType] = useState('degluticao');
+  const player = useVideoPlayer(videoSource, player => {
+    player.loop = true;
+    player.play();
+  });
+
 
 
   useEffect(() => {
@@ -99,7 +108,7 @@ export default function Videos({ navigation }) {
       handleVideoPress(item);
       setIsVideoPlaying(true)
     }}
-    android_ripple={{color:colorPrimary}}
+      android_ripple={{ color: colorPrimary }}
       style={{
         flexDirection: "row", alignItems: "center", backgroundColor: "white", marginVertical: 0
       }}>
@@ -114,7 +123,7 @@ export default function Videos({ navigation }) {
     return <SkelectonView />
   }
   return (
-    <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 5, backgroundColor:"white"}}>
+    <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: "white" }}>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}
@@ -135,7 +144,7 @@ export default function Videos({ navigation }) {
         renderItem={({ item }) => renderItem({ item })}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
-        ListHeaderComponent={<Segmenteds videosType={videosType} setVideosType={setVideosType} />} 
+        ListHeaderComponent={<Segmenteds videosType={videosType} setVideosType={setVideosType} />}
       />
       <Sheet
         modal
@@ -182,6 +191,13 @@ export default function Videos({ navigation }) {
                 }}
               />
 
+              <VideoView
+                style={styles.video}
+                player={player}
+                contentFit='cover'
+                allowsFullscreen
+                nativeControls={true}
+                allowsPictureInPicture={false} />
 
             </View>
 

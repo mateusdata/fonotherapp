@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
@@ -17,6 +17,8 @@ import { videoUrl } from '../../utils/videoUrl';
 import { urlPosterSouce } from '../../utils/urlPosterSource';
 import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const videoSource =
   'https://api.fonotherapp.com.br/videos/bico_e_sorriso.mp4';
@@ -33,13 +35,24 @@ export default function Videos({ navigation }) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videosType, setVideosType] = useState('degluticao');
-  const player = useVideoPlayer(videoSource, player => {
-    player.loop = true;
+
+  const player = useVideoPlayer(videoUrl + selectedVideo?.video_urls[0], player => {
+    player.loop = false;
     player.play();
   });
 
 
+  const bottomSheetRef = useRef<BottomSheet>(null);
 
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
+
+
+  function onClose() {
+    bottomSheetRef.current.close()
+  }
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       setIsVideoPlaying(false)
@@ -173,7 +186,7 @@ export default function Videos({ navigation }) {
             <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
 
-              <Video
+              {false && <Video
                 style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 1, borderColor: "#d6d6d6", backgroundColor: "white" }}
                 source={{ uri: videoUrl + selectedVideo?.video_urls[0] }}
                 resizeMode={ResizeMode.COVER}
@@ -189,7 +202,7 @@ export default function Videos({ navigation }) {
                   setIsVideoLoading(false);
                   setIsVideoPlaying(true); // Definir como true apenas quando o vídeo estiver carregado
                 }}
-              />
+              />}
 
               <VideoView
                 style={styles.video}
@@ -223,15 +236,40 @@ export default function Videos({ navigation }) {
 
 
 
+
+      <GestureHandlerRootView style={styles.contentContainer}>
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={[5000]}
+          onChange={handleSheetChanges}
+          onClose={onClose}
+        >
+          <BottomSheetView style={styles.contentContainerModal}>
+            <Text>Awesome 🎉</Text>
+          </BottomSheetView>
+        </BottomSheet>
+      </GestureHandlerRootView>
+
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+
     justifyContent: 'center',
     backgroundColor: 'white',
+  },
+  contentContainerModal: {
+    flex: 1,
+    backgroundColor: "gray"
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 36,
+    alignItems: 'center',
   },
   video: {
     alignSelf: 'center',

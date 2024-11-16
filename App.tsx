@@ -1,58 +1,78 @@
-import React, { useCallback, useMemo, useRef } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import AuthProvider from './src/context/AuthProvider';
+import Routes from './src/routes/routes';
+import { TamaguiProvider } from 'tamagui';
+import config from './tamagui.config';
+import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import {
-  BottomSheetModal,
-  BottomSheetView,
-  BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet';
+import React, { useEffect } from 'react';
+import NetInfo from "@react-native-community/netinfo";
+import { StatusBar } from 'expo-status-bar';
+import PacientContext from './src/context/PacientContext';
+import GlobalContext from './src/context/GlobalContext';
+import * as Notifications from 'expo-notifications';
+import Toast from 'react-native-toast-message';
+import BottomSheetProvider from './src/context/BottomSheetProvider';
 
-const App = () => {
-  // ref
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+export default function App() {
+  //app
+  const [tamaguiLoaded] = useFonts({
+    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
+    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
+  });
 
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+
+  useEffect(() => {
+    const requestNotificationPermissions = async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Permissão para notificações não concedida');
+      }
+    };
+    requestNotificationPermissions();
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
+        //alert("Você esta sem conexão com a internet")
+
+        setTimeout(() => {
+          //BackHandler.exitApp();
+
+        }, 2000);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
 
-  // renders
+  const [fontsLoaded] = useFonts({
+    Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
+  });
+
+  if (!fontsLoaded || !tamaguiLoaded) {
+    return null;
+  }
   return (
-      <GestureHandlerRootView style={styles.container}>
-        <BottomSheetModalProvider>
-          <Button
-            onPress={handlePresentModalPress}
-            title="Present Modal"
-            color="black"
-          />
-          <BottomSheetModal
-          snapPoints={["100%"]}
-            ref={bottomSheetModalRef}
-            onChange={handleSheetChanges}
-          >
-            <BottomSheetView style={styles.contentContainer}>
-              <Text>Awesome 🎉</Text>
-            </BottomSheetView>
-        </BottomSheetModal>
-        </BottomSheetModalProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <>
+        <NavigationContainer>
+          <GlobalContext>
+            <TamaguiProvider config={config}>
+              <AuthProvider>
+                <BottomSheetProvider>
+                  <PacientContext>
+                    <Routes />
+                  </PacientContext>
+                </BottomSheetProvider>
+              </AuthProvider>
+            </TamaguiProvider>
+          </GlobalContext>
+        </NavigationContainer>
+        <Toast />
+      </>
+
     </GestureHandlerRootView>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: 'center',
-    backgroundColor: 'grey',
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-});
-
-export default App;
+}
+//#36B3B9

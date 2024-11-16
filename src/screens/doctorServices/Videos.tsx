@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import BottomSheet, {
+import {
   BottomSheetModal,
   BottomSheetView,
   BottomSheetModalProvider,
@@ -28,7 +28,7 @@ const App = () => {
             color="black"
           />
           <BottomSheet
-            ref={bottomSheetModalRef}
+            ref={bottomSheetRef}
             snapPoints={[500, 1000]}
             onChange={handleSheetChanges}
           >

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation } from 'react-native-paper';
+import { BottomNavigation, TouchableRipple } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { StatusBar } from 'expo-status-bar';
@@ -57,6 +57,7 @@ export default function MyComponent() {
                 });
               }
             }}
+            renderTouchable={({ key, ...props }) => <TouchableRipple key={key} {...props} />}
             renderIcon={({ route, focused, color }: any) => {
               const { options } = descriptors[route.key];
               if (options.tabBarIcon) {

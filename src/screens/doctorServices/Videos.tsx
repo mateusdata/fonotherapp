@@ -17,7 +17,7 @@ import { videoUrl } from '../../utils/videoUrl';
 import { urlPosterSouce } from '../../utils/urlPosterSource';
 import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const videoSource =
@@ -37,22 +37,28 @@ export default function Videos({ navigation }) {
   const [videosType, setVideosType] = useState('degluticao');
 
   const player = useVideoPlayer(videoUrl + selectedVideo?.video_urls[0], player => {
-    player.loop = false;
+    player.loop = true;
     player.play();
   });
-
-
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
 
 
   function onClose() {
     bottomSheetRef.current.close()
   }
+
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       setIsVideoPlaying(false)
@@ -113,7 +119,7 @@ export default function Videos({ navigation }) {
 
   const handleVideoPress = (uri) => {
     setSelectedVideo(uri);
-    setModalVisible(true);
+   // setModalVisible(true);
   };
 
   const renderItem = ({ item }) => (
@@ -132,11 +138,21 @@ export default function Videos({ navigation }) {
     </Pressable>
   );
 
+
+
   if (loading) {
     return <SkelectonView />
   }
+
+
+
   return (
     <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: "white" }}>
+      <Button
+        onPress={handlePresentModalPress}
+      >
+        Abrir
+      </Button>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}
@@ -236,18 +252,68 @@ export default function Videos({ navigation }) {
 
 
 
-
       <GestureHandlerRootView style={styles.contentContainer}>
-        <BottomSheet
-          ref={bottomSheetRef}
-          snapPoints={[5000]}
-          onChange={handleSheetChanges}
-          onClose={onClose}
-        >
-          <BottomSheetView style={styles.contentContainerModal}>
-            <Text>Awesome 🎉</Text>
-          </BottomSheetView>
-        </BottomSheet>
+        <BottomSheetModalProvider>
+
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            onChange={handleSheetChanges}
+            snapPoints={[500, 800]}
+          >
+            <BottomSheetView style={{ backgroundColor: "white" }}>
+
+
+              <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
+                <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
+
+                  {false && <Video
+                    style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 1, borderColor: "#d6d6d6", backgroundColor: "white" }}
+                    source={{ uri: videoUrl + selectedVideo?.video_urls[0] }}
+                    resizeMode={ResizeMode.COVER}
+                    onLoadStart={() => setIsVideoLoading(true)}
+                    isLooping={true}
+                    key={selectedVideo?.exe_id}
+                    usePoster={isVideoLoading}
+                    posterSource={{ uri: urlPosterSouce }}
+                    shouldPlay={isVideoPlaying}
+                    posterStyle={{ justifyContent: "center", flex: 1, alignItems: "center", height: 100, top: 110, width: "100%" }}
+
+                    onLoad={() => {
+                      setIsVideoLoading(false);
+                      setIsVideoPlaying(true); // Definir como true apenas quando o vídeo estiver carregado
+                    }}
+                  />}
+
+                  <VideoView
+                    style={styles.video}
+                    player={player}
+                    contentFit='cover'
+                    allowsFullscreen
+                    nativeControls={true}
+                    allowsPictureInPicture={false} />
+
+                </View>
+
+                {!isVideoLoading &&
+
+                  <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
+                    {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
+                    <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
+
+                    {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
+                    <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
+
+                    {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
+                    <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
+                  </View>
+
+                }
+
+              </ScrollView>
+            </BottomSheetView>
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
 
 
@@ -270,6 +336,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 36,
     alignItems: 'center',
+
   },
   video: {
     alignSelf: 'center',

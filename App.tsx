@@ -22,7 +22,7 @@ const App = () => {
   // renders
   return (
       <GestureHandlerRootView style={styles.container}>
-        <>
+        <BottomSheetModalProvider>
           <Button
             onPress={handlePresentModalPress}
             title="Present Modal"
@@ -37,7 +37,7 @@ const App = () => {
               <Text>Awesome 🎉</Text>
             </BottomSheetView>
         </BottomSheetModal>
-        </>
+        </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 };

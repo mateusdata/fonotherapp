@@ -13,6 +13,7 @@ import GlobalContext from './src/context/GlobalContext';
 import * as Notifications from 'expo-notifications';
 import Toast from 'react-native-toast-message';
 import BottomSheetProvider from './src/context/BottomSheetProvider';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 export default function App() {
   //app
@@ -55,10 +56,10 @@ export default function App() {
   }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <>
+      <BottomSheetModalProvider  >
         <NavigationContainer>
           <GlobalContext>
-            <TamaguiProvider config={config}>
+            
               <AuthProvider>
                 <BottomSheetProvider>
                   <PacientContext>
@@ -66,11 +67,10 @@ export default function App() {
                   </PacientContext>
                 </BottomSheetProvider>
               </AuthProvider>
-            </TamaguiProvider>
           </GlobalContext>
         </NavigationContainer>
         <Toast />
-      </>
+      </BottomSheetModalProvider>
 
     </GestureHandlerRootView>
   );

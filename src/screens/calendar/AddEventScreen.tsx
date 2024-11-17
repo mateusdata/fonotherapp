@@ -9,6 +9,7 @@ import { api } from '../../config/Api';
 import { Context } from '../../context/AuthProvider';
 import { AgendaNotification } from '../../utils/AgendaNotification';
 import 'dayjs/locale/pt-br';
+import { Button } from 'react-native-paper';
 dayjs.locale('pt-br');
 
 const AddEventScreen = ({ navigation }) => {
@@ -18,12 +19,13 @@ const AddEventScreen = ({ navigation }) => {
     const { user } = useContext(Context);
     const [newEvent, setNewEvent] = useState({
         title: "",
-        description: "",
         date: new Date(),
     });
 
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const [date, setDate] = useState(new Date());
 
     const onDateChange = (event, selectedDate) => {
@@ -68,6 +70,7 @@ const AddEventScreen = ({ navigation }) => {
     };
 
     async function createEvent() {
+        setLoading(true)
         try {
             if (!newEvent || !newEvent.date) {
                 alert("Evento inválido. Verifique os dados.");
@@ -75,15 +78,15 @@ const AddEventScreen = ({ navigation }) => {
             }
 
             const fullDateTime = dayjs(newEvent.date).format("YYYY-MM-DD HH:mm:ss");
-             console.log(fullDateTime);
-            
+            console.log(fullDateTime);
+
             const response = await api.post("/appointment", {
                 title: title,
                 starts_at: fullDateTime
             });
-            console.log(response.data);
+            console.log(fullDateTime);
 
-            AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20 , fullDateTime);
+            AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
 
             if (Platform.OS === "android") {
                 ToastAndroid.show("Evento criado", ToastAndroid.BOTTOM);
@@ -93,11 +96,12 @@ const AddEventScreen = ({ navigation }) => {
         } catch (error) {
             console.error("Erro ao criar o evento:", error);
             alert("Ocorreu um erro ao criar o evento.");
+            setLoading(false)
         }
     }
 
 
-    const closeDateTime = ()=> {
+    const closeDateTime = () => {
         setShowDatePicker(false);
         setShowTimePicker(false);
     }
@@ -114,9 +118,9 @@ const AddEventScreen = ({ navigation }) => {
                     onPress={() => navigation.goBack()}
                     style={{ marginLeft: 2 }}
                 />
-                <TouchableOpacity onPress={createEvent} style={styles.saveButton}>
-                    <Text style={styles.saveButtonText}>Salvar</Text>
-                </TouchableOpacity>
+                <Button  loading={loading} textColor='white'  disabled={!(!!title) || loading} onPress={createEvent} style={{backgroundColor: colorPrimary, paddingHorizontal:8}}  >
+                    Salvar 
+                </Button>
             </View>
 
             <ScrollView>
@@ -218,9 +222,8 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     saveButton: {
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        backgroundColor: colorPrimary,
+        paddingVertical: 0,
+        paddingHorizontal: 10,
         borderRadius: 80,
     },
     saveButtonText: {

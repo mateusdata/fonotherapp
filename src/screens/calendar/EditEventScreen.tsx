@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { api } from '../../config/Api';
 import { Context } from '../../context/AuthProvider';
+import { AgendaNotification } from '../../utils/AgendaNotification';
+import { Button } from 'react-native-paper';
 
 dayjs.locale('pt-br');
 
@@ -17,6 +19,7 @@ const EditEventScreen = ({ navigation, route }) => {
     const [title, setTitle] = useState(initialTitle);
     const [details, setDetails] = useState(initialDetails);
     const { user } = useContext(Context);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         
@@ -64,6 +67,8 @@ const EditEventScreen = ({ navigation, route }) => {
     };
 
     async function updateEvent() {
+        setLoading(true)
+
         try {
             if (!newEvent || !newEvent.date || !newEvent.time) {
                 alert("Evento inválido. Verifique os dados.");
@@ -83,21 +88,24 @@ const EditEventScreen = ({ navigation, route }) => {
                 return;
             }
 
-            const updatedDate = date.hour(time.hour()).minute(time.minute()).format("YYYY-MM-DD HH:mm:ss");
+            const fullDateTime = date.hour(time.hour()).minute(time.minute()).format("YYYY-MM-DD HH:mm:ss");
             const response = await api.put(`/appointment/${app_id}`, {
                 title: title,
-                starts_at: updatedDate
+                starts_at: fullDateTime
             });
 
           if(Platform.OS==="android"){
             ToastAndroid.show("Evento atualizado", ToastAndroid.BOTTOM);
           }
-          
+          AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20 , fullDateTime);
+
             navigation.goBack();
 
         } catch (error) {
             console.error("Erro ao atualizar o evento:", error);
             alert("Ocorreu um erro ao atualizar o evento.");
+            setLoading(false)
+
         }
     }
 
@@ -116,10 +124,12 @@ const EditEventScreen = ({ navigation, route }) => {
                     color={"black"}
                     onPress={() => navigation.goBack()}
                     style={{ marginLeft: 2 }}
-                />
-                <TouchableOpacity onPress={updateEvent} style={styles.saveButton}>
-                    <Text style={styles.saveButtonText}>Salvar</Text>
-                </TouchableOpacity>
+                />               
+               
+
+                <Button  loading={loading} textColor='white'  disabled={!(!!title) || loading} onPress={updateEvent} style={{backgroundColor: colorPrimary, paddingHorizontal:8}}  >
+                    Salvar 
+                </Button>
             </View>
 
             <ScrollView>
@@ -219,8 +229,8 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     saveButton: {
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        paddingVertical: 0,
+        paddingHorizontal: 10,
         backgroundColor: colorPrimary,
         borderRadius: 80,
     },

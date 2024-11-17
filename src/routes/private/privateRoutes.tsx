@@ -56,66 +56,67 @@ const PrivateRoutes = () => {
     <>
       <StatusBar animated hideTransitionAnimation='fade' style='light' />
 
-      <AppStack.Navigator screenOptions={{
-        headerBackTitleVisible: false,
+      <AppStack.Navigator id={undefined} screenOptions={{
+      
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTintColor: "white", headerStyle: {
           backgroundColor: colorPrimary
-        }
+        },
+        headerBackTitle:""
       }}>
 
         <AppStack.Screen name='Root' component={TabsNavigation} options={{
-          headerBackTitleVisible: false,
+        
           headerShown: false,
         }} />
 
-        <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{ headerBackTitleVisible: false, headerTitle: "Cadastrar paciente", headerTitleAlign: "center" }} />
-        <AppStack.Screen name='Anamnese' component={Anamnese} options={{ headerBackTitleVisible: false, headerTitleAlign: "center" }} />
-        <AppStack.Screen name='MyInformation' component={MyInformation} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Minhas informações" }} />
-        <AppStack.Screen name='ChangeName' component={ChangeName} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Alterar nome" }} />
-        <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Alterar email" }} />
-        <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Alterar senha" }} />
-        <AppStack.Screen name='Help' component={Help} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Contato" }} />
-        <AppStack.Screen name='Consultancy' component={Consultancy} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Consultoria" }} />
+        <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{  headerTitle: "Cadastrar paciente", headerTitleAlign: "center" }} />
+        <AppStack.Screen name='Anamnese' component={Anamnese} options={{  headerTitleAlign: "center" }} />
+        <AppStack.Screen name='MyInformation' component={MyInformation} options={{  headerTitleAlign: "center", headerTitle: "Minhas informações" }} />
+        <AppStack.Screen name='ChangeName' component={ChangeName} options={{  headerTitleAlign: "center", headerTitle: "Alterar nome" }} />
+        <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{  headerTitleAlign: "center", headerTitle: "Alterar email" }} />
+        <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{  headerTitleAlign: "center", headerTitle: "Alterar senha" }} />
+        <AppStack.Screen name='Help' component={Help} options={{  headerTitleAlign: "center", headerTitle: "Contato" }} />
+        <AppStack.Screen name='Consultancy' component={Consultancy} options={{  headerTitleAlign: "center", headerTitle: "Consultoria" }} />
 
 
-        <AppStack.Screen name='Feedback' component={Feedback} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Feedback" }} />
-        <AppStack.Screen name='PatientAnalysis' component={PatientAnalysis} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "", headerShown: true }} />
-        <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Concluir cadastro" }} />
+        <AppStack.Screen name='Feedback' component={Feedback} options={{  headerTitleAlign: "center", headerTitle: "Feedback" }} />
+        <AppStack.Screen name='PatientAnalysis' component={PatientAnalysis} options={{  headerTitleAlign: "center", headerTitle: "", headerShown: true }} />
+        <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{  headerTitleAlign: "center", headerTitle: "Concluir cadastro" }} />
 
-        <AppStack.Screen name='PatientProfile' component={PatientProfile} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />
-        <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
-        <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
-        <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
-        <AppStack.Screen name='Section' component={Section} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Sessão" }} />
-        <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
-        <AppStack.Screen name='PatientEvolution' component={PatientEvolution} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Evolução do paciente" }} />
+        <AppStack.Screen name='PatientProfile' component={PatientProfile} options={{  headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />
+        <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{  headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
+        <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{  headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
+        <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{  headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
+        <AppStack.Screen name='Section' component={Section} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Sessão" }} />
+        <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
+        <AppStack.Screen name='PatientEvolution' component={PatientEvolution} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Evolução do paciente" }} />
 
         
 
 
-        <AppStack.Screen name='ServiceProvisionReceiptPdf' component={ServiceProvisionReceiptPdf} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Recibo de prestação de serviço" }} />
-        <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Relatório de acompanhamento" }} />
-        <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
+        <AppStack.Screen name='ServiceProvisionReceiptPdf' component={ServiceProvisionReceiptPdf} options={{  headerTitleAlign: "center", headerTitle: "Recibo de prestação de serviço" }} />
+        <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{  headerTitleAlign: "center", headerTitle: "Relatório de acompanhamento" }} />
+        <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{  headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
 
-        <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
-        <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Meu CRFA" }} />
-        <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Meu Telefone" }} />
+        <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{  headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
+        <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{  headerTitleAlign: "center", headerTitle: "Meu CRFA" }} />
+        <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{  headerTitleAlign: "center", headerTitle: "Meu Telefone" }} />
 
-        <AppStack.Screen name='UpdatePacient' component={UpdatePacient} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Atualizar paciente" }} />
+        <AppStack.Screen name='UpdatePacient' component={UpdatePacient} options={{  headerTitleAlign: "center", headerTitle: "Atualizar paciente" }} />
 
-        <AppStack.Screen name='Configuration' component={Configuration} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Configurações" }} />
-        <AppStack.Screen name='AccessHistory' component={AccessHistory} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Historico de acesso" }} />
-        <AppStack.Screen name='NoticeBoard' component={NoticeBoard} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Mural de avisos" }} />
-        <AppStack.Screen name='SecuritySettings' component={SecuritySettings} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Segurança" }} />
-        <AppStack.Screen name='DocumentPacient' component={DocumentPacient} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Últimos relatório" }} />
-        <AppStack.Screen name='Finance' component={Finance} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Relatórios financeiros" }} />
+        <AppStack.Screen name='Configuration' component={Configuration} options={{  headerTitleAlign: "center", headerTitle: "Configurações" }} />
+        <AppStack.Screen name='AccessHistory' component={AccessHistory} options={{  headerTitleAlign: "center", headerTitle: "Historico de acesso" }} />
+        <AppStack.Screen name='NoticeBoard' component={NoticeBoard} options={{  headerTitleAlign: "center", headerTitle: "Mural de avisos" }} />
+        <AppStack.Screen name='SecuritySettings' component={SecuritySettings} options={{  headerTitleAlign: "center", headerTitle: "Segurança" }} />
+        <AppStack.Screen name='DocumentPacient' component={DocumentPacient} options={{  headerTitleAlign: "center", headerTitle: "Últimos relatório" }} />
+        <AppStack.Screen name='Finance' component={Finance} options={{  headerTitleAlign: "center", headerTitle: "Relatórios financeiros" }} />
 
         {/* Rotas de agendas */}
-        <AppStack.Screen name='AgendaDoctor' component={AgendaDoctor} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Agenda" }} />
-        <AppStack.Screen name='CalendarScreen' component={CalendarScreen} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Agenda" }} />
+        <AppStack.Screen name='AgendaDoctor' component={AgendaDoctor} options={{  headerTitleAlign: "center", headerTitle: "Agenda" }} />
+        <AppStack.Screen name='CalendarScreen' component={CalendarScreen} options={{  headerTitleAlign: "center", headerTitle: "Agenda" }} />
         <AppStack.Screen name='AddEventScreen' component={AddEventScreen} options={{
-          headerBackTitleVisible: false,
+        
           headerTitleAlign: "center",
           headerTitle: "",
           headerTintColor: "black",
@@ -126,7 +127,7 @@ const PrivateRoutes = () => {
 
         }} />
         <AppStack.Screen name='EditEventScreen' component={EditEventScreen} options={{
-          headerBackTitleVisible: false,
+        
           headerTitleAlign: "center",
           headerTitle: "",
           headerTintColor: "black",
@@ -137,10 +138,10 @@ const PrivateRoutes = () => {
 
         }} />
 
-        <AppStack.Screen name='MyAgenda' component={MyAgenda} options={{ headerBackTitleVisible: false, headerTitleAlign: "center", headerTitle: "Agenda" }} />
+        <AppStack.Screen name='MyAgenda' component={MyAgenda} options={{  headerTitleAlign: "center", headerTitle: "Agenda" }} />
 
         <AppStack.Screen name='AddNoticeBoardScreen' component={AddNoticeBoardScreen} options={{
-          headerBackTitleVisible: false,
+        
           headerTitleAlign: "center",
           headerTitle: "",
           headerTintColor: "black",
@@ -152,7 +153,7 @@ const PrivateRoutes = () => {
         }} />
 
         <AppStack.Screen name='EditNoticeBoardScreen' component={EditNoticeBoardScreen} options={{
-          headerBackTitleVisible: false,
+        
           headerTitleAlign: "center",
           headerTitle: "",
           headerTintColor: "black",

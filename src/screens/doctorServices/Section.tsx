@@ -260,7 +260,33 @@ export default function Section({ navigation }) {
 
         />
 
-        <Sheet
+        
+
+        <View style={{
+          flex: 1,
+        }}>
+          <Button
+            loading={loadingBottom}
+            disabled={loadingBottom}
+            textColor='white'
+            style={{
+              height: 40,
+              position: 'absolute',
+              margin: 16,
+              right: 0,
+              bottom: 0,
+              backgroundColor: loadingBottom ? "gray" : '#36B3B9',
+            }}
+            icon="plus"
+            onPress={() => createProtocol()}
+          >
+            Criar sessão
+          </Button>
+        </View>
+      </View>
+
+      <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} bottom={65} />
+      <Sheet
           modal={Platform.OS === "ios" ? false : true}
           open={modalVisible}
           dismissOnSnapToBottom
@@ -348,32 +374,6 @@ export default function Section({ navigation }) {
 
           </Sheet.Frame>
         </Sheet>
-
-        <View style={{
-          flex: 1,
-        }}>
-          <Button
-            loading={loadingBottom}
-            disabled={loadingBottom}
-            textColor='white'
-            style={{
-              height: 40,
-              position: 'absolute',
-              margin: 16,
-              right: 0,
-              bottom: 0,
-              backgroundColor: loadingBottom ? "gray" : '#36B3B9',
-            }}
-            icon="plus"
-            onPress={() => createProtocol()}
-          >
-            Criar sessão
-          </Button>
-        </View>
-      </View>
-
-      <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} bottom={65} />
-
     </View>
   );
 }

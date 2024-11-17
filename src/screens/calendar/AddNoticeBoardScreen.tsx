@@ -142,15 +142,15 @@ const AddNoticeBoardScreen = ({ navigation }) => {
                     <Text selectable style={styles.sectionSubtitle}>{user.person.first_name}</Text>
                 </View>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Notificação</Text>
+                {false && <View style={styles.section}>
+                   <Text style={styles.sectionTitle}>Notificação</Text>
                     <Switch
                         value={isAllDay}
                         trackColor={{ false: '#e0e0e0', true: "gray" }}
                         onValueChange={() => setIsAllDay(!isAllDay)}
                         thumbColor={isAllDay ? colorPrimary : '#e0e0e0'}
                     />
-                </View>
+                </View>}
 
                 <View style={styles.section}>
                     <Pressable onPress={showDatePickerModal}>

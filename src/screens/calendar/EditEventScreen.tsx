@@ -14,7 +14,7 @@ import { Button } from 'react-native-paper';
 dayjs.locale('pt-br');
 
 const EditEventScreen = ({ navigation, route }) => {
-    const { app_id, title: initialTitle, starts_at: initialTime, details: initialDetails } = route.params.event; 
+    const { app_id, title: initialTitle, starts_at: initialTime, details: initialDetails } = route.params.event;
     const [isAllDay, setIsAllDay] = useState(true);
     const [title, setTitle] = useState(initialTitle);
     const [details, setDetails] = useState(initialDetails);
@@ -22,7 +22,7 @@ const EditEventScreen = ({ navigation, route }) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        
+
 
     }, [])
     const [newEvent, setNewEvent] = useState({
@@ -37,8 +37,11 @@ const EditEventScreen = ({ navigation, route }) => {
     const [date, setDate] = useState(dayjs(route.params.event.starts_at));
 
     const handleTimeChange = (event, selectedTime) => {
+
+        if (Platform.OS === "android") {
+            setShowTimePicker(false);
+        }
         const currentTime = selectedTime || new Date();
-        setShowTimePicker(false);
         setNewEvent({
             ...newEvent,
             time: dayjs(currentTime).format('HH:mm'),
@@ -46,7 +49,9 @@ const EditEventScreen = ({ navigation, route }) => {
     };
 
     const onDateChange = (event, selectedDate) => {
-        setShowDatePicker(false);
+        if (Platform.OS === "android") {
+            setShowTimePicker(false);
+        }
         if (event.type === 'set') {
             const currentDate = selectedDate || date;
             setDate(currentDate);
@@ -65,6 +70,8 @@ const EditEventScreen = ({ navigation, route }) => {
         setShowTimePicker(true)
         setShowDatePicker(false);
     };
+
+
 
     async function updateEvent() {
         setLoading(true)
@@ -94,10 +101,10 @@ const EditEventScreen = ({ navigation, route }) => {
                 starts_at: fullDateTime
             });
 
-          if(Platform.OS==="android"){
-            ToastAndroid.show("Evento atualizado", ToastAndroid.BOTTOM);
-          }
-          AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20 , fullDateTime);
+            if (Platform.OS === "android") {
+                ToastAndroid.show("Evento atualizado", ToastAndroid.BOTTOM);
+            }
+            AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
 
             navigation.goBack();
 
@@ -109,7 +116,7 @@ const EditEventScreen = ({ navigation, route }) => {
         }
     }
 
-    const closeDateTime = ()=> {
+    const closeDateTime = () => {
         setShowDatePicker(false);
         setShowTimePicker(false);
     }
@@ -124,11 +131,11 @@ const EditEventScreen = ({ navigation, route }) => {
                     color={"black"}
                     onPress={() => navigation.goBack()}
                     style={{ marginLeft: 2 }}
-                />               
-               
+                />
 
-                <Button  loading={loading} textColor='white'  disabled={!(!!title) || loading} onPress={updateEvent} style={{backgroundColor: colorPrimary, paddingHorizontal:8}}  >
-                    Salvar 
+
+                <Button loading={loading} textColor='white' disabled={!(!!title) || loading} onPress={updateEvent} style={{ backgroundColor: colorPrimary, paddingHorizontal: 8 }}  >
+                    Salvar
                 </Button>
             </View>
 
@@ -149,15 +156,15 @@ const EditEventScreen = ({ navigation, route }) => {
                     <Text selectable style={styles.sectionSubtitle}>{user.person.first_name}</Text>
                 </View>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Notificação</Text>
+                {false && <View style={styles.section}>
+                   <Text style={styles.sectionTitle}>Notificação</Text>
                     <Switch
                         value={isAllDay}
                         trackColor={{ false: '#e0e0e0', true: "gray" }}
                         onValueChange={() => setIsAllDay(!isAllDay)}
                         thumbColor={isAllDay ? colorPrimary : '#e0e0e0'}
                     />
-                </View>
+                </View>}
 
                 <View style={styles.section}>
                     <Pressable onPress={showDatePickerModal}>

@@ -37,16 +37,21 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
     const [date, setDate] = useState(dayjs(route.params.event.starts_at));
 
     const handleTimeChange = (event, selectedTime) => {
+        if (Platform.OS === "android") {
+            setShowTimePicker(false);
+        }
         const currentTime = selectedTime || new Date();
-        setShowTimePicker(false);
         setNewEvent({
             ...newEvent,
             time: dayjs(currentTime).format('HH:mm'),
         });
     };
 
+    
     const onDateChange = (event, selectedDate) => {
-        setShowDatePicker(false);
+        if (Platform.OS === "android") {
+            setShowDatePicker(false);
+        }
         if (event.type === 'set') {
             const currentDate = selectedDate || date;
             setDate(currentDate);
@@ -56,6 +61,11 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
             });
         }
     };
+
+    const closeDateTime = ()=> {
+        setShowDatePicker(false);
+        setShowTimePicker(false);
+    }
 
     const showDatePickerModal = () => {
         setShowDatePicker(true)
@@ -110,10 +120,7 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
         }
     }
 
-    const closeDateTime = () => {
-        setShowDatePicker(false);
-        setShowTimePicker(false);
-    }
+   
 
     return (
         <View style={styles.container}>
@@ -149,15 +156,15 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
                     <Text selectable style={styles.sectionSubtitle}>{user.person.first_name}</Text>
                 </View>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Notificação</Text>
+                {false && <View style={styles.section}>
+                   <Text style={styles.sectionTitle}>Notificação</Text>
                     <Switch
                         value={isAllDay}
                         trackColor={{ false: '#e0e0e0', true: "gray" }}
                         onValueChange={() => setIsAllDay(!isAllDay)}
                         thumbColor={isAllDay ? colorPrimary : '#e0e0e0'}
                     />
-                </View>
+                </View>}
 
                 <View style={styles.section}>
                     <Pressable onPress={showDatePickerModal}>

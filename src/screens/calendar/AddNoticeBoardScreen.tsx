@@ -43,11 +43,11 @@ const AddNoticeBoardScreen = ({ navigation }) => {
         }
     };
 
-    const closeDateTime = ()=> {
+    const closeDateTime = () => {
         setShowDatePicker(false);
         setShowTimePicker(false);
     }
-    
+
     const onTimeChange = (event, selectedTime) => {
         if (Platform.OS === "android") {
             setShowTimePicker(false);
@@ -85,15 +85,15 @@ const AddNoticeBoardScreen = ({ navigation }) => {
             }
 
             const fullDateTime = dayjs(newEvent.date).format("YYYY-MM-DD HH:mm:ss");
-             console.log(fullDateTime);
-            
+            console.log(fullDateTime);
+
             const response = await api.post("/reminder", {
                 title: title,
                 starts_at: fullDateTime
             });
             console.log(fullDateTime);
 
-            AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20 , fullDateTime);
+            AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
 
             if (Platform.OS === "android") {
                 ToastAndroid.show("Evento criado", ToastAndroid.BOTTOM);
@@ -119,9 +119,9 @@ const AddNoticeBoardScreen = ({ navigation }) => {
                     onPress={() => navigation.goBack()}
                     style={{ marginLeft: 2 }}
                 />
-            
-                <Button  loading={loading} textColor='white'  disabled={!(!!title) || loading} onPress={createEvent} style={{backgroundColor: colorPrimary, paddingHorizontal:8}}  >
-                    Salvar 
+
+                <Button loading={loading} textColor='white' disabled={!(!!title) || loading} onPress={createEvent} style={{ backgroundColor: colorPrimary, paddingHorizontal: 8 }}  >
+                    Salvar
                 </Button>
             </View>
 
@@ -143,7 +143,7 @@ const AddNoticeBoardScreen = ({ navigation }) => {
                 </View>
 
                 {false && <View style={styles.section}>
-                   <Text style={styles.sectionTitle}>Notificação</Text>
+                    <Text style={styles.sectionTitle}>Notificação</Text>
                     <Switch
                         value={isAllDay}
                         trackColor={{ false: '#e0e0e0', true: "gray" }}
@@ -169,6 +169,7 @@ const AddNoticeBoardScreen = ({ navigation }) => {
                     <DateTimePicker
                         value={date}
                         mode="date"
+                        locale='pt-br'
                         is24Hour={true}
                         display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={onDateChange}

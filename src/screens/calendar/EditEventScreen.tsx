@@ -157,7 +157,7 @@ const EditEventScreen = ({ navigation, route }) => {
                 </View>
 
                 {false && <View style={styles.section}>
-                   <Text style={styles.sectionTitle}>Notificação</Text>
+                    <Text style={styles.sectionTitle}>Notificação</Text>
                     <Switch
                         value={isAllDay}
                         trackColor={{ false: '#e0e0e0', true: "gray" }}
@@ -191,6 +191,7 @@ const EditEventScreen = ({ navigation, route }) => {
                     <DateTimePicker
                         value={new Date(date.toISOString())}
                         mode="date"
+                        locale='pt-br'
                         is24Hour={true}
                         display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={onDateChange}

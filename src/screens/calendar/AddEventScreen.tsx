@@ -166,9 +166,8 @@ const AddEventScreen = ({ navigation }) => {
                 {showDatePicker && (
                     <DateTimePicker
                         value={date}
-                        locale='pt-BR'
-
                         mode="date"
+                        locale='pt-br'
                         is24Hour={true}
                         display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={onDateChange}

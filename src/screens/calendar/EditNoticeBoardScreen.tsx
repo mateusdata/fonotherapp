@@ -191,6 +191,7 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
                     <DateTimePicker
                         value={new Date(date.toISOString())}
                         mode="date"
+                         locale='pt-br'
                         is24Hour={true}
                         display={Platform.OS === "ios" ? "spinner" : "default"}
                         onChange={onDateChange}

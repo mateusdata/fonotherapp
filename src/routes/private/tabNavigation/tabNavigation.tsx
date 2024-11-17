@@ -130,7 +130,8 @@ export default function MyComponent() {
           },
           headerShown: true,
           headerTitleAlign: "left",
-          headerTitle: "",
+          headerTitle: "Meu perfil",
+          headerTintColor:"white"
         }}
       />
     </Tab.Navigator>

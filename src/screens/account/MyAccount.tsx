@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { MaterialIcons, SimpleLineIcons, MaterialCommunityIcons, FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../../context/AuthProvider';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary, colorRed } from '../../style/ColorPalette';
 
 const MyAccount = ({ navigation }) => {
   const { logOut, user } = useContext(Context);
@@ -21,7 +21,7 @@ const MyAccount = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         {!google?.photo ? (
-         <FontAwesome6 name="user-doctor" size={56} color={colorPrimary} />
+          <FontAwesome6 name="user-doctor" size={56} color={colorPrimary} />
         ) : (
           <Image source={{ uri: google.photo }} style={styles.avatar} />
         )}
@@ -46,15 +46,16 @@ const MyAccount = ({ navigation }) => {
           label="Sugestão"
           onPress={() => navigation.navigate('Feedback')}
         />
-        <MenuItem
-          icon={<SimpleLineIcons name="logout" size={23} color={colorPrimary} />}
-          label="Sair da Conta"
-          onPress={logOut}
-        />
+
         <MenuItem
           icon={<MaterialCommunityIcons name="message-outline" size={23} color={colorPrimary} />}
           label="Consultoria"
           onPress={() => navigation.navigate('Consultancy')}
+        />
+        <MenuItem
+          icon={<SimpleLineIcons name="logout" size={23} color={colorRed} />}
+          label="Sair da Conta"
+          onPress={logOut}
         />
       </View>
     </View>
@@ -65,9 +66,9 @@ const MenuItem = ({ icon, label, onPress }) => (
   <TouchableOpacity style={styles.menuItem} onPress={onPress}>
     <View style={styles.menuIconLabel}>
       {icon}
-      <Text style={styles.menuLabel}>{label}</Text>
+      <Text style={[styles.menuLabel, {color:label === "Sair da Conta" ? colorRed : "black"}]}>{label}</Text>
     </View>
-    <MaterialIcons name="arrow-forward-ios" size={15} color={colorPrimary} />
+    <MaterialIcons name="arrow-forward-ios" size={15} color={label === "Sair da Conta" ? colorRed : colorPrimary} />
   </TouchableOpacity>
 );
 

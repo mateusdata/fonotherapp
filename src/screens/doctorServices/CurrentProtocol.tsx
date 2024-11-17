@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { BackHandler, Pressable, Text, View } from 'react-native';
+import { BackHandler, Platform, Pressable, Text, View } from 'react-native';
 import { Button, Card, Title, Paragraph, ActivityIndicator } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { Sheet } from 'tamagui';
@@ -103,7 +103,7 @@ const CurrentProtocol = ({ navigation, route }) => {
 
 
             <Sheet
-                modal
+               modal={Platform.OS === "ios" ? false : true}
                 open={modalVisible}
                 dismissOnSnapToBottom
                 animation="medium"

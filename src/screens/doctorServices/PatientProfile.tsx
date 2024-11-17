@@ -155,7 +155,7 @@ const PatientProfile = ({ navigation }) => {
             </Dialog>
 
             <Sheet
-                modal
+                modal={Platform.OS === "ios" ? false : true}
                 open={modalVisible}
                 dismissOnSnapToBottom
                 animation="medium"

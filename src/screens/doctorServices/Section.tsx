@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Platform } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -261,7 +261,7 @@ export default function Section({ navigation }) {
         />
 
         <Sheet
-          modal
+          modal={Platform.OS === "ios" ? false : true}
           open={modalVisible}
           dismissOnSnapToBottom
           animation="medium"

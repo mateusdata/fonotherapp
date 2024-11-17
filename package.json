@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@devvie/bottom-sheet": "^0.4.3",
     "@expo-google-fonts/poppins": "^0.2.3",
     "@gorhom/bottom-sheet": "^5.0.5",
     "@hookform/resolvers": "^3.9.1",

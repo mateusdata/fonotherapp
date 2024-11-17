@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, Button, List } from 'react-native-paper';
-import { Keyboard, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as  Animatable from "react-native-animatable"
 import { Sheet } from 'tamagui';
@@ -19,7 +19,7 @@ import HeaderSheet from '../../components/HeaderSheet';
 import UpdateAnamnese from '../../components/AnsweredQuestions/UpdateAnamnese';
 import Toast from '../../components/toast';
 
-const AnsweredQuestions = ({navigation}) => {
+const AnsweredQuestions = ({ navigation }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
@@ -198,18 +198,18 @@ const AnsweredQuestions = ({navigation}) => {
         <Text> {false && JSON.stringify(answered, null, 2)}
         </Text>
 
-        <View style={{gap:8}}>
+        <View style={{ gap: 8 }}>
           <Pressable onPress={getPdf}>
             <Button
-            icon={(props) => <AntDesign name="pdffile1" size={23} color="white" />}
-            buttonColor={colorPrimary} mode='elevated' textColor='white' >
+              icon={(props) => <AntDesign name="pdffile1" size={23} color="white" />}
+              buttonColor={colorPrimary} mode='elevated' textColor='white' >
               {`Relatório de Avaliação do paciente ${pacient?.first_name.split(' ')[0]}`}
             </Button>
           </Pressable>
 
 
 
-          <Pressable onPress={()=> navigation.navigate("PatientEvolution")}>
+          <Pressable onPress={() => navigation.navigate("PatientEvolution")}>
             <Button buttonColor={colorPrimary} mode='elevated' textColor='white' >
               Evolução Diária
             </Button>
@@ -257,7 +257,7 @@ const AnsweredQuestions = ({navigation}) => {
         </List.Section>
 
         <Sheet
-          modal
+          modal={Platform.OS === "ios" ? false : true}
           open={modalVisible}
           dismissOnSnapToBottom
           animation="medium"

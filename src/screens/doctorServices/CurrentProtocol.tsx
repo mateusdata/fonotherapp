@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { BackHandler, Platform, Pressable, Text, View } from 'react-native';
+import { BackHandler, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button, Card, Title, Paragraph, ActivityIndicator } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { Sheet } from 'tamagui';
@@ -10,34 +10,26 @@ import { colorRed, colorSecundary } from '../../style/ColorPalette';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import CustomText from '../../components/customText';
-import { ResizeMode, Video } from 'expo-av';
 import { videoUrl } from '../../utils/videoUrl';
-import { urlPosterSouce } from '../../utils/urlPosterSource';
-
-
-
+import { useVideoPlayer, VideoView } from 'expo-video';
 
 const CurrentProtocol = ({ navigation, route }) => {
-    const { setPac_id, pac_id } = useContext(ContextPacient);
     const { protocolId } = route.params;
     const [protocol, setProtocol] = useState(null);
-    const [page, setPage] = useState(1);
-    const [videosFono, setVideosFono] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [isVideoLoading, setIsVideoLoading] = useState(false);
-    const [search, setSearch] = useState("");
-    const [changeList, setChangeList] = useState(true);
-    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
     const [selectedVideo, setSelectedVideo] = useState(null);
-    
 
+    const player = useVideoPlayer(videoUrl + selectedVideo?.video_urls[0], player => {
+        player.loop = true;
+        player.play();
+    });
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-            setIsVideoPlaying(false)
             if (modalVisible) {
+                player.pause();
                 setModalVisible(false)
+                setSelectedVideo(null)
                 return true
             }
             return false;
@@ -45,6 +37,13 @@ const CurrentProtocol = ({ navigation, route }) => {
 
         return () => backHandler.remove();
     }, [modalVisible]);
+
+
+    const onOpenChange = () => {
+        setModalVisible(false);
+        player.pause();
+        setSelectedVideo(null)
+    }
 
 
 
@@ -69,54 +68,50 @@ const CurrentProtocol = ({ navigation, route }) => {
 
     const handleVideoPress = (uri) => {
         setSelectedVideo(uri);
-        setIsVideoPlaying(true)
         setModalVisible(true);
     };
 
     return (
-        <View style={{ flex: 1, padding: 10, gap: 10 }}>
-            <Card>
-                <Card.Content>
-                    <Title>{protocol.name}</Title>
-                    <Paragraph>{protocol.description}</Paragraph>
-                    <Paragraph style={{ color: "green" }}>Status: {protocol.status === "active" ? "Ativo" : "Inativo"}</Paragraph>
-                </Card.Content>
-            </Card>
-            {protocol?.exercise_plans.map((plan, index) => (
-                <Card key={index} onPress={() => handleVideoPress(plan?.exercise)}>
+        <>
+            <View style={{ flex: 1, padding: 10, gap: 10 }}>
+                <Card>
                     <Card.Content>
-                        <Title>Exercicio: {plan.exercise.name}</Title>
-                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                            <Paragraph>Repetitions: {plan.repetitions}</Paragraph>
-                            <Pressable onPress={() => handleVideoPress(plan?.exercise)} android_ripple={{ color: colorRed, foreground: true, borderless: true }}>
-                                <AntDesign name="playcircleo" size={20} color={"red"} />
-                            </Pressable>
-                        </View>
-                        <Paragraph>Objective: {plan.exercise.objective}</Paragraph>
+                        <Title>{protocol.name}</Title>
+                        <Paragraph>{protocol.description}</Paragraph>
+                        <Paragraph style={{ color: "green" }}>Status: {protocol.status === "active" ? "Ativo" : "Inativo"}</Paragraph>
                     </Card.Content>
                 </Card>
-            ))}
-            <Button onPress={() => navigation.goBack()} mode="contained" style={{ marginTop: 20, backgroundColor: '#36B3B9' }}>
-                Voltar
-            </Button>
+                {protocol?.exercise_plans.map((plan, index) => (
+                    <Card key={index} onPress={() => handleVideoPress(plan?.exercise)}>
+                        <Card.Content>
+                            <Title>Exercicio: {plan.exercise.name}</Title>
+                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                                <Paragraph>Repetitions: {plan.repetitions}</Paragraph>
+                                <Pressable onPress={() => handleVideoPress(plan?.exercise)} android_ripple={{ color: colorRed, foreground: true, borderless: true }}>
+                                    <AntDesign name="playcircleo" size={20} color={"red"} />
+                                </Pressable>
+                            </View>
+                            <Paragraph>Objective: {plan?.exercise?.objective}</Paragraph>
+                        </Card.Content>
+                    </Card>
+                ))}
+                <Button onPress={() => navigation.goBack()} mode="contained" style={{ marginTop: 20, backgroundColor: '#36B3B9' }}>
+                    Voltar
+                </Button>
 
 
+            </View>
 
             <Sheet
-               modal={Platform.OS === "ios" ? false : true}
+                modal={Platform.OS === "ios" ? false : true}
                 open={modalVisible}
                 dismissOnSnapToBottom
                 animation="medium"
                 native
-                onOpenChange={() => {
-                    setModalVisible(false);
-                    setIsVideoPlaying(false)
-                }
-                }
+                onOpenChange={onOpenChange}
                 snapPoints={[85]}
 
             >
-
 
                 <Sheet.Overlay />
 
@@ -130,46 +125,59 @@ const CurrentProtocol = ({ navigation, route }) => {
                         <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
 
-                            <Video
-                                style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 2, borderColor: "transparent" }}
-                                source={{ uri: videoUrl + selectedVideo?.video_urls[0] }}
-                                resizeMode={ResizeMode.STRETCH}
-                                onLoadStart={() => setIsVideoLoading(true)}
-                                isLooping={true}
-                                key={selectedVideo?.exe_id}
-                                usePoster={isVideoLoading}
-                                posterSource={{ uri: urlPosterSouce }}
-                                posterStyle={{ justifyContent: "center", flex: 1, alignItems: "center", height: 100, top: 110, width: "100%" }}
-                                shouldPlay={isVideoPlaying}
-                                onLoad={() => {
-                                    setIsVideoLoading(false)
-                                }}
+                            <VideoView
+                                style={styles.video}
+                                player={player}
+                                contentFit={"cover"}
+                                allowsFullscreen={false}
+                                allowsPictureInPicture={false}
+                                nativeControls={false}
 
                             />
                         </View>
 
-                        {!isVideoLoading &&
 
-                            <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
-                                {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
-                                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
 
-                                {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
-                                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
+                        <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
+                            {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
+                            <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
 
-                                {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
-                                <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
-                            </View>
+                            {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
+                            <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{JSON.stringify(selectedVideo?.objective)}</CustomText>
 
-                        }
+                            {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
+                            <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
+                        </View>
 
                     </ScrollView>
 
                 </Sheet.Frame>
             </Sheet>
-
-        </View>
+        </>
     );
 };
 
 export default CurrentProtocol;
+
+const styles = StyleSheet.create({
+
+    video: {
+        alignSelf: 'center',
+        width: 275,
+        height: 350,
+        borderRadius: 20,
+        padding: 20,
+        marginVertical: 10,
+        margin: 15,
+        backgroundColor: '#f5f5f5',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+
+});

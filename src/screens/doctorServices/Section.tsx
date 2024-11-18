@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Platform } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Platform, Vibration } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 
-import {  Button, Searchbar, TextInput } from 'react-native-paper';
+import { Button, Searchbar, TextInput } from 'react-native-paper';
 import dayjs from 'dayjs';
 import * as yup from "yup"
 import { Controller, useForm } from 'react-hook-form';
@@ -23,6 +24,8 @@ import LabelInput from '../../components/LabelInput';
 import Toast from '../../components/toast';
 import { videoUrl } from '../../utils/videoUrl';
 import Segmenteds from '../../components/Segmenteds';
+import { useVideoPlayer, VideoView } from 'expo-video';
+import { handleHapticFeedback } from '../../utils/VibrateFeedback';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
@@ -45,6 +48,7 @@ export default function Section({ navigation }) {
   const [repetitions, setRepetitions] = useState<any>("");
   const { setThereSession, thereSession } = useContext(ContextGlobal);
   const [videosType, setVideosType] = useState('degluticao');
+  const [currentVideo, setCurrentVideo] = useState(null);
 
   const schema = yup.object().shape({
     doc_id: yup.number(),
@@ -73,12 +77,18 @@ export default function Section({ navigation }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
 
 
-  useEffect(() => {
+  const player = useVideoPlayer(videoUrl + currentVideo?.video_urls[0], player => {
+    player.loop = true;
+    player.play();
+    player.play();
+  });
 
+  useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      setIsVideoPlaying(false)
       if (modalVisible) {
+        player.pause();
         setModalVisible(false)
+        setCurrentVideo(null)
         return true
       }
       return false;
@@ -86,6 +96,7 @@ export default function Section({ navigation }) {
 
     return () => backHandler.remove();
   }, [modalVisible]);
+
 
   useEffect(() => {
     if (search === "") {
@@ -98,10 +109,10 @@ export default function Section({ navigation }) {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        
+
         const response = await api.get(`/list-exercise?pageSize=100&page=${1}&type=${videosType}`);
         setVideosFono(response.data.data);
-       // setVideosFono([...videosFono, ...response.data.data]); //mudou aqui
+        // setVideosFono([...videosFono, ...response.data.data]); //mudou aqui
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -130,6 +141,7 @@ export default function Section({ navigation }) {
 
   const handleVideoPress = (uri) => {
     setSelectedVideo(uri);
+    setCurrentVideo(uri)
     setModalVisible(true);
   };
 
@@ -167,7 +179,8 @@ export default function Section({ navigation }) {
       setLoadingBottom(false)
       setThereSession(true)
 
-      setMensageToast("Sessão criado com sucesso 🥳🎉🎉")
+      setMensageToast("Sessão criada")
+      handleHapticFeedback()
       setShowToast(true)
       reset()
 
@@ -182,6 +195,7 @@ export default function Section({ navigation }) {
   const onError = (error) => {
     setMensageToast("Error: atribua um exercicio")
     setShowToast(true)
+  
   }
 
 
@@ -201,16 +215,23 @@ export default function Section({ navigation }) {
       return
     }
     setMensageToast("Error: atribua um exercicio")
+    Haptics.notificationAsync(
+      Haptics.NotificationFeedbackType.Error
+    )
     setShowToast(true)
     setLoadingBottom(false)
   }
-
+  const onOpenChange = () => {
+    setModalVisible(false);
+    player.pause();
+    setCurrentVideo(null)
+  }
 
   const renderItem = ({ item }) => {
-    const isExerciseAdded = watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id);
+    const isExerciseAdded = watch("exercise_plans")?.some(exercise => exercise?.exe_id === item?.exe_id);
     return (
       <Pressable onLongPress={() => {
-        addExercice(item.exe_id)
+        addExercice(item?.exe_id)
       }} onPress={() => {
         handleVideoPress(item);
         setIsVideoPlaying(true);
@@ -218,12 +239,12 @@ export default function Section({ navigation }) {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          backgroundColor: isExerciseAdded ? "#38CB89" : "white",
+          backgroundColor: "white",
           marginVertical: 0
         }}>
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8 }}>
-          <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "white" : colorPrimary} />
-          <Text style={{ color: isExerciseAdded ? "white" : "black" }}>{item?.name}</Text>
+          <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "orange" : colorPrimary} />
+          <Text style={{ color: isExerciseAdded ? "orange" : "black" }}>{item?.name}</Text>
         </View>
       </Pressable>
     );
@@ -234,7 +255,7 @@ export default function Section({ navigation }) {
     return <SkelectonView />
   }
   return (
-    <View style={{ flex: 1, backgroundColor:"white" }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
 
       <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 8, paddingVertical: 5 }}>
         <Searchbar
@@ -249,18 +270,18 @@ export default function Section({ navigation }) {
           style={{ marginBottom: 10 }}
 
         />
-  
+
         <FlatList
           data={videosFono}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => renderItem({ item })}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
-          ListHeaderComponent={<Segmenteds videosType={videosType} setVideosType={setVideosType} />} 
+          ListHeaderComponent={<Segmenteds videosType={videosType} setVideosType={setVideosType} />}
 
         />
 
-        
+
 
         <View style={{
           flex: 1,
@@ -287,93 +308,85 @@ export default function Section({ navigation }) {
 
       <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} bottom={65} />
       <Sheet
-          modal={Platform.OS === "ios" ? false : true}
-          open={modalVisible}
-          dismissOnSnapToBottom
-          animation="medium"
-          native
-          onOpenChange={() => {
-            setModalVisible(false);
-            setIsVideoPlaying(false)
-          }
-          }
-          snapPoints={[75]}>
+        modal={Platform.OS === "ios" ? false : true}
+        open={modalVisible}
+        dismissOnSnapToBottom
+        animation="medium"
+        native
+        onOpenChange={onOpenChange}
+        snapPoints={[Platform.OS === "ios" ? 95 : 80]}
+      >
 
-          <Sheet.Overlay />
+        <Sheet.Overlay />
 
-          <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+        <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
 
-            <HeaderSheet />
+          <HeaderSheet />
 
 
-            <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%", }}>
-              <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Video
-                  style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }} source={{ uri: videoUrl + selectedVideo?.video_urls[0] }}
-                  resizeMode={ResizeMode.STRETCH}
-                  onLoadStart={() => setIsVideoLoading(true)}
-                  isLooping={true}
-                  key={selectedVideo?.exe_id}
-                  usePoster={isVideoLoading}
-                  posterSource={{ uri: urlPosterSouce }}
-                  shouldPlay={isVideoPlaying}
-                  posterStyle={{ justifyContent: "center", flex: 1, alignItems: "center", height: 100, top: 110, width: "100%" }}
+          <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%", }}>
+            <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
 
-                  onLoad={() => setIsVideoLoading(false)}
+              <VideoView
+                style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }}
+                player={player}
+                contentFit={"cover"}
+                allowsFullscreen={false}
+                allowsPictureInPicture={false}
+                nativeControls={false}
 
-                />
+              />
 
-                <View style={{ flexDirection: "column", width: "50%", gap: 1, marginTop: 5 }}>
+              <View style={{ flexDirection: "column", width: "50%", gap: 1, marginTop: 5 }}>
+                {!watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) && <>
 
-                  {!watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) && <>
+                  <LabelInput value='Series' />
+                  <TextInput
+                    activeOutlineColor={colorPrimary}
+                    mode='outlined'
+                    keyboardType='numeric'
+                    style={{ width: "auto", height: 35 }}
+                    value={series}
+                    onChangeText={(event) => setSeries(event)}
+                  />
 
-                    <LabelInput value='Series' />
-                    <TextInput
-                      
-                      mode='outlined'
-                      keyboardType='numeric'
-                      style={{ width: "auto", height: 35 }}
-                      value={series}
-                      onChangeText={(event) => setSeries(event)}
-                    />
-
-                    <LabelInput value='Repetições' />
-                    <TextInput
-                      
-                      mode='outlined'
-                      keyboardType='numeric'
-                      style={{ width: "auto", height: 35 }}
-                      value={repetitions}
-                      onChangeText={(event) => setRepetitions(event)}
-                    />
-                  </>}
-                </View>
-
-                <Text style={{ color: "red" }}>{errorInput}</Text>
-                <View style={{ width: "50%" }}>
-                  <Button onPress={() => addExercice(selectedVideo.exe_id)} style={{ marginTop: 5 }}
-                    textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? colorRed : colorPrimary}`} mode='contained-tonal' >
-                    {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "Remover exercicio" : "Adicionar"}`}
-                  </Button>
-                </View>
+                  <LabelInput value='Repetições' />
+                  <TextInput
+                    activeOutlineColor={colorPrimary}
+                    mode='outlined'
+                    keyboardType='numeric'
+                    style={{ width: "auto", height: 35 }}
+                    value={repetitions}
+                    onChangeText={(event) => setRepetitions(event)}
+                  />
+                </>}
               </View>
 
-              {!isVideoLoading && <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
-                {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
-                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
+              <Text style={{ color: "red" }}>{errorInput}</Text>
+              <View style={{ width: "50%" }}>
+                <Button onPress={() => addExercice(selectedVideo?.exe_id)} style={{ marginTop: 5 }}
+                  textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) ? colorRed : colorPrimary}`} mode='contained-tonal' >
+                  {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) ? "Remover exercicio" : "Adicionar"}`}
+                </Button>
+              </View>
+            </View>
 
-                {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
-                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
+            {!isVideoLoading && <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
+              {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
+              <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
 
-                {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
-                <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
-              </View>}
+              {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
+              <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
 
-            </ScrollView>
+              {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
+              <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
+            </View>}
 
-          </Sheet.Frame>
-        </Sheet>
+          </ScrollView>
+
+        </Sheet.Frame>
+      </Sheet>
     </View>
   );
 }

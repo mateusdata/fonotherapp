@@ -1,40 +1,48 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Platform } from 'react-native';
-import { Video, ResizeMode } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 
-import { ActivityIndicator, Button, FAB, Modal, Searchbar, TextInput } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 
-import { Context } from '../../context/AuthProvider'
 import { api } from '../../config/Api'
-import CustomText from '../../components/customText'
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 
 import { Sheet } from 'tamagui';
 import { videoUrl } from '../../utils/videoUrl';
-import { urlPosterSouce } from '../../utils/urlPosterSource';
 import Segmenteds from '../../components/Segmenteds';
+import { useVideoPlayer, VideoView } from 'expo-video';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function Videos({ navigation }) {
   const [page, setPage] = useState(1);
   const [videosFono, setVideosFono] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isVideoLoading, setIsVideoLoading] = useState(false);
-  const { user } = useContext(Context)
   const [search, setSearch] = useState("");
   const [changeList, setChangeList] = useState(true);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videosType, setVideosType] = useState('degluticao');
 
+  const isFocused = useIsFocused();
+  const player = useVideoPlayer(videoUrl + selectedVideo?.video_urls[0], player => {
+    player.loop = true;
+    player.play();
+  });
+
+  useEffect(() => {
+    console.log('VideoScreen está focado');
+    setModalVisible(false)
+    player.pause();
+    setSelectedVideo(null)
+  }, [isFocused]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      setIsVideoPlaying(false)
       if (modalVisible) {
+        player.pause();
+        setSelectedVideo(null)
         setModalVisible(false)
         return true
       }
@@ -43,6 +51,7 @@ export default function Videos({ navigation }) {
 
     return () => backHandler.remove();
   }, [modalVisible]);
+
 
   useEffect(() => {
     if (search === "") {
@@ -97,7 +106,6 @@ export default function Videos({ navigation }) {
   const renderItem = ({ item }) => (
     <Pressable onPress={() => {
       handleVideoPress(item);
-      setIsVideoPlaying(true)
     }}
       android_ripple={{ color: colorPrimary }}
       style={{
@@ -109,6 +117,13 @@ export default function Videos({ navigation }) {
       </View>
     </Pressable>
   );
+
+
+  const onOpenChange = () => {
+    setModalVisible(false);
+    player.pause();
+    setSelectedVideo(null)
+  }
 
   if (loading) {
     return <SkelectonView />
@@ -144,12 +159,8 @@ export default function Videos({ navigation }) {
         open={modalVisible}
         dismissOnSnapToBottom
         animation="medium"
-        
-        onOpenChange={() => {
-          setModalVisible(false);
-          setIsVideoPlaying(false)
-        }
-        }
+
+        onOpenChange={onOpenChange}
         snapPoints={[85]}
 
       >
@@ -163,44 +174,30 @@ export default function Videos({ navigation }) {
 
 
           <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
-            <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
+            <Text style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</Text>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
 
-              <Video
-                style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 1, borderColor: "#d6d6d6", backgroundColor: "white" }}
-                source={{ uri: videoUrl + selectedVideo?.video_urls[0] }}
-                resizeMode={ResizeMode.COVER}
-                onLoadStart={() => setIsVideoLoading(true)}
-                isLooping={true}
-                key={selectedVideo?.exe_id}
-                usePoster={isVideoLoading}
-                posterSource={{ uri: urlPosterSouce }}
-                shouldPlay={isVideoPlaying}
-                posterStyle={{ justifyContent: "center", flex: 1, alignItems: "center", height: 100, top: 110, width: "100%" }}
-
-                onLoad={() => {
-                  setIsVideoLoading(false);
-                  setIsVideoPlaying(true); // Definir como true apenas quando o vídeo estiver carregado
-                }}
+              <VideoView
+                style={styles.video}
+                player={player}
+                contentFit={"cover"}
+                allowsFullscreen={false}
+                nativeControls={false}
+                allowsPictureInPicture={false}
               />
-
 
             </View>
 
-            {!isVideoLoading &&
+            <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
+              {selectedVideo?.description && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</Text>}
+              <Text style={{ textAlign: "center", fontSize: 15 }}>{selectedVideo?.description}</Text>
 
-              <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
-                {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
-                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
+              {selectedVideo?.objective && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</Text>}
+              <Text style={{ textAlign: "center", fontSize: 15 }}>{selectedVideo?.objective}</Text>
 
-                {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
-                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
-
-                {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
-                <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
-              </View>
-
-            }
+              {selectedVideo?.academic_sources && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</Text>}
+              <Text style={{ textAlign: "center", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</Text>
+            </View>
 
           </ScrollView>
         </Sheet.Frame>

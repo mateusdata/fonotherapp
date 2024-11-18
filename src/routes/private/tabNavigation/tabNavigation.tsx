@@ -14,7 +14,6 @@ import MyAccount from '../../../screens/account/MyAccount';
 import ButtonHelp from '../../../components/ButtonHelp';
 
 const Tab = createBottomTabNavigator();
-const arrayEmojis = ["🫂", "🫂", "😊", "🥰", "🗣️",];
 
 
 export default function MyComponent() {
@@ -24,6 +23,7 @@ export default function MyComponent() {
     <Tab.Navigator
       id={undefined}
       screenOptions={{
+        animation: 'fade',
         headerShown: false,
         headerStyle: {
           backgroundColor: colorPrimary
@@ -86,6 +86,7 @@ export default function MyComponent() {
         name="Home"
         component={Home}
         options={{
+          freezeOnBlur: true,
           tabBarLabel: 'Início',
           tabBarIcon: ({ color, size, focused }) => {
             return <Icon testID='home' name="home" size={size} color={!focused ? colorPrimary : "#2A9095"} />;
@@ -131,7 +132,7 @@ export default function MyComponent() {
           headerShown: true,
           headerTitleAlign: "left",
           headerTitle: "Meu perfil",
-          headerTintColor:"white"
+          headerTintColor: "white"
         }}
       />
     </Tab.Navigator>

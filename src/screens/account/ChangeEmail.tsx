@@ -24,7 +24,7 @@ export default function ChangeEmail() {
       email: user?.email
     }
   })
-  const onSubmit = (data: string) => {
+  const onSubmit = async (data: any) => {
     setLoading(true);
     api.put(`/user/${user?.use_id}`, data).then(async (response) => {
       setShowToast(true);

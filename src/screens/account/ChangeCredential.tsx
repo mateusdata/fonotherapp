@@ -26,7 +26,7 @@ export default function ChangeCredential() {
       current_password: ''
     }
   })
-  const onSubmit = async (data: string) => {
+  const onSubmit = async (data: any) => {
     try {
       setLoading(true);
       const response = await api.post(`/password`, data);

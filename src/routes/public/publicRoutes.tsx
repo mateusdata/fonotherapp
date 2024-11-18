@@ -16,13 +16,15 @@ const PublicRoutes = () => {
     <>
       <StatusBar animated hideTransitionAnimation='fade' style='dark' />
 
-      <AppStack.Navigator screenOptions={{
-        headerPressColor: "blue",
-        headerStyle: {
-          backgroundColor: "#36B3B9"
-        },
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      }}>
+      <AppStack.Navigator
+        id={undefined}
+        screenOptions={{
+          headerPressColor: "blue",
+          headerStyle: {
+            backgroundColor: "#36B3B9"
+          },
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}>
         <AppStack.Screen name="PreLogin" component={PreLogin} options={{
           headerShown: false,
           headerTitle: () => null,
@@ -62,8 +64,8 @@ const PublicRoutes = () => {
         <AppStack.Screen name="FinishRegistration" component={FinishRegistration} options={{
           headerShown: true,
           headerTitle: "Verifique sua conta",
-          headerTitleAlign:"center", 
-          headerTintColor:"white"
+          headerTitleAlign: "center",
+          headerTintColor: "white"
         }} />
 
       </AppStack.Navigator>

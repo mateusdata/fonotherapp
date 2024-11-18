@@ -30,7 +30,7 @@ export default function ChangeGovLicense() {
         }
     });
 
-    const onSubmit = async (data: string) => {
+    const onSubmit = async (data: any) => {
         setLoading(true);
         try {
             const response = await api.put(`/doctor/${user?.doctor?.doc_id}`, data);

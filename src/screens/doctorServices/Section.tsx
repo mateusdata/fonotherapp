@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Platform, Vibration } from 'react-native';
-import { Video, ResizeMode } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
 import { Button, Searchbar, TextInput } from 'react-native-paper';
-import dayjs from 'dayjs';
 import * as yup from "yup"
-import { Controller, useForm } from 'react-hook-form';
+import {  useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Sheet } from 'tamagui';
 
@@ -19,7 +17,6 @@ import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import { Context } from '../../context/AuthProvider';
 import { ContextGlobal } from '../../context/GlobalContext';
-import { urlPosterSouce } from '../../utils/urlPosterSource';
 import LabelInput from '../../components/LabelInput';
 import Toast from '../../components/toast';
 import { videoUrl } from '../../utils/videoUrl';

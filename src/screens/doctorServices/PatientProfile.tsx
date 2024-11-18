@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, BackHandler, Dimensions, FlatList, Platform, ScrollView, Text, View } from 'react-native';
+import { Alert, BackHandler, Dimensions, FlatList, Linking, Platform, ScrollView, Text, View } from 'react-native';
 import { Avatar, Button, Card, Modal, Title } from 'react-native-paper';
 
 import { Dialog, Sheet } from 'tamagui';
@@ -86,17 +86,48 @@ const PatientProfile = ({ navigation }) => {
         }
       }
 
-
-    const getLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert("Error em localização", "Não será possível gerar relatório sem permissão de localização");
-            return;
+      const getLocation = async () => {
+        try {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            
+            if (status === 'denied') {
+                Alert.alert(
+                    "Permissão de localização não concedida.",
+                    "Para gerar relatórios, é necessário habilitar a permissão de localização.",
+                    [
+                        { text: "Cancelar", style: "cancel" },
+                        { 
+                            text: "Abrir Configurações", 
+                            onPress: () => Linking.openSettings() 
+                        },
+                    ]
+                );
+                return;
+            }
+    
+            if (status !== 'granted') {
+                Alert.alert(
+                    "Aviso em localização",
+                    "Não será possível gerar relatório sem permissão de localização.",
+                    [
+                        { text: "Cancelar", style: "cancel", onPress: () => console.log("Permissão negada") },
+                        { text: "Permitir", onPress: getLocation },
+                    ]
+                );
+                return;
+            }
+    
+            let { coords } = await Location.getCurrentPositionAsync({});
+            setLocation({ latitude: coords.latitude, longitude: coords.longitude });
+        } catch (error) {
+            console.error("Erro ao obter localização:", error);
+            Alert.alert(
+                "Erro",
+                "Ocorreu um problema ao tentar obter sua localização. Tente novamente."
+            );
         }
-
-        let { coords } = await Location.getCurrentPositionAsync({});
-        setLocation({ latitude: coords.latitude, longitude: coords.longitude });
     };
+    
 
     useFocusEffect(
         React.useCallback(() => {

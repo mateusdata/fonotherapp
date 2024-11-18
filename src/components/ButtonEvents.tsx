@@ -2,11 +2,15 @@ import * as React from 'react';
 import { FAB, Portal, PaperProvider } from 'react-native-paper';
 import { colorPrimary } from '../style/ColorPalette';
 import { useNavigation } from '@react-navigation/native';
+import { vibrateFeedbackWarning } from '../utils/vibrateFeedbackWarning';
 
 const ButtonEvents = () => {
     const [state, setState] = React.useState({ open: false });
     const navigate:any = useNavigation();
-    const onStateChange = ({ open }) => setState({ open });
+    const onStateChange = ({ open }) => {
+        vibrateFeedbackWarning()
+        setState({ open })
+    };
 
     const { open } = state;
 

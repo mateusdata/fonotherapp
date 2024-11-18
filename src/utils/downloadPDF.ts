@@ -1,6 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
+import { vibrateFeedback } from "./vibrateFeedback";
 
 export default async function downloadPDF(pdfUri: string, pdfName: string, token: string, setLoading: any) {
     try {
@@ -21,6 +22,7 @@ export default async function downloadPDF(pdfUri: string, pdfName: string, token
             const downloadResponse = await downloadResumable.downloadAsync()
 
             if (downloadResponse?.uri) {
+                vibrateFeedback()
                 await fileSave(downloadResponse?.uri, pdfName)
             }
             setLoading(false)

@@ -6,6 +6,7 @@ import { Agenda, CalendarProvider } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorPrimary } from '../../style/ColorPalette';
 import dayjs from 'dayjs';
+import { vibrateFeedback } from '../../utils/vibrateFeedback';
 
 const AgendaDoctor = () => {
   const [agendaItems, setAgendaItems] = useState({});
@@ -72,6 +73,7 @@ const AgendaDoctor = () => {
       }));
       setModalVisible(false);
       setNewEvent({ date: '', name: '', time: '' });
+      vibrateFeedback()
       Alert.alert("Novo evento", "Novo evento criado com sucesso")
     } else {
       alert('Preencha todos os campos para adicionar um evento.');

@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 
-export const handleHapticFeedback = () => {
+export const vibrateFeedback = () => {
   Haptics.notificationAsync(
     Haptics.NotificationFeedbackType.Success
   )

@@ -10,6 +10,7 @@ import { Context } from '../../context/AuthProvider';
 import { AgendaNotification } from '../../utils/AgendaNotification';
 import 'dayjs/locale/pt-br';
 import { Button } from 'react-native-paper';
+import { vibrateFeedback } from '../../utils/vibrateFeedback';
 dayjs.locale('pt-br');
 
 const AddNoticeBoardScreen = ({ navigation }) => {
@@ -94,6 +95,7 @@ const AddNoticeBoardScreen = ({ navigation }) => {
             console.log(fullDateTime);
 
             AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
+            vibrateFeedback()
 
             if (Platform.OS === "android") {
                 ToastAndroid.show("Evento criado", ToastAndroid.BOTTOM);

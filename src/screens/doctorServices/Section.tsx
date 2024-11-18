@@ -22,7 +22,7 @@ import Toast from '../../components/toast';
 import { videoUrl } from '../../utils/videoUrl';
 import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
-import { handleHapticFeedback } from '../../utils/VibrateFeedback';
+import { vibrateFeedback } from '../../utils/vibrateFeedback';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
@@ -177,7 +177,7 @@ export default function Section({ navigation }) {
       setThereSession(true)
 
       setMensageToast("Sessão criada")
-      handleHapticFeedback()
+      vibrateFeedback()
       setShowToast(true)
       reset()
 

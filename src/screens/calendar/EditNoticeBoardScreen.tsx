@@ -10,6 +10,7 @@ import { api } from '../../config/Api';
 import { Context } from '../../context/AuthProvider';
 import { AgendaNotification } from '../../utils/AgendaNotification';
 import { Button } from 'react-native-paper';
+import { vibrateFeedback } from '../../utils/vibrateFeedback';
 
 dayjs.locale('pt-br');
 
@@ -103,7 +104,7 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
                 title: title,
                 starts_at: fullDateTime
             });
-
+            vibrateFeedback()
             if (Platform.OS === "android") {
                 ToastAndroid.show("Evento atualizado", ToastAndroid.BOTTOM);
             }

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, StyleSheet, Dimensions, RefreshControl, Linking, Share, Pressable, ImageBackground } from 'react-native';
 import { Button, Card, Title, Paragraph, Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
-import NetInfo from "@react-native-community/netinfo";
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import { Context } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
@@ -18,25 +17,10 @@ const Home = ({ navigation }: { navigation: any }) => {
   const [totalPacient, setTotalPacient] = useState<any>('');
   const { user } = useContext(Context);
   const { pac_id } = useContext(ContextPacient);
-  const [showToast, setShowToast] = useState<boolean>(true);
   const [mensageToast, setMensageToast] = useState<string>("");
   const { setThereSession, thereSession } = useContext(ContextGlobal);
   const { setIsFromRegistration } = useContext(ContextGlobal);
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      if (!state.isConnected) {
-        setShowToast(true);
-        setMensageToast("Sem conexão com a internet");
-        return;
-      }
-      setShowToast(false);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
+ 
   useFocusEffect(
     React.useCallback(() => {
       setIsFromRegistration(false);
@@ -128,7 +112,7 @@ const Home = ({ navigation }: { navigation: any }) => {
 
       </ScrollView>
 
-      <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} duration={6000} />
+      
 
     </View>
   );

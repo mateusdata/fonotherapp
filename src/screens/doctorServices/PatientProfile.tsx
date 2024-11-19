@@ -6,7 +6,6 @@ import { Dialog, Sheet } from 'tamagui';
 import { useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { AntDesign } from '@expo/vector-icons';
-import * as Location from 'expo-location';
 import * as  Animatable from "react-native-animatable"
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -32,7 +31,6 @@ const PatientProfile = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [firstModal, setFirstModal] = useState<boolean>(true);
     const [page, setPage] = React.useState(0);
-    const { setLocation, thereSession } = useContext(ContextGlobal);
     const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
     const [visible, setVisible] = useState(false);
     const { accessToken } = useContext(Context);
@@ -41,15 +39,6 @@ const PatientProfile = ({ navigation }) => {
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
 
-    useEffect(() => {
-        if (!user?.person.phone_numbers[0] || !user?.doctor?.gov_license) {
-            setTimeout(() => {
-                //showModal()
-
-            }, 200000);
-        }
-        getLocation();
-    }, [])
 
     const navigateToMyInformation = () => {
         hideModal();
@@ -86,48 +75,6 @@ const PatientProfile = ({ navigation }) => {
         }
       }
 
-      const getLocation = async () => {
-        try {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            
-            if (status === 'denied') {
-                Alert.alert(
-                    "Permissão de localização não concedida.",
-                    "Para gerar relatórios, é necessário habilitar a permissão de localização.",
-                    [
-                        { text: "Cancelar", style: "cancel" },
-                        { 
-                            text: "Abrir Configurações", 
-                            onPress: () => Linking.openSettings() 
-                        },
-                    ]
-                );
-                return;
-            }
-    
-            if (status !== 'granted') {
-                Alert.alert(
-                    "Aviso em localização",
-                    "Não será possível gerar relatório sem permissão de localização.",
-                    [
-                        { text: "Cancelar", style: "cancel", onPress: () => console.log("Permissão negada") },
-                        { text: "Permitir", onPress: getLocation },
-                    ]
-                );
-                return;
-            }
-    
-            let { coords } = await Location.getCurrentPositionAsync({});
-            setLocation({ latitude: coords.latitude, longitude: coords.longitude });
-        } catch (error) {
-            console.error("Erro ao obter localização:", error);
-            Alert.alert(
-                "Erro",
-                "Ocorreu um problema ao tentar obter sua localização. Tente novamente."
-            );
-        }
-    };
-    
 
     useFocusEffect(
         React.useCallback(() => {
@@ -158,32 +105,7 @@ const PatientProfile = ({ navigation }) => {
         return <SkelectonView />
     }
     return (
-        <View style={{ flex: 1 }}>
-
-            <Dialog modal open={visible}  >
-                <Dialog.Trigger />
-                <Dialog.Portal>
-                    <Dialog.Overlay key="overlay" onPress={hideModal} />
-                    <Dialog.Content key="content" style={{ width: "90%", top: "10%" }}>
-                        <Dialog.Title>
-                            <Text> {`Olá ${user.nick_name} `}</Text>
-                        </Dialog.Title>
-                        <Dialog.Description />
-                        <Dialog.Close />
-                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 15, marginBottom: 20 }}>
-
-                                Para que seu telefone e CRFA apareçam nos relatórios, por favor, cadastre-os abaixo:
-                            </Text>
-                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%', top: 10 }}>
-                                <Button onPress={hideModal} textColor={colorRed} >Sair</Button>
-                                <Button onPress={navigateToMyInformation} textColor={colorGreen} >Cadastrar</Button>
-                            </View>
-                        </View>
-
-                    </Dialog.Content>
-                </Dialog.Portal>
-            </Dialog>
+        <View style={{ flex: 1 }}>           
 
             <Sheet
                 modal={Platform.OS === "ios" ? false : true}
@@ -300,9 +222,6 @@ const PatientProfile = ({ navigation }) => {
                         setFirstModal(false)
                         setModalVisible(true)
                     }}>Gerar recibos e relatórios</Button>
-
-
-
 
                 </View>
 

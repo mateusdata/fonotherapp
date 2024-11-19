@@ -6,8 +6,6 @@ import config from './tamagui.config';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import NetInfo from "@react-native-community/netinfo";
-import { StatusBar } from 'expo-status-bar';
 import PacientContext from './src/context/PacientContext';
 import GlobalContext from './src/context/GlobalContext';
 import * as Notifications from 'expo-notifications';
@@ -15,12 +13,10 @@ import Toast from 'react-native-toast-message';
 import BottomSheetProvider from './src/context/BottomSheetProvider';
 
 export default function App() {
-  //app
   const [tamaguiLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
-
 
   useEffect(() => {
     const requestNotificationPermissions = async () => {
@@ -30,20 +26,7 @@ export default function App() {
       }
     };
     requestNotificationPermissions();
-    const unsubscribe = NetInfo.addEventListener(state => {
-      if (!state.isConnected) {
-        //alert("Você esta sem conexão com a internet")
-
-        setTimeout(() => {
-          //BackHandler.exitApp();
-
-        }, 2000);
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    };
+   
   }, []);
 
   const [fontsLoaded] = useFonts({
@@ -75,4 +58,3 @@ export default function App() {
     </GestureHandlerRootView>
   );
 }
-//#36B3B9

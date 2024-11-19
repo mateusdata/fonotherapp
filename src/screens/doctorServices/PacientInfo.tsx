@@ -1,62 +1,199 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { Avatar, Card, Title, Paragraph, IconButton } from 'react-native-paper';
+import { View, StyleSheet, Alert, Text } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 import { cpf } from 'cpf-cnpj-validator';
-import { AntDesign } from '@expo/vector-icons';
-import dayjs from 'dayjs';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import { FormatPacient } from '../../interfaces/globalInterface';
-import { Context } from '../../context/AuthProvider'
-import { ContextGlobal } from '../../context/GlobalContext'
-import downloadPDF from '../../utils/downloadPDF'
-import { api } from '../../config/Api'
-import CustomText from '../../components/customText'
-import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
-import ErrorMessage from '../../components/errorMessage'
 import { ContextPacient } from '../../context/PacientContext';
+import { api } from '../../config/Api';
+import LabelInput from '../../components/LabelInput';
 import SkelectonView from '../../components/SkelectonView';
+import MaskInput, { Masks } from 'react-native-mask-input';
+import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import ErrorMessage from '../../components/errorMessage';
+import dayjs from 'dayjs';
 
-const PatientInfo = ({navigation}) => {
-  const { pac_id } = useContext(ContextPacient);
-  const [pacient, setPacient] = useState<FormatPacient>();
-
-  useFocusEffect(
-    React.useCallback(() => {
-       
-      const fetchData = async () => {
-        const response = await api.get(`/pacient/${pac_id}`)
-        setPacient(response.data);
-        console.log(response.data)
-        console.log(response.data.person.birthday)
+const schema = yup.object({
+  first_name: yup.string().required('O nome é obrigatório'),
+  cpf: yup.string().optional(),
+  birthday: yup
+    .string()
+    .transform((value, originalValue) => {
+      if (originalValue) {
+        const [day, month, year] = originalValue.split('/');
+        return `${year}-${month}-${day}`;
       }
-      fetchData()
-    }, [pac_id])
-);
+      return originalValue;
+    })
+    .test('is-date', 'Data inválida', value => dayjs(value, 'YYYY-MM-DD', true).isValid())
+    .transform((value) => dayjs(value).format('YYYY-MM-DD'))
+    .required("Obrigatório"),
+});
 
-  
+const PatientUpdate = ({ navigation }) => {
+  const { pac_id } = useContext(ContextPacient);
+  const [pacient, setPacient] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
+  const { control, handleSubmit, watch, formState: { errors }, setValue } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      first_name: '',
+      cpf: '',
+      birthday: '',
+    },
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get(`/pacient/${pac_id}`);
+        const { first_name, person } = response.data;
+        setPacient(response.data);
+
+        const formattedBirthday = dayjs(person.birthday).format('DD/MM/YYYY');
+
+        setValue('first_name', first_name);
+        setValue('cpf', cpf.format(person.cpf));
+        setValue('birthday', formattedBirthday);
+      } catch (error) {
+        console.error('Erro ao buscar os dados do paciente:', error);
+      }
+    };
+    fetchData();
+  }, [pac_id, setValue]);
+
+
+  const handleUpdatePatient = async (data) => {
+    setLoading(true);
+
+    const formattedData = {
+      first_name: data.first_name,
+      cpf: data.cpf.replace(/\D/g, ''),
+      birthday: data.birthday.split('/').reverse().join('-'),
+    };
+
+    try {
+      await api.put(`/pacient/${pac_id}`, formattedData);
+      Alert.alert('Paciente atualizado com sucesso!');
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert('Erro ao atualizar paciente', 'Tente novamente mais tarde.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!pacient) {
-    return <SkelectonView />
+    return <SkelectonView />;
   }
-  return (
-    <View style={{ padding: 15 }}>
-      <Pressable onPress={() => navigation.navigate("UpdatePacient",{pacient:pacient})} android_ripple={{ color: colorPrimary }} style={{ flexDirection: "row", justifyContent: "flex-end", alignContent: "flex-end", }}>
-        <Text style={{ textAlign: "center", top: 2 }}>editar</Text>
-        <MaterialIcons name="edit-square" size={28} color={"orange"} />
-      </Pressable>
-      <Card style={{ marginBottom: 10, padding: 2, }}>
-        <Card.Title title={" " + pacient?.first_name?.toUpperCase()} left={(props) => <IconButton {...props} icon="account" iconColor='#36B3B9' />} />
-      </Card>
-      <Card style={{ marginBottom: 10, padding: 2, }}>
-        <Card.Title title={" CPF:  " + cpf.format(pacient?.person?.cpf)} left={(props) => <IconButton {...props} icon="card-account-details" iconColor='#36B3B9' />} />
-      </Card>
 
-      <Card style={{ marginBottom: 10, }}>
-        <Card.Title title={" " + dayjs(pacient?.person?.birthday).format('DD/MM/YYYY')} left={(props) => <IconButton {...props} icon="calendar" iconColor='#36B3B9' />} />
-      </Card>
+  return (
+    <View style={styles.container}>
+      <LabelInput value="Nome" />
+      <Controller
+        control={control}
+        name="first_name"
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <>
+            <TextInput
+              mode="outlined"
+              activeOutlineColor={colorPrimary}
+              value={value}
+              onChangeText={onChange}
+              style={styles.input}
+              error={!!error}
+            />
+            <ErrorMessage name={"first_name"} errors={errors} />
+          </>
+        )}
+      />
+
+      <LabelInput value="CPF" />
+      <Controller
+        control={control}
+        name="cpf"
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <>
+            <TextInput
+              mode="outlined"
+              activeOutlineColor={colorPrimary}
+              value={value}
+              onChangeText={onChange}
+              keyboardType="numeric"
+              style={styles.input}
+              error={!!error}
+              disabled
+            />
+          </>
+        )}
+      />
+
+      <View style={{ top: 15 }}>
+        <LabelInput value="Data de Nascimento" />
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <MaskInput
+              style={[
+                styles.maskInput,
+                {
+                  backgroundColor: "#f9f7fc",
+                  borderColor: isFocus ? colorPrimary : "#848484",
+                  borderWidth: isFocus ? 2 : 1,
+                },
+              ]}
+              value={value}
+              placeholder={null}
+              cursorColor={colorSecundary}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChangeText={(masked) => {
+                onChange(masked);
+              }}
+              mask={Masks.DATE_DDMMYYYY}
+            />
+          )}
+          name="birthday"
+        />
+      </View>
+
+      <Button
+        style={{ top: 24 }}
+        textColor="white"
+        buttonColor={colorPrimary}
+        onPress={handleSubmit(handleUpdatePatient)}
+        disabled={loading}
+      >
+        {loading ? 'Atualizando...' : 'Atualizar Paciente'}
+      </Button>
     </View>
   );
 };
 
-export default PatientInfo;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 15,
+    backgroundColor: '#fff',
+  },
+  input: {
+    marginBottom: 10,
+  },
+  maskInput: {
+    padding: 17,
+    borderRadius: 4,
+    backgroundColor: '#fff9f9',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginBottom: 5,
+  },
+});
+
+export default PatientUpdate;

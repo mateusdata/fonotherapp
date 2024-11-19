@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, ToastAndroid, Platform } from 'react-native';
-import { TextInput, Button, Text, Card } from 'react-native-paper';
+import { View, StyleSheet, ScrollView, ToastAndroid, Platform, Pressable } from 'react-native';
+import { TextInput, Button, Text, IconButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { api } from '../../config/Api';
-
-export default function PatientEvolution() {
+import { colorPrimary, colorRed } from '../../style/ColorPalette';
+import { vibrateFeedback } from '../../utils/vibrateFeedback';
+import AntDesign from '@expo/vector-icons/AntDesign';
+export default function PacientEvolution({ route, navigation }) {
+  const { pac_id } = route.params; // Recebe o pac_id passado pela navegação
   const [date, setDate] = useState(new Date());
   const [text, setText] = useState('');
-  const [previousEvolutions, setPreviousEvolutions] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onDateChange = (event, selectedDate) => {
+    if (Platform.OS === "android") {
+      setShowDatePicker(false);
+    }
     if (event.type === 'set') {
       const currentDate = selectedDate || date;
-      setShowDatePicker(false);
       setDate(currentDate);
-    } else {
-      setShowDatePicker(false);
     }
   };
 
+  // Função para salvar o comentário de evolução
   const handleSave = async () => {
     if (!text) {
       alert("Por favor, preencha o campo de evolução.");
@@ -28,16 +32,19 @@ export default function PatientEvolution() {
     }
 
     const evolution = {
-      date: dayjs(date).format("YYYY-MM-DD"),
-      text
+      pac_id,
+      comment: text,
+      date: dayjs(date).format("YYYY-MM-DD"), // Formata a data no formato correto
     };
 
+    setLoading(true);
+
     try {
-      await api.post("paciente-evolution", evolution);
+      // Chama a API para salvar a evolução
+      await api.post("record", evolution);
 
-      setPreviousEvolutions([evolution, ...previousEvolutions]);
       setText('');
-
+      vibrateFeedback()
       if (Platform.OS === "android") {
         ToastAndroid.show("Evolução diária salva!", ToastAndroid.BOTTOM);
       } else {
@@ -46,15 +53,21 @@ export default function PatientEvolution() {
     } catch (error) {
       console.error("Erro ao salvar a evolução diária:", error);
       alert("Ocorreu um erro ao salvar a evolução diária.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.title}>Evolução Diária</Text>
-
-        <Button mode="outlined" onPress={() => setShowDatePicker(true)}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: "100%", alignItems: "flex-start" }}>
+          <Text style={styles.title}>Evolução Dssiária</Text>
+          <Pressable onPress={() => navigation.navigate("ListPacientEvolution", { pac_id: pac_id })}>
+            <AntDesign name="eye" size={24} color={colorPrimary} />
+          </Pressable>
+        </View>
+        <Button mode="outlined" textColor={colorPrimary} onPress={() => setShowDatePicker(true)}>
           {dayjs(date).format('DD/MM/YYYY')}
         </Button>
 
@@ -62,14 +75,13 @@ export default function PatientEvolution() {
           <DateTimePicker
             value={date}
             mode="date"
-            display="default"
+            display={Platform.OS === "ios" ? "spinner" : "default"}
             onChange={onDateChange}
             minimumDate={new Date()}
           />
         )}
 
         <TextInput
-          label="Evolução Diária"
           value={text}
           onChangeText={setText}
           multiline
@@ -78,18 +90,17 @@ export default function PatientEvolution() {
           style={styles.textInput}
         />
 
-        <Button mode="contained" onPress={handleSave} style={styles.button}>
+        <Button
+          mode="outlined"
+          textColor="white"
+          buttonColor={colorPrimary}
+          onPress={handleSave}
+          style={styles.button}
+          loading={loading}
+          disabled={loading}
+        >
           Salvar
         </Button>
-
-        {previousEvolutions.map((evolution, index) => (
-          <Card key={index} style={styles.card}>
-            <Card.Content>
-              <Text style={styles.cardDate}>{evolution.date}</Text>
-              <Text>{evolution.text}</Text>
-            </Card.Content>
-          </Card>
-        ))}
       </ScrollView>
     </View>
   );
@@ -114,15 +125,10 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 16,
     backgroundColor: 'white',
-    maxHeight:200
+    maxHeight: 200,
+    minHeight: 200
   },
   button: {
     marginTop: 16,
-  },
-  card: {
-    marginTop: 16,
-  },
-  cardDate: {
-    fontWeight: 'bold',
   },
 });

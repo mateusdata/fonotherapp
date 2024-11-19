@@ -23,7 +23,6 @@ import AccompanyPatient from '../../screens/doctorServices/AccompanyPatient';
 import AnsweredQuestions from '../../screens/doctorServices/AnsweredQuestions';
 import Section from '../../screens/doctorServices/Section';
 import CurrentProtocol from '../../screens/doctorServices/CurrentProtocol';
-import PatientEvolution from '../../screens/doctorServices/PatientEvolution';
 import ServiceProvisionReceiptPdf from '../../screens/doctorServices/ServiceProvisionReceiptPdf';
 import MonitoringReportPdf from '../../screens/doctorServices/MonitoringReportPdf';
 import DischargeReportPdf from '../../screens/doctorServices/DischargeReportPdf';
@@ -46,6 +45,8 @@ import MyAgenda from '../../screens/calendar/MyAgenda';
 import AddNoticeBoardScreen from '../../screens/calendar/AddNoticeBoardScreen';
 import Consultancy from '../../screens/support/Consultancy';
 import EditNoticeBoardScreen from '../../screens/calendar/EditNoticeBoardScreen';
+import PacientEvolution from '../../screens/doctorServices/PacientEvolution';
+import ListPacientEvolution from '../../screens/doctorServices/ListPacientEvolution';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
@@ -90,7 +91,8 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{  headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
         <AppStack.Screen name='Section' component={Section} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Sessão" }} />
         <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
-        <AppStack.Screen name='PatientEvolution' component={PatientEvolution} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Evolução do paciente" }} />
+        <AppStack.Screen name='PacientEvolution' component={PacientEvolution} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Evolução do paciente" }} />
+        <AppStack.Screen name='ListPacientEvolution' component={ListPacientEvolution} options={{  headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Evolução do paciente" }} />
 
         
 

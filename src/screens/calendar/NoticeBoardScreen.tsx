@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { View, StyleSheet, Pressable, RefreshControl, Text } from 'react-native';
-import { List, Divider, Searchbar } from 'react-native-paper';
+import { View, StyleSheet, Pressable, RefreshControl, Text, Alert, ScrollView } from 'react-native';
+import { List, Divider, Searchbar, IconButton } from 'react-native-paper';
 import { api } from '../../config/Api';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
@@ -29,9 +29,9 @@ export default function FinanceScreen({ navigation }) {
       const newAppointments = response.data.data;
 
       if (reset) {
-        // Reseta a lista ao atualizar
+        
         setAppointments(newAppointments);
-        setPage(2); // Próxima página será a 2
+        setPage(2); 
       } else {
         setAppointments(prevAppointments => [...prevAppointments, ...newAppointments]);
         setPage(prevPage => prevPage + 1);
@@ -59,8 +59,40 @@ export default function FinanceScreen({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       fetchAppointments(true);
+
     }, [])
   );
+
+
+  async function handleDelete(eventId) {
+    Alert.alert(
+      'Confirmação',
+      'Você tem certeza que deseja excluir este evento?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setIsLoading(true)
+              await api.delete(`/reminder/${eventId}`);
+              setAppointments((prevAppointments) =>
+                prevAppointments.filter((appointment) => appointment.rem_id !== eventId)
+              );
+              Alert.alert('Sucesso', 'Evento excluído com sucesso.');
+              setIsLoading(false)
+              handleRefresh()
+            } catch (error) {
+              console.error('Erro ao excluir o evento:', error);
+              Alert.alert('Erro', 'Não foi possível excluir o evento.');
+              setIsLoading(false)
+            }
+          },
+        },
+      ]
+    );
+  }
 
   const filteredAppointments = appointments.filter(appointment =>
     appointment.title.toLowerCase().includes(search.toLowerCase())
@@ -87,16 +119,7 @@ export default function FinanceScreen({ navigation }) {
     await fetchAppointments(true);
   }
 
-  if (isEmpty) {
-    return (
-      <View style={{flex:1, justifyContent:'space-between'}}>
-        <NotFoudMessageList />
-        <TouchableOpacity style={[styles.floatingButton2]} onPress={() => navigation.navigate("AddNoticeBoardScreen")}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
+
 
   return (
     <View style={styles.container}>
@@ -110,6 +133,12 @@ export default function FinanceScreen({ navigation }) {
         cursorColor="gray"
         style={{ marginBottom: 10 }}
       />
+
+      {!filteredAppointments?.length  && !isLoading && 
+       <Text style={{ textAlign: "center" }}>
+        Nenhum moral encontrado.
+      </Text>}
+
       <View style={styles.listContainer}>
         <FlatList
           data={filteredAppointments}
@@ -124,14 +153,22 @@ export default function FinanceScreen({ navigation }) {
             const date = dayjs.utc(item.starts_at);
             return (
               <Pressable
-                style={styles.pressable}
                 onPress={() => handleProfile(item)}
                 key={item.rem_id}
               >
                 <List.Item
                   title={item.title}
                   description={`${date.format('ddd, D [de] MMM [de] YYYY')} - ${date.format('HH:mm')}`}
+
                   left={(props) => <List.Icon {...props} icon="calendar" />}
+                  right={() => (
+                    <IconButton
+                      icon="delete"
+                      onPress={() => handleDelete(item.rem_id)}
+                      style={{ marginRight: 0 }}
+                      iconColor="#d32f2f"
+                    />
+                  )}
                 />
                 <Divider />
               </Pressable>
@@ -182,7 +219,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 10,
-    margin:10,
+    margin: 10,
     width: 56,
     height: 56,
     backgroundColor: colorPrimary,

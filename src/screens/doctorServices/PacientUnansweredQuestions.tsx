@@ -30,7 +30,7 @@ const PacientUnansweredQuestions = ({ navigation }) => {
         } else {
             setLoadingMore(true);
         }
-
+    
         try {
             const response = await api.get(`/pending-pacients/${user?.doctor?.doc_id}?page=${newPage}&pageSize=25`);
             const fetchedPacients = response?.data?.pacients || [];
@@ -39,18 +39,24 @@ const PacientUnansweredQuestions = ({ navigation }) => {
             } else {
                 setPacients(prevPacients => [...prevPacients, ...fetchedPacients]);
             }
-
+    
+            
             setHasMore(fetchedPacients.length > 0);
             setPage(newPage);
         } catch (error) {
-            console.error("Error fetching patients:", error);
+            if (error.response?.status === 404) {
+                
+                setHasMore(false);
+            } else {
+                console.error("Error fetching patients:", error);
+            }
         } finally {
             setLoading(false);
             setLoadingMore(false);
             setRefreshing(false);
         }
     };
-
+    
     const loadMorePacients = () => {
         if (!loadingMore && hasMore) {
             fetchPacients(page + 1);

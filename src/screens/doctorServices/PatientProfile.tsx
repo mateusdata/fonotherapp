@@ -77,7 +77,10 @@ const PatientProfile = ({ navigation }) => {
 
 
     useFocusEffect(
+        
         React.useCallback(() => {
+            alert(pac_id)
+
             const fetchData = async () => {
                 try {
                     const response = await api.get(`/pacient/${pac_id}`);

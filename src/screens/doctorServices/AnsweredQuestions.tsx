@@ -209,7 +209,7 @@ const AnsweredQuestions = ({ navigation }) => {
 
 
 
-          <Pressable onPress={() => navigation.navigate("PatientEvolution")}>
+          <Pressable onPress={() => navigation.navigate("PacientEvolution", {pac_id:pac_id})}>
             <Button buttonColor={colorPrimary} mode='elevated' textColor='white' >
               Evolução Diária
             </Button>

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { View, StyleSheet, Pressable, RefreshControl } from 'react-native';
-import { List, Divider, Searchbar } from 'react-native-paper';
+import { View, StyleSheet, Pressable, RefreshControl, Alert, Text } from 'react-native';
+import { List, Divider, Searchbar, IconButton } from 'react-native-paper';
 import { api } from '../../config/Api';
 import { FlatList } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
@@ -86,8 +86,37 @@ export default function MyAppointments({ navigation }) {
     await fetchAppointments(true); // Reseta ao atualizar
   }
 
-  if (isEmpty) {
-    return <NotFoudMessageList />;
+ 
+
+  async function handleDelete(eventId) {
+    Alert.alert(
+      'Confirmação',
+      'Você tem certeza que deseja excluir este evento?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setIsLoading(true)
+              await api.delete(`/appointment/${eventId}`);
+              setAppointments((prevAppointments) =>
+                prevAppointments.filter((appointment) => appointment.app_id !== eventId)
+              );
+              Alert.alert('Sucesso', 'Evento excluído com sucesso.');
+              setIsLoading(false)
+
+              handleRefresh()
+            } catch (error) {
+              console.error('Erro ao excluir o evento:', error);
+              Alert.alert('Erro', 'Não foi possível excluir o evento.');
+              setIsLoading(false)
+            }
+          },
+        },
+      ]
+    );
   }
 
   return (
@@ -102,6 +131,11 @@ export default function MyAppointments({ navigation }) {
         cursorColor="gray"
         style={{ marginBottom: 10 }}
       />
+
+      {!filteredAppointments?.length && !isLoading &&
+        <Text style={{ textAlign: "center" }}>
+          Nenhum moral encontrado.
+        </Text>}
       <View style={styles.listContainer}>
         <FlatList
           data={filteredAppointments}
@@ -116,7 +150,7 @@ export default function MyAppointments({ navigation }) {
             const date = dayjs.utc(item.starts_at);
             return (
               <Pressable
-                style={styles.pressable}
+
                 onPress={() => handleProfile(item)}
                 key={item.app_id}
               >
@@ -124,6 +158,14 @@ export default function MyAppointments({ navigation }) {
                   title={item.title}
                   description={`${date.format('ddd, D [de] MMM [de] YYYY')} - ${date.format('HH:mm')}`}
                   left={(props) => <List.Icon {...props} icon="calendar" />}
+                  right={() => (
+                    <IconButton
+                      icon="delete"
+                      onPress={() => handleDelete(item.app_id)}
+                      style={{ marginRight: 0 }}
+                      iconColor="#d32f2f"
+                    />
+                  )}
                 />
                 <Divider />
               </Pressable>

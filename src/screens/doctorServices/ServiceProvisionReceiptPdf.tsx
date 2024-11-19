@@ -17,6 +17,7 @@ import { ContextPacient } from '../../context/PacientContext';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import LabelInput from '../../components/LabelInput'
+import { Text } from 'react-native'
 
 const ServiceProvisionReceiptPdf = ({ route }: any) => {
 
@@ -27,17 +28,13 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
   const schema = yup.object({
     price: yup.number().required("Campo obrigatorio"),
     number_of_sessions: yup.number().required("Campo obrigatorio"),
-    lat: yup.number().optional(),
-    lon: yup.number().optional()
   });
-  const { location } = useContext(ContextGlobal);
 
   const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
     defaultValues: {
       price: null,
       number_of_sessions: null,
-      lat: location.latitude,
-      lon: location.longitude
+
     },
     resolver: yupResolver(schema)
   })
@@ -109,7 +106,7 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
       </View>
       <View style={{ padding: 12 }}>
         <Button buttonColor={colorPrimary} textColor='white'
-          loading={loading} onPress={handleSubmit(getPdf, handleError)} mode='text'>
+          loading={loading} onPress={handleSubmit(getPdf)} mode='text'>
           Gerar Recibo
         </Button>
       </View>

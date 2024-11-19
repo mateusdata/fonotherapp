@@ -31,11 +31,9 @@ const MonitoringReportPdf = ({ route }: any) => {
         general_guidelines: yup.string().required("Campo obrigatório"),
         conclusion: yup.string().required("Campo obrigatório"),
         next_steps: yup.string().required("Campo obrigatório"),
-        lat: yup.number().optional(),
-        lon: yup.number().optional()
+       
     });
 
-    const { location } = useContext(ContextGlobal);
     const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
         defaultValues: {
             diagnoses: "",
@@ -44,11 +42,7 @@ const MonitoringReportPdf = ({ route }: any) => {
             swallowing_assessment: "",
             general_guidelines: "",
             conclusion: "",
-            next_steps: "",
-            lat: location.latitude,
-            lon: location.longitude
-
-
+            next_steps: "",    
         },
         resolver: yupResolver(schema)
     })

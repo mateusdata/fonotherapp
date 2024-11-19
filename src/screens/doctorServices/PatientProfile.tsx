@@ -250,7 +250,7 @@ const PatientProfile = ({ navigation }) => {
                 }} style={{ marginTop: 10 }}>
                     Iniciar sessão
                 </Button>
-
+              
             </View>
         </View>
     );

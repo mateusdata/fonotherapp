@@ -1,14 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useState, useEffect } from 'react';
 
-interface Location {
-    latitude: number | null,
-    longitude: number | null
-}
+
 
 interface FormatGlobal {
-    location: Location,
-    setLocation: Dispatch<SetStateAction<Location>>,
     thereSession: any,
     setThereSession: Dispatch<SetStateAction<boolean>>,
     isFromRegistration: boolean,
@@ -22,7 +17,6 @@ interface FormatGlobal {
 export const ContextGlobal = createContext<FormatGlobal>({} as FormatGlobal);
 
 const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
-    const [location, setLocation] = useState<Location>({ latitude: null, longitude: null });
     const [thereSession, setThereSession] = useState<boolean>(false);
     const [isFromRegistration, setIsFromRegistration] = useState<boolean>(false);
     const [isDevelopment, setIsdevelopment] = useState<boolean>(true);
@@ -48,9 +42,7 @@ const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
         <ContextGlobal.Provider
             value={{
                 isDevelopment,
-                setIsdevelopment,
-                location,
-                setLocation,
+                setIsdevelopment,                
                 thereSession,
                 setThereSession,
                 isFromRegistration,

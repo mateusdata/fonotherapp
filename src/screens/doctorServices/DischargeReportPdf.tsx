@@ -35,11 +35,9 @@ const DischargeReportPdf = ({ route }: any) => {
     patients_progress: yup.string().required("Campo obrigatório"),
     current_condition: yup.string().required("Campo obrigatório"),
     referrals: yup.string().required("Campo obrigatório"),
-    lat: yup.number().optional(),
-    lon: yup.number().optional()
+  
   });
 
-  const { location, setLocation } = useContext(ContextGlobal);
 
   const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
     defaultValues: {
@@ -50,8 +48,6 @@ const DischargeReportPdf = ({ route }: any) => {
       patients_progress: "",
       current_condition: "",
       referrals: "",
-      lat: location.latitude,
-      lon: location.longitude
     },
     resolver: yupResolver(schema)
   })

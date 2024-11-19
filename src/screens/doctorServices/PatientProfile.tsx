@@ -79,7 +79,6 @@ const PatientProfile = ({ navigation }) => {
     useFocusEffect(
         
         React.useCallback(() => {
-            alert(pac_id)
 
             const fetchData = async () => {
                 try {

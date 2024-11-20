@@ -8,6 +8,7 @@ import { Context } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
+import { colorPrimary } from '../../style/ColorPalette';
 
 export default function ChangeCredential() {
   const { user, setUser } = React.useContext(Context);
@@ -57,7 +58,7 @@ export default function ChangeCredential() {
               error={!!errors.current_password}
               onChangeText={onChange}
               mode="outlined"
-              activeOutlineColor='#376fe8'
+              activeOutlineColor={colorPrimary}
               value={value}
             />
           )}
@@ -75,7 +76,7 @@ export default function ChangeCredential() {
               error={!!errors.new_password}
               onChangeText={onChange}
               mode="outlined"
-              activeOutlineColor='#376fe8'
+              activeOutlineColor={colorPrimary}
               value={value}
             />
           )}

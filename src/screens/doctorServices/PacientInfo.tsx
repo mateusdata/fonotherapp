@@ -69,21 +69,35 @@ const PatientUpdate = ({ navigation }) => {
   const handleUpdatePatient = async (data) => {
     setLoading(true);
 
-    const formattedData = {
-      first_name: data.first_name,
-      cpf: data.cpf.replace(/\D/g, ''),
-      birthday: data.birthday.split('/').reverse().join('-'),
-    };
-
     try {
-      await api.put(`/pacient/${pac_id}`, formattedData);
-      Alert.alert('Paciente atualizado com sucesso!');
-      navigation.goBack();
+
+      const formattedData = {
+        first_name: data.first_name,
+        birthday: formatDateToISO(data.birthday),
+      };
+
+      const response = await api.put(`/pacient/${pac_id}`, formattedData);
+
+
+      Alert.alert("Paciente", 'atualizado com sucesso!');
     } catch (error) {
+      console.error(error);
       Alert.alert('Erro ao atualizar paciente', 'Tente novamente mais tarde.');
     } finally {
       setLoading(false);
     }
+  };
+
+
+  const formatDateToISO = (date) => {
+
+    const [day, month, year] = date.split('/');
+    if (day && month && year) {
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+
+
+    return date;
   };
 
   if (!pacient) {

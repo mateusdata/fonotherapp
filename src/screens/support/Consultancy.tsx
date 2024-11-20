@@ -8,7 +8,8 @@ const Consultancy = () => {
 
   const handlePressWhatsAppMessage = async () => {
     const message = 'Olá, estou interessado(a) na consultoria do app Fonotheapp.';
-    const url = `whatsapp://send?phone=557599787828&text=${encodeURIComponent(message)}`;
+    const url = `whatsapp://send?phone=557196204608&text=${message}`;
+    
     const canOpen = await Linking.canOpenURL(url);
     if (canOpen) {
       Linking.openURL(url);

@@ -9,7 +9,7 @@ import { Context } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
-import { colorSecundary } from '../../style/ColorPalette';
+import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
 import { getUser } from '../../utils/getUser';
 
 export default function ChangeGovLicense() {
@@ -63,7 +63,7 @@ export default function ChangeGovLicense() {
                             onChangeText={onChange}
                             mode="outlined"
                             style={styles.input}
-                            activeOutlineColor='#376fe8'
+                            activeOutlineColor={colorPrimary}
                             value={value}
                         />
                     )}

@@ -9,6 +9,7 @@ import { Context } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
+import { colorPrimary } from '../../style/ColorPalette';
 export default function ChangeEmail() {
   const { user, setUser } = React.useContext(Context);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -58,7 +59,7 @@ export default function ChangeEmail() {
               onChangeText={onChange}
               mode="outlined"
               style={styles.input}
-              activeOutlineColor='#376fe8'
+              activeOutlineColor={colorPrimary}
               value={value}
             />
           )}

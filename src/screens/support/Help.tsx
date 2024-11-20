@@ -8,7 +8,7 @@ const Help = () => {
 
   const handlePressWhatsAppMessage = async () => {
     const message = 'Olá, estou usando o app Fonotheapp e preciso de ajuda.';
-    const url = `whatsapp://send?phone=557599787828&text=${message}`;
+    const url = `whatsapp://send?phone=557196204608&text=${message}`;
     const canOpen = await Linking.canOpenURL(url);
     if (canOpen) {
       Linking.openURL(url);

@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
-import { colorSecundary } from '../../style/ColorPalette';
+import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
 import ErrorMessage from '../../components/errorMessage';
 import { getUser } from '../../utils/getUser';
 
@@ -63,14 +63,13 @@ export default function ChangePhone() {
                 <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                        <TextInput
-                            
+                        <TextInput                            
                             dense
                             keyboardType='numeric'
                             onChangeText={onChange}
                             mode="outlined"
                             style={styles.input}
-                            activeOutlineColor='#376fe8'
+                            activeOutlineColor={colorPrimary}
                             value={value}
                         />
                     )}

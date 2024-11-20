@@ -62,8 +62,8 @@ export default function PacientEvolution({ route, navigation }) {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: "100%", alignItems: "flex-start" }}>
-          <Text style={styles.title}>Evolução Dssiária</Text>
-          <Pressable onPress={() => navigation.navigate("ListPacientEvolution", { pac_id: pac_id })}>
+          <Text style={styles.title}>Evolução Diária</Text>
+          <Pressable android_ripple={{ color: colorPrimary }} style={{ backgroundColor: "white", padding: 7 }} onPress={() => navigation.navigate("ListPacientEvolution", { pac_id: pac_id })}>
             <AntDesign name="eye" size={24} color={colorPrimary} />
           </Pressable>
         </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable, Linking, StyleSheet } from 'react-native';
+import { View, Pressable, Linking, StyleSheet, Alert, Platform } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import CustomText from '../../components/customText';
 import { colorPrimary } from '../../style/ColorPalette';
@@ -7,13 +7,23 @@ import { colorPrimary } from '../../style/ColorPalette';
 const Help = () => {
 
   const handlePressWhatsAppMessage = async () => {
-    const message = 'Olá, estou usando o app Fonotheapp e preciso de ajuda.';
-    const url = `whatsapp://send?phone=557196204608&text=${message}`;
-    const canOpen = await Linking.canOpenURL(url);
-    if (canOpen) {
-      Linking.openURL(url);
-    } else {
-      // Handle case when WhatsApp is not available
+    const message = 'Olá, estou usando o app FonotherApp e preciso de ajuda.';
+    const phone = '557196204608'; // Número do WhatsApp
+    const url = `whatsapp://send?phone=${phone}&text=${encodeURIComponent(message)}`;
+
+    try {
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        Linking.openURL(url);
+      } else if (Platform.OS === 'ios') {
+        // Apenas no iOS, mostrar a opção de fallback para WhatsApp Web
+        const webUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        Linking.openURL(webUrl)
+      } else {
+        Alert.alert('Erro', 'O WhatsApp não está disponível no seu dispositivo.');
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível abrir o WhatsApp. Tente novamente mais tarde.');
     }
   };
 
@@ -22,11 +32,16 @@ const Help = () => {
     const subject = 'Ajuda com o app Fonotheapp';
     const body = 'Olá, preciso de assistência com o app fonotherApp.';
     const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    const canOpen = await Linking.canOpenURL(url);
-    if (canOpen) {
-      Linking.openURL(url);
-    } else {
-      // Handle case when email client is not available
+    
+    try {
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        Linking.openURL(url);
+      } else {
+        Alert.alert('Erro', 'Não foi possível abrir o cliente de e-mail.');
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Erro ao tentar abrir o cliente de e-mail.');
     }
   };
 

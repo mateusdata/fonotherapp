@@ -51,7 +51,8 @@ const Anamnese = ({ navigation }) => {
     food_profile: yup.string().required("Obrigatorio"),
     chewing_complaint: yup.string().required("Obrigatorio"),
     consultation_reason: yup.string().required("Obrigatorio"),
-    current_food_intake_method: yup.string().optional()
+    current_food_intake_method: yup.string().optional(),
+    additionalInformation: yup.string().optional(),
 
   }).required();
 
@@ -64,7 +65,8 @@ const Anamnese = ({ navigation }) => {
       chewing_complaint: isDevelopment ? "Queixa mastigatória" : "",
       consultation_reason: isDevelopment ? "indicação da Flavia, fonoaudióloga" : "",
       food_profile: isDevelopment ? "Vegetariano" : "",
-      current_food_intake_method: false ? "Via narina" : ""
+      current_food_intake_method: false ? "Via narina" : "",
+
     }
 
   });
@@ -155,7 +157,7 @@ const Anamnese = ({ navigation }) => {
         />
         <ErrorMessage name={"current_food_intake_method"} errors={errors} />
 
-        <LabelInput value='Doenças base' />
+        <LabelInput value='Doença base' />
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -183,47 +185,68 @@ const Anamnese = ({ navigation }) => {
         />
         <ErrorMessage name={"food_profile"} errors={errors} />
 
-        <LabelInput value='Queixas de deglutição' />
-        <Controller control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              dense
-              value={value}
-              onChangeText={onChange}
-              mode='outlined'
-              activeOutlineColor={colorPrimary} />
-          )}
-          name='chewing_complaint'
-        />
-        <ErrorMessage name={"chewing_complaint"} errors={errors} />
+        {
+          false && 
+          <>
+            <LabelInput value='Queixas de deglutição' />
+            <Controller control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  dense
+                  value={value}
+                  onChangeText={onChange}
+                  mode='outlined'
+                  activeOutlineColor={colorPrimary} />
+              )}
+              name='chewing_complaint'
+            />
+            <ErrorMessage name={"chewing_complaint"} errors={errors} />
+          </>
+        }
 
-        <LabelInput value='Motivo da consulta' />
-        <Controller control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              dense
-              value={value}
-              onChangeText={onChange}
-              mode='outlined'
-              activeOutlineColor={colorPrimary} />
-          )}
-          name='consultation_reason'
-        />
-        <ErrorMessage name={"consultation_reason"} errors={errors} />
-
-        <View style={{ marginBottom: 40 }}>
-
-          <Button icon="arrow-right"
-            disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
-            Próximo
-          </Button>
-
-        </View>
-
-      </ScrollView>
+      <LabelInput value='Motivo da consulta' />
+      <Controller control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            dense
+            value={value}
+            onChangeText={onChange}
+            mode='outlined'
+            activeOutlineColor={colorPrimary} />
+        )}
+        name='consultation_reason'
+      />
+      <ErrorMessage name={"consultation_reason"} errors={errors} />
 
 
-    </View>
+      <LabelInput value='Queixas de deglutição' />
+      <Controller control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            dense
+            value={value}
+            onChangeText={onChange}
+            mode='outlined'
+            activeOutlineColor={colorPrimary} />
+        )}
+        name='additionalInformation'
+      />
+      <ErrorMessage name={"chewing_complaint"} errors={errors} />
+
+
+      <View style={{ marginBottom: 40 }}>
+
+        <Button icon="arrow-right"
+          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+          Próximo
+        </Button>
+
+      </View>
+
+    </ScrollView>
+
+
+    </View >
   );
 };
 

@@ -28,7 +28,7 @@ const Help = () => {
   };
 
   const handlePressEmail = async () => {
-    const email = 'fonoterapp@gmail.com';
+    const email = 'comunicacao.fonotherapp@gmail.com';
     const subject = 'Ajuda com o app Fonotheapp';
     const body = 'Olá, preciso de assistência com o app fonotherApp.';
     const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

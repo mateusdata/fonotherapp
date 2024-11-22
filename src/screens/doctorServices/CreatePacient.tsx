@@ -50,6 +50,10 @@ const CreatePacient = ({ navigation }) => {
       setValue("cpf", cpf);
       setValue("first_name", names[Math.floor(Math.random() * names.length)]);
       setValue("birthday", "20/10/1998");
+      setValue("additionalInformation", " cois~ oiiiiiiiiiii ");
+
+      additionalInformation: isDevelopment ? "cois~ bo~  é trem bom" : ""
+
     }
 
   }, []);
@@ -87,7 +91,8 @@ const CreatePacient = ({ navigation }) => {
       .transform((value) => dayjs(value).format('YYYY-MM-DD'))
       .required("Obrigatório"),
 
-    last_name: yup.string()
+    last_name: yup.string(),
+    additionalInformation: yup.string().optional()
   }).required();
 
   const { reset, handleSubmit, watch, setValue, formState: { errors }, control, setError } = useForm({
@@ -98,6 +103,7 @@ const CreatePacient = ({ navigation }) => {
       last_name: "null",
       cpf: "",
       birthday: "",
+      additionalInformation: null
     }
   });
 
@@ -186,6 +192,21 @@ const CreatePacient = ({ navigation }) => {
           name='birthday'
         />
         <ErrorMessage name={"birthday"} errors={errors} />
+
+        <LabelInput value='Informações Adicionais' />
+        <Controller control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              dense
+              value={value}
+              onChangeText={onChange}
+              mode='outlined'
+              activeOutlineColor={colorPrimary} />
+          )}
+          name='additionalInformation'
+        />
+        <ErrorMessage name={"additionalInformation"} errors={errors} />
+
 
         <View style={{ marginBottom: 40 }}>
 

@@ -9,6 +9,7 @@ import { api } from '../../config/Api';
 import { background, colorPrimary } from '../../style/ColorPalette';
 import KeyboardView from '../../components/KeyboardView';
 import ErrorMessage from '../../components/errorMessage';
+import LabelInput from '../../components/LabelInput';
 
 const EditEvolutionScreen = ({ route, navigation }) => {
   const { evolution } = route.params;
@@ -50,12 +51,14 @@ const EditEvolutionScreen = ({ route, navigation }) => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <View style={styles.container2}>
+              <LabelInput value='Comentário' />
               <TextInput
+                style={{maxHeight:200, minHeight:200}}
                 dense
                 value={value}
                 onChangeText={onChange}
                 mode='outlined'
-                label='Comentário'
+                multiline
                 activeOutlineColor={colorPrimary}
               />
             </View>

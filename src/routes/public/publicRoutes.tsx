@@ -17,6 +17,7 @@ const PublicRoutes = () => {
       <StatusBar animated hideTransitionAnimation='fade' style='dark' />
 
       <AppStack.Navigator
+      
         id={undefined}
         screenOptions={{
           headerPressColor: "blue",

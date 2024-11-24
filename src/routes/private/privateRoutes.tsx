@@ -59,12 +59,13 @@ const PrivateRoutes = () => {
       <StatusBar animated hideTransitionAnimation='fade' style='light' />
 
       <AppStack.Navigator id={undefined} screenOptions={{
-
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        animation:"fade_from_bottom",
         headerTintColor: "white", headerStyle: {
           backgroundColor: colorPrimary
         },
-        headerBackTitle: ""
+        headerBackTitle: "",
+        
+        
       }}>
 
         <AppStack.Screen name='Root' component={TabsNavigation} options={{
@@ -72,7 +73,7 @@ const PrivateRoutes = () => {
           headerShown: false,
         }} />
 
-        <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{ headerTitle: "Cadastrar paciente", headerTitleAlign: "center" }} />
+        <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{ headerTitle: "Cadastrar paciente",  headerTitleAlign: "center" }} />
         <AppStack.Screen name='Anamnese' component={Anamnese} options={{ headerTitleAlign: "center" }} />
         <AppStack.Screen name='MyInformation' component={MyInformation} options={{ headerTitleAlign: "center", headerTitle: "Minhas informações" }} />
         <AppStack.Screen name='ChangeName' component={ChangeName} options={{ headerTitleAlign: "center", headerTitle: "Alterar nome" }} />
@@ -98,7 +99,6 @@ const PrivateRoutes = () => {
           headerTitleAlign: "center",
           headerTitleStyle: { color: "white" },
           headerTitle: "Editar evolução", 
-          presentation:"modal"
 
         }} />
 

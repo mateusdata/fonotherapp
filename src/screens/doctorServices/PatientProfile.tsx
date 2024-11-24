@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, BackHandler, Dimensions, FlatList, Linking, Platform, ScrollView, Text, View } from 'react-native';
 import { Avatar, Button, Card, Modal, Title } from 'react-native-paper';
 
-import { Dialog, Sheet } from 'tamagui';
 import { useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { AntDesign } from '@expo/vector-icons';
@@ -20,6 +19,7 @@ import { ContextPacient } from '../../context/PacientContext';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
+import { Sheet } from 'tamagui';
 
 const PatientProfile = ({ navigation }) => {
 

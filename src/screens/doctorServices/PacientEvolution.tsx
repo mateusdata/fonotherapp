@@ -84,7 +84,7 @@ export default function PacientEvolution({ route, navigation }) {
             />
 
             :
-            false && (
+            showDatePicker && (
               <DateTimePicker
                 value={date}
                 mode="date"

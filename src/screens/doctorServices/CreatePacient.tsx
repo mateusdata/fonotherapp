@@ -50,10 +50,7 @@ const CreatePacient = ({ navigation }) => {
       setValue("cpf", cpf);
       setValue("first_name", names[Math.floor(Math.random() * names.length)]);
       setValue("birthday", "20/10/1998");
-      setValue("additionalInformation", " cois~ oiiiiiiiiiii ");
-
-      additionalInformation: isDevelopment ? "cois~ bo~  é trem bom" : ""
-
+      setValue("additionalInformation", "Informações adicionais  ");
     }
 
   }, []);

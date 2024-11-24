@@ -67,19 +67,34 @@ export default function PacientEvolution({ route, navigation }) {
             <AntDesign name="eye" size={24} color={colorPrimary} />
           </Pressable>
         </View>
-        <Button mode="outlined" textColor={colorPrimary} onPress={() => setShowDatePicker(true)}>
+        {Platform.OS === "android" && <Button mode="outlined" textColor={colorPrimary} onPress={() => setShowDatePicker(true)}>
           {dayjs(date).format('DD/MM/YYYY')}
-        </Button>
+        </Button>}
 
-        {showDatePicker && (
-          <DateTimePicker
-            value={date}
-            mode="date"
-            display={Platform.OS === "ios" ? "spinner" : "default"}
-            onChange={onDateChange}
-            minimumDate={new Date()}
-          />
-        )}
+
+        {
+
+          Platform.OS === "ios" ?
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display={Platform.OS === "ios" ? "default" : "default"}
+              onChange={onDateChange}
+              minimumDate={new Date()}
+            />
+
+            :
+            false && (
+              <DateTimePicker
+                value={date}
+                mode="date"
+                onChange={onDateChange}
+                minimumDate={new Date()}
+              />
+            )
+
+        }
+
 
         <TextInput
           value={text}

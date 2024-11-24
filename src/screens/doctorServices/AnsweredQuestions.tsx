@@ -16,8 +16,9 @@ import { FormatPacient } from '../../interfaces/globalInterface';
 import downloadPDF from '../../utils/downloadPDF';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
-import UpdateAnamnese from '../../components/AnsweredQuestions/UpdateAnamnese';
 import Toast from '../../components/toast';
+import KeyboardView from '../../components/KeyboardView';
+import Anamnese from './Anamnese';
 
 const AnsweredQuestions = ({ navigation }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -125,51 +126,7 @@ const AnsweredQuestions = ({ navigation }) => {
 
   const renderAnamnese = () => {
     return (
-      <Animatable.View animation="" style={styles.anamneseContainer}>
-        <View style={{ width: "95%" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <Text style={styles.anamneseText}>{`${pacient?.food_profile ? "Doença base:" : "Nâo cadastrado"}  `}</Text>
-            <Pressable onPress={() => setModalVisible(true)} android_ripple={{ color: colorPrimary }} style={{ flexDirection: "row", justifyContent: "center", alignContent: "center", }}>
-              <Text style={{ textAlign: "center", top: 2 }}>editar</Text>
-              <MaterialIcons name="edit-square" size={28} color={"orange"} />
-            </Pressable>
-
-          </View>
-
-          <View>
-            {pacient.food_profile && <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.base_diseases}`}</Text>}
-          </View>
-        </View>
-
-
-        {pacient.food_profile &&
-          <>
-            <View style={{ width: "95%" }}>
-              <Text style={styles.anamneseText}>{`Perfil alimentar: `}</Text>
-              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.food_profile}`}</Text>
-            </View>
-            <View style={{ width: "95%" }}>
-              <Text style={styles.anamneseText}>{`Queixas de deglutição: `}</Text>
-              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.chewing_complaint}`}</Text>
-            </View>
-            <View style={{ width: "95%" }}>
-              <Text style={styles.anamneseText}>{`Educação: `}</Text>
-              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.education}`}</Text>
-            </View>
-            <View style={{ width: "95%" }}>
-              <Text style={styles.anamneseText}>{`Motivo da consulta: `}</Text>
-              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.consultation_reason}`}</Text>
-            </View>
-
-            <View style={{ width: "95%" }}>
-              <Text style={styles.anamneseText}>{`Via de alimentação atual: `}</Text>
-              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.current_food_intake_method}`}</Text>
-            </View>
-
-
-          </>
-        }
-      </Animatable.View>
+       <Anamnese  pacient={pacient} setShowToast={setShowToast}/>
     );
   };
 
@@ -256,38 +213,7 @@ const AnsweredQuestions = ({ navigation }) => {
 
         </List.Section>
 
-        <Sheet
-          modal={Platform.OS === "ios" ? false : true}
-          open={modalVisible}
-          dismissOnSnapToBottom
-          animation="medium"
-          native
-          onOpenChange={() => {
-            Keyboard.dismiss();
-            setSnapPoints(65)
-            setModalVisible(false)
-
-          }}
-          snapPoints={[snapPoints]}
-
-        >
-
-          <Sheet.Overlay />
-
-          <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
-
-            <HeaderSheet />
-
-            <ScrollView style={{ backgroundColor: 'transparent' }}>
-
-              <UpdateAnamnese setSnapPoints={setSnapPoints} setModalVisible={setModalVisible} pacient={pacient} setShowToast={setShowToast} />
-
-            </ScrollView>
-
-          </Sheet.Frame>
-        </Sheet>
-
-
+       
       </ScrollView>
 
       <Toast visible={showToast} mensage={"Anamnese atualizada"} setVisible={setShowToast} />

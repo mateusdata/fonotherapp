@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Alert, Text } from 'react-native';
+import { View, StyleSheet, Alert, Text, ScrollView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { cpf } from 'cpf-cnpj-validator';
 import { useFocusEffect } from '@react-navigation/native';
@@ -14,10 +14,12 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ErrorMessage from '../../components/errorMessage';
 import dayjs from 'dayjs';
+import { vibrateFeedback } from '../../utils/vibrateFeedback';
 
 const schema = yup.object({
   first_name: yup.string().required('O nome é obrigatório'),
   cpf: yup.string().optional(),
+  additionalInformation: yup.string().optional(),
   birthday: yup
     .string()
     .transform((value, originalValue) => {
@@ -43,6 +45,7 @@ const PatientUpdate = ({ navigation }) => {
       first_name: '',
       cpf: '',
       birthday: '',
+      additionalInformation:''
     },
   });
 
@@ -77,8 +80,7 @@ const PatientUpdate = ({ navigation }) => {
       };
 
       const response = await api.put(`/pacient/${pac_id}`, formattedData);
-
-
+      vibrateFeedback()
       Alert.alert("Paciente", 'atualizado com sucesso!');
     } catch (error) {
       console.error(error);
@@ -105,7 +107,7 @@ const PatientUpdate = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <LabelInput value="Nome" />
       <Controller
         control={control}
@@ -145,6 +147,19 @@ const PatientUpdate = ({ navigation }) => {
         )}
       />
 
+      <LabelInput value='Informações Adicionais' />
+      <Controller control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            dense
+            value={value}
+            onChangeText={onChange}
+            mode='outlined'
+            activeOutlineColor={colorPrimary} />
+        )}
+        name='additionalInformation'
+      />
+      <ErrorMessage name={"additionalInformation"} errors={errors} />
       <View style={{ top: 15 }}>
         <LabelInput value="Data de Nascimento" />
         <Controller
@@ -183,7 +198,7 @@ const PatientUpdate = ({ navigation }) => {
       >
         {loading ? 'Atualizando...' : 'Atualizar Paciente'}
       </Button>
-    </View>
+    </ScrollView>
   );
 };
 

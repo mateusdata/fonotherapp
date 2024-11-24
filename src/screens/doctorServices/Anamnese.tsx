@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -15,7 +15,15 @@ import { background, colorGray, colorPrimary, colorRed } from '../../style/Color
 import { ContextGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
+import KeyboardView from '../../components/KeyboardView';
+import { FormatPacient } from '../../interfaces/globalInterface';
 
+
+interface FormatAnamnese {
+  navigation?: any,
+  pacient: FormatPacient,
+  setShowToast: Function
+}
 const data = [
   { label: 'Via oral exclusiva', value: 'Via oral exclusiva' },
   { label: 'Via alternativa de longa permanência exclusiva (ex: gastrostomia, jejunostomia)', value: 'Via alternativa de longa permanência exclusiva (ex: gastrostomia, jejunostomia)' },
@@ -38,7 +46,7 @@ const educationLevels = [
 
 
 
-const Anamnese = ({ navigation }) => {
+const Anamnese = ({ navigation, pacient, setShowToast }: FormatAnamnese) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { setPac_id, setPacient, pac_id } = useContext(ContextPacient);
   const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
@@ -52,7 +60,6 @@ const Anamnese = ({ navigation }) => {
     chewing_complaint: yup.string().required("Obrigatorio"),
     consultation_reason: yup.string().required("Obrigatorio"),
     current_food_intake_method: yup.string().optional(),
-    additionalInformation: yup.string().optional(),
 
   }).required();
 
@@ -60,16 +67,15 @@ const Anamnese = ({ navigation }) => {
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      education: isDevelopment ? "Educação" : "",
-      base_diseases: isDevelopment ? "Doenças crônicas fictícias" : "",
-      chewing_complaint: isDevelopment ? "Queixa mastigatória" : "",
-      consultation_reason: isDevelopment ? "indicação da Flavia, fonoaudióloga" : "",
-      food_profile: isDevelopment ? "Vegetariano" : "",
-      current_food_intake_method: false ? "Via narina" : "",
-
+      education: pacient ? pacient?.education : "",
+      base_diseases: pacient ? pacient?.base_diseases  : "",
+      chewing_complaint: pacient ? pacient?.chewing_complaint :  "",
+      consultation_reason: pacient ? pacient?.consultation_reason : "",
+      food_profile: pacient ? pacient?.food_profile : "",
+      current_food_intake_method: pacient ? pacient?.current_food_intake_method : "",
     }
-
   });
+  
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -77,22 +83,27 @@ const Anamnese = ({ navigation }) => {
       const response = await api.put(`/pacient/${pac_id}`, data);
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
+      if (pacient) {
+        setShowToast(true)
+        setLoading(false);
+      }
       navigation.navigate("PatientAnalysis");
       setLoading(false);
       reset();
     } catch (error) {
       setLoading(false);
       console.log(error)
-      if (error?.response) {
-        return setError("chewing_complaint", { message: "Ocorreu um error" })
+      if (!error?.response) {
+       // return setError("chewing_complaint", { message: "Sem conexão com a internet, tente novamente" })
       }
-      return setError("chewing_complaint", { message: "Sem conexão com a internet, tente novamente" })
+
     }
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardView style={styles.container}>
       <ScrollView style={styles.containerChildren}>
+
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <View style={styles.container2}>
@@ -186,7 +197,7 @@ const Anamnese = ({ navigation }) => {
         <ErrorMessage name={"food_profile"} errors={errors} />
 
         {
-          false && 
+          false &&
           <>
             <LabelInput value='Queixas de deglutição' />
             <Controller control={control}
@@ -204,49 +215,49 @@ const Anamnese = ({ navigation }) => {
           </>
         }
 
-      <LabelInput value='Motivo da consulta' />
-      <Controller control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            dense
-            value={value}
-            onChangeText={onChange}
-            mode='outlined'
-            activeOutlineColor={colorPrimary} />
-        )}
-        name='consultation_reason'
-      />
-      <ErrorMessage name={"consultation_reason"} errors={errors} />
+        <LabelInput value='Motivo da consulta' />
+        <Controller control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              dense
+              value={value}
+              onChangeText={onChange}
+              mode='outlined'
+              activeOutlineColor={colorPrimary} />
+          )}
+          name='consultation_reason'
+        />
+        <ErrorMessage name={"consultation_reason"} errors={errors} />
 
 
-      <LabelInput value='Queixas de deglutição' />
-      <Controller control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            dense
-            value={value}
-            onChangeText={onChange}
-            mode='outlined'
-            activeOutlineColor={colorPrimary} />
-        )}
-        name='additionalInformation'
-      />
-      <ErrorMessage name={"chewing_complaint"} errors={errors} />
+        <LabelInput value='Queixas de deglutição' />
+        <Controller control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              dense
+              value={value}
+              onChangeText={onChange}
+              mode='outlined'
+              activeOutlineColor={colorPrimary} />
+          )}
+          name='chewing_complaint'
+        />
+        <ErrorMessage name={"chewing_complaint"} errors={errors} />
 
 
-      <View style={{ marginBottom: 40 }}>
+        <View style={{ marginBottom: 40 }}>
 
-        <Button icon="arrow-right"
-          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
-          Próximo
-        </Button>
+          <Button icon="arrow-right"
+            disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+            {pacient ? "Atualizar" : "   Próximo"}
+          </Button>
 
-      </View>
+        </View>
 
-    </ScrollView>
+      </ScrollView>
 
 
-    </View >
+    </KeyboardView >
   );
 };
 

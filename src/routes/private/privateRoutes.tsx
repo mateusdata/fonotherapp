@@ -76,9 +76,9 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{ headerTitle: "Cadastrar paciente", headerTitleAlign: "center" }} />
         <AppStack.Screen name='Anamnese' component={Anamnese} options={{ headerTitleAlign: "center" }} />
         <AppStack.Screen name='MyInformation' component={MyInformation} options={{ headerTitleAlign: "center", headerTitle: "Minhas informações" }} />
-        <AppStack.Screen name='ChangeName' component={ChangeName} options={{ headerTitleAlign: "center", headerTitle: "Alterar nome", presentation:"modal", animation: Platform.OS === "ios" ? "default" : "slide_from_right" }} />
-        <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerTitleAlign: "center", headerTitle: "Alterar email", presentation:"modal", animation: Platform.OS === "ios" ? "default" : "slide_from_right" }} />
-        <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerTitleAlign: "center", headerTitle: "Alterar senha",presentation:"modal", animation: Platform.OS === "ios" ? "default" : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeName' component={ChangeName} options={{ headerTitleAlign: "center", headerTitle: "Alterar nome", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerTitleAlign: "center", headerTitle: "Alterar email", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerTitleAlign: "center", headerTitle: "Alterar senha",presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Consultancy' component={Consultancy} options={{ headerTitleAlign: "center", headerTitle: "Consultoria" }} />
 
@@ -110,8 +110,8 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
 
         <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{ headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
-        <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerTitleAlign: "center", headerTitle: "Meu CRFA", presentation:"modal", animation: Platform.OS === "ios" ? "default" : "slide_from_right" }} />
-        <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{ headerTitleAlign: "center", headerTitle: "Meu Telefone", presentation:"modal", animation: Platform.OS === "ios" ? "default" : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerTitleAlign: "center", headerTitle: "Meu CRFA", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{ headerTitleAlign: "center", headerTitle: "Meu Telefone", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
 
         <AppStack.Screen name='UpdatePacient' component={UpdatePacient} options={{ headerTitleAlign: "center", headerTitle: "Atualizar paciente" }} />
 
@@ -134,7 +134,7 @@ const PrivateRoutes = () => {
             backgroundColor: "white"
           },
           headerShown: false,
-          animation: Platform.OS === "ios" ? "default" : "slide_from_right",
+          animation: Platform.OS === "ios" ? null : "slide_from_right",
           presentation: "modal"
         }} />
         <AppStack.Screen name='EditEventScreen' component={EditEventScreen} options={{

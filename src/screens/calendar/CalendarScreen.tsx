@@ -100,10 +100,10 @@ const AgendaScreen = () => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor:"#F3F4F6" }}>
       <CalendarProvider testID="cal-provider" date={dayjs().format()}>
         <Agenda
-          showClosingKnob
+          showClosingKnob={false}
           items={items}
           selected={dayjs().format('YYYY-MM-DD')}
           loadItemsForMonth={loadItemsForMonth}
@@ -116,12 +116,12 @@ const AgendaScreen = () => {
             agendaTodayColor: '#D32F2F',
             agendaKnobColor: colorPrimary,
           }}
-          disabledByDefault={true}
+          disabledByDefault={false}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           style={styles.agenda}
         />
       </CalendarProvider>
-      <View style={{ flex: 0.34 }}>
+      <View style={{ flex: 0.2, backgroundColor:"#F3F4F6" }}>
         <ButtonEvents />
       </View>
     </View>

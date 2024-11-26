@@ -15,12 +15,12 @@ const ButtonEvents = () => {
     const { open } = state;
 
     return (
-        <PaperProvider>
-            <Portal>
+        <PaperProvider >
+            <Portal >
                 <FAB.Group
                     open={open}
                     visible
-                    backdropColor={true ? '#f2f2f0' : 'white'}
+                    backdropColor={true ? '#F3F4F6' : 'white'}
                     fabStyle={{
                         backgroundColor: colorPrimary
                     }}

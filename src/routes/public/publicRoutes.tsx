@@ -8,6 +8,7 @@ import SendEmail from '../../screens/authentication/SendEmail';
 import CheckCode from '../../screens/authentication/CheckCode';
 import CreateAccount from '../../screens/authentication/CreateAccount';
 import FinishRegistration from '../../screens/authentication/FinishRegistration';
+import { Platform } from 'react-native';
 
 
 const AppStack = createStackNavigator();
@@ -17,14 +18,15 @@ const PublicRoutes = () => {
       <StatusBar animated hideTransitionAnimation='fade' style='dark' />
 
       <AppStack.Navigator
-      
+
         id={undefined}
         screenOptions={{
           headerPressColor: "blue",
           headerStyle: {
             backgroundColor: "#36B3B9"
           },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          headerBackTitle: "",
+          animation: Platform.OS === "ios" ? "fade_from_bottom" : "slide_from_right",
         }}>
         <AppStack.Screen name="PreLogin" component={PreLogin} options={{
           headerShown: false,

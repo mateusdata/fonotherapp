@@ -16,6 +16,7 @@ import CustomText from '../../components/customText'
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
 import ErrorMessage from '../../components/errorMessage'
 import LabelInput from '../../components/LabelInput'
+import KeyboardView from '../../components/KeyboardView'
 
 const MonitoringReportPdf = ({ route }: any) => {
 
@@ -64,6 +65,7 @@ const MonitoringReportPdf = ({ route }: any) => {
 
 
     return (
+        <KeyboardView>
         <ScrollView style={{ padding: 10, }}>
             <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
                 Relatório de acompanhamento do paciente   {pacient.person.first_name}
@@ -178,13 +180,14 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <ErrorMessage errors={errors} name="next_steps" />
             </View>
 
-            <View style={{ padding: 0, paddingBottom: 5 }}>
+            <View style={{ marginBottom: 40 }}>
                 <Button buttonColor={colorPrimary} textColor='white'
                     loading={loading} onPress={handleSubmit(getPdf, handleError)} mode='text'>
                     Gerar relatório
                 </Button>
             </View>
         </ScrollView>
+        </KeyboardView>
     )
 }
 

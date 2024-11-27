@@ -10,22 +10,21 @@ const Consultancy = () => {
     const message = 'Olá, estou interessado(a) na consultoria do app FonotherApp.';
     const phone = '557196204608'; // Número do WhatsApp
     const url = `whatsapp://send?phone=${phone}&text=${encodeURIComponent(message)}`;
+    const webUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
     try {
+      // Tente abrir o link do WhatsApp
       const canOpen = await Linking.canOpenURL(url);
       if (canOpen) {
         Linking.openURL(url);
-      } else if (Platform.OS === 'ios') {
-        // Fallback para iOS - WhatsApp Web
-        const webUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-        Linking.openURL(webUrl);
       } else {
-        // Exibe o número de telefone no Android caso o WhatsApp não esteja disponível
-        Alert.alert(
-          "WhatsApp não disponível",
-          `Você não tem o WhatsApp instalado. Pode chamar no número (75)999787828.`,
-          [{ text: 'OK' }]
-        );
+        // Tente abrir o WhatsApp Web
+        const canOpenWeb = await Linking.canOpenURL(webUrl);
+        if (canOpenWeb) {
+          Linking.openURL(webUrl);
+        } else {
+          throw new Error('Cannot open WhatsApp');
+        }
       }
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível abrir o WhatsApp. Tente novamente mais tarde.');

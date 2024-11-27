@@ -50,7 +50,7 @@ const CreatePacient = ({ navigation }) => {
       setValue("cpf", cpf);
       setValue("first_name", names[Math.floor(Math.random() * names.length)]);
       setValue("birthday", "20/10/1998");
-      setValue("additionalInformation", "Informações adicionais  ");
+      setValue("additionalInformation", "Informações adicionais");
     }
 
   }, []);
@@ -97,10 +97,10 @@ const CreatePacient = ({ navigation }) => {
     mode: 'all',
     defaultValues: {
       first_name: "",
-      last_name: "null",
+      last_name: ",",
       cpf: "",
       birthday: "",
-      additionalInformation: null
+      additionalInformation: ""
     }
   });
 
@@ -126,9 +126,9 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
       console.log(error);
       if (error?.response) {
-        setError("cpf", { message: "Paciente já existe." });
+        setError("additionalInformation", { message: "Ocorreu um erro" });
       } else {
-        setError("cpf", { message: "Sem conexão com a internet, tente novamente" });
+        setError("additionalInformation", { message: "Sem conexão com a internet, tente novamente" });
       }
     }
   };

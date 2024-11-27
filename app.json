@@ -24,6 +24,9 @@
         "UIBackgroundModes": [
           "fetch",
           "remote-notification"
+        ],
+        "LSApplicationQueriesSchemes": [
+          "whatsapp"
         ]
       }
     },
@@ -34,7 +37,8 @@
       },
       "package": "com.projetofono.fonotherapp",
       "blockedPermissions": [
-        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
+        "android.permission.FOREGROUND_SERVICE"
       ]
     },
     "web": {
@@ -45,11 +49,7 @@
     },
     "plugins": [
       [
-        "expo-video",
-        {
-          "supportsBackgroundPlayback": false,
-          "supportsPictureInPicture": false
-        }
+        "expo-video"
       ]
     ],
     "extra": {

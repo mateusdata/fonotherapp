@@ -16,6 +16,7 @@ import { FormatPacient } from '../../interfaces/globalInterface';
 import downloadPDF from '../../utils/downloadPDF';
 import CustomText from '../../components/customText'
 import LabelInput from '../../components/LabelInput'
+import KeyboardView from '../../components/KeyboardView'
 
 
 const DischargeReportPdf = ({ route }: any) => {
@@ -35,7 +36,7 @@ const DischargeReportPdf = ({ route }: any) => {
     patients_progress: yup.string().required("Campo obrigatório"),
     current_condition: yup.string().required("Campo obrigatório"),
     referrals: yup.string().required("Campo obrigatório"),
-  
+
   });
 
 
@@ -81,52 +82,55 @@ const DischargeReportPdf = ({ route }: any) => {
 
 
   return (
-    <ScrollView style={{ padding: 10 }}>
-      <View >
-        <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-          Relatório de alta do paciente  
-        </CustomText>
-        <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
-          {pacient.person.first_name}
-        </CustomText>
-      </View>
 
-      <View>
-        {Object.keys(schema.fields).filter((item) => item != "lat" && item !== "lon").map((key) => (
-          <React.Fragment key={key}>
-            {schema.fields.hasOwnProperty(key) && (
-              <View>
-                <LabelInput value={nomeChaves[key]} />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      activeOutlineColor={colorPrimary}
-                      dense
-                      mode='outlined'
-                      value={value.toString()}
-                      onChangeText={onChange}
-                    />
-                  )}
-                  name={key as keyof typeof schema.fields}
-                />
+    <KeyboardView>
+      <ScrollView style={{ padding: 10 }}>
+        <View >
+          <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
+            Relatório de alta do paciente
+          </CustomText>
+          <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
+            {pacient.person.first_name}
+          </CustomText>
+        </View>
 
-              </View>
-            )}
-            <ErrorMessage errors={errors} name={key} />
-          </React.Fragment>
-        ))}
-      </View>
+        <View>
+          {Object.keys(schema.fields).filter((item) => item != "lat" && item !== "lon").map((key) => (
+            <React.Fragment key={key}>
+              {schema.fields.hasOwnProperty(key) && (
+                <View>
+                  <LabelInput value={nomeChaves[key]} />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextInput
+                        activeOutlineColor={colorPrimary}
+                        dense
+                        mode='outlined'
+                        value={value.toString()}
+                        onChangeText={onChange}
+                      />
+                    )}
+                    name={key as keyof typeof schema.fields}
+                  />
+
+                </View>
+              )}
+              <ErrorMessage errors={errors} name={key} />
+            </React.Fragment>
+          ))}
+        </View>
 
 
 
-      <View style={{ padding: 12 }}>
+        <View style={{ marginBottom: 40 }}>
         <Button buttonColor={colorPrimary} textColor='white'
-          loading={!!progressPercentage} onPress={handleSubmit(getPdf, handleError)} mode='text'>
-          Gerar relatório
-        </Button>
-      </View>
-    </ScrollView>
+            loading={!!progressPercentage} onPress={handleSubmit(getPdf, handleError)} mode='text'>
+            Gerar relatório
+          </Button>
+        </View>
+      </ScrollView>
+    </KeyboardView>
   )
 }
 

@@ -18,6 +18,7 @@ import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import LabelInput from '../../components/LabelInput'
 import { Text } from 'react-native'
+import KeyboardView from '../../components/KeyboardView'
 
 const ServiceProvisionReceiptPdf = ({ route }: any) => {
 
@@ -58,7 +59,7 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
   }
 
   return (
-    <View style={{ padding: 10 }}>
+    <KeyboardView style={{ padding: 10 }}>
       <View >
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
           Recibo de prestação de serviço de
@@ -104,13 +105,13 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
 
 
       </View>
-      <View style={{ padding: 12 }}>
-        <Button buttonColor={colorPrimary} textColor='white'
+      <View style={{ marginBottom: 40 }}>
+      <Button buttonColor={colorPrimary} textColor='white'
           loading={loading} onPress={handleSubmit(getPdf)} mode='text'>
           Gerar Recibo
         </Button>
       </View>
-    </View>
+    </KeyboardView>
   )
 }
 

@@ -78,7 +78,7 @@ const Home = ({ navigation }: { navigation: any }) => {
         <View style={styles.header}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title style={{ color: colorPrimary }}>{"Olá, " + user?.nick_name}</Title>
+              <Title style={{ color: colorPrimary }}>{"Olá, " + user?.person?.name}</Title>
               <View style={styles.pacientsInfo}>
                 <AntDesign name="addusergroup" size={22} color="#36B3B9" />
                 <Paragraph>

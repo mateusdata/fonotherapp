@@ -8,6 +8,7 @@ export const getUser = async (setUser: Function) => {
         await AsyncStorage.removeItem("usuario");
         await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
         setUser(response.data);
+        alert("deu certo")
        
 
     } catch (error) {

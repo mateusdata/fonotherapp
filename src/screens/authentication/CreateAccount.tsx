@@ -14,12 +14,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../../style/styleGradient';
 import { colorPrimary } from '../../style/ColorPalette';
 import { WelcomeNotification } from '../../utils/WelcomeNotification copy';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUser } from '../../utils/getUser';
 
 
 
 const CreateAccount = ({ navigation }: any) => {
 
-  const { setUser, setLoadingAuth } = useContext(Context);
+  const { setUser, setAccessToken, setLoadingAuth } = useContext(Context);
   const [loading, setLoading] = useState(false);
 
   const schema = yup.object({
@@ -57,13 +59,23 @@ const CreateAccount = ({ navigation }: any) => {
   const onSubmit = async (data) => {
 
     try {
-      setLoading(true)
+      setLoadingAuth(true);
+      setLoading(true);
+
       const response = await api.post("/user", data)
+      const login = await api.post("/login", data);
+      await AsyncStorage.setItem("accessToken", JSON.stringify(login?.data?.token));
+      setAccessToken(login?.data?.token)
+      await getUser(setUser)
       setLoading(false);
-      WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à fonotherApp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
-      navigation.navigate("FinishRegistration", { user: watch() })
+
+     // WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à fonotherApp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
+      //navigation.navigate("FinishRegistration", { user: watch() })
       reset();
     } catch (error) {
+      setLoadingAuth(false);
+;
+
       if (error.response) {
         setError("password", { message: "Ocorreu um error" })
         return setLoading(false)

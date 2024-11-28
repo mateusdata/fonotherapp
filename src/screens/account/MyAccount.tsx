@@ -26,7 +26,7 @@ const MyAccount = ({ navigation }) => {
           <Image source={{ uri: google.photo }} style={styles.avatar} />
         )}
         <Text style={styles.userName}>
-          {user?.nick_name?.charAt(0)?.toUpperCase() + user?.nick_name?.slice(1)}
+          {user?.person.name?.charAt(0)?.toUpperCase() + user?.person.name?.slice(1)}
         </Text>
       </View>
 

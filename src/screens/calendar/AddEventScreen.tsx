@@ -138,7 +138,7 @@ const AddEventScreen = ({ navigation }) => {
 
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Evento de</Text>
-                    <Text selectable style={styles.sectionSubtitle}>{user.person.name}</Text>
+                    <Text selectable style={styles.sectionSubtitle}>{user?.person?.name}</Text>
                 </View>
 
                 {false && <View style={styles.section}>

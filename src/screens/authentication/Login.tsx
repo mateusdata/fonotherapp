@@ -58,7 +58,7 @@ const Login = ({ navigation }: any) => {
 
             try {
 
-                const buceta = await AsyncStorage.setItem("accessToken", JSON.stringify(response?.data?.token));
+                await AsyncStorage.setItem("accessToken", JSON.stringify(response?.data?.token));
                 setAccessToken(response?.data?.token)
 
                 if (response.status === 202) {

@@ -86,13 +86,13 @@ const AddNoticeBoardScreen = ({ navigation }) => {
             }
 
             const fullDateTime = dayjs(newEvent.date).format("YYYY-MM-DD HH:mm:ss");
-           
+            console.log(fullDateTime);
 
             const response = await api.post("/reminder", {
                 title: title,
                 starts_at: fullDateTime
             });
-           
+            console.log(fullDateTime);
 
             AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
             vibrateFeedback()
@@ -141,7 +141,7 @@ const AddNoticeBoardScreen = ({ navigation }) => {
 
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Mural de aviso</Text>
-                    <Text selectable style={styles.sectionSubtitle}>{user.person.name}</Text>
+                    <Text selectable style={styles.sectionSubtitle}>{user?.person?.name}</Text>
                 </View>
 
                 {false && <View style={styles.section}>

@@ -124,12 +124,7 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-     
-      if (error?.response) {
-        setError("additional_information", { message: "Ocorreu um erro" });
-      } else {
-        setError("additional_information", { message: "Sem conexão com a internet, tente novamente" });
-      }
+      setError("additional_information", { message: "Ocorreu um erro" });
     }
   };
 

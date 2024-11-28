@@ -36,6 +36,8 @@ async function setInterceptors(setUser: Function, logOut: any) {
 
     (response) => {
 
+      //console.log(response);
+      
       if(response.status === 202){
         showToast("info", "Atenção", response?.data?.message, "top")
         return null;
@@ -44,6 +46,7 @@ async function setInterceptors(setUser: Function, logOut: any) {
     },
     async (error) => {
       // Verifique se o erro é um 401
+      console.log(error.response.status);
       if (!error.response && !isSessionExpiredToastShown) {
         isSessionExpiredToastShown = true;
         showToast("error", "Você perdeu a conexão com a internet", "Verifique sua conexão", "top")

@@ -40,7 +40,7 @@ const Feedback = () => {
         <>
             <View style={styles.container}>
                 <Text style={styles.text}>fonotherApp</Text>
-                <Text style={styles.text}>{`Olá ${user.nick_name}, Envie seu Feedback`}</Text>
+                <Text style={styles.text}>{`Olá ${user?.person.name}, Envie seu Feedback`}</Text>
                 <TextArea
                     multiline
                     autoFocus

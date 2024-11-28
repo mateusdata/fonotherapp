@@ -154,7 +154,7 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
 
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Editando mural</Text>
-                    <Text selectable style={styles.sectionSubtitle}>{user.person.name}</Text>
+                    <Text selectable style={styles.sectionSubtitle}>{user?.person?.name}</Text>
                 </View>
 
                 {false && <View style={styles.section}>

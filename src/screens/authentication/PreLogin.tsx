@@ -46,7 +46,7 @@ const PreLogin = ({ navigation }: any) => {
 
                     </Animatable.View>
                 </View>
-                <View style={{ width: "90%", marginTop: 10, gap: 5 }} >
+                <View style={{ width: "90%", marginTop: 25, gap: 5 }} >
                     <View style={{ padding: 0 }}>
                         <Button
                             testID='create-account'

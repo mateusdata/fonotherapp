@@ -10,37 +10,35 @@ import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
+import { getUser } from '../../utils/getUser';
 export default function ChangeName() {
   const { user, setUser } = React.useContext(Context);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showToast, setShowToast] = React.useState<boolean>(false)
   Keyboard.isVisible()
   const schema = yup.object({
-    nick_name: yup.string().min(3, "Nome muito pequeno").required("Obrigatorio").matches(/^(?!^\d+$).+$/, { message: "Números não sãoo permitidos" })
+    name: yup.string().min(3, "Nome muito pequeno").required("Obrigatorio").matches(/^(?!^\d+$).+$/, { message: "Números não sãoo permitidos" })
   })
   const { control, handleSubmit, setError, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   mode: "onSubmit",
     defaultValues: {
-      nick_name: user?.nick_name
+      name: user?.person.name
     }
   })
   const onSubmit = async (data: any) => {
     setLoading(true);
-    api.put(`/user/${user?.use_id}`, data).then(async (response) => {
+    api.put(`/person/${user?.person.per_id}`, data).then(async (response) => {
       setShowToast(true);
       try {
-        const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
-        const updatedUser = { ...recoveryUser, ...response.data };
-        setUser(updatedUser);
-        await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
+       await getUser(setUser)
       } catch (error) {
       }
       setLoading(false);
 
     }).catch((e) => {
       setLoading(false);
-      setError("nick_name", { message: "Ocorreu um erro" })
+      setError("name", { message: "Ocorreu um erro" })
      
       
     });
@@ -63,9 +61,9 @@ export default function ChangeName() {
               value={value}
             />
           )}
-          name='nick_name'
+          name='name'
         />
-        <ErrorMessage name={"nick_name"} errors={errors} />
+        <ErrorMessage name={"name"} errors={errors} />
         <Snackbar onDismiss={() => { setShowToast(!showToast) }}
           duration={2000}
           visible={showToast}

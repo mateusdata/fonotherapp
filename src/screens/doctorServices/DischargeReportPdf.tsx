@@ -25,7 +25,7 @@ const DischargeReportPdf = ({ route }: any) => {
   const { user, accessToken } = useContext(Context);
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
-  const pdfName = `Relatório de alta  ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`;
+  const pdfName = `Relatório de alta  ${pacient.person.name} - ${pacient.person.cpf}.pdf`;
   const [loading, setLoading] = useState(false);
 
   const schema = yup.object().shape({
@@ -90,7 +90,7 @@ const DischargeReportPdf = ({ route }: any) => {
             Relatório de alta do paciente
           </CustomText>
           <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
-            {pacient.person.first_name}
+            {pacient.person.name}
           </CustomText>
         </View>
 

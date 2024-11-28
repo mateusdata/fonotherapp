@@ -97,7 +97,7 @@ export default function Finance({ navigation }) {
                             onPress={() => downloadPdf(item?.rep_id)} // Navegar para o perfil do paciente
                         >
                             <List.Item
-                                title={item.pacient.first_name} // Nome do paciente
+                                title={item.pacient.name} // Nome do paciente
                                 description={`Sessão: ${dayjs(item.created_at).format('DD/MM/YYYY - HH:mm')}`} // Data da sessão
                                 left={(props) => <List.Icon {...props} icon="file-document" color='#FF4D4D' />}
                             />

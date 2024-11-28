@@ -10,7 +10,7 @@ export interface FormatPacient {
     base_diseases: string;
     consultation_reason: string;
     food_profile: string;
-    first_name: string;
+    name: string;
     chewing_complaint: string;
     education: string;
     status: string;
@@ -23,7 +23,7 @@ export interface FormatPacient {
         use_id?: string;
         created_at?: string;
         updated_at: string
-        first_name: string;
+        name: string;
 
     },
     questionnaires: [
@@ -118,7 +118,7 @@ interface Address {
 interface Person {
     per_id: number;
     use_id: number;
-    first_name: string;
+    name: string;
     last_name: string | null;
     cpf: string | null;
     birthday: string | null;
@@ -126,7 +126,6 @@ interface Person {
     updated_at: string | null;
     phone_numbers: PhoneNumber[];
     addresses: Address[];
-    full_name: string;
 }
 
 interface Doctor {

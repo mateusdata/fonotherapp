@@ -68,7 +68,7 @@ const MonitoringReportPdf = ({ route }: any) => {
         <KeyboardView>
         <ScrollView style={{ padding: 10, }}>
             <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-                Relatório de acompanhamento do paciente   {pacient.person.first_name}
+                Relatório de acompanhamento do paciente   {pacient.person.name}
             </CustomText>
 
             <View>
@@ -149,7 +149,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 />
                 <ErrorMessage errors={errors} name="general_guidelines" />
 
-                <LabelInput value='Conclusão' />
+                <LabelInput value='Conduta' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
@@ -164,7 +164,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 />
                 <ErrorMessage errors={errors} name="conclusion" />
 
-                <LabelInput value='Próximos Passos' />
+                <LabelInput value='Seguimento' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (

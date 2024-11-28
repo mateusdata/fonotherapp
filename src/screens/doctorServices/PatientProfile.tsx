@@ -204,7 +204,7 @@ const PatientProfile = ({ navigation }) => {
 
                 <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
                     <FontAwesome name="user" style={{ top: 0, left: 0 }} color={colorPrimary} size={80} />
-                    <Title style={{ marginBottom: 10, }}>{pacient?.first_name && pacient?.first_name}</Title>
+                    <Title style={{ marginBottom: 10, }}>{pacient?.name && pacient?.name}</Title>
                 </View>
 
                 <View style={{ marginTop: 15, marginBottom: 40 }}>

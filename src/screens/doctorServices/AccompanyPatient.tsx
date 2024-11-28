@@ -134,7 +134,7 @@ const AccompanyPatient = ({ navigation }) => {
                                     {false && index === 0 && <Text>Útimas pesquisas</Text>}
                                     <List.Item
                                         style={{ borderBottomWidth: 0.3, borderColor: "gray", width: "96%" }}
-                                        title={item?.first_name + (!item?.pacient?.food_profile ? "❓" : "")}
+                                        title={item?.name + (!item?.pacient?.food_profile ? "❓" : "")}
                                         description={`CPF: ${item.cpf}`}
                                         left={() => <MaterialIcons name="person" size={24} color="#36B3B9" style={{ top: 9, left: 6 }} />}
                                     /></>

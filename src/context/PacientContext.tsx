@@ -11,7 +11,7 @@ interface Pacient {
     birthday: string;
     cpf: string;
     created_at: string;
-    first_name: string;
+    name: string;
     last_name: string;
     per_id: number;
     updated_at: string;

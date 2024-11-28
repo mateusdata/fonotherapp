@@ -65,7 +65,7 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
           Recibo de prestação de serviço de
         </CustomText>
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
-          {pacient.first_name}
+          {pacient.name}
         </CustomText>
       </View>
       <View>

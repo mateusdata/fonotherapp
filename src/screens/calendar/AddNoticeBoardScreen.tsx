@@ -141,7 +141,7 @@ const AddNoticeBoardScreen = ({ navigation }) => {
 
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Mural de aviso</Text>
-                    <Text selectable style={styles.sectionSubtitle}>{user.person.first_name}</Text>
+                    <Text selectable style={styles.sectionSubtitle}>{user.person.name}</Text>
                 </View>
 
                 {false && <View style={styles.section}>

@@ -143,7 +143,7 @@ const AnsweredQuestions = ({ navigation }) => {
 
 
 
-  if (!pacient && !pacient?.person && !pacient?.first_name && !pacient?.questionnaires) {
+  if (!pacient && !pacient?.person && !pacient?.name && !pacient?.questionnaires) {
     return <SkelectonView />
   }
 
@@ -160,7 +160,7 @@ const AnsweredQuestions = ({ navigation }) => {
             <Button
               icon={(props) => <AntDesign name="pdffile1" size={23} color="white" />}
               buttonColor={colorPrimary} mode='elevated' textColor='white' >
-              {`Relatório de Avaliação do paciente ${pacient?.first_name.split(' ')[0]}`}
+              {`Relatório de Avaliação do paciente ${pacient?.name.split(' ')[0]}`}
             </Button>
           </Pressable>
 

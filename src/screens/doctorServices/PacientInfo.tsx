@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 
 const schema = yup.object({
-  first_name: yup.string().required('O nome é obrigatório'),
+  name: yup.string().required('O nome é obrigatório'),
   cpf: yup.string().optional(),
   additionalInformation: yup.string().optional(),
   birthday: yup
@@ -42,7 +42,7 @@ const PatientUpdate = ({ navigation }) => {
   const { control, handleSubmit, watch, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      first_name: '',
+      name: '',
       cpf: '',
       birthday: '',
       additionalInformation:''
@@ -53,12 +53,12 @@ const PatientUpdate = ({ navigation }) => {
     const fetchData = async () => {
       try {
         const response = await api.get(`/pacient/${pac_id}`);
-        const { first_name, person } = response.data;
+        const { name, person } = response.data;
         setPacient(response.data);
 
         const formattedBirthday = dayjs(person.birthday).format('DD/MM/YYYY');
 
-        setValue('first_name', first_name);
+        setValue('name', name);
         setValue('cpf', cpf.format(person.cpf));
         setValue('birthday', formattedBirthday);
       } catch (error) {
@@ -75,7 +75,7 @@ const PatientUpdate = ({ navigation }) => {
     try {
 
       const formattedData = {
-        first_name: data.first_name,
+        name: data.name,
         birthday: formatDateToISO(data.birthday),
       };
 
@@ -111,7 +111,7 @@ const PatientUpdate = ({ navigation }) => {
       <LabelInput value="Nome" />
       <Controller
         control={control}
-        name="first_name"
+        name="name"
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <>
             <TextInput
@@ -122,7 +122,7 @@ const PatientUpdate = ({ navigation }) => {
               style={styles.input}
               error={!!error}
             />
-            <ErrorMessage name={"first_name"} errors={errors} />
+            <ErrorMessage name={"name"} errors={errors} />
           </>
         )}
       />

@@ -89,7 +89,7 @@ export default function AccessHistory({ navigation }) {
               style={styles.pressable}
               onPress={() => handleProfile(item?.pacient?.pac_id)} key={item.id}>
               <List.Item
-                title={`${item.pacient.first_name}`}
+                title={`${item.pacient.name}`}
                 description={`Sessão: ${dayjs(item.created_at).format('DD/MM/YYYY - HH:mm')}`}
                 left={(props) => <List.Icon {...props} icon="history" />}
               />

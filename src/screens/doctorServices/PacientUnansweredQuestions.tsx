@@ -99,7 +99,7 @@ const PacientUnansweredQuestions = ({ navigation }) => {
                             >
                                 <List.Item
                                     style={{ borderBottomWidth: 0.3, borderColor: "gray", width: "96%" }}
-                                    title={item.first_name}
+                                    title={item.name}
                                     description={`CPF: ${item?.person?.cpf}`}
                                     left={() => (
                                         <MaterialIcons

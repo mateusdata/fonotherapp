@@ -4,7 +4,6 @@ import { Button } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import * as  Animatable from "react-native-animatable"
 import { api } from '../../config/Api';
-import CustomText from '../../components/customText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../../style/styleGradient';
 import PrimaryButton from '../../components/primaryButton';
@@ -35,12 +34,15 @@ const PreLogin = ({ navigation }: any) => {
                 <View style={{ width: "80%", gap: 5, marginTop: 0 }}>
 
                     <Animatable.View animation="fadeInLeft">
-                        <CustomText fontFamily="Poppins_600SemiBold" style={{ color: "#3b3d3d", fontSize: 25, textAlign: "center", paddingTop: 15 }}>
-                            Descubra o seu melhor com o fonotherApp
-                        </CustomText>
-                        <CustomText style={{ fontSize: 16, textAlign: "center" }}>
-                            Explore diversas possibilidades e tenha a sua terapia na palma da  mão
-                        </CustomText>
+                        <Text  style={{ color: "black", fontSize: 25, textAlign: "center", paddingTop: 15,  paddingBottom: 10 }}>
+                            Descubra o seu melhor com o FonotherApp
+                        </Text>
+                        <Text style={{ fontSize: 16, textAlign: "center" }}>
+                            Explore diversas possibilidades e tenha a
+                        </Text>
+                        <Text style={{ fontSize: 16, textAlign: "center" }}>
+                            sua terapia na palma da mão
+                        </Text>
 
                     </Animatable.View>
                 </View>

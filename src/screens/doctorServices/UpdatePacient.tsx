@@ -29,7 +29,7 @@ const UpdatePacient = ({ route }) => {
     };
 
     const schema = yup.object({
-        first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
+        name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
             { message: 'Não são permitidas  entradas numéricas' }),
         birthday: yup.date().required("Data inválida"),
     }).required();
@@ -38,7 +38,7 @@ const UpdatePacient = ({ route }) => {
         resolver: yupResolver(schema),
         mode: 'onChange',
         defaultValues: {
-            first_name: pacient?.first_name,
+            name: pacient?.name,
             birthday: pacient?.person?.birthday ? dayjs(pacient?.person?.birthday, 'DD/MM/YYYY').toDate() : null,
         }
     });
@@ -53,11 +53,11 @@ const UpdatePacient = ({ route }) => {
         } catch (e) {
             if (e?.response) {
                 setLoading(false);
-                return setError("first_name", { message: "Oorreu um erro." })
+                return setError("name", { message: "Oorreu um erro." })
 
             }
             setLoading(false);
-            return setError("first_name", { message: "Sem conexão com a internet, tente novamente" })
+            return setError("name", { message: "Sem conexão com a internet, tente novamente" })
         }
     };
 
@@ -78,10 +78,10 @@ const UpdatePacient = ({ route }) => {
                                 mode='outlined'
                                 activeOutlineColor={colorPrimary} />
                         )}
-                        name='first_name'
+                        name='name'
                     />
 
-                    <ErrorMessage name={"first_name"} errors={errors} />
+                    <ErrorMessage name={"name"} errors={errors} />
 
 
 

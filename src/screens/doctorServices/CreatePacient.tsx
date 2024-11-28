@@ -48,7 +48,7 @@ const CreatePacient = ({ navigation }) => {
     }
     if (isDevelopment) {
       setValue("cpf", cpf);
-      setValue("first_name", names[Math.floor(Math.random() * names.length)]);
+      setValue("name", names[Math.floor(Math.random() * names.length)]);
       setValue("birthday", "20/10/1998");
       setValue("additionalInformation", "Informações adicionais");
     }
@@ -60,7 +60,7 @@ const CreatePacient = ({ navigation }) => {
 
 
   const schema = yup.object({
-    first_name: yup
+    name: yup
       .string()
       .required("Paciente é obrigatório")
       .matches(/^(?!^\d+$).+$/, {
@@ -96,7 +96,7 @@ const CreatePacient = ({ navigation }) => {
     resolver: yupResolver(schema),
     mode: 'all',
     defaultValues: {
-      first_name: "",
+      name: "",
       last_name: ",",
       cpf: "",
       birthday: "",
@@ -149,10 +149,10 @@ const CreatePacient = ({ navigation }) => {
               dense
               activeOutlineColor={colorPrimary} />
           )}
-          name='first_name'
+          name='name'
         />
 
-        <ErrorMessage name={"first_name"} errors={errors} />
+        <ErrorMessage name={"name"} errors={errors} />
 
         <LabelInput value='CPF' />
         <Controller control={control}

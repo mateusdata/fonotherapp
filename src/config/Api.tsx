@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ToastAndroid } from 'react-native';
+import { Alert, ToastAndroid } from 'react-native';
 import { colorRed } from '../style/ColorPalette';
 import { showToast } from '../utils/showToast';
 
@@ -35,21 +35,27 @@ async function setInterceptors(setUser: Function, logOut: any) {
   api.interceptors.response.use(
 
     (response) => {
+
+      if(response.status === 202){
+        showToast("info", "Atenção", response?.data?.message, "top")
+        return null;
+      }
       return response;
     },
     async (error) => {
       // Verifique se o erro é um 401
       if (!error.response && !isSessionExpiredToastShown) {
         isSessionExpiredToastShown = true;
-        showToast("error", "Voçê perdeu a coneção com a internet", "Verifique sua conexão", "top")
+        showToast("error", "Você perdeu a conexão com a internet", "Verifique sua conexão", "top")
       }
+
+     
 
       if (error.response && error.response.status === 401) {
         try {
           // Se o toast ainda não foi mostrado, mostre-o e marque como mostrado
           // isSessionExpiredToastShown = true;
           showToast("error", "Sessão expirada", "faça login novamente", "bottom")
-
 
           // Limpe o AsyncStorage e faça logout
           await logOut();

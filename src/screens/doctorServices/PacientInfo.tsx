@@ -15,6 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ErrorMessage from '../../components/errorMessage';
 import dayjs from 'dayjs';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
+import { FormatPacient } from '../../interfaces/globalInterface';
 
 const schema = yup.object({
   name: yup.string().required('O nome é obrigatório'),
@@ -36,7 +37,7 @@ const schema = yup.object({
 
 const PatientUpdate = ({ navigation }) => {
   const { pac_id } = useContext(ContextPacient);
-  const [pacient, setPacient] = useState(null);
+  const [pacient, setPacient] = useState<FormatPacient>(null);
   const [loading, setLoading] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const { control, handleSubmit, watch, formState: { errors }, setValue } = useForm({
@@ -49,22 +50,24 @@ const PatientUpdate = ({ navigation }) => {
     },
   });
 
+
+
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/pacient/${pac_id}`);
+      const { name, person, additional_information  }:FormatPacient = response.data;
+      setPacient(response.data);
+      const formattedBirthday = dayjs(person.birthday).format('DD/MM/YYYY');
+
+      setValue('name', name);
+      setValue('cpf', cpf.format(person.cpf));
+      setValue('birthday', formattedBirthday);
+      setValue('additional_information', additional_information);
+    } catch (error) {
+      console.error('Erro ao buscar os dados do paciente:', error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get(`/pacient/${pac_id}`);
-        const { name, person } = response.data;
-        setPacient(response.data);
-
-        const formattedBirthday = dayjs(person.birthday).format('DD/MM/YYYY');
-
-        setValue('name', name);
-        setValue('cpf', cpf.format(person.cpf));
-        setValue('birthday', formattedBirthday);
-      } catch (error) {
-        console.error('Erro ao buscar os dados do paciente:', error);
-      }
-    };
     fetchData();
   }, [pac_id, setValue]);
 
@@ -77,9 +80,12 @@ const PatientUpdate = ({ navigation }) => {
       const formattedData = {
         name: data.name,
         birthday: formatDateToISO(data.birthday),
+        additional_information: data.additional_information
       };
 
       const response = await api.put(`/pacient/${pac_id}`, formattedData);
+      alert(JSON.stringify(response.data, null, 2))
+      fetchData();
       vibrateFeedback()
       Alert.alert("Paciente", 'atualizado com sucesso!');
     } catch (error) {
@@ -126,13 +132,13 @@ const PatientUpdate = ({ navigation }) => {
           </>
         )}
       />
+      
 
       <LabelInput value="CPF" />
       <Controller
         control={control}
         name="cpf"
         render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <>
             <TextInput
               mode="outlined"
               activeOutlineColor={colorPrimary}
@@ -143,7 +149,6 @@ const PatientUpdate = ({ navigation }) => {
               error={!!error}
               disabled
             />
-          </>
         )}
       />
 
@@ -160,6 +165,8 @@ const PatientUpdate = ({ navigation }) => {
         name='additional_information'
       />
       <ErrorMessage name={"additional_information"} errors={errors} />
+
+      
       <View style={{ top: 15 }}>
         <LabelInput value="Data de Nascimento" />
         <Controller
@@ -188,7 +195,7 @@ const PatientUpdate = ({ navigation }) => {
           name="birthday"
         />
       </View>
-
+         
       <Button
         style={{ top: 24 }}
         textColor="white"

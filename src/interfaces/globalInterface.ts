@@ -14,6 +14,7 @@ export interface FormatPacient {
     chewing_complaint: string;
     education: string;
     status: string;
+    additional_information?: string
     person?: {
         last_name: string;
         cpf: string;

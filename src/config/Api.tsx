@@ -39,7 +39,8 @@ async function setInterceptors(setUser: Function, logOut: any) {
       //console.log(response);
       
       if(response.status === 202){
-        showToast("info", "Atenção", response?.data?.message, "top")
+        //showToast("info", "Atenção", response?.data?.message, "top");
+        Alert.alert("Atenção", response?.data?.message)
         return null;
       }
       return response;

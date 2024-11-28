@@ -13,7 +13,7 @@ export default function BottomSheetWelcome({ size }: any) {
   const { user, showSheetWelcome, setShowSheetWelcome } = useContext(Context)
   useEffect(() => {
     setTimeout(() => {
-      // setShowSheetWelcome(false)
+       setShowSheetWelcome(false)
     }, 8000);
   }, [])
   return (

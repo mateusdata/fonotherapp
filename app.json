@@ -36,7 +36,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.projetofono.fonotherapp"
-      
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -46,7 +45,11 @@
     },
     "plugins": [
       [
-        "expo-video"
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
       ]
     ],
     "extra": {

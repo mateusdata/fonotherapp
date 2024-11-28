@@ -156,6 +156,7 @@ const CreatePacient = ({ navigation }) => {
               onChangeText={onChange}
               mode='outlined'
               dense
+              keyboardType='numbers-and-punctuation'
               activeOutlineColor={colorPrimary} />
           )}
           name='cpf'

@@ -12,6 +12,7 @@ import HeaderSheet from '../../components/HeaderSheet';
 import CustomText from '../../components/customText';
 import { videoUrl } from '../../utils/videoUrl';
 import { useVideoPlayer, VideoView } from 'expo-video';
+import LinearCustomGradient from '../../components/LinearCustomGradient';
 
 const CurrentProtocol = ({ navigation, route }) => {
     const { protocolId } = route.params;
@@ -116,6 +117,7 @@ const CurrentProtocol = ({ navigation, route }) => {
                 <Sheet.Overlay />
 
                 <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+                <LinearCustomGradient />
 
                     <HeaderSheet />
 

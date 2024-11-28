@@ -21,7 +21,7 @@ import { getUser } from '../../utils/getUser';
 
 const CreateAccount = ({ navigation }: any) => {
 
-  const { setUser, setAccessToken, setLoadingAuth } = useContext(Context);
+  const { setUser, setAccessToken, setLoadingAuth, setShowSheetWelcome} = useContext(Context);
   const [loading, setLoading] = useState(false);
 
   const schema = yup.object({
@@ -68,9 +68,10 @@ const CreateAccount = ({ navigation }: any) => {
       setAccessToken(login?.data?.token)
       await getUser(setUser)
       setLoading(false);
+      setLoadingAuth(false);
+      setShowSheetWelcome(true)
 
      // WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à fonotherApp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
-      //navigation.navigate("FinishRegistration", { user: watch() })
       reset();
     } catch (error) {
       setLoadingAuth(false);
@@ -125,7 +126,6 @@ const CreateAccount = ({ navigation }: any) => {
                   dense
                   testID='name'
                   mode="outlined"
-                  autoFocus
                   activeOutlineColor={colorPrimary}
                   error={!!errors.nick_name}
                   onBlur={onBlur}

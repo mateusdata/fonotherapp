@@ -16,7 +16,7 @@ const PreLogin = ({ navigation }: any) => {
             <StatusBar animated hideTransitionAnimation='fade' style='dark' />
 
             <Animatable.Image animation={"fadeInRight"} style={{ flex: 0.4, width: "100%" }}
-                source={{ uri: 'https://clinicasepam.com.br/wp-content/uploads/2021/06/O-que-e-terapia-da-fala-fono.png' }} />
+                source={require("../../assets//images/prelogin.png")} />
 
             <View style={{ flex: 0.6, justifyContent: "flex-start", width: "100%", alignItems: "center" }}>
                 <LinearGradient
@@ -34,7 +34,7 @@ const PreLogin = ({ navigation }: any) => {
                 <View style={{ width: "80%", gap: 5, marginTop: 0 }}>
 
                     <Animatable.View animation="fadeInLeft">
-                        <Text  style={{ color: "black", fontSize: 25, textAlign: "center", paddingTop: 15,  paddingBottom: 10 }}>
+                        <Text style={{ color: "black", fontSize: 25, textAlign: "center", paddingTop: 15, paddingBottom: 10 }}>
                             Descubra o seu melhor com o FonotherApp
                         </Text>
                         <Text style={{ fontSize: 16, textAlign: "center" }}>

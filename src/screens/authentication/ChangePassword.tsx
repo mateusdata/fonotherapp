@@ -82,7 +82,6 @@ export default function ChangePassword({ navigation, route }) {
           render={({ field: { onChange, value } }) => (
             <TextInput
               dense
-              autoFocus
               error={!!errors.newPassword}
               onChangeText={onChange}
               mode="outlined"

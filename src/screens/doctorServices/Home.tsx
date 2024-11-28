@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet, Dimensions, RefreshControl, Linking, Share, Pressable, ImageBackground } from 'react-native';
+import { View, ScrollView, StyleSheet, Dimensions, RefreshControl, Linking, Share, Pressable, ImageBackground, Platform } from 'react-native';
 import { Button, Card, Title, Paragraph, Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
@@ -11,6 +11,9 @@ import SkelectonSmall from '../../components/SkelectonSmall';
 import Toast from '../../components/toast';
 import { colorPrimary } from '../../style/ColorPalette';
 import { handleShareApp } from '../../utils/handleShareApp';
+import { Sheet } from 'tamagui';
+import HeaderSheet from '../../components/HeaderSheet';
+import BottomSheetWelcome from '../../components/BottomSheetWelcome';
 const { width, height } = Dimensions.get('window');
 
 const Home = ({ navigation }: { navigation: any }) => {
@@ -20,7 +23,7 @@ const Home = ({ navigation }: { navigation: any }) => {
   const [mensageToast, setMensageToast] = useState<string>("");
   const { setThereSession, thereSession } = useContext(ContextGlobal);
   const { setIsFromRegistration } = useContext(ContextGlobal);
- 
+
   useFocusEffect(
     React.useCallback(() => {
       setIsFromRegistration(false);
@@ -53,9 +56,9 @@ const Home = ({ navigation }: { navigation: any }) => {
   };
 
   const renderButton = (icon: any, label: string, onPress: () => void) => (
-    <Pressable onPress={onPress} style={[styles.button, {  }]}>
+    <Pressable onPress={onPress} style={[styles.button, {}]}>
       <View style={{ flex: 0.5, borderWidth: 0, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
-        <AntDesign name={icon} style={{ top: width  < 400 ? 19: 22 }} size={ width < 400? 22: 24} color={colorPrimary} />
+        <AntDesign name={icon} style={{ top: width < 400 ? 19 : 22 }} size={width < 400 ? 22 : 24} color={colorPrimary} />
       </View>
       <View style={{ flex: 0.5, borderWidth: 0, top: 4, width: "100%", justifyContent: "flex-start", alignItems: "center" }}>
         <Text style={styles.buttonText}>{label}</Text>
@@ -74,7 +77,7 @@ const Home = ({ navigation }: { navigation: any }) => {
         style={styles.container}
       >
 
-       {false &&  <Text>{"Largura da tela" + width + "Largura da tela" + height}</Text>}
+        {false && <Text>{"Largura da tela" + width + "Largura da tela" + height}</Text>}
         <View style={styles.header}>
           <Card style={styles.card}>
             <Card.Content>
@@ -109,11 +112,9 @@ const Home = ({ navigation }: { navigation: any }) => {
         </View>
 
 
-
       </ScrollView>
-
+      <BottomSheetWelcome size={ width > 400 ? 35 : 50} />
       
-
     </View>
   );
 };

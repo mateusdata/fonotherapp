@@ -76,7 +76,6 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
             <TextInput
               keyboardType='numeric'
               activeOutlineColor={colorPrimary}
-              autoFocus 
               dense              
               mode='outlined'
               value={value?.toString()}

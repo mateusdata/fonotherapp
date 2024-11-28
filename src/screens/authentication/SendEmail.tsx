@@ -54,7 +54,6 @@ export default function SendEmail({ navigation }) {
                     control={control}
                     render={({ field: { onChange, value } }) => (
                         <TextInput
-                            autoFocus
                             dense
                             error={!!errors.email}
                             onChangeText={onChange}

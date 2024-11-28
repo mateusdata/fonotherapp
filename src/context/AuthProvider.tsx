@@ -10,6 +10,7 @@ export const Context = createContext<ContextProps>({} as ContextProps);
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<FormatUser | null>(null);
     const [accessToken, setAccessToken] = useState<string>(null);
+    const [showSheetWelcome, setShowSheetWelcome] = useState<boolean>(false);
 
     const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
 
@@ -79,11 +80,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
                 loadingAuth,
                 setLoadingAuth,
                 accessToken,
-                setAccessToken
+                setAccessToken,
+                showSheetWelcome,
+                setShowSheetWelcome
             }}
         >
             {children}
-           
+
         </Context.Provider>
     );
 

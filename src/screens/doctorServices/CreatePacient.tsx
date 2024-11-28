@@ -138,7 +138,6 @@ const CreatePacient = ({ navigation }) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               value={value}
-              autoFocus
               onChangeText={onChange}
               mode='outlined'
               dense

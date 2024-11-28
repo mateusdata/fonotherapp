@@ -7,7 +7,6 @@ import ChangePassword from '../../screens/authentication/ChangePassword';
 import SendEmail from '../../screens/authentication/SendEmail';
 import CheckCode from '../../screens/authentication/CheckCode';
 import CreateAccount from '../../screens/authentication/CreateAccount';
-import FinishRegistration from '../../screens/authentication/FinishRegistration';
 import { Platform } from 'react-native';
 
 
@@ -64,12 +63,7 @@ const PublicRoutes = () => {
 
         }} />
 
-        <AppStack.Screen name="FinishRegistration" component={FinishRegistration} options={{
-          headerShown: true,
-          headerTitle: "Verifique sua conta",
-          headerTitleAlign: "center",
-          headerTintColor: "white"
-        }} />
+       
 
       </AppStack.Navigator>
 

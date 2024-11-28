@@ -14,6 +14,7 @@ import { videoUrl } from '../../utils/videoUrl';
 import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useIsFocused } from '@react-navigation/native';
+import LinearCustomGradient from '../../components/LinearCustomGradient';
 
 export default function Videos({ navigation }) {
   const [page, setPage] = useState(1);
@@ -32,7 +33,7 @@ export default function Videos({ navigation }) {
   });
 
   useEffect(() => {
-   
+
     setModalVisible(false)
     player.pause();
     setSelectedVideo(null)
@@ -88,7 +89,7 @@ export default function Videos({ navigation }) {
       setLoading(false)
     } catch (error) {
       setLoading(false)
-     
+
       setChangeList(!changeList)
     }
   }
@@ -169,7 +170,7 @@ export default function Videos({ navigation }) {
         <Sheet.Overlay />
 
         <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
-
+          <LinearCustomGradient />
           <HeaderSheet />
 
 

@@ -23,6 +23,7 @@ import { videoUrl } from '../../utils/videoUrl';
 import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
+import LinearCustomGradient from '../../components/LinearCustomGradient';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
@@ -317,6 +318,7 @@ export default function Section({ navigation }) {
         <Sheet.Overlay />
 
         <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+        <LinearCustomGradient />
 
           <HeaderSheet />
 

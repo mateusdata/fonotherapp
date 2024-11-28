@@ -35,11 +35,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.projetofono.fonotherapp",
-      "blockedPermissions": [
-        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
-        "android.permission.FOREGROUND_SERVICE"
-      ]
+      "package": "com.projetofono.fonotherapp"
+      
     },
     "web": {
       "favicon": "./assets/favicon.png"

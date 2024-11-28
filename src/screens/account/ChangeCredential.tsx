@@ -52,7 +52,6 @@ export default function ChangeCredential() {
           control={control}
           render={({ field: { onChange, value } }) => (
             <TextInput
-              autoFocus
               dense
               secureTextEntry
               error={!!errors.current_password}

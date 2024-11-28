@@ -53,7 +53,7 @@ export default function ChangeName() {
           control={control}
           render={({ field: { onChange, value } }) => (
             <TextInput
-              autoFocus
+              
               onChangeText={onChange}
               mode="outlined"
               style={styles.input}

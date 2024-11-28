@@ -72,7 +72,6 @@ const UpdatePacient = ({ route }) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 value={value}
-                                autoFocus
                                 dense
                                 onChangeText={onChange}
                                 mode='outlined'

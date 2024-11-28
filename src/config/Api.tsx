@@ -5,7 +5,7 @@ import { colorRed } from '../style/ColorPalette';
 import { showToast } from '../utils/showToast';
 
 const api = axios.create({
-  baseURL: 'https://7724-177-42-201-84.ngrok-free.app',
+  baseURL: 'https://api.fonotherapp.com.br',
 });
 
 let isSessionExpiredToastShown = false; 
@@ -54,7 +54,7 @@ async function setInterceptors(setUser: Function, logOut: any) {
 
      
 
-      if (error.response && error.response.status === 401) {
+      if (error.response.status === 401) {
         try {
           // Se o toast ainda não foi mostrado, mostre-o e marque como mostrado
           // isSessionExpiredToastShown = true;

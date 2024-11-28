@@ -55,7 +55,6 @@ export default function ChangeEmail() {
             <TextInput
               dense
               error={!!errors.email}
-              autoFocus
               onChangeText={onChange}
               mode="outlined"
               style={styles.input}

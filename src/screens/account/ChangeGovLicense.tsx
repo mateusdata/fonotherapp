@@ -58,8 +58,6 @@ export default function ChangeGovLicense() {
                     render={({ field: { onChange, value } }) => (
                         <TextInput
                             dense
-                            autoFocus
-                            keyboardType='numeric'
                             onChangeText={onChange}
                             mode="outlined"
                             style={styles.input}

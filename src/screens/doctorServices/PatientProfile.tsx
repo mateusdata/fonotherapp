@@ -20,6 +20,7 @@ import { FormatPacient } from '../../interfaces/globalInterface';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import { Sheet } from 'tamagui';
+import LinearCustomGradient from '../../components/LinearCustomGradient';
 
 const PatientProfile = ({ navigation }) => {
 
@@ -124,6 +125,7 @@ const PatientProfile = ({ navigation }) => {
                 <Sheet.Overlay />
 
                 <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+                <LinearCustomGradient />
 
                     <HeaderSheet />
 

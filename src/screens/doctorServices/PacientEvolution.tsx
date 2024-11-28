@@ -105,7 +105,6 @@ export default function PacientEvolution({ route, navigation }) {
           value={text}
           onChangeText={setText}
           multiline
-          autoFocus
           numberOfLines={8}
           activeOutlineColor={colorPrimary}
           outlineColor={colorPrimary}

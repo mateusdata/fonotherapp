@@ -76,14 +76,16 @@ export interface ContextProps {
     logOut: () => any;
     loadingAuth: boolean;
     setLoadingAuth: Dispatch<SetStateAction<boolean>>;
-    accessToken: string 
-    setAccessToken:  Dispatch<SetStateAction<string >>;
+    accessToken: string
+    setAccessToken: Dispatch<SetStateAction<string>>;
+    showSheetWelcome: boolean;
+    setShowSheetWelcome: Dispatch<SetStateAction<boolean>>;
 
 
 }
 
 //interface do token
-  
+
 
 
 //interface do usuario  

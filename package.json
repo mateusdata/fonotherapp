@@ -47,7 +47,9 @@
     "react-native-toast-message": "^2.2.1",
     "tamagui": "^1.117.1",
     "yup": "^1.4.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "expo-splash-screen": "~0.29.13",
+    "expo-application": "~6.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

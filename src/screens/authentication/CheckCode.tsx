@@ -70,7 +70,7 @@ export default function CheckCode({ navigation, route }) {
                     control={control}
                     render={({ field: { onChange, value } }) => (
                         <TextInput
-                            autoFocus
+                            
                             error={!!errors.verification_code}
                             onChangeText={onChange}
                             mode="outlined"

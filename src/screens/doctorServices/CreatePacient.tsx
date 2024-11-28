@@ -50,7 +50,7 @@ const CreatePacient = ({ navigation }) => {
       setValue("cpf", cpf);
       setValue("name", names[Math.floor(Math.random() * names.length)]);
       setValue("birthday", "20/10/1998");
-      setValue("additionalInformation", "Informações adicionais");
+      setValue("additional_information", "Informações adicionais");
     }
 
   }, []);
@@ -89,7 +89,7 @@ const CreatePacient = ({ navigation }) => {
       .required("Obrigatório"),
 
     last_name: yup.string(),
-    additionalInformation: yup.string().optional()
+    additional_information: yup.string().optional()
   }).required();
 
   const { reset, handleSubmit, watch, setValue, formState: { errors }, control, setError } = useForm({
@@ -100,7 +100,7 @@ const CreatePacient = ({ navigation }) => {
       last_name: ",",
       cpf: "",
       birthday: "",
-      additionalInformation: ""
+      additional_information: ""
     }
   });
 
@@ -126,9 +126,9 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
       console.log(error);
       if (error?.response) {
-        setError("additionalInformation", { message: "Ocorreu um erro" });
+        setError("additional_information", { message: "Ocorreu um erro" });
       } else {
-        setError("additionalInformation", { message: "Sem conexão com a internet, tente novamente" });
+        setError("additional_information", { message: "Sem conexão com a internet, tente novamente" });
       }
     }
   };
@@ -200,9 +200,9 @@ const CreatePacient = ({ navigation }) => {
               mode='outlined'
               activeOutlineColor={colorPrimary} />
           )}
-          name='additionalInformation'
+          name='additional_information'
         />
-        <ErrorMessage name={"additionalInformation"} errors={errors} />
+        <ErrorMessage name={"additional_information"} errors={errors} />
 
 
         <View style={{ marginBottom: 40 }}>

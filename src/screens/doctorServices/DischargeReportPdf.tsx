@@ -34,7 +34,6 @@ const DischargeReportPdf = ({ route }: any) => {
     first_session_findings: yup.string().required("Campo obrigatório"),
     therapeutic_plan: yup.string().required("Campo obrigatório"),
     patients_progress: yup.string().required("Campo obrigatório"),
-    current_condition: yup.string().required("Campo obrigatório"),
     referrals: yup.string().required("Campo obrigatório"),
 
   });
@@ -47,7 +46,6 @@ const DischargeReportPdf = ({ route }: any) => {
       first_session_findings: "",
       therapeutic_plan: "",
       patients_progress: "",
-      current_condition: "",
       referrals: "",
     },
     resolver: yupResolver(schema)
@@ -61,6 +59,7 @@ const DischargeReportPdf = ({ route }: any) => {
       const response: any = await api.post(`/discharg-report/${pacient?.pac_id}`, values)
 
       await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
+      reset()
     } catch (error) {
       console.error("Ocorreu um erro", error)
       alert("Erro ao gerar pdf")
@@ -75,8 +74,7 @@ const DischargeReportPdf = ({ route }: any) => {
     how_it_was_discovered: "História clínica",
     first_session_findings: "Avaliação Inicial",
     therapeutic_plan: "Plano Terapêutico",
-    patients_progress: "Progresso dos Pacientes",
-    current_condition: "Condição Atual",
+    patients_progress: "Evolução",
     referrals: "Encaminhamentos"
   };
 

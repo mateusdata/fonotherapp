@@ -106,16 +106,17 @@ const AnsweredQuestions = ({ navigation }) => {
       <View key={question.que_id} style={{ right: 0, padding: 10, }}>
         {false && <Text>{JSON.stringify(questions, null, 2)}</Text>}
         <Text style={{ flex: 1, fontSize: 18 }}>{question.name}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
+        <View style={{ alignItems: 'flex-start', flexDirection:"column"}}>
           {question.alternatives.map((alternative, index) => {
             const isSelected = question.answer && alternative === question.answer.alternative;
             return (
               <Pressable
                 key={index}
-                style={{ marginRight: 10, right: 7, top: 8, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, backgroundColor: isSelected ? colorGreen : '#fff' }}
+                style={{ marginRight: 10, right: 7, top: 8, padding:10, borderRadius: 10, backgroundColor: isSelected ? colorGreen : '#fff' }}
                 onPress={() => handleAnswerClick(question.que_id, alternative)}
               >
-                <Text style={{ color: isSelected ? '#fff' : '#007bff' }}>{alternative}</Text>
+                <Text style={{ color: isSelected ? '#fff' : '#007bff', fontSize:18 }}>{alternative}</Text>
+                
               </Pressable>
             );
           })}
@@ -188,7 +189,7 @@ const AnsweredQuestions = ({ navigation }) => {
             {renderAnamnese()}
           </List.Accordion>
 
-          <ScrollView style={{ maxHeight: 500 }}>
+          <ScrollView >
             {answered && answered.map((item, index) => (
               <List.Accordion
                 key={index + 1}

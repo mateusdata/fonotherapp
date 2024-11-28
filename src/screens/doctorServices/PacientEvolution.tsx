@@ -4,7 +4,7 @@ import { TextInput, Button, Text, IconButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { api } from '../../config/Api';
-import { colorPrimary, colorRed } from '../../style/ColorPalette';
+import { colorGray, colorPrimary, colorRed } from '../../style/ColorPalette';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import AntDesign from '@expo/vector-icons/AntDesign';
 export default function PacientEvolution({ route, navigation }) {
@@ -63,37 +63,42 @@ export default function PacientEvolution({ route, navigation }) {
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: "100%", alignItems: "flex-start" }}>
           <Text style={styles.title}>Evolução Diária</Text>
-          <Pressable android_ripple={{ color: colorPrimary }} style={{ backgroundColor: "white", padding: 7 }} onPress={() => navigation.navigate("ListPacientEvolution", { pac_id: pac_id })}>
+          <Pressable android_ripple={{ color: colorPrimary, radius:15}} style={{ backgroundColor: "white", padding: 7 }} onPress={() => navigation.navigate("ListPacientEvolution", { pac_id: pac_id })}>
             <AntDesign name="eye" size={24} color={colorPrimary} />
           </Pressable>
         </View>
-        {Platform.OS === "android" && <Button mode="outlined" textColor={colorPrimary} onPress={() => setShowDatePicker(true)}>
-          {dayjs(date).format('DD/MM/YYYY')}
-        </Button>}
-
-
         {
+          false && <>
+            {Platform.OS === "android" && <Button mode="outlined" textColor={colorPrimary} onPress={() => setShowDatePicker(true)}>
+              {dayjs(date).format('DD/MM/YYYY')}
+            </Button>}
 
-          Platform.OS === "ios" ?
-            <DateTimePicker
-              value={date}
-              mode="date"
-              display={Platform.OS === "ios" ? "default" : "default"}
-              onChange={onDateChange}
-              minimumDate={new Date()}
-            />
 
-            :
-            showDatePicker && (
-              <DateTimePicker
-                value={date}
-                mode="date"
-                onChange={onDateChange}
-                minimumDate={new Date()}
-              />
-            )
+            {
 
+              Platform.OS === "ios" ?
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  display={Platform.OS === "ios" ? "default" : "default"}
+                  onChange={onDateChange}
+                  minimumDate={new Date()}
+                />
+
+                :
+                showDatePicker && (
+                  <DateTimePicker
+                    value={date}
+                    mode="date"
+                    onChange={onDateChange}
+                    minimumDate={new Date()}
+                  />
+                )
+
+            }
+          </>
         }
+
 
 
         <TextInput
@@ -102,6 +107,11 @@ export default function PacientEvolution({ route, navigation }) {
           multiline
           autoFocus
           numberOfLines={8}
+          activeOutlineColor={colorPrimary}
+          outlineColor={colorPrimary}
+          textBreakStrategy='balanced'
+          underlineColor={colorPrimary}
+          activeUnderlineColor={colorPrimary}
           style={styles.textInput}
         />
 
@@ -137,11 +147,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   textInput: {
-    marginTop: 16,
     marginBottom: 16,
-    backgroundColor: 'white',
-    maxHeight: 200,
-    minHeight: 200
+    maxHeight: 100,
+    minHeight: 100,
+    backgroundColor:"#fff"
   },
   button: {
     marginTop: 16,

@@ -19,7 +19,7 @@ import { vibrateFeedback } from '../../utils/vibrateFeedback';
 const schema = yup.object({
   name: yup.string().required('O nome é obrigatório'),
   cpf: yup.string().optional(),
-  additionalInformation: yup.string().optional(),
+  additional_information: yup.string().optional(),
   birthday: yup
     .string()
     .transform((value, originalValue) => {
@@ -45,7 +45,7 @@ const PatientUpdate = ({ navigation }) => {
       name: '',
       cpf: '',
       birthday: '',
-      additionalInformation:''
+      additional_information:''
     },
   });
 
@@ -157,9 +157,9 @@ const PatientUpdate = ({ navigation }) => {
             mode='outlined'
             activeOutlineColor={colorPrimary} />
         )}
-        name='additionalInformation'
+        name='additional_information'
       />
-      <ErrorMessage name={"additionalInformation"} errors={errors} />
+      <ErrorMessage name={"additional_information"} errors={errors} />
       <View style={{ top: 15 }}>
         <LabelInput value="Data de Nascimento" />
         <Controller

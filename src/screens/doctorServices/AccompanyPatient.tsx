@@ -28,7 +28,7 @@ const AccompanyPatient = ({ navigation }) => {
             setisPacientsLocal(false)
             try {
                 const response = await api.post(`/search-pacient`, { doc_id: user?.doctor?.doc_id, search: search })
-                console.log(response.data)
+               
                 setPacients(response?.data);
             } catch (error) {
 
@@ -91,7 +91,7 @@ const AccompanyPatient = ({ navigation }) => {
             await AsyncStorage.removeItem('pacientes');
             setPacients([])
             setPacients([]);
-            console.log('LocalStorage dos pacientes limpo com sucesso!');
+           
         } catch (error) {
             console.error('Erro ao limpar LocalStorage dos pacientes:', error);
         }

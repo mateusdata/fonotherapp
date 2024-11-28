@@ -66,7 +66,7 @@ export default function PatientEvolutionList({ navigation, route }) {
   };
 
   const handleEdit = (evolution) => {
-    console.log(JSON.stringify(evolution, null,2));
+   
     
     navigation.navigate('EditEvolutionScreen', { evolution });
   };

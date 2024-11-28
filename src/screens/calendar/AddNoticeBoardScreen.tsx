@@ -86,13 +86,13 @@ const AddNoticeBoardScreen = ({ navigation }) => {
             }
 
             const fullDateTime = dayjs(newEvent.date).format("YYYY-MM-DD HH:mm:ss");
-            console.log(fullDateTime);
+           
 
             const response = await api.post("/reminder", {
                 title: title,
                 starts_at: fullDateTime
             });
-            console.log(fullDateTime);
+           
 
             AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
             vibrateFeedback()

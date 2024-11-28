@@ -41,7 +41,7 @@ export default function ChangeName() {
     }).catch((e) => {
       setLoading(false);
       setError("nick_name", { message: "Ocorreu um erro" })
-      console.log(e);
+     
       
     });
   }

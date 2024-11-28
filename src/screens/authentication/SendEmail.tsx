@@ -29,7 +29,7 @@ export default function SendEmail({ navigation }) {
 
         try {
             const response = await api.post("/send-reset-code", data)
-            console.log(response.data);
+           
             navigation.navigate("CheckCode", { email: data?.email });
             setLoading(false);
 

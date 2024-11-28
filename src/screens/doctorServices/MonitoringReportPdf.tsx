@@ -48,12 +48,11 @@ const MonitoringReportPdf = ({ route }: any) => {
         resolver: yupResolver(schema)
     })
 
-    const handleError = error => console.log("error");
 
     async function getPdf(values: any) {
         try {
             setLoading(true);
-            console.log(typeof values.number_of_sessions)
+           
 
             const response: any = await api.post(`/follow-up-report/${pacient?.pac_id}`, values)
 
@@ -182,7 +181,7 @@ const MonitoringReportPdf = ({ route }: any) => {
 
             <View style={{ marginBottom: 40 }}>
                 <Button buttonColor={colorPrimary} textColor='white'
-                    loading={loading} onPress={handleSubmit(getPdf, handleError)} mode='text'>
+                    loading={loading} onPress={handleSubmit(getPdf)} mode='text'>
                     Gerar relatório
                 </Button>
             </View>

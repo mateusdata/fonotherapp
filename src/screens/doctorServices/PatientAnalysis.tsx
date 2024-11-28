@@ -34,7 +34,7 @@ const PatientAnalysis = ({ navigation }) => {
           setIsLoading(true)
           const response = await api.get(`/next-questionnaire/${pac_id}`);
           setAnalysis(response.data);
-          console.log(analysis)
+         
           setIsLoading(false);
 
         } catch (error) {
@@ -88,14 +88,14 @@ const PatientAnalysis = ({ navigation }) => {
       setLoading(true)
       answerSchema.parse(data); // Validate data against schema
       const response = await api.post("/answer-questionnaire", data);
-      console.log("Seu estado de logogado via resgisto esta => ", isFromRegistration)
+     
       setAnalysis({});
       setSelectedAnswers({});
       setnextQuestinnaire(!nextQuestinnaire);
       setLoading(false)
 
     } catch (error) {
-      console.log("error", error);
+     
       setLoading(false)
      
       if (!error.response) {

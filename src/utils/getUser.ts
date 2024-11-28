@@ -8,11 +8,11 @@ export const getUser = async (setUser: Function) => {
         await AsyncStorage.removeItem("usuario");
         await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
         setUser(response.data);
-        console.log(response.data)
+       
 
     } catch (error) {
         alert("error")
-        console.log(error);
+       
 
     }
 

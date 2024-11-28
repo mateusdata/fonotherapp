@@ -21,7 +21,7 @@ const FrequentlyAskedQuestions = () => {
       const response = await api.get("/frequent-questions");
       setFaq(response.data.data)
     } catch (error) {
-      console.log(error);
+     
     }
   }
 

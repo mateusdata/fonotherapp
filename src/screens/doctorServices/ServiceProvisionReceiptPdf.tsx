@@ -41,12 +41,11 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
   })
 
 
-  const handleError = error => console.log("error");
 
   async function getPdf(values: any) {
     try {
       setLoading(true);
-      console.log(typeof values.number_of_sessions)
+     
 
       const response: any = await api.post(`/service-term/${pacient?.pac_id}`, values)
 

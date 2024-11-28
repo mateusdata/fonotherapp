@@ -108,7 +108,7 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
             if (Platform.OS === "android") {
                 ToastAndroid.show("Evento atualizado", ToastAndroid.BOTTOM);
             }
-            console.log(fullDateTime + title);
+           
 
             AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
             navigation.goBack();

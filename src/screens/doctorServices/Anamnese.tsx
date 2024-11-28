@@ -92,7 +92,7 @@ const Anamnese = ({ navigation, pacient, setShowToast }: FormatAnamnese) => {
       reset();
     } catch (error) {
       setLoading(false);
-      console.log(error)
+     
       if (!error?.response) {
        // return setError("chewing_complaint", { message: "Sem conexão com a internet, tente novamente" })
       }

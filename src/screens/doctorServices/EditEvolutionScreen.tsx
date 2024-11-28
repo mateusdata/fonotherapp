@@ -36,7 +36,7 @@ const EditEvolutionScreen = ({ route, navigation }) => {
       reset();
     } catch (error) {
       setLoading(false);
-      console.log(error);
+     
       if (error?.response) {
         return setError("comment", { message: "Ocorreu um erro" });
       }

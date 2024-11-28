@@ -10,7 +10,7 @@ export const WelcomeNotification = async (title: string, message: string, delay:
     finalStatus = status;
   }
   if (finalStatus !== 'granted') {
-    console.log('Falha ao obter permissão para notificações!');
+   
     return;
   }
 

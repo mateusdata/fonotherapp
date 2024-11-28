@@ -51,7 +51,6 @@ const DischargeReportPdf = ({ route }: any) => {
     resolver: yupResolver(schema)
   })
 
-  const handleError = error => console.log("error");
 
   async function getPdf(values: any) {
     try {
@@ -123,7 +122,7 @@ const DischargeReportPdf = ({ route }: any) => {
 
         <View style={{ marginBottom: 40 }}>
         <Button buttonColor={colorPrimary} textColor='white'
-            loading={!!progressPercentage} onPress={handleSubmit(getPdf, handleError)} mode='text'>
+            loading={!!progressPercentage} onPress={handleSubmit(getPdf)} mode='text'>
             Gerar relatório
           </Button>
         </View>

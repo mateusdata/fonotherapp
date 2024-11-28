@@ -32,7 +32,7 @@ export default function Videos({ navigation }) {
   });
 
   useEffect(() => {
-    console.log('VideoScreen está focado');
+   
     setModalVisible(false)
     player.pause();
     setSelectedVideo(null)
@@ -88,7 +88,7 @@ export default function Videos({ navigation }) {
       setLoading(false)
     } catch (error) {
       setLoading(false)
-      console.log(error)
+     
       setChangeList(!changeList)
     }
   }

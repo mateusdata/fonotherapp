@@ -185,7 +185,7 @@ export default function Section({ navigation }) {
       setLoadingBottom(false)
       setMensageToast(!error.response ? "Sem conexão com a internet" : "Erro ao criar sessão")
       setShowToast(true)
-      console.log(error);
+     
     }
   };
 
@@ -206,7 +206,7 @@ export default function Section({ navigation }) {
       } catch (error) {
         setMensageToast("Ocoreu um erro")
         setShowToast(true)
-        console.log(error);
+       
 
       }
       return

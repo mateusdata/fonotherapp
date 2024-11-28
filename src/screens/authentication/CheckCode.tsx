@@ -43,9 +43,9 @@ export default function CheckCode({ navigation, route }) {
     const onSubmit = async (data: any) => {
         try {
             const response = await api.post("/verify-reset-code", { ...data, email });
-            console.log(response.data)
+           
             setLoading(false);
-            console.log(data.verification_code);
+           
             
             navigation.navigate("ChangePassword", {email: email, verification_code: data.verification_code});
         } catch (error) {

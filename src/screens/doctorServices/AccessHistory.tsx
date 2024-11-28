@@ -24,7 +24,7 @@ export default function AccessHistory({ navigation }) {
     try {
       const response = await api.get(`last-appointents/${user?.doctor?.doc_id}?page=${page}&pageSize=14`);
       const newSessions = response.data.data;
-      console.log(response.data.data);
+     
       
       if (newSessions.length === 0) {
         setHasMore(false);
@@ -36,7 +36,7 @@ export default function AccessHistory({ navigation }) {
       
 
     } catch (error) {
-      console.log(error);
+     
       if (error.response?.status === 404) {
         setHasMore(false); 
         setIsEmpty(true)

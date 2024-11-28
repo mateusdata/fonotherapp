@@ -124,7 +124,7 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error);
+     
       if (error?.response) {
         setError("additional_information", { message: "Ocorreu um erro" });
       } else {

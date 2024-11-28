@@ -52,7 +52,7 @@ const CurrentProtocol = ({ navigation, route }) => {
             try {
                 const response = await api.get(`/session/${protocolId}`);
                 setProtocol(response.data.protocol);
-                console.log(response.data.protocol)
+               
             } catch (error) {
                 console.error(error);
                 // Tratar erro

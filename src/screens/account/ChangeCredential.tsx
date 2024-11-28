@@ -35,7 +35,7 @@ export default function ChangeCredential() {
       setShowToast(true);
       reset();
     } catch (error) {
-      console.log(error);
+     
       
       setLoading(false);
       setError("new_password", { message: "Ocorreu um erro" });

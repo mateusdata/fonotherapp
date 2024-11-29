@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, Pressable, View } from 'react-native';
+import { Image, Text, Pressable, View, Dimensions } from 'react-native';
 import { Button } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import * as  Animatable from "react-native-animatable"
@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../../style/styleGradient';
 import PrimaryButton from '../../components/primaryButton';
 
+const { width, fontScale, height } = Dimensions.get("screen")
 
 const PreLogin = ({ navigation }: any) => {
 
@@ -31,7 +32,7 @@ const PreLogin = ({ navigation }: any) => {
                     end={{ x: 1, y: 1 }}
                     style={styleGradient.background}
                 />
-                <View style={{ width: "80%", gap: 5, marginTop: 0 }}>
+                <View style={{ gap: 5, marginTop: 0 }}>
 
                     <Animatable.View animation="fadeInLeft">
                         <Text style={{ color: "black", fontSize: 25, textAlign: "center", paddingTop: 15, paddingBottom: 10 }}>

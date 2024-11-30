@@ -65,7 +65,7 @@ export default function ChangePhone() {
                     render={({ field: { onChange, value } }) => (
                         <TextInput                            
                             dense
-                            keyboardType='numeric'
+                            keyboardType='numbers-and-punctuation'
                             onChangeText={onChange}
                             mode="outlined"
                             style={styles.input}

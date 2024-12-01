@@ -5,12 +5,11 @@ import * as Haptics from 'expo-haptics';
 
 import { Button, Searchbar, TextInput } from 'react-native-paper';
 import * as yup from "yup"
-import {  useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Sheet } from 'tamagui';
 
 import { api } from '../../config/Api'
-import CustomText from '../../components/customText'
 import { colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette'
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonView from '../../components/SkelectonView';
@@ -24,6 +23,9 @@ import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import LinearCustomGradient from '../../components/LinearCustomGradient';
+import { heightPercentage } from '../../utils/widthScreen';
+import KeyboardView from '../../components/KeyboardView';
+import { vibrateFeedbackWarning } from '../../utils/vibrateFeedbackWarning';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
@@ -186,14 +188,14 @@ export default function Section({ navigation }) {
       setLoadingBottom(false)
       setMensageToast(!error.response ? "Sem conexão com a internet" : "Erro ao criar sessão")
       setShowToast(true)
-     
+
     }
   };
 
   const onError = (error) => {
     setMensageToast("Error: atribua um exercicio")
     setShowToast(true)
-  
+
   }
 
 
@@ -207,11 +209,12 @@ export default function Section({ navigation }) {
       } catch (error) {
         setMensageToast("Ocoreu um erro")
         setShowToast(true)
-       
+
 
       }
       return
     }
+
     setMensageToast("Error: atribua um exercicio")
     Haptics.notificationAsync(
       Haptics.NotificationFeedbackType.Error
@@ -256,6 +259,7 @@ export default function Section({ navigation }) {
     <View style={{ flex: 1, backgroundColor: "white" }}>
 
       <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 8, paddingVertical: 5 }}>
+
         <Searchbar
           onChange={seachVideos}
           onChangeText={(e) => setSearch(e)}
@@ -286,7 +290,7 @@ export default function Section({ navigation }) {
         }}>
           <Button
             loading={loadingBottom}
-            disabled={loadingBottom}
+            disabled={loadingBottom || !watch().exercise_plans || watch().exercise_plans?.length === 0}
             textColor='white'
             style={{
               height: 40,
@@ -306,82 +310,111 @@ export default function Section({ navigation }) {
 
       <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} bottom={65} />
       <Sheet
-        modal={Platform.OS === "ios" ? false : true}
+        modal
         open={modalVisible}
         dismissOnSnapToBottom
         animation="medium"
         native
         onOpenChange={onOpenChange}
-        snapPoints={[Platform.OS === "ios" ? 95 : 80]}
+        snapPointsMode="mixed"
+        snapPoints={['fit', "40%"]}
       >
 
         <Sheet.Overlay />
 
-        <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
-        <LinearCustomGradient />
-
+        <Sheet.Frame maxHeight={heightPercentage} style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+          <LinearCustomGradient />
           <HeaderSheet />
 
+          <ScrollView contentContainerStyle={{ paddingBottom: 150 }} style={{ backgroundColor: 'transparent', width: "100%" }}>
+            <Text style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>
+              {selectedVideo?.name}
+            </Text>
 
-          <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%", }}>
-            <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-
               <VideoView
-                style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }}
+                style={{
+                  width: "60%", // Usando 80% da largura da tela para o vídeo
+                  height: 250,
+                  borderRadius: 15,
+                  borderWidth: 2,
+                  marginTop: 10,
+                  borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent",
+                }}
                 player={player}
                 contentFit={"cover"}
                 allowsFullscreen={false}
                 allowsPictureInPicture={false}
                 nativeControls={false}
-
               />
 
-              <View style={{ flexDirection: "column", width: "50%", gap: 1, marginTop: 5 }}>
+              <KeyboardView style={{ flexDirection: "row", width: "60%", gap: 10, marginTop: 5, justifyContent: "center" }}>
                 {!watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) && <>
+                  <View style={{ flexDirection: "column", width: "45%" }}>
+                    <LabelInput value='Séries' />
+                    <TextInput
+                      contentStyle={{ width: "100%" }} // Ajustando a largura para 100%
+                      activeOutlineColor={colorPrimary}
+                      mode='outlined'
+                      keyboardType='number-pad'
+                      style={{ height: 35 }}
+                      value={series}
+                      placeholder='Ex:3'
+                      onChangeText={(text) => {
+                        if (/^\d+(\.\d{0,2})?$|^$/.test(text) && (text === "" || parseFloat(text) <= 100)) {
+                          setSeries(text);
+                        }
+                      }}
+                    />
+                  </View>
 
-                  <LabelInput value='Series' />
-                  <TextInput
-                    activeOutlineColor={colorPrimary}
-                    mode='outlined'
-                    keyboardType='numeric'
-                    style={{ width: "auto", height: 35 }}
-                    value={series}
-                    onChangeText={(event) => setSeries(event)}
-                  />
-
-                  <LabelInput value='Repetições' />
-                  <TextInput
-                    activeOutlineColor={colorPrimary}
-                    mode='outlined'
-                    keyboardType='numeric'
-                    style={{ width: "auto", height: 35 }}
-                    value={repetitions}
-                    onChangeText={(event) => setRepetitions(event)}
-                  />
+                  <View style={{ flexDirection: "column", width: "45%" }}>
+                    <LabelInput value='Repetições' />
+                    <TextInput
+                      contentStyle={{ width: "100%" }} // Ajustando a largura para 100%
+                      activeOutlineColor={colorPrimary}
+                      mode='outlined'
+                      keyboardType='number-pad'
+                      style={{ height: 35 }}
+                      value={repetitions}
+                      placeholder='Ex:15'
+                      onChangeText={(text) => {
+                        if (/^\d+(\.\d{0,2})?$|^$/.test(text) && (text === "" || parseFloat(text) <= 100)) {
+                          setRepetitions(text);
+                        }
+                      }}
+                    />
+                  </View>
                 </>}
-              </View>
+
+              </KeyboardView>
 
               <Text style={{ color: "red" }}>{errorInput}</Text>
               <View style={{ width: "50%" }}>
-                <Button onPress={() => addExercice(selectedVideo?.exe_id)} style={{ marginTop: 5 }}
-                  textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) ? colorRed : colorPrimary}`} mode='contained-tonal' >
-                  {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) ? "Remover exercicio" : "Adicionar"}`}
+                <Button
+                  onPress={() => {
+                    addExercice(selectedVideo?.exe_id)
+                    vibrateFeedbackWarning()
+                  }}
+                  style={{ marginTop: 5 }}
+                  textColor='white'
+                  buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) ? colorRed : colorPrimary}`}
+                  mode='contained-tonal'>
+                  {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo?.exe_id) ? "Remover exercício" : "Adicionar"}`}
                 </Button>
               </View>
             </View>
 
             {!isVideoLoading && <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
-              {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
-              <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
+              {selectedVideo?.description && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</Text>}
+              <Text style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</Text>
 
-              {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
-              <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
+              {selectedVideo?.objective && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</Text>}
+              <Text style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</Text>
 
-              {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
-              <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
+              {selectedVideo?.academic_sources && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</Text>}
+              <Text style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</Text>
             </View>}
-
           </ScrollView>
 
         </Sheet.Frame>

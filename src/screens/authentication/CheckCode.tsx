@@ -5,7 +5,6 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../config/Api';
-import CustomText from '../../components/customText';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 
@@ -60,9 +59,9 @@ export default function CheckCode({ navigation, route }) {
 
                 <View style={{ gap: 10, marginTop: 10 }}>
 
-                    <CustomText fontFamily='Poppins_300Light' style={{ fontSize: 18, textAlign: "center" }}>
+                    <Text style={{ fontSize: 18, textAlign: "center" }}>
                         Insira o código  que acabamos de enviar para seu email. 
-                    </CustomText>
+                    </Text>
                 </View>
 
                 <LabelInput value='Codigo' />

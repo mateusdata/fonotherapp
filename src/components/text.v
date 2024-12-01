@@ -10,7 +10,7 @@ type FormatFontFamilly =
     "Poppins_600SemiBold" | "Poppins_800ExtraBold" | "Poppins_300Light" | "Poppins_400Regular" | "Poppins_500Medium" |
     "Poppins_600SemiBold_Italic" | "Poppins_100Thin" | "Poppins_900Black_Italic" | "Poppins_700Bold_Italic" | "Poppins_200ExtraLight_Italic"
 
-export default function CustomText(props: { fontFamily?: FormatFontFamilly, style: any, children: any }) {
+export default function Text(props: { fontFamily?: FormatFontFamilly, style: any, children: any }) {
     let [fontsLoaded] = useFonts({
         Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light, Poppins_400Regular, Poppins_500Medium,
         Poppins_600SemiBold_Italic, Poppins_100Thin, Poppins_900Black_Italic, Poppins_700Bold_Italic, Poppins_200ExtraLight_Italic

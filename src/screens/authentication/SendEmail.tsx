@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
-import { View, StyleSheet, Keyboard, Pressable } from 'react-native';
+import { View, StyleSheet, Keyboard, Pressable, Text } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../config/Api';
-import CustomText from '../../components/customText';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 
@@ -45,9 +44,9 @@ export default function SendEmail({ navigation }) {
             <View style={{ flex: 0.9 }}>
 
                 <View style={{ gap: 10, marginTop: 5 }}>
-                    <CustomText fontFamily='Poppins_300Light' style={{ fontSize: 17, textAlign: "center" }}>
+                    <Text  style={{ fontSize: 17, textAlign: "center" }}>
                         Insira seu email pra obter um código de recumperação
-                    </CustomText>
+                    </Text>
                 </View>
                 <LabelInput value='Email' />
                 <Controller
@@ -78,9 +77,9 @@ export default function SendEmail({ navigation }) {
             </Button>
 
             <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                <CustomText fontFamily='Poppins_300Light' style={{ color: "gray" }}>Lembrou sua senha</CustomText>
+                <Text  style={{ color: "gray" }}>Lembrou sua senha</Text>
                 <Pressable onPress={() => navigation.navigate("Login")}>
-                    <CustomText fontFamily='Poppins_300Light' style={{ color: "#407AFF" }}>Fazer login</CustomText>
+                    <Text  style={{ color: "#407AFF" }}>Fazer login</Text>
                 </Pressable>
             </View>
 

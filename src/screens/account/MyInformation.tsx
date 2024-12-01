@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Pressable, View } from 'react-native'
+import { Alert, Pressable, Text, View } from 'react-native'
 import { MaterialIcons, Ionicons} from '@expo/vector-icons';
 import { Context } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
-import CustomText from '../../components/customText';
 
 
 const MyInformation = ({ navigation }) => {
@@ -20,7 +19,7 @@ const MyInformation = ({ navigation }) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="create-outline" size={28} color={colorPrimary} />
-          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Nome de úsuario</CustomText>
+          <Text style={{ fontSize: 17 }}>Nome de úsuario</Text>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
       </Pressable>
@@ -32,7 +31,7 @@ const MyInformation = ({ navigation }) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="at" size={28} color={colorPrimary} />
-          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Email</CustomText>
+          <Text style={{ fontSize: 17 }}>Email</Text>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
       </Pressable>
@@ -44,7 +43,7 @@ const MyInformation = ({ navigation }) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="settings-outline" size={28} color={colorPrimary} />
-          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Senha</CustomText>
+          <Text style={{ fontSize: 17 }}>Senha</Text>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
       </Pressable>
@@ -56,7 +55,7 @@ const MyInformation = ({ navigation }) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="id-card-outline" size={28} color={colorPrimary} />
-          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>CRFA</CustomText>
+          <Text style={{ fontSize: 17 }}>CRFA</Text>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
       </Pressable>
@@ -68,7 +67,7 @@ const MyInformation = ({ navigation }) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="phone-portrait-outline" size={28} color={colorPrimary} />
-          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Telefone</CustomText>
+          <Text style={{ fontSize: 17 }}>Telefone</Text>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
       </Pressable>

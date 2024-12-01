@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, FlatList, Pressable, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, FlatList, Pressable, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { List } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Animatable from "react-native-animatable";
 import { Context } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import CustomText from '../../components/customText';
 import SkelectonView from '../../components/SkelectonView';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
 
@@ -75,9 +74,9 @@ const PacientUnansweredQuestions = ({ navigation }) => {
     return (
         <View style={{ paddingHorizontal: 8, paddingVertical: 5 }}>
             {pacients.length > 0 ? (
-                <CustomText style={{ fontSize: 18, padding: 10, textAlign: "center" }}>
+                <Text style={{ fontSize: 18, padding: 10, textAlign: "center" }}>
                     Pacientes com cadastro incompletos
-                </CustomText>
+                </Text>
             ) : (
                 <NotFoudMessageList />
             )}

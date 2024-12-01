@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
-import { View, StyleSheet, Keyboard } from 'react-native';
+import { View, StyleSheet, Keyboard, Text } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../config/Api';
-import CustomText from '../../components/customText';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 
@@ -64,7 +63,7 @@ export default function ChangePassword({ navigation, route }) {
 
       <View style={{ flex: 0.9 }}>
         <View style={{ gap: 10, marginTop: 10 }}>
-          <CustomText fontFamily='Poppins_300Light' style={{
+          <Text  style={{
             fontSize: 25,
             marginBottom: 0,
             marginTop: 0,
@@ -72,7 +71,7 @@ export default function ChangePassword({ navigation, route }) {
             textAlign: "center"
           }}>
             Alterar senha
-          </CustomText>
+          </Text>
 
         </View>
 

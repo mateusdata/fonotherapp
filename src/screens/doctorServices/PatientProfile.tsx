@@ -12,7 +12,7 @@ import { Context } from '../../context/AuthProvider'
 import { ContextGlobal } from '../../context/GlobalContext'
 import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
-import CustomText from '../../components/customText'
+
 import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette'
 import ErrorMessage from '../../components/errorMessage'
 import { ContextPacient } from '../../context/PacientContext';
@@ -21,6 +21,8 @@ import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import { Sheet } from 'tamagui';
 import LinearCustomGradient from '../../components/LinearCustomGradient';
+import KeyboardView from '../../components/KeyboardView';
+import { heightPercentage } from '../../utils/widthScreen';
 
 const PatientProfile = ({ navigation }) => {
 
@@ -65,20 +67,20 @@ const PatientProfile = ({ navigation }) => {
 
     async function getPdf() {
         try {
-          setLoading(true);
-          const response: any = await api.get("/food-intake-report");
-    
-          await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading  )
+            setLoading(true);
+            const response: any = await api.get("/food-intake-report");
+
+            await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
         } catch (error) {
-          console.error("Ocorreu Ezum erro", error)
-          alert("Erro ao gerar pdf")
-    
+            console.error("Ocorreu Ezum erro", error)
+            alert("Erro ao gerar pdf")
+
         }
-      }
+    }
 
 
     useFocusEffect(
-        
+
         React.useCallback(() => {
 
             const fetchData = async () => {
@@ -91,7 +93,7 @@ const PatientProfile = ({ navigation }) => {
 
                 try {
                     const protocol = await api.get(`last-sessions/${pac_id}/${user?.doctor?.doc_id}?pageSize=100&page=1`);
-                    
+
                     setProtocols(protocol.data);
                     setLoading(false)
 
@@ -108,10 +110,10 @@ const PatientProfile = ({ navigation }) => {
         return <SkelectonView />
     }
     return (
-        <View style={{ flex: 1 }}>           
+        <View style={{ flex: 1 }}>
 
             <Sheet
-                modal={Platform.OS === "ios" ? false : true}
+                modal
                 open={modalVisible}
                 dismissOnSnapToBottom
                 animation="medium"
@@ -120,12 +122,17 @@ const PatientProfile = ({ navigation }) => {
                     setModalVisible(false);
                 }
                 }
-                snapPoints={[firstModal ? 60 : 30]} >
+                forceRemoveScrollEnabled={true}
+                snapPointsMode="mixed"
+              
+               
+                snapPoints={['fit',"30%"]}
+            >
 
                 <Sheet.Overlay />
 
-                <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
-                <LinearCustomGradient />
+                <Sheet.Frame maxHeight={heightPercentage }  >
+                    <LinearCustomGradient />
 
                     <HeaderSheet />
 
@@ -136,13 +143,14 @@ const PatientProfile = ({ navigation }) => {
                                 style={{ top: 10, padding: 15 }}
                                 data={protocols?.data}
                                 keyExtractor={(item) => item?.ses_id}
+                                contentContainerStyle={{ paddingBottom: 100 }} 
                                 renderItem={({ item, index }) => (
-                                    <ScrollView>
-                                        <Animatable.View >
+                                    <>
+                                        <View >
 
                                             {
                                                 item?.protocol?.name &&
-                                                <Card collapsable contentStyle={{ marginBottom: 10, backgroundColor: 'transparent'}} onPress={() => {
+                                                <Card collapsable contentStyle={{ marginBottom: 10, backgroundColor: 'transparent' }} onPress={() => {
                                                     setModalVisible(false);
                                                     navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
                                                 }} style={{ marginBottom: 10, margin: 2, backgroundColor: "white" }}>
@@ -156,8 +164,8 @@ const PatientProfile = ({ navigation }) => {
                                                 </Card>
                                             }
 
-                                        </Animatable.View>
-                                    </ScrollView>
+                                        </View>
+                                    </>
                                 )}
                                 onEndReachedThreshold={0.1}
                                 onEndReached={() => {
@@ -166,7 +174,7 @@ const PatientProfile = ({ navigation }) => {
                             />
                         </View>
                         :
-                        <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 25 }}>
+                        <View style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 25 }}>
                             <Text style={{ textAlign: "center", fontSize: 22, marginVertical: 2 }} >Relatórios disponiveis</Text>
 
                             <Button
@@ -197,7 +205,7 @@ const PatientProfile = ({ navigation }) => {
                                 Relatório de alta
                             </Button>
 
-                        </ScrollView>
+                        </View>
                     }
                 </Sheet.Frame>
             </Sheet>
@@ -217,11 +225,11 @@ const PatientProfile = ({ navigation }) => {
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação/Evolução fonoaudiológica
                     </Button>
-                    
+
                     <Button buttonColor='#36B3B9' icon="clipboard" mode="contained" onPress={getPdf} style={{ marginBottom: 10 }}>
-                       Orientação ao paciente-familiares
+                        Orientação ao paciente-familiares
                     </Button>
-                    
+
                     <Button icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={20} />} buttonColor={colorPrimary} mode='contained' onPress={() => {
                         setFirstModal(false)
                         setModalVisible(true)
@@ -231,15 +239,15 @@ const PatientProfile = ({ navigation }) => {
 
                 <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário</Text>
 
-                <View >
+                <View style={{ paddingBottom: 50 }} >
                     <Card onPress={() => {
                         if (protocols?.meta?.total) {
                             setFirstModal(true)
                             setModalVisible(true)
                         }
-                    }} style={{ marginBottom: 10, backgroundColor:"white"}}>
+                    }} style={{ marginBottom: 10, backgroundColor: "white" }}>
                         <Card.Title style={{}} title={`${protocols?.meta?.total ? protocols?.meta?.total + " Sessões" : "Nenhuma sessão"}`
-                        } left={(props) => !protocols?.meta?.total ? <AntDesign name='closecircleo' size={30} color={ "black"} /> :
+                        } left={(props) => !protocols?.meta?.total ? <AntDesign name='closecircleo' size={30} color={"black"} /> :
                             <AntDesign name='sharealt' size={30} color={colorPrimary} />} />
                     </Card>
                 </View>
@@ -254,7 +262,7 @@ const PatientProfile = ({ navigation }) => {
                 }} style={{ marginTop: 10 }}>
                     Iniciar sessão
                 </Button>
-              
+
             </View>
         </View>
     );

@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Pressable, Linking, StyleSheet, Alert, Platform } from 'react-native';
+import { View, Pressable, Linking, StyleSheet, Alert, Platform, Text } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import CustomText from '../../components/customText';
 import { colorPrimary } from '../../style/ColorPalette';
 
 const Help = () => {
@@ -51,17 +50,17 @@ const Help = () => {
 
   return (
     <View style={styles.container}>
-      <CustomText style={styles.title}>Fale Conosco</CustomText>
-      <CustomText style={styles.description}>Estamos aqui para ajudar. Escolha uma das opções abaixo para entrar em contato.</CustomText>
+      <Text style={styles.title}>Fale Conosco</Text>
+      <Text style={styles.description}>Estamos aqui para ajudar. Escolha uma das opções abaixo para entrar em contato.</Text>
       
       <Pressable style={[styles.button, {backgroundColor:colorPrimary}]} onPress={handlePressWhatsAppMessage}>
         <Ionicons name="logo-whatsapp" size={20} color="white" />
-        <CustomText style={styles.buttonText}>WhatsApp</CustomText>
+        <Text style={styles.buttonText}>WhatsApp</Text>
       </Pressable>
 
       <Pressable style={[styles.button, {backgroundColor:colorPrimary}]} onPress={handlePressEmail}>
         <MaterialIcons name="email" size={20} color="white" />
-        <CustomText style={styles.buttonText}>E-mail</CustomText>
+        <Text style={styles.buttonText}>E-mail</Text>
       </Pressable>
     </View>
   );

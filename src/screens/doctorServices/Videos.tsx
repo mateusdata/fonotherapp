@@ -15,6 +15,7 @@ import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useIsFocused } from '@react-navigation/native';
 import LinearCustomGradient from '../../components/LinearCustomGradient';
+import { heightPercentage } from '../../utils/widthScreen';
 
 export default function Videos({ navigation }) {
   const [page, setPage] = useState(1);
@@ -160,21 +161,21 @@ export default function Videos({ navigation }) {
         open={modalVisible}
         dismissOnSnapToBottom
         animation="medium"
-
         onOpenChange={onOpenChange}
-        snapPoints={[85]}
+        snapPointsMode="mixed"
+        snapPoints={['fit', "40%"]}
 
       >
 
 
         <Sheet.Overlay />
 
-        <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+        <Sheet.Frame maxHeight={heightPercentage} style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
           <LinearCustomGradient />
           <HeaderSheet />
 
 
-          <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
+          <ScrollView contentContainerStyle={{ paddingBottom: 100 }} style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
             <Text style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</Text>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
 

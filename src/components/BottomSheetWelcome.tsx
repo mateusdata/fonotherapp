@@ -18,7 +18,7 @@ export default function BottomSheetWelcome({ size }: any) {
   }, [])
   return (
     <Sheet
-      modal={Platform.OS === "ios" ? false : true}
+      modal
       open={showSheetWelcome}
       dismissOnSnapToBottom
       animation="medium"

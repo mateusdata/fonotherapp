@@ -9,7 +9,6 @@ import { api } from '../../config/Api';
 import { colorRed, colorSecundary } from '../../style/ColorPalette';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
-import CustomText from '../../components/customText';
 import { videoUrl } from '../../utils/videoUrl';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import LinearCustomGradient from '../../components/LinearCustomGradient';
@@ -104,13 +103,14 @@ const CurrentProtocol = ({ navigation, route }) => {
             </View>
 
             <Sheet
-                modal={Platform.OS === "ios" ? false : true}
+                modal
                 open={modalVisible}
                 dismissOnSnapToBottom
                 animation="medium"
                 native
                 onOpenChange={onOpenChange}
-                snapPoints={[85]}
+                snapPointsMode="mixed"
+                snapPoints={['fit', "40%"]}
 
             >
 
@@ -124,7 +124,7 @@ const CurrentProtocol = ({ navigation, route }) => {
 
                     <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
 
-                        <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
+                        <Text style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</Text>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
 
                             <VideoView
@@ -141,14 +141,14 @@ const CurrentProtocol = ({ navigation, route }) => {
 
 
                         <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
-                            {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
-                            <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
+                            {selectedVideo?.description && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</Text>}
+                            <Text style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</Text>
 
-                            {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
-                            <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{JSON.stringify(selectedVideo?.objective)}</CustomText>
+                            {selectedVideo?.objective && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</Text>}
+                            <Text style={{ textAlign: "justify", fontSize: 15 }}>{JSON.stringify(selectedVideo?.objective)}</Text>
 
-                            {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
-                            <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
+                            {selectedVideo?.academic_sources && <Text style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</Text>}
+                            <Text  style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</Text>
                         </View>
 
                     </ScrollView>

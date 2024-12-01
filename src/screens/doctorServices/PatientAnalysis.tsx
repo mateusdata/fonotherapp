@@ -6,7 +6,7 @@ import { z } from "zod";
 import { useFocusEffect } from '@react-navigation/native';
 import { ContextGlobal } from '../../context/GlobalContext'
 import { api } from '../../config/Api'
-import CustomText from '../../components/customText'
+
 import { colorPrimary } from '../../style/ColorPalette'
 import { ContextPacient } from "../../context/PacientContext";
 import LoadingComponent from "../../components/LoadingComponent";
@@ -125,7 +125,7 @@ const PatientAnalysis = ({ navigation }) => {
                   }))}
                   value={selectedAnswers[question.que_id]?.value ?? null}
                 >
-                  <CustomText fontFamily="Poppins_500Medium">{question.name}</CustomText>
+                  <Text >{question.name}</Text>
                   {question?.alternatives?.map((alternative, alternativeIndex) => (
                     <RadioButton.Item
                       key={alternativeIndex}

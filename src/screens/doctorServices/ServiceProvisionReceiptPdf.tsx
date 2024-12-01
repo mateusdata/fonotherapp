@@ -10,7 +10,7 @@ import { Context } from '../../context/AuthProvider'
 import { ContextGlobal } from '../../context/GlobalContext'
 import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
-import CustomText from '../../components/customText'
+
 import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette'
 import ErrorMessage from '../../components/errorMessage'
 import { ContextPacient } from '../../context/PacientContext';
@@ -60,12 +60,12 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
   return (
     <KeyboardView style={{ padding: 10 }}>
       <View >
-        <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
+        <Text  style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
           Recibo de prestação de serviço de
-        </CustomText>
-        <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
+        </Text>
+        <Text  style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
           {pacient.name}
-        </CustomText>
+        </Text>
       </View>
       <View>
 

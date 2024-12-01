@@ -12,7 +12,7 @@ import { Context } from '../../context/AuthProvider'
 import { ContextGlobal } from '../../context/GlobalContext'
 import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
-import CustomText from '../../components/customText'
+
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
 import ErrorMessage from '../../components/errorMessage'
 import LabelInput from '../../components/LabelInput'
@@ -66,9 +66,9 @@ const MonitoringReportPdf = ({ route }: any) => {
     return (
         <KeyboardView>
         <ScrollView style={{ padding: 10, }}>
-            <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
+            <Text  style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
                 Relatório de acompanhamento do paciente   {pacient.person.name}
-            </CustomText>
+            </Text>
 
             <View>
 

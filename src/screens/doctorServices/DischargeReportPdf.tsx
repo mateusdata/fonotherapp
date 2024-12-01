@@ -14,7 +14,7 @@ import { ContextGlobal } from '../../context/GlobalContext';
 import ErrorMessage from '../../components/errorMessage';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import downloadPDF from '../../utils/downloadPDF';
-import CustomText from '../../components/customText'
+
 import LabelInput from '../../components/LabelInput'
 import KeyboardView from '../../components/KeyboardView'
 
@@ -83,12 +83,12 @@ const DischargeReportPdf = ({ route }: any) => {
     <KeyboardView>
       <ScrollView style={{ padding: 10 }}>
         <View >
-          <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
+          <Text  style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
             Relatório de alta do paciente
-          </CustomText>
-          <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
+          </Text>
+          <Text  style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
             {pacient.person.name}
-          </CustomText>
+          </Text>
         </View>
 
         <View>

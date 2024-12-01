@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { Button, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import CustomText from '../../components/customText';
 import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../context/AuthProvider';
 import TabsNavigation from './tabNavigation/tabNavigation';

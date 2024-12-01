@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup"
 
 import { api } from '../../config/Api';
-import CustomText from '../../components/customText';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { Context } from '../../context/AuthProvider';
@@ -16,13 +15,15 @@ import { colorPrimary } from '../../style/ColorPalette';
 import { WelcomeNotification } from '../../utils/WelcomeNotification copy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getUser } from '../../utils/getUser';
+import Icon from 'react-native-vector-icons/Feather'; // Ícone do olho
 
 
 
 const CreateAccount = ({ navigation }: any) => {
 
-  const { setUser, setAccessToken, setLoadingAuth, setShowSheetWelcome} = useContext(Context);
+  const { setUser, setAccessToken, setLoadingAuth, setShowSheetWelcome } = useContext(Context);
   const [loading, setLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false); // Controla a visibilidade da senha
 
   const schema = yup.object({
     nick_name: yup
@@ -71,11 +72,11 @@ const CreateAccount = ({ navigation }: any) => {
       setLoadingAuth(false);
       setShowSheetWelcome(true)
 
-     // WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à fonotherApp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
+      // WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à fonotherApp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
       reset();
     } catch (error) {
       setLoadingAuth(false);
-;
+      ;
 
       if (error.response) {
         setError("password", { message: "Ocorreu um error" })
@@ -102,11 +103,11 @@ const CreateAccount = ({ navigation }: any) => {
         end={{ x: 1, y: 1 }}
         style={styleGradient.background}
       />
-              <ScrollView style={{width:"100%"}}>
+      <ScrollView style={{ width: "100%" }}>
 
-      <View style={styles.contentContainer}>
+        <View style={styles.contentContainer}>
           <View style={{ gap: 10, marginTop: 10 }}>
-            <CustomText fontFamily='Poppins_300Light' style={{
+            <Text  style={{
               fontSize: 25,
               marginBottom: 0,
               marginTop: 0,
@@ -114,7 +115,7 @@ const CreateAccount = ({ navigation }: any) => {
               textAlign: "center"
             }}>
               Criar conta
-            </CustomText>
+            </Text>
 
           </View>
           <View style={styles.inputContainer}>
@@ -159,29 +160,40 @@ const CreateAccount = ({ navigation }: any) => {
 
             <ErrorMessage name={"email"} errors={errors} />
 
-            <LabelInput value='Senha' />
-            <Controller control={control} rules={
-              {
-                required: 'Obrigatório', maxLength: { value: 40, message: "Nome muito grande" },
-                minLength: { value: 5, message: "Informe uma senha maior" },
-              }}
-              render={({ field: { onChange, onBlur, value, } }) => (
-                <TextInput
-                  dense
-                  testID='password'
-                  mode="outlined"
-                  activeOutlineColor={colorPrimary}
-                  error={!!errors.password}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  secureTextEntry
-                />
-              )}
-              name="password"
-            />
+            <View>
 
-            <ErrorMessage name={"password"} errors={errors} />
+              <LabelInput value='Senha' />
+              <Controller control={control} rules={
+                {
+                  required: 'Obrigatório', maxLength: { value: 40, message: "Nome muito grande" },
+                  minLength: { value: 5, message: "Informe uma senha maior" },
+                }}
+                render={({ field: { onChange, onBlur, value, } }) => (
+                  <TextInput
+                    dense
+                    testID='password'
+                    mode="outlined"
+                    activeOutlineColor={colorPrimary}
+                    error={!!errors.password}
+                    onBlur={onBlur}
+                    secureTextEntry={!passwordVisible}
+                    onChangeText={onChange}
+                    value={value}
+                    right={ watch("password") && <TextInput.Icon 
+                      icon={passwordVisible ? "eye-off" : "eye"} 
+                      onPress={() => setPasswordVisible(!passwordVisible)} 
+                    />
+                   }
+
+                  />
+                )}
+                name="password"
+              />
+
+              <ErrorMessage name={"password"} errors={errors} />
+
+
+            </View>
 
             <Button
               testID='create-account'
@@ -205,7 +217,7 @@ const CreateAccount = ({ navigation }: any) => {
               <Text style={styles.linkText}>Fazer login</Text>
             </Pressable>
           </View>
-      </View>
+        </View>
       </ScrollView>
 
     </View>
@@ -231,8 +243,7 @@ const styles = StyleSheet.create({
     padding: 5,
     top: 15
   },
-  titleText: {
-    fontFamily: "Poppins_800ExtraBold",
+  titleText: {   
     fontSize: 25,
     marginBottom: 0,
     marginTop: 0,
@@ -249,13 +260,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 15,
   },
-  footerText: {
-    fontFamily: "Poppins_600SemiBold",
+  footerText: {   
     color: "gray",
   },
-  linkText: {
-    fontFamily: "Poppins_600SemiBold",
+  linkText: {   
     color: "#407AFF",
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 12,
   },
 });
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native-animatable';
 import { Image,  StyleSheet, Text } from 'react-native';
-const NotFouundGIf = require("../assets/images/notFound.gif");
 
 export default function NotFoudMessageList() {
     return (

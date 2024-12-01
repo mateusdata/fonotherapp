@@ -26,6 +26,8 @@ const PublicRoutes = () => {
           },
           headerBackTitle: "",
           animation: Platform.OS === "ios" ? "fade_from_bottom" : "slide_from_right",
+          headerTitleAlign: "center"
+
         }}>
         <AppStack.Screen name="PreLogin" component={PreLogin} options={{
           headerShown: false,

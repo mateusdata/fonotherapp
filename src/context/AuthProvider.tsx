@@ -56,7 +56,9 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoadingAuth(true)
             setUser(null);
             setAccessToken(null);
-            await AsyncStorage.clear()
+            await AsyncStorage.removeItem("pacientes")
+            await AsyncStorage.removeItem("usuario")
+
             setLoadingAuth(false)
 
         } catch (error) {

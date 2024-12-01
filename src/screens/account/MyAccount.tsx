@@ -4,6 +4,7 @@ import { MaterialIcons, SimpleLineIcons, MaterialCommunityIcons, FontAwesome5, F
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../../context/AuthProvider';
 import { colorPrimary, colorRed } from '../../style/ColorPalette';
+import UploadAvatar from '../../components/UploadAvatar';
 
 const MyAccount = ({ navigation }) => {
   const { logOut, user } = useContext(Context);
@@ -19,7 +20,7 @@ const MyAccount = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+    {false &&   <View style={styles.header}>
         {!google?.photo ? (
           <FontAwesome6 name="user-doctor" size={56} color={colorPrimary} />
         ) : (
@@ -28,6 +29,11 @@ const MyAccount = ({ navigation }) => {
         <Text style={styles.userName}>
           {user?.person.name?.charAt(0)?.toUpperCase() + user?.person.name?.slice(1)}
         </Text>
+      </View>}
+
+
+      <View style={styles.header}>
+       <UploadAvatar user={user}/>
       </View>
 
       <View style={styles.menuContainer}>

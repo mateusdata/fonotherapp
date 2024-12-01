@@ -78,7 +78,7 @@ const Login = ({ navigation }: any) => {
             }
 
             if (error?.response?.status === 400) {
-                return setError("password", { message: "Usuário ou senha incorretos,  tente novamente ou clique em 'Recuperar senha’ " });
+                return setError("password", { message: "Usuário ou senha incorretos, tente novamente ou clique em 'Recuperar senha’ " });
             }
 
             setLoading(false);
@@ -232,7 +232,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     buttonText: {
-        fontFamily: "Poppins_800ExtraBold",
         color: '#f4f4f4',
     },
     inputContainer: {

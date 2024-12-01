@@ -20,7 +20,7 @@ import { FormatPacient } from '../../interfaces/globalInterface';
 const schema = yup.object({
   name: yup.string().required('O nome é obrigatório'),
   cpf: yup.string().optional(),
-  additional_information: yup.string().optional(),
+  additional_information: yup.string().nullable().optional(),
   birthday: yup
     .string()
     .transform((value, originalValue) => {
@@ -84,7 +84,6 @@ const PatientUpdate = ({ navigation }) => {
       };
 
       const response = await api.put(`/pacient/${pac_id}`, formattedData);
-      alert(JSON.stringify(response.data, null, 2))
       fetchData();
       vibrateFeedback()
       Alert.alert("Paciente", 'atualizado com sucesso!');

@@ -49,6 +49,7 @@ const FrequentlyAskedQuestions = () => {
         key={index}
         title={item.question}
         titleStyle={{ color: expandedIndex === index ? "#2a7c6c" : "black" }}
+        titleNumberOfLines={8}
         style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
         left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === index ? "#2a7c6c" : "black"} size={24} />}
         expanded={expandedIndex === index}

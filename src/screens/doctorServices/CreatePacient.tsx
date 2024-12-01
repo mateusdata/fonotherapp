@@ -50,14 +50,12 @@ const CreatePacient = ({ navigation }) => {
       setValue("cpf", cpf);
       setValue("name", names[Math.floor(Math.random() * names.length)]);
       setValue("birthday", "20/10/1998");
-      setValue("additional_information", "Informações adicionais");
+      // setValue("additional_information", "Informações adicionais");
     }
 
   }, []);
   const today = new Date();
   const twoYearsAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
-
-
 
   const schema = yup.object({
     name: yup
@@ -89,7 +87,8 @@ const CreatePacient = ({ navigation }) => {
       .required("Obrigatório"),
 
     last_name: yup.string(),
-    additional_information: yup.string().optional()
+    additional_information: yup.string().nullable().optional()
+
   }).required();
 
   const { reset, handleSubmit, watch, setValue, formState: { errors }, control, setError } = useForm({
@@ -106,7 +105,7 @@ const CreatePacient = ({ navigation }) => {
 
 
   const onSubmit = async (data) => {
-
+    //return alert(JSON.stringify(data, null, 2))
     try {
       /*
       if (!cpf.isValid(data.cpf)) {
@@ -206,7 +205,7 @@ const CreatePacient = ({ navigation }) => {
             disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
             Próximo
           </Button>
-          
+
         </View>
 
       </ScrollView>

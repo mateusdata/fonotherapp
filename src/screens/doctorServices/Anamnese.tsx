@@ -54,12 +54,12 @@ const Anamnese = ({ navigation, pacient, setShowToast }: FormatAnamnese) => {
   const [isFocusEducation, setIsFocusEducation] = useState(false);
 
   const schema = yup.object({
-    education: yup.string().optional(),
+    education: yup.string().nullable().optional(),
     base_diseases: yup.string().required("Obrigatorio"),
     food_profile: yup.string().required("Obrigatorio"),
     chewing_complaint: yup.string().required("Obrigatorio"),
     consultation_reason: yup.string().required("Obrigatorio"),
-    current_food_intake_method: yup.string().optional(),
+    current_food_intake_method: yup.string().nullable().optional(),
 
   }).required();
 

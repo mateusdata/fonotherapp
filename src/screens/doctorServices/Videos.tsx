@@ -173,7 +173,7 @@ export default function Videos({ navigation }) {
           <LinearCustomGradient />
           <HeaderSheet />
 
-        
+
           <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
             <Text style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</Text>
             <View style={{ justifyContent: "center", alignItems: "center" }}>

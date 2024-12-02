@@ -50,8 +50,22 @@
           "supportsBackgroundPlayback": true,
           "supportsPictureInPicture": true
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
       ]
     ],
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "@expo-google-fonts/poppins",
+          "tamagui"
+        ]
+      }
+    },
     "extra": {
       "eas": {
         "projectId": "8cf0d8e1-f5d4-443c-9b8b-9045da5263d4"

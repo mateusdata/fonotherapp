@@ -222,7 +222,7 @@ const PatientProfile = ({ navigation }) => {
                         Informação Cadastral
                     </Button>
 
-                    <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
+                    <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("PatientOverview") }} style={{ marginBottom: 10 }}>
                         Avaliação/Evolução fonoaudiológica
                     </Button>
 

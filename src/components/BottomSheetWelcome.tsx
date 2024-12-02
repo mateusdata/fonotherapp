@@ -16,6 +16,7 @@ export default function BottomSheetWelcome({ size }: any) {
        setShowSheetWelcome(false)
     }, 8000);
   }, [])
+  
   return (
     <Sheet
       modal

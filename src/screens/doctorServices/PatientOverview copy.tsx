@@ -20,7 +20,7 @@ import Toast from '../../components/toast';
 import KeyboardView from '../../components/KeyboardView';
 import Anamnese from './Anamnese';
 
-const AnsweredQuestions = ({ navigation }) => {
+const PatientOverview = ({ navigation }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
@@ -141,9 +141,6 @@ const AnsweredQuestions = ({ navigation }) => {
   };
 
 
-
-
-
   if (!pacient && !pacient?.person && !pacient?.name && !pacient?.questionnaires) {
     return <SkelectonView />
   }
@@ -223,7 +220,7 @@ const AnsweredQuestions = ({ navigation }) => {
   );
 };
 
-export default AnsweredQuestions;
+export default PatientOverview;
 
 const styles = StyleSheet.create({
   container: {

@@ -19,7 +19,6 @@ import PacientUnansweredQuestions from '../../screens/doctorServices/PacientUnan
 import PatientProfile from '../../screens/doctorServices/PatientProfile';
 import PatientInfo from '../../screens/doctorServices/PacientInfo';
 import AccompanyPatient from '../../screens/doctorServices/AccompanyPatient';
-import AnsweredQuestions from '../../screens/doctorServices/AnsweredQuestions';
 import Section from '../../screens/doctorServices/Section';
 import CurrentProtocol from '../../screens/doctorServices/CurrentProtocol';
 import ServiceProvisionReceiptPdf from '../../screens/doctorServices/ServiceProvisionReceiptPdf';
@@ -47,6 +46,9 @@ import EditNoticeBoardScreen from '../../screens/calendar/EditNoticeBoardScreen'
 import PacientEvolution from '../../screens/doctorServices/PacientEvolution';
 import ListPacientEvolution from '../../screens/doctorServices/ListPacientEvolution';
 import EditEvolutionScreen from '../../screens/doctorServices/EditEvolutionScreen';
+import PatientOverview from '../../screens/doctorServices/PatientOverview';
+import StructuralAnalysisUpdate from '../../screens/doctorServices/StructuralAnalysisUpdate';
+import FunctionalAnalysisUpdate from '../../screens/doctorServices/FunctionalAnalysisUpdate';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
@@ -75,9 +77,9 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{ headerTitle: "Cadastrar paciente", headerTitleAlign: "center" }} />
         <AppStack.Screen name='Anamnese' component={Anamnese} options={{ headerTitleAlign: "center" }} />
         <AppStack.Screen name='MyInformation' component={MyInformation} options={{ headerTitleAlign: "center", headerTitle: "Minhas informações" }} />
-        <AppStack.Screen name='ChangeName' component={ChangeName} options={{ headerTitleAlign: "center", headerTitle: "Alterar nome", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
-        <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerTitleAlign: "center", headerTitle: "Alterar email", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
-        <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerTitleAlign: "center", headerTitle: "Alterar senha",presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeName' component={ChangeName} options={{ headerTitleAlign: "center", headerTitle: "Alterar nome", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerTitleAlign: "center", headerTitle: "Alterar email", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerTitleAlign: "center", headerTitle: "Alterar senha", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Consultancy' component={Consultancy} options={{ headerTitleAlign: "center", headerTitle: "Consultoria" }} />
 
@@ -89,7 +91,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='PatientProfile' component={PatientProfile} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
-        <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
+        <AppStack.Screen name='PatientOverview' component={PatientOverview} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
         <AppStack.Screen name='Section' component={Section} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Sessão" }} />
         <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
         <AppStack.Screen name='PacientEvolution' component={PacientEvolution} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Evolução do paciente" }} />
@@ -109,8 +111,8 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
 
         <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{ headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
-        <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerTitleAlign: "center", headerTitle: "Meu CRFA", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
-        <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{ headerTitleAlign: "center", headerTitle: "Meu Telefone", presentation:"modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerTitleAlign: "center", headerTitle: "Meu CRFA", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
+        <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{ headerTitleAlign: "center", headerTitle: "Meu Telefone", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
 
         <AppStack.Screen name='UpdatePacient' component={UpdatePacient} options={{ headerTitleAlign: "center", headerTitle: "Atualizar paciente" }} />
 
@@ -151,7 +153,6 @@ const PrivateRoutes = () => {
         }} />
 
         <AppStack.Screen name='MyAgenda' component={MyAgenda} options={{ headerTitleAlign: "center", headerTitle: "Agenda" }} />
-
         <AppStack.Screen name='AddNoticeBoardScreen' component={AddNoticeBoardScreen} options={{
 
           headerTitleAlign: "center",
@@ -180,8 +181,12 @@ const PrivateRoutes = () => {
 
         }} />
 
+        {/*Rotas de atualização das analises funcional e estrutural */}
 
-
+        <AppStack.Screen name='StructuralAnalysisUpdate' component={StructuralAnalysisUpdate} options={{ headerTitleAlign: "center", headerTitle: "Atualização de analise estrutural" }} />
+        <AppStack.Screen name='FunctionalAnalysisUpdate' component={FunctionalAnalysisUpdate} options={{ headerTitleAlign: "center", headerTitle: "Atualização de analise funcional" }} />
+        
+        
 
       </AppStack.Navigator>
     </>

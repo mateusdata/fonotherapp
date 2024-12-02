@@ -1,8 +1,8 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { ActivityIndicator, Button, List } from 'react-native-paper';
-import { Keyboard, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Avatar, Button, Card, IconButton, List } from 'react-native-paper';
+import { Keyboard, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as  Animatable from "react-native-animatable"
 import { Sheet } from 'tamagui';
@@ -20,7 +20,77 @@ import Toast from '../../components/toast';
 import KeyboardView from '../../components/KeyboardView';
 import Anamnese from './Anamnese';
 
-const PatientOverview = ({ navigation }) => {
+
+import { MD3Colors, } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
+
+const MyComponent = ({ navigation, pacient }) => (
+  <View style={styles2.container}>
+    <List.Section style={{ gap: 12 }}>
+      <List.Subheader style={styles2.subheader}>Quadro atual</List.Subheader>
+      <Pressable onPress={() => navigation.navigate("Anamnese", { pacient: pacient })}>
+        <Card.Title
+          title="Anamnese"
+          style={{ backgroundColor: "#E8E8E8", borderWidth: 0, padding: 12, borderRadius: 12, }}
+          left={(props) => <Avatar.Icon {...props} color={colorPrimary} style={{ backgroundColor: "", }} icon="hospital" />}
+          right={(props) => <AntDesign name="right" style={{}} color={colorPrimary} size={22} />}
+        />
+      </Pressable>
+       
+
+      <Pressable onPress={() => navigation.navigate("StructuralAnalysisUpdate", { pacient: pacient })}>
+        <Card.Title
+          title="Avaliação estrutural"
+          style={{ backgroundColor: "#E8E8E8", borderWidth: 0, padding: 12, borderRadius: 12, }}
+          left={(props) => <Avatar.Icon {...props} color={colorPrimary} style={{ backgroundColor: "", }} icon="doctor" />}
+          right={(props) => <AntDesign name="right" style={{}} color={colorPrimary} size={22} />}
+        />
+      </Pressable>
+
+      <Pressable onPress={() => navigation.navigate("FunctionalAnalysisUpdate", { pacient: pacient })}>
+
+        <Card.Title
+          title="Avaliação funcional"
+          style={{ backgroundColor: "#E8E8E8", borderWidth: 0, padding: 12, borderRadius: 12, }}
+          left={(props) => <Avatar.Icon {...props} color={colorPrimary} style={{ backgroundColor: "", }} icon="thermometer" />}
+          right={(props) => <AntDesign name="right" style={{}} color={colorPrimary} size={22} />}
+        />
+      </Pressable>
+
+    </List.Section>
+  </View>
+);
+
+const styles2 = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 0,
+    backgroundColor: 'white',
+    gap: 2
+  },
+  subheader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    gap: 120
+  },
+  item: {
+    paddingVertical: 16,
+    marginVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDD',
+  },
+  title: {
+    fontSize: 20,
+    color: colorPrimary
+  },
+});
+
+
+
+
+
+const AnsweredQuestions = ({ navigation }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
@@ -32,17 +102,20 @@ const PatientOverview = ({ navigation }) => {
   const [questionnaireId, setQuestionareId] = useState<number>(null)
   const [snapPoints, setSnapPoints] = useState<number>(65)
 
+
+  const fetchData = async () => {
+    const response = await api.get(`/pacient/${pac_id}`);
+    setPacient(response.data);
+
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [pac_id, showToast])
+  );
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get(`/pacient/${pac_id}`);
-      setPacient(response.data);
-
-    };
-    fetchData();
-  }, [pac_id, showToast]);
-
-  useEffect(() => {
-
     fetchQuestionnaire();
   }, [pac_id]);
 
@@ -51,9 +124,9 @@ const PatientOverview = ({ navigation }) => {
     try {
       setLoading(true);
       const response: any = await api.get(`/generate-report/${pac_id}`)
-     
+
       const getPdf = await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
-     
+
 
 
     } catch (error) {
@@ -101,47 +174,14 @@ const PatientOverview = ({ navigation }) => {
     }
   };
 
-  const renderQuestions = (questions) => {
-    return questions.map((question) => (
-      <View key={question.que_id} style={{ right: 0, padding: 10, }}>
-        {false && <Text>{JSON.stringify(questions, null, 2)}</Text>}
-        <Text style={{ flex: 1, fontSize: 18 }}>{question.name}</Text>
-        <View style={{ alignItems: 'flex-start', flexDirection:"column"}}>
-          {question.alternatives.map((alternative, index) => {
-            const isSelected = question.answer && alternative === question.answer.alternative;
-            return (
-              <Pressable
-                key={index}
-                style={{ marginRight: 10, right: 7, top: 8, padding:10, borderRadius: 10, backgroundColor: isSelected ? colorGreen : '#fff' }}
-                onPress={() => handleAnswerClick(question.que_id, alternative)}
-              >
-                <Text style={{ color: isSelected ? '#fff' : '#007bff', fontSize:18 }}>{alternative}</Text>
-                
-              </Pressable>
-            );
-          })}
-        </View>
-      </View>
-    ));
-  };
-
-  const renderAnamnese = () => {
-    return (
-       <Anamnese  pacient={pacient} setShowToast={setShowToast}/>
-    );
-  };
 
 
-  const handleAccordionPress = (index) => {
-    if (expandedIndex === index) {
-      setExpandedIndex(null);
-    } else {
-      setExpandedIndex(index);
-    }
-  };
 
 
-  if (!pacient && !pacient?.person && !pacient?.name && !pacient?.questionnaires) {
+
+
+
+  if (loading && !pacient && !pacient?.person && !pacient?.name && !pacient?.questionnaires) {
     return <SkelectonView />
   }
 
@@ -149,7 +189,7 @@ const PatientOverview = ({ navigation }) => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <Text> {false && JSON.stringify(answered, null, 2)}
         </Text>
 
@@ -164,7 +204,7 @@ const PatientOverview = ({ navigation }) => {
 
 
 
-          <Pressable onPress={() => navigation.navigate("PacientEvolution", {pac_id:pac_id})}>
+          <Pressable onPress={() => navigation.navigate("PacientEvolution", { pac_id: pac_id })}>
             <Button buttonColor={colorPrimary} mode='elevated' textColor='white' >
               Evolução Diária
             </Button>
@@ -172,47 +212,10 @@ const PatientOverview = ({ navigation }) => {
 
         </View>
 
-        {loading && <ActivityIndicator size="small" color={colorPrimary} />}
+        <MyComponent navigation={navigation} pacient={pacient} />
 
 
-        <List.Section title='Perguntas respondidas' titleStyle={{ color: "black", fontSize: 15, right: 10 }} style={{ gap: 0, }}>
-          <List.Accordion
-            title="Anamnese"
-            titleStyle={{ color: expandedIndex === 0 ? colorGreen : "#2a7c6c" }}
-            style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
-            left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === 0 ? colorGreen : "#2a7c6c"} size={24} />}
-            expanded={expandedIndex === 0}
-            onPress={() => handleAccordionPress(0)}>
-            {renderAnamnese()}
-          </List.Accordion>
-
-          <ScrollView >
-            {answered && answered.map((item, index) => (
-              <List.Accordion
-                key={index + 1}
-                titleStyle={{ color: expandedIndex === index + 1 ? colorGreen : "#2a7c6c" }}
-
-                title={item.name}
-                style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
-                left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === index + 1 ? colorGreen : "#2a7c6c"} size={24} />}
-                expanded={expandedIndex === index + 1}
-                onPress={() => {
-                  setQuestionareId(item?.qus_id)
-                  handleAccordionPress(index + 1)
-                }}>
-                {item.sections.map((section) => (
-                  <ScrollView style={{ width: "100%", right: 22, }} key={section.qhs_id}>
-                    {renderQuestions(section.questions)}
-                  </ScrollView>
-                ))}
-              </List.Accordion>
-            ))}
-          </ScrollView>
-
-        </List.Section>
-
-       
-      </ScrollView>
+      </View>
 
       <Toast visible={showToast} mensage={"Anamnese atualizada"} setVisible={setShowToast} />
 
@@ -220,13 +223,13 @@ const PatientOverview = ({ navigation }) => {
   );
 };
 
-export default PatientOverview;
+export default AnsweredQuestions;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    padding: 5,
+    padding: 10
   },
   anamneseContainer: {
     padding: 10,
@@ -260,3 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+
+
+

@@ -103,14 +103,15 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
       <View style={styles.container}>
         <Pressable onPress={() => setIsSheetOpen(true)} style={styles.avatarContainer}>
           {image ? (
-            <Avatar.Image size={150} source={{ uri: image }} />
+            <Avatar.Image size={125} source={{ uri: image }} />
           ) : (
-            <Avatar.Text size={150} label={user?.person.name?.charAt(0)?.toUpperCase()} />
+            <Avatar.Text size={125} label={user?.person.name?.charAt(0)?.toUpperCase()} />
           )}
           <Pressable style={styles.cameraIcon} onPress={() => setIsSheetOpen(true)}>
             <MaterialCommunityIcons name="camera" size={28} color="#fff" />
           </Pressable>
         </Pressable>
+        <Text style={{textAlign:"center", fontSize:18, top:10}}>{ user?.person.name?.charAt(0)?.toUpperCase() + user?.person.name?.slice(1)}</Text>
       </View>
 
       <Sheet

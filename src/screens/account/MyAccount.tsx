@@ -20,17 +20,7 @@ const MyAccount = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-    {false &&   <View style={styles.header}>
-        {!google?.photo ? (
-          <FontAwesome6 name="user-doctor" size={56} color={colorPrimary} />
-        ) : (
-          <Image source={{ uri: google.photo }} style={styles.avatar} />
-        )}
-        <Text style={styles.userName}>
-          {user?.person.name?.charAt(0)?.toUpperCase() + user?.person.name?.slice(1)}
-        </Text>
-      </View>}
-
+    
 
       <View style={styles.header}>
        <UploadAvatar user={user}/>

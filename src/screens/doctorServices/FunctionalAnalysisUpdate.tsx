@@ -1,11 +1,13 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
 export default function FunctionalAnalysisUpdate() {
 
   return (
     <View>
-      Analise Estrutural
+     <Text>
+     Analise Estrutural
+     </Text>
     </View>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text, Alert, Platform, ToastAndroid } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -17,6 +17,7 @@ import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import KeyboardView from '../../components/KeyboardView';
 import { FormatPacient } from '../../interfaces/globalInterface';
+import Toast from '../../components/toast';
 
 
 interface FormatAnamnese {
@@ -46,14 +47,15 @@ const educationLevels = [
 
 
 
-const Anamnese = ({ navigation, pacient, setShowToast }: FormatAnamnese) => {
+const Anamnese = ({ navigation, route }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { setPac_id, setPacient, pac_id } = useContext(ContextPacient);
   const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
   const [isFocus, setIsFocus] = useState(false);
   const [isFocusEducation, setIsFocusEducation] = useState(false);
-
-  const schema = yup.object({
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const { pacient } = route?.params || {};
+    const schema = yup.object({
     education: yup.string().nullable().optional(),
     base_diseases: yup.string().required("Obrigatorio"),
     food_profile: yup.string().required("Obrigatorio"),
@@ -83,10 +85,17 @@ const Anamnese = ({ navigation, pacient, setShowToast }: FormatAnamnese) => {
       const response = await api.put(`/pacient/${pac_id}`, data);
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
+      setLoading(false);
       if (pacient) {
-        setShowToast(true)
-        setLoading(false);
+        if(Platform.OS==="android"){
+           ToastAndroid.show('Paciente atualizado!', ToastAndroid.LONG);
+        }
+        else{
+          Alert.alert("Paciente", "Atualizado com sucesso")
+        }
+        return
       }
+      
       navigation.navigate("PatientAnalysis");
       setLoading(false);
       reset();
@@ -102,8 +111,8 @@ const Anamnese = ({ navigation, pacient, setShowToast }: FormatAnamnese) => {
 
   return (
     <KeyboardView style={styles.container}>
+   
       <ScrollView style={styles.containerChildren}>
-
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <View style={styles.container2}>

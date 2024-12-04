@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
 import utc from 'dayjs/plugin/utc';
 import { useFocusEffect } from '@react-navigation/native';
+import { useAuth } from '../../context/AuthProvider'
 
 dayjs.extend(utc);
 

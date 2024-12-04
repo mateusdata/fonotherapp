@@ -5,9 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../../context/AuthProvider';
 import { colorPrimary, colorRed } from '../../style/ColorPalette';
 import UploadAvatar from '../../components/UploadAvatar';
+import { useAuth } from '../../context/AuthProvider';
+
 
 const MyAccount = ({ navigation }) => {
-  const { logOut, user } = useContext(Context);
+  const { logOut, user } = useAuth();
   const [google, setGoogle] = useState(null);
 
   useEffect(() => {

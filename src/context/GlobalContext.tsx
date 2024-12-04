@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useState, useEffect } from 'react';
+import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useState, useEffect, useContext } from 'react';
 
 
 
@@ -19,7 +19,7 @@ export const ContextGlobal = createContext<FormatGlobal>({} as FormatGlobal);
 const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
     const [thereSession, setThereSession] = useState<boolean>(false);
     const [isFromRegistration, setIsFromRegistration] = useState<boolean>(false);
-    const [isDevelopment, setIsdevelopment] = useState<boolean>(false);
+    const [isDevelopment, setIsdevelopment] = useState<boolean>(true);
     const [useBiometrics, setUseBiometrics] = useState<boolean>(false);
 
     // Recuperar o valor de useBiometrics do localStorage ao inicializar
@@ -56,3 +56,13 @@ const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
 }
 
 export default GlobalContext;
+
+const useGlobal = () => {
+    const context = useContext(ContextGlobal);;
+    if (!context) {
+        throw new Error("useGlobal must be used within a GlobalProvider");
+    }
+    return context;
+};
+
+export { useGlobal };

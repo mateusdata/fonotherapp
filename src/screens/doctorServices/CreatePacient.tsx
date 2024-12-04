@@ -10,11 +10,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import MaskInput, { Masks } from 'react-native-mask-input';
 import dayjs from 'dayjs';
 
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
-import { ContextGlobal } from '../../context/GlobalContext';
+import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 
@@ -22,10 +22,10 @@ import ErrorMessage from '../../components/errorMessage';
 
 const CreatePacient = ({ navigation }) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const { user } = useContext(Context);
+  const { user } = useAuth();
   const { setPac_id, setPacient } = useContext(ContextPacient);
   const formatCpf = cpf;
-  const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
+  const { isDevelopment, setIsdevelopment } = useGlobal();
   const [isFocus, setIsFocus] = useState(false);
 
 

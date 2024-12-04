@@ -11,13 +11,15 @@ import { AgendaNotification } from '../../utils/AgendaNotification';
 import 'dayjs/locale/pt-br';
 import { Button } from 'react-native-paper';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
+import { useAuth } from '../../context/AuthProvider';
+
 dayjs.locale('pt-br');
 
 const AddNoticeBoardScreen = ({ navigation }) => {
     const [isAllDay, setIsAllDay] = useState(true);
     const [title, setTitle] = useState('');
     const [details, setDetails] = useState('');
-    const { user } = useContext(Context);
+    const { user } = useAuth();
     const [loading, setLoading] = useState(false);
 
     const [newEvent, setNewEvent] = useState({

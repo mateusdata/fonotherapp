@@ -12,12 +12,13 @@ import 'dayjs/locale/pt-br';
 import { Button } from 'react-native-paper';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 dayjs.locale('pt-br');
+import { useAuth } from '../../context/AuthProvider';
 
 const AddEventScreen = ({ navigation }) => {
     const [isAllDay, setIsAllDay] = useState(true);
     const [title, setTitle] = useState('');
     const [details, setDetails] = useState('');
-    const { user } = useContext(Context);
+    const { user } = useAuth();
     const [newEvent, setNewEvent] = useState({
         title: "",
         date: new Date(),

@@ -4,7 +4,7 @@ import { View, ScrollView, Text, Alert, Platform } from "react-native";
 import { Button, RadioButton, TextInput } from "react-native-paper";
 import { z } from "zod";
 import { useFocusEffect } from '@react-navigation/native';
-import { ContextGlobal } from '../../context/GlobalContext'
+import { ContextGlobal, useGlobal } from '../../context/GlobalContext'
 import { api } from '../../config/Api'
 
 import { colorPrimary } from '../../style/ColorPalette'
@@ -23,7 +23,7 @@ const PatientAnalysis = ({ navigation }) => {
   const [selectedAnswers, setSelectedAnswers] = useState<any>({});
   const [nextQuestinnaire, setnextQuestinnaire] = useState(false);
   const [loading, setLoading] = useState<boolean>(false)
-  const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
+  const { setIsFromRegistration, isFromRegistration } = useGlobal();
 
 
 

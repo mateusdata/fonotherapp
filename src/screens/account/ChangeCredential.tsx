@@ -4,14 +4,14 @@ import { View, StyleSheet, Keyboard } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Context } from '../../context/AuthProvider';
+import { useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
 
 export default function ChangeCredential() {
-  const { user, setUser } = React.useContext(Context);
+  const { user, setUser } = useAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showToast, setShowToast] = React.useState<boolean>(false);
   const [currentPasswordVisible, setCurrentPasswordVisible] = React.useState(false);

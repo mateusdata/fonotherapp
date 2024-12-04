@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { Text, List, Divider } from 'react-native-paper';
 import { api } from '../../config/Api';
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { FlatList } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
 import LoadingComponent from '../../components/LoadingComponent';
@@ -11,7 +11,7 @@ import downloadPDF from '../../utils/downloadPDF';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
 
 export default function Finance({ navigation }) {
-    const { user, accessToken } = useContext(Context);
+    const { user, accessToken } = useAuth();
     const { setPac_id } = useContext(ContextPacient);
     const [sessionsHistory, setSessionsHistory] = useState([]);
     const [page, setPage] = useState(1);

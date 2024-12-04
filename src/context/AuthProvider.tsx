@@ -1,4 +1,4 @@
-import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
+import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingComponent from "../components/LoadingComponent";
 import { ContextProps, FormatUser } from "../interfaces/globalInterface";
@@ -98,4 +98,12 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 export default AuthProvider;
 
 
+const useAuth = () => {
+    const context = useContext(Context);
+    if (!context) {
+        throw new Error("useAuth must be used within a GlobalProvider");
+    }
+    return context;
+};
 
+export { useAuth };

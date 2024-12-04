@@ -3,9 +3,9 @@ import { View, ScrollView, StyleSheet, Dimensions, RefreshControl, Linking, Shar
 import { Button, Card, Title, Paragraph, Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
-import { ContextGlobal } from '../../context/GlobalContext';
+import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonSmall from '../../components/SkelectonSmall';
 import Toast from '../../components/toast';
@@ -18,11 +18,11 @@ const { width, height } = Dimensions.get('window');
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [totalPacient, setTotalPacient] = useState<any>('');
-  const { user } = useContext(Context);
+  const { user, } = useAuth();
   const { pac_id } = useContext(ContextPacient);
   const [mensageToast, setMensageToast] = useState<string>("");
-  const { setThereSession, thereSession } = useContext(ContextGlobal);
-  const { setIsFromRegistration } = useContext(ContextGlobal);
+  const { setThereSession, thereSession } = useGlobal();;
+  const { setIsFromRegistration } = useGlobal();;
 
   useFocusEffect(
     React.useCallback(() => {

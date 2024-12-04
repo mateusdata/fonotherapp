@@ -4,13 +4,13 @@ import HeaderSheet from './HeaderSheet';
 import { Sheet } from 'tamagui';
 import { FontAwesome } from '@expo/vector-icons'; // Certifique-se de que o pacote está instalado
 import { colorPrimary } from '../style/ColorPalette';
-import { Context } from '../context/AuthProvider';
+import { Context, useAuth } from '../context/AuthProvider';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../style/styleGradient';
 import LinearCustomGradient from './LinearCustomGradient';
 
 export default function BottomSheetWelcome({ size }: any) {
-  const { user, showSheetWelcome, setShowSheetWelcome } = useContext(Context)
+  const { user, showSheetWelcome, setShowSheetWelcome } = useAuth()
   useEffect(() => {
     setTimeout(() => {
        setShowSheetWelcome(false)

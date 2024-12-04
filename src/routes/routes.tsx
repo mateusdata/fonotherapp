@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, ActivityIndicator, Alert } from "react-native";
 import * as LocalAuthentication from 'expo-local-authentication';
-import { Context } from "../context/AuthProvider";
+import { Context, useAuth } from "../context/AuthProvider";
 import PublicRoutes from "./public/publicRoutes";
 import PrivateRoutes from "./private/privateRoutes";
 import LoadingComponent from "../components/LoadingComponent";
-import { ContextGlobal } from "../context/GlobalContext";
+import { ContextGlobal, useGlobal } from "../context/GlobalContext";
 
 const Routes = () => {
-  const { user } = useContext(Context);
+  const { user } = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [hasBiometrics, setHasBiometrics] = useState(true); // Assume que há biometria por padrão
-  const { useBiometrics, setUseBiometrics } = useContext(ContextGlobal);
+  const { useBiometrics, setUseBiometrics } = useGlobal();;
 
   useEffect(() => {
 

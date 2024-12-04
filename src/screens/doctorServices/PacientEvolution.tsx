@@ -7,6 +7,9 @@ import { api } from '../../config/Api';
 import { colorGray, colorPrimary, colorRed } from '../../style/ColorPalette';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useAuth } from '../../context/AuthProvider'
+
+
 export default function PacientEvolution({ route, navigation }) {
   const { pac_id } = route.params; // Recebe o pac_id passado pela navegação
   const [date, setDate] = useState(new Date());

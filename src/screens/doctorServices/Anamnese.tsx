@@ -12,12 +12,13 @@ import { Context } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
 import { background, colorGray, colorPrimary, colorRed } from '../../style/ColorPalette';
-import { ContextGlobal } from '../../context/GlobalContext';
+import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import KeyboardView from '../../components/KeyboardView';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import Toast from '../../components/toast';
+import { useAuth } from '../../context/AuthProvider'
 
 
 interface FormatAnamnese {
@@ -50,7 +51,7 @@ const educationLevels = [
 const Anamnese = ({ navigation, route }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { setPac_id, setPacient, pac_id } = useContext(ContextPacient);
-  const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
+  const { isDevelopment, setIsdevelopment } = useGlobal();
   const [isFocus, setIsFocus] = useState(false);
   const [isFocusEducation, setIsFocusEducation] = useState(false);
   const [showToast, setShowToast] = useState<boolean>(false);

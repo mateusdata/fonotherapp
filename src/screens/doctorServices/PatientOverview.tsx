@@ -8,7 +8,7 @@ import * as  Animatable from "react-native-animatable"
 import { Sheet } from 'tamagui';
 import { number } from 'yup';
 
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
 import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette';
@@ -95,7 +95,7 @@ const AnsweredQuestions = ({ navigation }) => {
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
-  const { accessToken } = useContext(Context);
+  const { accessToken } = useAuth();
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showToast, setShowToast] = useState<boolean>(false);

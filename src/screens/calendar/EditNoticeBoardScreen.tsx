@@ -11,6 +11,7 @@ import { Context } from '../../context/AuthProvider';
 import { AgendaNotification } from '../../utils/AgendaNotification';
 import { Button } from 'react-native-paper';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
+import { useAuth } from '../../context/AuthProvider';
 
 dayjs.locale('pt-br');
 
@@ -19,7 +20,7 @@ const EditNoticeBoardScreen = ({ navigation, route }) => {
     const [isAllDay, setIsAllDay] = useState(true);
     const [title, setTitle] = useState(initialTitle);
     const [details, setDetails] = useState(initialDetails);
-    const { user } = useContext(Context);
+    const { user } = useAuth();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

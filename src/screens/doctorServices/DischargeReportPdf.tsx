@@ -7,7 +7,7 @@ import * as Sharing from "expo-sharing"
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import { background, colorGray, colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette';
 import { ContextGlobal } from '../../context/GlobalContext';
@@ -22,7 +22,7 @@ import KeyboardView from '../../components/KeyboardView'
 const DischargeReportPdf = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
-  const { user, accessToken } = useContext(Context);
+  const { user, accessToken } = useAuth();
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const pdfName = `Relatório de alta  ${pacient.person.name} - ${pacient.person.cpf}.pdf`;

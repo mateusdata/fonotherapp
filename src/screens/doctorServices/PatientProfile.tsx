@@ -8,8 +8,8 @@ import { AntDesign } from '@expo/vector-icons';
 import * as  Animatable from "react-native-animatable"
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import { Context } from '../../context/AuthProvider'
-import { ContextGlobal } from '../../context/GlobalContext'
+import { Context, useAuth } from '../../context/AuthProvider'
+import { ContextGlobal, useGlobal } from '../../context/GlobalContext'
 import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
 
@@ -27,16 +27,16 @@ import { heightPercentage } from '../../utils/widthScreen';
 const PatientProfile = ({ navigation }) => {
 
     const { pac_id, setPac_id } = useContext(ContextPacient);
-    const { user } = useContext(Context);
+    const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [pacient, setPacient] = useState<FormatPacient>();
     const [protocols, setProtocols] = useState<any>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [firstModal, setFirstModal] = useState<boolean>(true);
     const [page, setPage] = React.useState(0);
-    const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
+    const { setIsFromRegistration, isFromRegistration } = useGlobal();
     const [visible, setVisible] = useState(false);
-    const { accessToken } = useContext(Context);
+    const { accessToken } = useAuth();
 
 
     const showModal = () => setVisible(true);

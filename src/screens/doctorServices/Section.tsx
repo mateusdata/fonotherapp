@@ -14,8 +14,8 @@ import { colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
-import { Context } from '../../context/AuthProvider';
-import { ContextGlobal } from '../../context/GlobalContext';
+import { useAuth } from '../../context/AuthProvider';
+import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import Toast from '../../components/toast';
 import { videoUrl } from '../../utils/videoUrl';
@@ -38,7 +38,7 @@ export default function Section({ navigation }) {
 
   const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [errorInput, setErroInput] = useState("");
-  const { user } = useContext(Context)
+  const { user } = useAuth()
   const { pac_id } = useContext(ContextPacient)
   const [search, setSearch] = useState("");
   const [changeList, setChangeList] = useState(true);
@@ -46,7 +46,7 @@ export default function Section({ navigation }) {
 
   const [series, setSeries] = useState<any>("");
   const [repetitions, setRepetitions] = useState<any>("");
-  const { setThereSession, thereSession } = useContext(ContextGlobal);
+  const { setThereSession, thereSession } = useGlobal();;
   const [videosType, setVideosType] = useState('degluticao');
   const [currentVideo, setCurrentVideo] = useState(null);
 

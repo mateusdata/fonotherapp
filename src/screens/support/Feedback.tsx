@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, Linking } from 'react-native';
 import { TextArea } from 'tamagui';
 import { useForm } from 'react-hook-form';
 import { Button } from 'react-native-paper';
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
@@ -17,7 +17,7 @@ const Feedback = () => {
             suggestion: ""
         },
     });
-    const { user } = useContext(Context);
+    const { user } = useAuth();
 
     const onSubmit = async (data) => {
         const email = 'fonoterapp@gmail.com';

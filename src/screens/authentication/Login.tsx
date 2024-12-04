@@ -8,8 +8,8 @@ import * as  Animatable from "react-native-animatable"
 import { LinearGradient } from 'expo-linear-gradient';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup"
-import { Context } from '../../context/AuthProvider';
-import { ContextGlobal } from '../../context/GlobalContext';
+import { useAuth } from '../../context/AuthProvider';
+import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import { api } from '../../config/Api';
 import { styleGradient } from '../../style/styleGradient';
 import LabelInput from '../../components/LabelInput';
@@ -19,8 +19,8 @@ import { getUser } from '../../utils/getUser';
 import KeyboardView from '../../components/KeyboardView';
 
 const Login = ({ navigation }: any) => {
-    const { setLoadingAuth, setUser, setAccessToken } = useContext(Context);
-    const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal);
+    const { setLoadingAuth, setUser, setAccessToken } = useAuth();
+    const { isDevelopment } = useGlobal();;
 
     const schema = yup.object({
         email: yup

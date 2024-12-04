@@ -3,14 +3,14 @@ import { View, FlatList, Pressable, ActivityIndicator, RefreshControl, Text } fr
 import { List } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Animatable from "react-native-animatable";
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
 import SkelectonView from '../../components/SkelectonView';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
 
 const PacientUnansweredQuestions = ({ navigation }) => {
-    const { user } = useContext(Context);
+    const { user } = useAuth();
     const { setPac_id } = useContext(ContextPacient);
     const [loading, setLoading] = useState(true);
     const [pacients, setPacients] = useState([]);

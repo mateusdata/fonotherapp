@@ -4,7 +4,7 @@ import { Searchbar, List, Button } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as  Animatable from "react-native-animatable"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
 import { colorRed } from '../../style/ColorPalette';
@@ -12,7 +12,7 @@ import { colorRed } from '../../style/ColorPalette';
 
 const AccompanyPatient = ({ navigation }) => {
 
-    const { logOut, user } = useContext(Context);
+    const { logOut, user } = useAuth();
     const { setPac_id, pac_id } = useContext(ContextPacient);
 
     const [searchQuery, setSearchQuery] = useState('');

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { Button, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import TabsNavigation from './tabNavigation/tabNavigation';
 import { StatusBar } from 'expo-status-bar';
 import { colorPrimary } from '../../style/ColorPalette';
@@ -53,7 +53,7 @@ import FunctionalAnalysisUpdate from '../../screens/doctorServices/FunctionalAna
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
   const navigation = useNavigation();
-  const { setUser } = useContext(Context)
+  const { setUser } = useAuth()
 
   return (
     <>

@@ -10,8 +10,11 @@ import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
+import { useAuth } from '../../context/AuthProvider';
+
+
 export default function ChangeEmail() {
-  const { user, setUser } = React.useContext(Context);
+  const { user, setUser } = useAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showToast, setShowToast] = React.useState<boolean>(false)
   Keyboard.isVisible()

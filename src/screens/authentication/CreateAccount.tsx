@@ -8,7 +8,7 @@ import * as yup from "yup"
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
-import { Context } from '../../context/AuthProvider';
+import { Context, useAuth } from '../../context/AuthProvider';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../../style/styleGradient';
 import { colorPrimary } from '../../style/ColorPalette';
@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/Feather'; // Ícone do olho
 
 const CreateAccount = ({ navigation }: any) => {
 
-  const { setUser, setAccessToken, setLoadingAuth, setShowSheetWelcome } = useContext(Context);
+  const { setUser, setAccessToken, setLoadingAuth, setShowSheetWelcome } = useAuth();
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false); // Controla a visibilidade da senha
 

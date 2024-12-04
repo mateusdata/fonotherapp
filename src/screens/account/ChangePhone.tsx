@@ -11,9 +11,11 @@ import LabelInput from '../../components/LabelInput';
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
 import ErrorMessage from '../../components/errorMessage';
 import { getUser } from '../../utils/getUser';
+import { useAuth } from '../../context/AuthProvider';
+
 
 export default function ChangePhone() {
-    const { user, setUser } = React.useContext(Context);
+    const { user, setUser } = useAuth();
     const [loading, setLoading] = React.useState<boolean>(false);
     const [showToast, setShowToast] = React.useState<boolean>(false);
 

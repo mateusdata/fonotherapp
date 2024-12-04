@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { View } from 'react-native-animatable'
 import { FormatPacient } from '../../interfaces/globalInterface'
-import { Context } from '../../context/AuthProvider'
+import { Context, useAuth } from '../../context/AuthProvider'
 import { ContextGlobal } from '../../context/GlobalContext'
 import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
@@ -23,7 +23,7 @@ import KeyboardView from '../../components/KeyboardView'
 const ServiceProvisionReceiptPdf = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
-  const { user, accessToken } = useContext(Context);
+  const { user, accessToken } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const schema = yup.object({

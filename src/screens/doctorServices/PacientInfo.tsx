@@ -17,6 +17,8 @@ import dayjs from 'dayjs';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import { FormatPacient } from '../../interfaces/globalInterface';
 
+
+
 const schema = yup.object({
   name: yup.string().required('O nome é obrigatório'),
   cpf: yup.string().optional(),

@@ -9,6 +9,7 @@ import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 
 
+
 export default function CheckCode({ navigation, route }) {
     const { email } = route.params
     const [loading, setLoading] = React.useState<boolean>(false);

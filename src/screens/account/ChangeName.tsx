@@ -11,8 +11,11 @@ import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
 import { getUser } from '../../utils/getUser';
+import { useAuth } from '../../context/AuthProvider';
+
+
 export default function ChangeName() {
-  const { user, setUser } = React.useContext(Context);
+  const { user, setUser } = useAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showToast, setShowToast] = React.useState<boolean>(false)
   Keyboard.isVisible()

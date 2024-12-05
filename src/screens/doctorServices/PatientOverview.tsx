@@ -244,16 +244,7 @@ const styles = StyleSheet.create({
   blueText: {
     color: colorGreen,
   },
-  pressable: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    alignItems: 'center',
-    backgroundColor: '#E8E8E8',
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
+
   row: {
     flexDirection: 'row',
     alignItems: 'center',

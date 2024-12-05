@@ -8,7 +8,7 @@ const api = axios.create({
   baseURL: 'https://api.fonotherapp.com.br',
 });
 
-let isSessionExpiredToastShown = false; 
+let isSessionExpiredToastShown = false;
 
 
 
@@ -37,8 +37,10 @@ async function setInterceptors(setUser: Function, logOut: any) {
     (response) => {
 
       //console.log(response);
-      
-      if(response.status === 202){
+      //alert(JSON.stringify(response.data, null, 2))
+      console.log(response.data);
+      (JSON.stringify(response.data, null, 2))
+      if (response.status === 202) {
         //showToast("info", "Atenção", response?.data?.message, "top");
         Alert.alert("Atenção", response?.data?.message)
         return null;
@@ -53,7 +55,7 @@ async function setInterceptors(setUser: Function, logOut: any) {
         showToast("error", "Você perdeu a conexão com a internet", "Verifique sua conexão", "top")
       }
 
-     
+
 
       if (error.response.status === 401) {
         try {

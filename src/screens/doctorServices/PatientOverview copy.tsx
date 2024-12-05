@@ -88,6 +88,8 @@ const PatientOverview = ({ navigation }) => {
   const fetchQuestionnaire = async () => {
     try {
       const response = await api.get(`answered-questionnaire/${pac_id}`);
+      console.log(response.data);
+      
       const sortedData = response.data.sort((a, b) => {
         if (a.name === "Análise Funcional") return -1;
         if (b.name === "Análise Funcional") return 1;

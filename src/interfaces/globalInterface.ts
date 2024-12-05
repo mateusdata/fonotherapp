@@ -152,6 +152,6 @@ export interface FormatUser {
     updated_at: string;
     doctor: Doctor;
     person: Person;
-    profile_picture_url:string
+    profile_picture_url:string | any
 }
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { Button, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -49,11 +49,18 @@ import EditEvolutionScreen from '../../screens/doctorServices/EditEvolutionScree
 import PatientOverview from '../../screens/doctorServices/PatientOverview';
 import StructuralAnalysisUpdate from '../../screens/doctorServices/StructuralAnalysisUpdate';
 import FunctionalAnalysisUpdate from '../../screens/doctorServices/FunctionalAnalysisUpdate';
+import { getUser } from '../../utils/getUser';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
   const navigation = useNavigation();
   const { setUser } = useAuth()
+  const fetchUser = async () => {
+    await getUser(setUser)
+  }
+  useEffect(() => {
+    fetchUser();
+  }, [])
 
   return (
     <>
@@ -186,7 +193,7 @@ const PrivateRoutes = () => {
 
         <AppStack.Screen name='StructuralAnalysisUpdate' component={StructuralAnalysisUpdate} options={{ headerTitleAlign: "center", headerTitle: "Analise estrutural" }} />
         <AppStack.Screen name='FunctionalAnalysisUpdate' component={FunctionalAnalysisUpdate} options={{ headerTitleAlign: "center", headerTitle: "Analise funcional" }} />
-        
+
 
       </AppStack.Navigator>
     </>

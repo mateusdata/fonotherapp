@@ -24,26 +24,32 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         const recoveryShowImage = await AsyncStorage.getItem('showImage');
         if (recoveryShowImage !== null) {
           setShowImage(JSON.parse(recoveryShowImage));
+
         }
 
-        if (user?.profile_picture_url?.includes('.jpg') && JSON.parse(recoveryShowImage || 'true')) {
+        if (user?.profile_picture_url?.match(/\.(jpg|jpeg|png)$/)) {
           setImage(user.profile_picture_url);
         }
+      
       } catch (error) {
         console.error('Erro ao carregar imagem:', error);
       }
     };
 
     loadImage();
-  }, [user]);
+  }, []);
+
 
   const handleUploadImage = async (selectedImageUri: string) => {
     try {
+
+      setShowImage(true);
+      await AsyncStorage.setItem('showImage', JSON.stringify(true));
       const response = await fetch(selectedImageUri);
       const blob = await response.blob();
       console.log('Tamanho da imagem em MB:', (blob.size / (1024 * 1024)).toFixed(2));
 
-      const formData:any = new FormData();
+      const formData: any = new FormData();
       formData.append('avatar', {
         uri: selectedImageUri,
         name: 'avatar.jpg',
@@ -66,9 +72,9 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
   const pickImage = async () => {
     setIsSheetOpen(false);
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       allowsEditing: true,
-      aspect: [29, 29],
+      aspect: [4, 3],
       quality: 0.1,
     });
 
@@ -85,9 +91,9 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
       Alert.alert('Permissão necessária', 'Habilite o acesso à câmera nas configurações do dispositivo.');
       return;
     }
-
+    setIsSheetOpen(false);
     const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 0.1,
@@ -101,23 +107,25 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
   };
 
   const removeImage = async () => {
+    setIsSheetOpen(false);
+    setShowImage(false);
+    await AsyncStorage.setItem('showImage', JSON.stringify(false));
+   
     try {
-      await api.delete(`/user-picture/${user.use_id}`);
       setImage(null);
       setUser((prevUser: FormatUser) => ({
         ...prevUser,
         profile_picture_url: null,
       }));
       vibrateFeedback();
-      getUser(setUser);
-
-      console.log('Imagem removida com sucesso');
+      
     } catch (error) {
       console.error('Erro ao remover imagem:', error.response?.data || error.message);
     }
   };
 
   const confirmRemoveImage = () => {
+    setIsSheetOpen(false);
     if (!image) {
       Alert.alert('Você não possui imagem de perfil');
       return;
@@ -137,17 +145,17 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
     <>
       <View style={styles.container}>
         <Pressable onPress={() => setIsSheetOpen(true)} style={styles.avatarContainer}>
-          {image ? (
+          { showImage &&  image ? (
             <Avatar.Image size={150} source={{ uri: image }} />
           ) : (
-            <Avatar.Text size={150} label={user?.person.name?.[0]?.toUpperCase()} />
+            <Avatar.Text size={150} label={user?.person?.name?.[0]?.toUpperCase()} />
           )}
           <Pressable style={styles.cameraIcon} onPress={() => setIsSheetOpen(true)}>
             <MaterialCommunityIcons name="camera" size={28} color="#fff" />
           </Pressable>
         </Pressable>
         <Text style={styles.userName}>
-          {user?.person.name?.charAt(0)?.toUpperCase() + user?.person.name?.slice(1)}
+          {user?.person?.name?.charAt(0)?.toUpperCase() + user?.person?.name?.slice(1)}
         </Text>
       </View>
 

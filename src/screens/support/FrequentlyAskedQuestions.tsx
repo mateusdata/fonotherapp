@@ -44,7 +44,7 @@ export default function FrequentlyAskedQuestions() {
         <Accordion.Trigger flexDirection="row" justifyContent="space-between" alignItems="center" paddingVertical="$3" paddingHorizontal="$4" backgroundColor="#fff" borderRadius="$3" marginBottom="$2" style={styles.accordionItem}>
           {({ open }) => (
             <>
-              <Paragraph  color={open ? "#2a7c6c" : "#333"}>{item.question}</Paragraph>
+              <Paragraph color={open ? "#2a7c6c" : "#333"}>{item.question}</Paragraph>
               <Square animation="quick" rotate={open ? '180deg' : '0deg'}>
                 <ChevronDown size="$1" color={open ? "#2a7c6c" : "#333"} />
               </Square>
@@ -61,14 +61,19 @@ export default function FrequentlyAskedQuestions() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <YStack padding={5} width="95%">
-        <Text style={styles.title}>Perguntas frequentes</Text>
-        <Accordion type="single" collapsible>
-          {renderFAQ()}
-        </Accordion>
-      </YStack>
-    </ScrollView>
+    <View style={{
+      backgroundColor: "white"}}>
+      <Text style={styles.title}>Perguntas frequentes</Text>
+      <ScrollView contentContainerStyle={styles.container}>
+        <YStack padding={5} width="95%">
+
+          <Accordion type="single" collapsible>
+            {renderFAQ()}
+          </Accordion>
+        </YStack>
+      </ScrollView>
+    </View>
+
   );
 }
 
@@ -81,10 +86,12 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colorPrimary,
+    marginTop: 22,
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 15,
     textAlign: 'center',
+
   },
   accordionItem: {
     shadowColor: "#000",

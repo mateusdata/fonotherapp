@@ -45,7 +45,7 @@ const PatientUpdate = ({ navigation }) => {
       name: '',
       cpf: '',
       birthday: '',
-      additional_information:''
+      additional_information: ''
     },
   });
 
@@ -186,17 +186,18 @@ const PatientUpdate = ({ navigation }) => {
           )}
         />
       </View>
-         
-      <Button
-        style={{ top: 24 }}
-        textColor="white"
-        buttonColor={colorPrimary}
-        onPress={handleSubmit(handleUpdatePatient)}
-        disabled={loading}
-        loading={loading}
-      >
-        Atualizar Paciente
-      </Button>
+
+      <View style={{ marginTop: 20 }}>
+        <Button
+          textColor="white"
+          buttonColor={colorPrimary}
+          onPress={handleSubmit(handleUpdatePatient)}
+          disabled={loading}
+          loading={loading}
+        >
+          Atualizar Paciente
+        </Button>
+      </View>
     </ScrollView>
   );
 };

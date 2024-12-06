@@ -97,7 +97,7 @@ const Anamnese = ({ navigation, route }) => {
         return
       }
       
-      navigation.navigate("PatientAnalysis");
+      navigation.navigate("PatientEvaluation");
       setLoading(false);
       reset();
     } catch (error) {
@@ -147,8 +147,8 @@ const Anamnese = ({ navigation, route }) => {
         <ErrorMessage name={"education"} errors={errors} />
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <View style={styles.container2}>
 
+            <View style={styles.container2}>
               <LabelInput value='Via de alimentação atual' />
               <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: colorPrimary, borderWidth: 2 }]}
@@ -170,8 +170,8 @@ const Anamnese = ({ navigation, route }) => {
                   onChange(item.value)
                   setIsFocus(false);
                 }}
-
               />
+  
             </View>
           )}
           name='current_food_intake_method'

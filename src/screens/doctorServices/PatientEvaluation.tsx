@@ -14,7 +14,7 @@ import SkelectonView from "../../components/SkelectonView";
 import Toast from "../../components/toast";
 import LabelInput from "../../components/LabelInput";
 
-const PatientAnalysis = ({ navigation }) => {
+const PatientEvaluation = ({ navigation }) => {
   const [showToast, setShowToast] = useState<boolean>(false);
   const { control, handleSubmit } = useForm();
   const [analysis, setAnalysis] = useState<any>({});
@@ -128,6 +128,8 @@ const PatientAnalysis = ({ navigation }) => {
                   <Text >{question.name}</Text>
                   {question?.alternatives?.map((alternative, alternativeIndex) => (
                     <RadioButton.Item
+                     uncheckedColor={"black"}
+                      mode="android"
                       key={alternativeIndex}
                       color={colorPrimary}
                       label={alternative}
@@ -179,4 +181,4 @@ const PatientAnalysis = ({ navigation }) => {
   );
 };
 
-export default PatientAnalysis;
+export default PatientEvaluation;

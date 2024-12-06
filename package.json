@@ -19,6 +19,7 @@
     "@react-navigation/native-stack": "^7.1.1",
     "@react-navigation/stack": "^7.0.6",
     "@tamagui/config": "^1.117.2",
+    "@tamagui/lucide-icons": "^1.119.0",
     "@tamagui/toast": "^1.117.2",
     "axios": "^1.7.7",
     "burnt": "^0.12.2",
@@ -52,6 +53,7 @@
     "react-native-svg": "15.8.0",
     "react-native-toast-message": "^2.2.1",
     "tamagui": "^1.117.2",
+    "xlsx": "^0.18.5",
     "yup": "^1.4.0",
     "zod": "^3.23.8"
   },

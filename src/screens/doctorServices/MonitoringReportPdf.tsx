@@ -118,7 +118,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <ErrorMessage errors={errors} name="functional_assessment" />
 
 
-                <LabelInput value='Avaliação de Deglutição' />
+                <LabelInput value='Parecer de deglutição' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (

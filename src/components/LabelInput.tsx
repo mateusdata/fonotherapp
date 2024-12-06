@@ -1,22 +1,23 @@
-import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text } from 'react-native';
 
-export default function LabelInput({ value }: { value: string }) {
-
+export default function LabelInput({ value, ...props }) {
   return (
     <Text
-      style={style.custonText}>
+      style={styles.custonText}
+      {...props} 
+    >
       {value}
     </Text>
-  )
+  );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   custonText: {
     paddingHorizontal: 3,
     paddingVertical: 0,
     fontSize: 18,
     color: "black",
-    marginBottom:8
+    marginBottom: 8
   }
-})
+});

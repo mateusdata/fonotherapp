@@ -1,30 +1,20 @@
 
 import React, { useContext, useEffect, useState } from 'react';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { ActivityIndicator, Avatar, Button, Card, IconButton, List } from 'react-native-paper';
-import { Keyboard, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Avatar, Button, Card, List } from 'react-native-paper';
+import {  Pressable, StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import * as  Animatable from "react-native-animatable"
-import { Sheet } from 'tamagui';
-import { number } from 'yup';
 
-import { Context, useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette';
+import { colorGreen, colorPrimary } from '../../style/ColorPalette';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import downloadPDF from '../../utils/downloadPDF';
 import SkelectonView from '../../components/SkelectonView';
-import HeaderSheet from '../../components/HeaderSheet';
-import Toast from '../../components/toast';
-import KeyboardView from '../../components/KeyboardView';
-import Anamnese from './Anamnese';
 
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
-import { MD3Colors, } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
-
-const MyComponent = ({ navigation, pacient }) => (
+const MyComponent = ({ navigation, pacient, answered }) => (
   <View style={styles2.container}>
     <List.Section style={{ gap: 12 }}>
       <List.Subheader style={styles2.subheader}>Quadro atual</List.Subheader>
@@ -38,7 +28,7 @@ const MyComponent = ({ navigation, pacient }) => (
       </Pressable>
        
 
-      <Pressable onPress={() => navigation.navigate("StructuralAnalysisUpdate", { pacient: pacient })}>
+      <Pressable onPress={() => navigation.navigate("UpdatePatientEvaluation", { pacient: pacient , answered: answered[0]})}>
         <Card.Title
           title="Avaliação estrutural"
           style={{ backgroundColor: "#E8E8E8", borderWidth: 0, padding: 12, borderRadius: 12, }}
@@ -47,7 +37,7 @@ const MyComponent = ({ navigation, pacient }) => (
         />
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("FunctionalAnalysisUpdate", { pacient: pacient })}>
+      <Pressable onPress={() => navigation.navigate("UpdatePatientEvaluation", { pacient: pacient , answered: answered[1]})}>
 
         <Card.Title
           title="Avaliação funcional"
@@ -58,6 +48,7 @@ const MyComponent = ({ navigation, pacient }) => (
       </Pressable>
 
     </List.Section>
+    
   </View>
 );
 
@@ -91,42 +82,33 @@ const styles2 = StyleSheet.create({
 
 
 const AnsweredQuestions = ({ navigation }) => {
-  const [expandedIndex, setExpandedIndex] = useState(null);
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
   const { accessToken } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [showToast, setShowToast] = useState<boolean>(false);
-  const [questionnaireId, setQuestionareId] = useState<number>(null)
-  const [snapPoints, setSnapPoints] = useState<number>(65)
+  const [loading, setLoading] = useState(true);
 
-
-  const fetchData = async () => {
+  const fetchData = async () => {    
     const response = await api.get(`/pacient/${pac_id}`);
     setPacient(response.data);
+    setLoading(false);
 
   };
 
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
-    }, [pac_id, showToast])
+      fetchQuestionnaire();
+    }, [pac_id])
   );
 
-  useEffect(() => {
-    fetchQuestionnaire();
-  }, [pac_id]);
+  
 
 
   async function getPdf() {
     try {
-      setLoading(true);
       const response: any = await api.get(`/generate-report/${pac_id}`)
-
       const getPdf = await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
-
 
 
     } catch (error) {
@@ -138,50 +120,27 @@ const AnsweredQuestions = ({ navigation }) => {
     }
   }
 
-  const handleAnswerClick = async (questionId, alternative) => {
-    try {
-
-      const updatedQuestionnaire = {
-        pac_id,
-        answers: [
-          {
-            que_id: questionId,
-            alternative: alternative,
-          },
-        ],
-      };
-
-      const response = await api.post(`/update-questionnaire`, updatedQuestionnaire);
-      fetchQuestionnaire()
-    } catch (error) {
-      console.error('Erro ao salvar resposta:', error);
-    }
-  };
+ 
 
   const fetchQuestionnaire = async () => {
-    try {
+    try {      
+
       const response = await api.get(`answered-questionnaire/${pac_id}`);
-      const sortedData = response.data.sort((a, b) => {
-        if (a.name === "Análise Funcional") return -1;
-        if (b.name === "Análise Funcional") return 1;
-        if (a.name === "Análise Estrutural") return -1;
-        if (b.name === "Análise Estrutural") return 1;
-        return 0;
-      });
-      setAnswered(sortedData);
+      console.log(JSON.stringify(response.data[0], null, 2));
+      
+      setAnswered(response.data);
+      setLoading(false);
+
     } catch (error) {
       console.error(error);
+      setLoading(false);
+
     }
   };
+  
 
 
-
-
-
-
-
-
-  if (loading && !pacient && !pacient?.person && !pacient?.name && !pacient?.questionnaires) {
+  if (loading) {
     return <SkelectonView />
   }
 
@@ -190,8 +149,6 @@ const AnsweredQuestions = ({ navigation }) => {
   return (
     <>
       <View style={styles.container}>
-        <Text> {false && JSON.stringify(answered, null, 2)}
-        </Text>
 
         <View style={{ gap: 8 }}>
           <Pressable onPress={getPdf}>
@@ -212,12 +169,12 @@ const AnsweredQuestions = ({ navigation }) => {
 
         </View>
 
-        <MyComponent navigation={navigation} pacient={pacient} />
+        <MyComponent navigation={navigation} pacient={pacient} answered={answered} />
 
 
       </View>
 
-      <Toast visible={showToast} mensage={"Anamnese atualizada"} setVisible={setShowToast} />
+    
 
     </>
   );

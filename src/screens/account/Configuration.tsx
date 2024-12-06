@@ -27,7 +27,7 @@ export default function Configuration() {
     else if (name === "Checar Atualizações"){
       const appStoreUrl = Platform.OS === 'android'
       ? 'https://play.google.com/store/apps/details?id=com.projetofono.fonotherapp&hl=pt_BR' 
-      : 'https://apps.apple.com/br'; 
+      : 'https://www.apple.com/br/search/fonotherapp?src=serp'; 
      Linking.openURL(appStoreUrl);
    
     }

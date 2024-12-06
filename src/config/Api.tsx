@@ -38,10 +38,9 @@ async function setInterceptors(setUser: Function, logOut: any) {
 
       //console.log(response);
       //alert(JSON.stringify(response.data, null, 2))
-      console.log(response.data);
+      //console.log(response.data);
       (JSON.stringify(response.data, null, 2))
       if (response.status === 202) {
-        //showToast("info", "Atenção", response?.data?.message, "top");
         Alert.alert("Atenção", response?.data?.message)
         return null;
       }
@@ -54,8 +53,6 @@ async function setInterceptors(setUser: Function, logOut: any) {
         isSessionExpiredToastShown = true;
         showToast("error", "Você perdeu a conexão com a internet", "Verifique sua conexão", "top")
       }
-
-
 
       if (error.response.status === 401) {
         try {

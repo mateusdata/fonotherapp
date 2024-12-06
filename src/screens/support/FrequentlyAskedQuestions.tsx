@@ -1,83 +1,97 @@
 import React, { useEffect, useState } from 'react';
-import { List } from 'react-native-paper';
 import { StyleSheet, Text, View } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import * as Animatable from "react-native-animatable";
+import { ChevronDown } from '@tamagui/lucide-icons';
+import { Accordion, Paragraph, Square, YStack } from 'tamagui';
 import { ScrollView } from 'react-native-gesture-handler';
 import { api } from '../../config/Api';
 import LoadingComponent from '../../components/LoadingComponent';
+import { colorPrimary } from '../../style/ColorPalette';
 
 interface FormatFac {
-  faq_id: number
-  question: string
-  response: string
+  faq_id: number;
+  question: string;
+  response: string;
 }
-const FrequentlyAskedQuestions = () => {
-  const [expandedIndex, setExpandedIndex] = useState(null);
-  const [faq, setFaq] = useState<Array<FormatFac>>()
+
+export default function FrequentlyAskedQuestions() {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [faq, setFaq] = useState<Array<FormatFac>>([]);
 
   async function fetchFaq() {
     try {
       const response = await api.get("/frequent-questions");
-      setFaq(response.data.data)
+      setFaq(response.data.data);
     } catch (error) {
-     
+      console.error('Erro ao buscar perguntas frequentes:', error);
     }
   }
 
   useEffect(() => {
-    fetchFaq()
+    fetchFaq();
   }, []);
 
-  function handleAccordionPress(index) {
-    if (expandedIndex === index) {
-      setExpandedIndex(null);
-    } else {
-      setExpandedIndex(index);
-    }
+  function handleAccordionPress(index: number) {
+    setExpandedIndex(expandedIndex === index ? null : index);
   }
 
-  if (!faq?.length) {
-    return (
-      <LoadingComponent />
-    )
+  if (!faq.length) {
+    return <LoadingComponent />;
   }
 
   const renderFAQ = () => {
-    return faq?.map((item, index) => (
-      <List.Accordion
-        key={index}
-        title={item.question}
-        titleStyle={{ color: expandedIndex === index ? "#2a7c6c" : "black" }}
-        titleNumberOfLines={8}
-        style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
-        left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === index ? "#2a7c6c" : "black"} size={24} />}
-        expanded={expandedIndex === index}
-        onPress={() => handleAccordionPress(index)}
-      >
-        <Animatable.View animation="fadeIn" style={{ paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 16, marginBottom: 15, right: 15 }}>{item.response}</Text>
-        </Animatable.View>
-      </List.Accordion>
+    return faq.map((item, index) => (
+      <Accordion.Item key={index} value={`faq-${index}`}>
+        <Accordion.Trigger flexDirection="row" justifyContent="space-between" alignItems="center" paddingVertical="$3" paddingHorizontal="$4" backgroundColor="#fff" borderRadius="$3" marginBottom="$2" style={styles.accordionItem}>
+          {({ open }) => (
+            <>
+              <Paragraph  color={open ? "#2a7c6c" : "#333"}>{item.question}</Paragraph>
+              <Square animation="quick" rotate={open ? '180deg' : '0deg'}>
+                <ChevronDown size="$1" color={open ? "#2a7c6c" : "#333"} />
+              </Square>
+            </>
+          )}
+        </Accordion.Trigger>
+        <Accordion.HeightAnimator>
+          <Accordion.Content paddingHorizontal="$4" paddingVertical="$3" backgroundColor="#f9f9f9" borderRadius="$3">
+            <Paragraph>{item.response}</Paragraph>
+          </Accordion.Content>
+        </Accordion.HeightAnimator>
+      </Accordion.Item>
     ));
   };
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Seção de Perguntas Frequentes */}
-      <List.Section title='Perguntas frequentes' titleStyle={{ color: "black", fontSize: 18, marginBottom: 10, right: 10 }} style={{ gap: 0 }}>
-        {renderFAQ()}
-      </List.Section>
+    <ScrollView contentContainerStyle={styles.container}>
+      <YStack padding={5} width="95%">
+        <Text style={styles.title}>Perguntas frequentes</Text>
+        <Accordion type="single" collapsible>
+          {renderFAQ()}
+        </Accordion>
+      </YStack>
     </ScrollView>
   );
-};
-
-export default FrequentlyAskedQuestions;
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: "white",
-    padding: 5,
+  },
+  title: {
+    color: colorPrimary,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  accordionItem: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
 });
+

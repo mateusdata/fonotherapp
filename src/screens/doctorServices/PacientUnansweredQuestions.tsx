@@ -92,7 +92,7 @@ const PacientUnansweredQuestions = ({ navigation }) => {
 
                                 onPress={() => {
                                     setPac_id(item?.pac_id);
-                                    navigation.navigate(!!item?.base_diseases ? "PatientAnalysis" : "Anamnese");
+                                    navigation.navigate(!!item?.base_diseases ? "PatientEvaluation" : "Anamnese");
                                 }}
                                 android_ripple={{ color: "#36B3B9" }}
                             >

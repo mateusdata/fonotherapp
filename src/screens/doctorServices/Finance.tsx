@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
-import { Text, List, Divider } from 'react-native-paper';
+import { View, StyleSheet, Pressable, Platform } from 'react-native';
+import { Text, List, Divider, Button } from 'react-native-paper'; // Importando Button do react-native-paper
 import { api } from '../../config/Api';
 import { Context, useAuth } from '../../context/AuthProvider';
 import { FlatList } from 'react-native-gesture-handler';
@@ -9,6 +9,9 @@ import LoadingComponent from '../../components/LoadingComponent';
 import { ContextPacient } from '../../context/PacientContext';
 import downloadPDF from '../../utils/downloadPDF';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import XLSX from 'xlsx';
 
 export default function Finance({ navigation }) {
     const { user, accessToken } = useAuth();
@@ -18,7 +21,7 @@ export default function Finance({ navigation }) {
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [isEmpty, setIsEmpty] = useState<boolean>(false)
+    const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
     async function fetchSessions() {
         if (isLoading || !hasMore) return;
@@ -35,7 +38,7 @@ export default function Finance({ navigation }) {
         } catch (error) {
             if (error.response?.status === 404) {
                 setHasMore(false);
-                setIsEmpty(true)
+                setIsEmpty(true);
             } else {
                 console.error('Erro ao buscar os relatórios:', error);
             }
@@ -48,16 +51,41 @@ export default function Finance({ navigation }) {
         fetchSessions();
     }, [page]);
 
-
     async function downloadPdf(rep_id: any) {
         try {
-            const response = await api.get(`/reports/${rep_id}`)
-            await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
+            const response = await api.get(`/reports/${rep_id}`);
+            await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading);
         } catch (error) {
-            alert("Ocorreu um error")
+            alert("Ocorreu um error");
         }
     }
 
+    const handleDownloadExcel = async () => {
+        try {
+            const ws = XLSX.utils.json_to_sheet(sessionsHistory);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Relatórios");
+
+            const wbout = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
+
+            const path = `${FileSystem.documentDirectory}relatorios_financeiros.xlsx`;
+
+            await FileSystem.writeAsStringAsync(path, wbout, { encoding: FileSystem.EncodingType.Base64 });
+           
+
+            // Compartilhar o arquivo
+            if (Platform.OS === "android") {
+                const directoryUri = FileSystem.cacheDirectory + "relatorios_financeiros.xlsx";
+                const base64File = await FileSystem.readAsStringAsync(path, { encoding: FileSystem.EncodingType.Base64 });
+                await FileSystem.writeAsStringAsync(directoryUri, base64File, { encoding: FileSystem.EncodingType.Base64 });
+                await Sharing.shareAsync(directoryUri);
+            } else {
+                await Sharing.shareAsync(path);
+            }
+        } catch (error) {
+            console.error("Erro ao gerar Excel:", error);
+        }
+    };
 
     const renderFooter = () => {
         if (!isLoading) return null;
@@ -75,9 +103,8 @@ export default function Finance({ navigation }) {
         }
     };
 
-
     if (isEmpty) {
-        return <NotFoudMessageList />
+        return <NotFoudMessageList />;
     }
 
     return (
@@ -105,7 +132,22 @@ export default function Finance({ navigation }) {
                         </Pressable>
                     )}
                 />
-
+            </View>
+            <View style={styles.fixedButtonContainer}>
+                <Button
+                    icon="file-excel"
+                    mode="contained"
+                    buttonColor='#1D6F42'
+                    onPress={handleDownloadExcel}
+                    style={{
+                        bottom: 20,
+                        left: 0,
+                        right: 0,
+                        alignItems: 'center',
+                    }}
+                >
+                  Controle financeiro
+                </Button>
             </View>
         </View>
     );
@@ -127,6 +169,14 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         flexGrow: 1,
+        width: '100%',
+    },
+    downloadButton: {
+        marginTop: 15,
+        width: '90%',
+    },
+    fixedButtonContainer: {
+        padding: 10,
         width: '100%',
     },
 });

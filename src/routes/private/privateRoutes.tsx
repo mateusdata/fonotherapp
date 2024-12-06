@@ -14,7 +14,6 @@ import ChangeEmail from '../../screens/account/ChangeEmail';
 import ChangeCredential from '../../screens/account/ChangeCredential';
 import Help from '../../screens/support/Help';
 import Feedback from '../../screens/support/Feedback';
-import PatientAnalysis from '../../screens/doctorServices/PatientAnalysis';
 import PacientUnansweredQuestions from '../../screens/doctorServices/PacientUnansweredQuestions';
 import PatientProfile from '../../screens/doctorServices/PatientProfile';
 import PatientInfo from '../../screens/doctorServices/PacientInfo';
@@ -47,9 +46,10 @@ import PacientEvolution from '../../screens/doctorServices/PacientEvolution';
 import ListPacientEvolution from '../../screens/doctorServices/ListPacientEvolution';
 import EditEvolutionScreen from '../../screens/doctorServices/EditEvolutionScreen';
 import PatientOverview from '../../screens/doctorServices/PatientOverview';
-import StructuralAnalysisUpdate from '../../screens/doctorServices/StructuralAnalysisUpdate';
-import FunctionalAnalysisUpdate from '../../screens/doctorServices/FunctionalAnalysisUpdate';
 import { getUser } from '../../utils/getUser';
+import PatientEvaluation from '../../screens/doctorServices/PatientEvaluation';
+import UpdatePatientEvaluation from '../../screens/doctorServices/UpdatePatientEvaluation';
+import UserPhoto from '../../screens/account/UserPhoto';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
@@ -93,7 +93,7 @@ const PrivateRoutes = () => {
 
 
         <AppStack.Screen name='Feedback' component={Feedback} options={{ headerTitleAlign: "center", headerTitle: "Feedback" }} />
-        <AppStack.Screen name='PatientAnalysis' component={PatientAnalysis} options={{ headerTitleAlign: "center", headerTitle: "", headerShown: true }} />
+        <AppStack.Screen name='PatientEvaluation' component={PatientEvaluation} options={{ headerTitleAlign: "center", headerTitle: "", headerShown: true }} />
         <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Concluir cadastro" }} />
 
         <AppStack.Screen name='PatientProfile' component={PatientProfile} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />
@@ -191,9 +191,11 @@ const PrivateRoutes = () => {
 
         {/*Rotas de atualização das analises funcional e estrutural */}
 
-        <AppStack.Screen name='StructuralAnalysisUpdate' component={StructuralAnalysisUpdate} options={{ headerTitleAlign: "center", headerTitle: "Analise estrutural" }} />
-        <AppStack.Screen name='FunctionalAnalysisUpdate' component={FunctionalAnalysisUpdate} options={{ headerTitleAlign: "center", headerTitle: "Analise funcional" }} />
-
+        <AppStack.Screen name='UpdatePatientEvaluation' component={UpdatePatientEvaluation} options={{ headerTitleAlign: "center", headerTitle: "Atualização" }} />
+      
+        {/*Rotas de visualização de fotoss */}
+        
+        <AppStack.Screen name='UserPhoto' component={UserPhoto} options={{ headerTitleAlign: "center", headerTitle: "Foto de perfil" }} />
 
       </AppStack.Navigator>
     </>

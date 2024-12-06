@@ -11,17 +11,20 @@ import { api } from '../config/Api';
 import { useAuth } from '../context/AuthProvider';
 import { getUser } from '../utils/getUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export default function UploadAvatar({ user }: { user: FormatUser }) {
   const [image, setImage] = useState<string | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [showImage, setShowImage] = useState<boolean>(true);
   const { setUser } = useAuth();
+  const navigation: any = useNavigation();
 
   useEffect(() => {
     const loadImage = async () => {
       try {
         const recoveryShowImage = await AsyncStorage.getItem('showImage');
+        await getUser(setUser);
         if (recoveryShowImage !== null) {
           setShowImage(JSON.parse(recoveryShowImage));
 
@@ -30,7 +33,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         if (user?.profile_picture_url?.match(/\.(jpg|jpeg|png)$/)) {
           setImage(user.profile_picture_url);
         }
-      
+
       } catch (error) {
         console.error('Erro ao carregar imagem:', error);
       }
@@ -75,7 +78,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
       mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.1,
+      quality: 0.3,
     });
 
     if (!result.canceled && result.assets?.[0]?.uri) {
@@ -96,7 +99,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
       mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.1,
+      quality: 0.3,
     });
 
     if (!result.canceled && result.assets?.[0]?.uri) {
@@ -110,7 +113,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
     setIsSheetOpen(false);
     setShowImage(false);
     await AsyncStorage.setItem('showImage', JSON.stringify(false));
-   
+
     try {
       setImage(null);
       setUser((prevUser: FormatUser) => ({
@@ -118,7 +121,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         profile_picture_url: null,
       }));
       vibrateFeedback();
-      
+
     } catch (error) {
       console.error('Erro ao remover imagem:', error.response?.data || error.message);
     }
@@ -141,11 +144,17 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
     );
   };
 
+
+  const openPhoto = () => {
+    setIsSheetOpen(false);
+    navigation.navigate('UserPhoto', { image: image });
+  }
+
   return (
     <>
       <View style={styles.container}>
         <Pressable onPress={() => setIsSheetOpen(true)} style={styles.avatarContainer}>
-          { showImage &&  image ? (
+          {showImage && image ? (
             <Avatar.Image size={150} source={{ uri: image }} />
           ) : (
             <Avatar.Text size={150} label={user?.person?.name?.[0]?.toUpperCase()} />
@@ -178,6 +187,10 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
               <MaterialCommunityIcons name="image" size={24} color="black" />
               <Text style={styles.optionText}>Escolher foto</Text>
             </TouchableOpacity>
+            {showImage && <TouchableOpacity style={styles.option} onPress={openPhoto}>
+              <MaterialCommunityIcons name="image-search" size={24} color="black" />
+              <Text style={styles.optionText}>Ver foto</Text>
+            </TouchableOpacity>}
             <TouchableOpacity style={styles.option} onPress={confirmRemoveImage}>
               <MaterialCommunityIcons name="trash-can" size={24} color="red" />
               <Text style={[styles.optionText, { color: 'red' }]}>Apagar foto</Text>

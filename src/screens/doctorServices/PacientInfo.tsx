@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Alert, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, Alert, ScrollView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { cpf } from 'cpf-cnpj-validator';
-import { useFocusEffect } from '@react-navigation/native';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
@@ -16,8 +15,6 @@ import ErrorMessage from '../../components/errorMessage';
 import dayjs from 'dayjs';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import { FormatPacient } from '../../interfaces/globalInterface';
-
-
 
 const schema = yup.object({
   name: yup.string().required('O nome é obrigatório'),
@@ -42,7 +39,7 @@ const PatientUpdate = ({ navigation }) => {
   const [pacient, setPacient] = useState<FormatPacient>(null);
   const [loading, setLoading] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
-  const { control, handleSubmit, watch, formState: { errors }, setValue } = useForm({
+  const { control, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
@@ -52,12 +49,10 @@ const PatientUpdate = ({ navigation }) => {
     },
   });
 
-
-
   const fetchData = async () => {
     try {
       const response = await api.get(`/pacient/${pac_id}`);
-      const { name, person, additional_information  }:FormatPacient = response.data;
+      const { name, person, additional_information }: FormatPacient = response.data;
       setPacient(response.data);
       const formattedBirthday = dayjs(person.birthday).format('DD/MM/YYYY');
 
@@ -69,25 +64,25 @@ const PatientUpdate = ({ navigation }) => {
       console.error('Erro ao buscar os dados do paciente:', error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [pac_id, setValue]);
-
 
   const handleUpdatePatient = async (data) => {
     setLoading(true);
 
     try {
-
       const formattedData = {
         name: data.name,
         birthday: formatDateToISO(data.birthday),
         additional_information: data.additional_information
       };
 
-      const response = await api.put(`/pacient/${pac_id}`, formattedData);
+      await api.put(`/pacient/${pac_id}`, formattedData);
       fetchData();
-      vibrateFeedback()
+      setLoading(false);
+      vibrateFeedback();
       Alert.alert("Paciente", 'atualizado com sucesso!');
     } catch (error) {
       console.error(error);
@@ -97,15 +92,11 @@ const PatientUpdate = ({ navigation }) => {
     }
   };
 
-
   const formatDateToISO = (date) => {
-
     const [day, month, year] = date.split('/');
     if (day && month && year) {
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     }
-
-
     return date;
   };
 
@@ -133,45 +124,47 @@ const PatientUpdate = ({ navigation }) => {
           </>
         )}
       />
-      
 
       <LabelInput value="CPF" />
       <Controller
         control={control}
         name="cpf"
         render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <TextInput
-              mode="outlined"
-              activeOutlineColor={colorPrimary}
-              value={value}
-              onChangeText={onChange}
-              keyboardType="numeric"
-              style={styles.input}
-              error={!!error}
-              disabled
-            />
+          <TextInput
+            mode="outlined"
+            activeOutlineColor={colorPrimary}
+            value={value}
+            onChangeText={onChange}
+            keyboardType="numeric"
+            style={styles.input}
+            error={!!error}
+            disabled
+          />
         )}
       />
 
       <LabelInput value='Informações Adicionais' />
-      <Controller control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
+      <Controller
+        control={control}
+        name="additional_information"
+        render={({ field: { onChange, value } }) => (
           <TextInput
             dense
             value={value}
             onChangeText={onChange}
             mode='outlined'
-            activeOutlineColor={colorPrimary} />
+            activeOutlineColor={colorPrimary}
+            style={styles.input}
+          />
         )}
-        name='additional_information'
       />
       <ErrorMessage name={"additional_information"} errors={errors} />
 
-      
       <View style={{ top: 15 }}>
         <LabelInput value="Data de Nascimento" />
         <Controller
           control={control}
+          name="birthday"
           render={({ field: { onChange, value } }) => (
             <MaskInput
               style={[
@@ -187,13 +180,10 @@ const PatientUpdate = ({ navigation }) => {
               cursorColor={colorSecundary}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
-              onChangeText={(masked) => {
-                onChange(masked);
-              }}
+              onChangeText={(masked) => onChange(masked)}
               mask={Masks.DATE_DDMMYYYY}
             />
           )}
-          name="birthday"
         />
       </View>
          
@@ -203,8 +193,9 @@ const PatientUpdate = ({ navigation }) => {
         buttonColor={colorPrimary}
         onPress={handleSubmit(handleUpdatePatient)}
         disabled={loading}
+        loading={loading}
       >
-        {loading ? 'Atualizando...' : 'Atualizar Paciente'}
+        Atualizar Paciente
       </Button>
     </ScrollView>
   );

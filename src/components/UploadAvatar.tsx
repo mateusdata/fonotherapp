@@ -167,7 +167,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         </Pressable>
         <Text style={styles.userName}>
           {user?.person?.name?.charAt(0)?.toUpperCase() + user?.person?.name?.slice(1)}
-        {height}
+        
         </Text>
       </View>
 
@@ -231,8 +231,9 @@ const styles = StyleSheet.create({
   },
   userName: {
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 22,
     marginTop: 10,
+    color:colorPrimary
   },
   option: {
     flexDirection: 'row',

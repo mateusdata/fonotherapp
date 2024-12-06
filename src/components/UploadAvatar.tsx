@@ -149,13 +149,16 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
 
   const openPhoto = () => {
     setIsSheetOpen(false);
-    navigation.navigate('UserPhoto', { image: image });
+    if (user?.profile_picture_url?.match(/\.(jpg|jpeg|png)$/) && showImage) {
+      navigation.navigate('UserPhoto', { image: image });
+    }
+  
   }
 
   return (
     <>
       <View style={styles.container}>
-        <Pressable onPress={() => setIsSheetOpen(true)} style={styles.avatarContainer}>
+        <Pressable onPress={openPhoto} style={styles.avatarContainer}>
           {showImage && image ? (
             <Avatar.Image size={height > 700 ? 150 : 130} source={{ uri: image }} />
           ) : (
@@ -192,10 +195,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
               <Text style={styles.optionText}>Tirar foto</Text>
             </TouchableOpacity>
 
-            {showImage && <TouchableOpacity style={styles.option} onPress={openPhoto}>
-              <MaterialCommunityIcons name="image-search" size={24} color={colorPrimary} />
-              <Text style={styles.optionText}>Ver foto</Text>
-            </TouchableOpacity>}
+            
             <TouchableOpacity style={styles.option} onPress={confirmRemoveImage}>
               <MaterialCommunityIcons name="trash-can" size={24} color="red" />
               <Text style={[styles.optionText, { color: 'red' }]}>Apagar foto</Text>

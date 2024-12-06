@@ -115,7 +115,9 @@ export default function Videos({ navigation }) {
       }}>
       <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8, }}>
         <AntDesign name="play" size={30} color={"#36B3B9"} />
-        <Text>{item?.name}</Text>
+        <Text style={{ flexShrink: 1, padding: 8 }} numberOfLines={3} ellipsizeMode="tail">
+          {item?.name}
+        </Text>
       </View>
     </Pressable>
   );

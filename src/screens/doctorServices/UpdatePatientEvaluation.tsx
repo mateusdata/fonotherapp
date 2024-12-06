@@ -76,7 +76,7 @@ export default function UpdatePatientEvaluation({ navigation, route }) {
               <View key={questionIndex} style={{ marginBottom: 20 }}>
                 <RadioButton.Group
                   onValueChange={(selectedValue) => {
-                    vibrateFeedbackError()
+                    vibrateFeedbackWarning()
                     handleAnswerClick(
                       question.que_id,
                       selectedValue,

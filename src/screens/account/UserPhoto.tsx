@@ -24,13 +24,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: '#f5f5f5',
-    padding: 20,
+    padding: 0,
   },
   image: {
     width: '100%',  // 100% da largura do contêiner
     aspectRatio: 1,  // Manter a proporção da imagem
-    borderRadius: 15,
-    borderWidth: 2,
     borderColor: '#ddd',
   },
 });

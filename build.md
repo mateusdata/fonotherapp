@@ -26,7 +26,8 @@ Fazer build local IOS build:
 
 Fazer build remoto IOS expo:
 eas build -p ios --profile preview build ios no servidor expo 
-
+eas build --platform ios
+eas submit --platform ios
 
 
 # MOSTRAR LISTA DE build ios

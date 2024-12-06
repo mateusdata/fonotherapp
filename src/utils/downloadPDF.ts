@@ -36,7 +36,7 @@ export default async function downloadPDF(pdfUri: string, pdfName: string, token
     }
 }
 
-async function fileSave(uri: string, filename: string) {
+export async function fileSave(uri: string, filename: string) {
     if (Platform.OS === "android") {
         const directoryUri = FileSystem.cacheDirectory + filename
         const base64File = await FileSystem.readAsStringAsync(uri, {

@@ -12,6 +12,7 @@ import NotFoudMessageList from '../../components/NotFoudMessageList';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import XLSX from 'xlsx';
+import { Directory, File, Paths } from 'expo-file-system/next';
 
 export default function Finance({ navigation }) {
     const { user, accessToken } = useAuth();
@@ -61,31 +62,27 @@ export default function Finance({ navigation }) {
     }
 
     const handleDownloadExcel = async () => {
+        const url = 'https://api.fonotherapp.com.br/spreadsheet';
+        const destination = FileSystem.documentDirectory + 'Controle_financeiro.xlsx';
+        
         try {
-            const ws = XLSX.utils.json_to_sheet(sessionsHistory);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Relatórios");
-
-            const wbout = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
-
-            const path = `${FileSystem.documentDirectory}relatorios_financeiros.xlsx`;
-
-            await FileSystem.writeAsStringAsync(path, wbout, { encoding: FileSystem.EncodingType.Base64 });
-           
-
-            // Compartilhar o arquivo
+            const { uri } = await FileSystem.downloadAsync(url, destination);
+            console.log('Arquivo baixado para:', uri);
+    
+            // Compartilhar o arquivo baixado
             if (Platform.OS === "android") {
-                const directoryUri = FileSystem.cacheDirectory + "relatorios_financeiros.xlsx";
-                const base64File = await FileSystem.readAsStringAsync(path, { encoding: FileSystem.EncodingType.Base64 });
+                const directoryUri = FileSystem.cacheDirectory + "Controle_financeiro.xlsx";
+                const base64File = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
                 await FileSystem.writeAsStringAsync(directoryUri, base64File, { encoding: FileSystem.EncodingType.Base64 });
                 await Sharing.shareAsync(directoryUri);
             } else {
-                await Sharing.shareAsync(path);
+                await Sharing.shareAsync(uri);
             }
         } catch (error) {
-            console.error("Erro ao gerar Excel:", error);
+            console.error("Erro ao baixar o arquivo:", error);
         }
     };
+    
 
     const renderFooter = () => {
         if (!isLoading) return null;
@@ -146,7 +143,7 @@ export default function Finance({ navigation }) {
                         alignItems: 'center',
                     }}
                 >
-                  Controle financeiro
+                    Controle financeiro
                 </Button>
             </View>
         </View>

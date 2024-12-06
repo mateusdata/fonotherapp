@@ -12,6 +12,8 @@ import { useAuth } from '../context/AuthProvider';
 import { getUser } from '../utils/getUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { colorPrimary } from '../style/ColorPalette';
+import { height } from '../utils/widthScreen';
 
 export default function UploadAvatar({ user }: { user: FormatUser }) {
   const [image, setImage] = useState<string | null>(null);
@@ -155,9 +157,9 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
       <View style={styles.container}>
         <Pressable onPress={() => setIsSheetOpen(true)} style={styles.avatarContainer}>
           {showImage && image ? (
-            <Avatar.Image size={150} source={{ uri: image }} />
+            <Avatar.Image size={height > 700 ? 150 : 130} source={{ uri: image }} />
           ) : (
-            <Avatar.Text size={150} label={user?.person?.name?.[0]?.toUpperCase()} />
+            <Avatar.Text size={height > 700 ? 150 : 130} label={user?.person?.name?.[0]?.toUpperCase()} />
           )}
           <Pressable style={styles.cameraIcon} onPress={() => setIsSheetOpen(true)}>
             <MaterialCommunityIcons name="camera" size={28} color="#fff" />
@@ -165,6 +167,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         </Pressable>
         <Text style={styles.userName}>
           {user?.person?.name?.charAt(0)?.toUpperCase() + user?.person?.name?.slice(1)}
+        {height}
         </Text>
       </View>
 
@@ -179,16 +182,18 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         <Sheet.Frame>
           <HeaderSheet />
           <View style={styles.sheetContent}>
-            <TouchableOpacity style={styles.option} onPress={pickCamera}>
-              <MaterialCommunityIcons name="camera" size={24} color="black" />
-              <Text style={styles.optionText}>Tirar foto</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.option} onPress={pickImage}>
-              <MaterialCommunityIcons name="image" size={24} color="black" />
+              <MaterialCommunityIcons name="image" size={24} color={colorPrimary} />
               <Text style={styles.optionText}>Escolher foto</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.option} onPress={pickCamera}>
+              <MaterialCommunityIcons name="camera" size={24} color={colorPrimary} />
+              <Text style={styles.optionText}>Tirar foto</Text>
+            </TouchableOpacity>
+
             {showImage && <TouchableOpacity style={styles.option} onPress={openPhoto}>
-              <MaterialCommunityIcons name="image-search" size={24} color="black" />
+              <MaterialCommunityIcons name="image-search" size={24} color={colorPrimary} />
               <Text style={styles.optionText}>Ver foto</Text>
             </TouchableOpacity>}
             <TouchableOpacity style={styles.option} onPress={confirmRemoveImage}>
@@ -206,7 +211,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 15,
+    padding: height > 700 ?  15 :0,
   },
   avatarContainer: {
     position: 'relative',

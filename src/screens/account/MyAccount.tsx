@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider, Button } from 'react-native-paper';
 import { MaterialIcons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,6 +7,7 @@ import { Context } from '../../context/AuthProvider';
 import { useAuth } from '../../context/AuthProvider';
 import UploadAvatar from '../../components/UploadAvatar';
 import { colorPrimary } from '../../style/ColorPalette';
+import { height } from '../../utils/widthScreen';
 
 const MyAccount = ({ navigation }) => {
   const { logOut, user } = useAuth();
@@ -21,7 +22,7 @@ const MyAccount = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <UploadAvatar user={user} />
       </View>
@@ -53,7 +54,7 @@ const MyAccount = ({ navigation }) => {
           onPress={logOut}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 0,
   },
   menuContainer: {
     width: '100%',
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    paddingVertical: 16,
+    paddingVertical: height > 700 ? 16 :5 ,
     paddingHorizontal: 16,
     borderRadius: 8,
     marginBottom: 12,

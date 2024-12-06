@@ -245,7 +245,10 @@ export default function Section({ navigation }) {
         }}>
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8 }}>
           <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "orange" : colorPrimary} />
-          <Text style={{ color: isExerciseAdded ? "orange" : "black" }}>{item?.name}</Text>
+          <Text numberOfLines={3} ellipsizeMode="tail" style={{ flexShrink: 1, padding: 8 , color: isExerciseAdded ? "orange" : "black" }}>
+            {item?.name}
+          </Text>
+        
         </View>
       </Pressable>
     );

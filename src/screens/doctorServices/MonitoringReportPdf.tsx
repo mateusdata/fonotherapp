@@ -67,12 +67,12 @@ const MonitoringReportPdf = ({ route }: any) => {
         <KeyboardView>
         <ScrollView style={{ padding: 10, }}>
             <Text  style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-                Relatório de acompanhamento do paciente   {pacient.person.name}
+                Relatório de Acompanhamento - Paciente   {pacient.person.name}
             </Text>
 
             <View>
 
-                <LabelInput value='Diagnóstico' />
+                <LabelInput value='Diagnóstico(s)' />
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (

@@ -69,8 +69,8 @@ const DischargeReportPdf = ({ route }: any) => {
 
 
   const nomeChaves: { [key: string]: string } = {
-    medical_diagnoses: "Diagnósticos",
-    how_it_was_discovered: "História clínica",
+    medical_diagnoses: "Diagnóstico(s)",
+    how_it_was_discovered: "História Clínica",
     first_session_findings: "Avaliação Inicial",
     therapeutic_plan: "Plano Terapêutico",
     patients_progress: "Evolução",
@@ -84,10 +84,10 @@ const DischargeReportPdf = ({ route }: any) => {
       <ScrollView style={{ padding: 10 }}>
         <View >
           <Text  style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-            Relatório de alta do paciente
+            Relatório de Alta Fonoaudiolgico - Paciente {pacient.person.name}
           </Text>
-          <Text  style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
-            {pacient.person.name}
+          <Text  style={{ textAlign: "center", fontSize: 17, }}>
+            
           </Text>
         </View>
 

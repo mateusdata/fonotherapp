@@ -1,7 +1,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { Avatar, Button, Card, List } from 'react-native-paper';
-import {  Pressable, StyleSheet, Text, View } from 'react-native';
+import {  Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 import { useAuth } from '../../context/AuthProvider';
@@ -17,8 +17,7 @@ import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 const MyComponent = ({ navigation, pacient, answered }) => (
   <View style={styles2.container}>
     <List.Section style={{ gap: 12 }}>
-      <List.Subheader style={styles2.subheader}>Quadro atual</List.Subheader>
-      <Pressable onPress={() => navigation.navigate("Anamnese", { pacient: pacient })}>
+      <Pressable style={{marginTop:50}} onPress={() => navigation.navigate("Anamnese", { pacient: pacient })}>
         <Card.Title
           title="Anamnese"
           style={{ backgroundColor: "#E8E8E8", borderWidth: 0, padding: 12, borderRadius: 12, }}
@@ -30,9 +29,10 @@ const MyComponent = ({ navigation, pacient, answered }) => (
 
       <Pressable onPress={() => navigation.navigate("UpdatePatientEvaluation", { pacient: pacient , answered: answered[0]})}>
         <Card.Title
-          title="Avaliação estrutural"
+          
+          title="Avaliação Estrutural"
           style={{ backgroundColor: "#E8E8E8", borderWidth: 0, padding: 12, borderRadius: 12, }}
-          left={(props) => <Avatar.Icon {...props} color={colorPrimary} style={{ backgroundColor: "", }} icon="doctor" />}
+          left={(props) => <Avatar.Icon {...props} color={colorPrimary} style={{ backgroundColor: "", }} icon="face-man" />}
           right={(props) => <AntDesign name="right" style={{}} color={colorPrimary} size={22} />}
         />
       </Pressable>
@@ -40,9 +40,9 @@ const MyComponent = ({ navigation, pacient, answered }) => (
       <Pressable onPress={() => navigation.navigate("UpdatePatientEvaluation", { pacient: pacient , answered: answered[1]})}>
 
         <Card.Title
-          title="Avaliação funcional"
+          title="Avaliação Funcional"
           style={{ backgroundColor: "#E8E8E8", borderWidth: 0, padding: 12, borderRadius: 12, }}
-          left={(props) => <Avatar.Icon {...props} color={colorPrimary} style={{ backgroundColor: "", }} icon="thermometer" />}
+          left={(props) => <Avatar.Icon {...props} color={colorPrimary} style={{ backgroundColor: "", }} icon={"dumbbell"} />}
           right={(props) => <AntDesign name="right" style={{}} color={colorPrimary} size={22} />}
         />
       </Pressable>
@@ -148,21 +148,22 @@ const AnsweredQuestions = ({ navigation }) => {
 
   return (
     <>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
 
-        <View style={{ gap: 8 }}>
+        <View style={{ gap: 8, marginTop:22}}>
           <Pressable onPress={getPdf}>
             <Button
+              labelStyle={{ fontSize: 16 }}
               icon={(props) => <AntDesign name="pdffile1" size={23} color="white" />}
               buttonColor={colorPrimary} mode='elevated' textColor='white' >
-              {`Relatório de Avaliação do paciente ${pacient?.name.split(' ')[0]}`}
+              {`Relatório de Avaliação - Paciente ${pacient?.name.split(' ')[0]}`}
             </Button>
           </Pressable>
 
 
 
-          <Pressable onPress={() => navigation.navigate("PacientEvolution", { pac_id: pac_id })}>
-            <Button buttonColor={colorPrimary} mode='elevated' textColor='white' >
+          <Pressable  onPress={() => navigation.navigate("PacientEvolution", { pac_id: pac_id })}>
+            <Button    labelStyle={{ fontSize: 16 }} buttonColor={colorPrimary} mode='elevated' textColor='white' >
               Evolução Diária
             </Button>
           </Pressable>
@@ -171,8 +172,7 @@ const AnsweredQuestions = ({ navigation }) => {
 
         <MyComponent navigation={navigation} pacient={pacient} answered={answered} />
 
-
-      </View>
+      </ScrollView>
 
     
 

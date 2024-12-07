@@ -10,6 +10,7 @@ import PacientContext from './src/context/PacientContext';
 import GlobalContext from './src/context/GlobalContext';
 import * as Notifications from 'expo-notifications';
 import Toast from 'react-native-toast-message';
+import { Alert } from 'react-native';
 
 
 

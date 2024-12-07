@@ -178,7 +178,7 @@ const Anamnese = ({ navigation, route }) => {
         />
         <ErrorMessage name={"current_food_intake_method"} errors={errors} />
 
-        <LabelInput value='Doença base' />
+        <LabelInput value='Doenças de base' />
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -206,24 +206,7 @@ const Anamnese = ({ navigation, route }) => {
         />
         <ErrorMessage name={"food_profile"} errors={errors} />
 
-        {
-          false &&
-          <>
-            <LabelInput value='Queixas de deglutição' />
-            <Controller control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  dense
-                  value={value}
-                  onChangeText={onChange}
-                  mode='outlined'
-                  activeOutlineColor={colorPrimary} />
-              )}
-              name='chewing_complaint'
-            />
-            <ErrorMessage name={"chewing_complaint"} errors={errors} />
-          </>
-        }
+      
 
         <LabelInput value='Motivo da consulta' />
         <Controller control={control}
@@ -240,19 +223,6 @@ const Anamnese = ({ navigation, route }) => {
         <ErrorMessage name={"consultation_reason"} errors={errors} />
 
 
-        <LabelInput value='Queixas de deglutição' />
-        <Controller control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              dense
-              value={value}
-              onChangeText={onChange}
-              mode='outlined'
-              activeOutlineColor={colorPrimary} />
-          )}
-          name='chewing_complaint'
-        />
-        <ErrorMessage name={"chewing_complaint"} errors={errors} />
 
 
         <View style={{ marginBottom: 40 }}>

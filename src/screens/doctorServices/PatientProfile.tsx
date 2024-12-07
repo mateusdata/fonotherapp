@@ -257,7 +257,7 @@ const PatientProfile = ({ navigation }) => {
 
 
             <View style={{ bottom: 20, paddingHorizontal: 15, marginHorizontal: 5, paddingBottom: Platform.OS === "ios" && 20 }}>
-                <Button buttonColor={colorSecundary} icon="content-save" mode="contained" onPress={() => {
+                <Button buttonColor={colorPrimary} icon="content-save" mode="contained" onPress={() => {
                     navigation.navigate("Section")
                 }} style={{ marginTop: 10 }}>
                     Iniciar sessão

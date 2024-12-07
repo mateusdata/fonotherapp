@@ -115,8 +115,8 @@ const PrivateRoutes = () => {
 
 
         <AppStack.Screen name='ServiceProvisionReceiptPdf' component={ServiceProvisionReceiptPdf} options={{ headerTitleAlign: "center", headerTitle: "Recibo de prestação de serviço" }} />
-        <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de acompanhamento" }} />
-        <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
+        <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de Acompanhamento" }} />
+        <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: " Relatório de Alta " }} />
 
         <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{ headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
         <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerTitleAlign: "center", headerTitle: "Meu CRFA", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />

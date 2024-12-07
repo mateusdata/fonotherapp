@@ -56,29 +56,27 @@ const Anamnese = ({ navigation, route }) => {
   const [isFocusEducation, setIsFocusEducation] = useState(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const { pacient } = route?.params || {};
-    const schema = yup.object({
+  const schema = yup.object({
     education: yup.string().nullable().optional(),
-    base_diseases: yup.string().required("Obrigatorio"),
-    food_profile: yup.string().required("Obrigatorio"),
-    chewing_complaint: yup.string().required("Obrigatorio"),
-    consultation_reason: yup.string().required("Obrigatorio"),
+    base_diseases: yup.string().max(150, "Tamanho máximo excedido: 150 caracteres").required("Campo obrigatório"),
+    food_profile: yup.string().max(150, "Tamanho máximo excedido: 150 caracteres").required("Campo obrigatório"),
+    consultation_reason: yup.string().max(150, "Tamanho máximo excedido: 150 caracteres").required("Campo obrigatório"),
     current_food_intake_method: yup.string().nullable().optional(),
-
   }).required();
+
 
   const { reset, handleSubmit, watch, formState: { errors }, control, setError } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
       education: pacient ? pacient?.education : "",
-      base_diseases: pacient ? pacient?.base_diseases  : "",
-      chewing_complaint: pacient ? pacient?.chewing_complaint :  "",
+      base_diseases: pacient ? pacient?.base_diseases : "",
       consultation_reason: pacient ? pacient?.consultation_reason : "",
       food_profile: pacient ? pacient?.food_profile : "",
       current_food_intake_method: pacient ? pacient?.current_food_intake_method : "",
     }
   });
-  
+
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -88,23 +86,23 @@ const Anamnese = ({ navigation, route }) => {
       setPacient(response?.data?.person);
       setLoading(false);
       if (pacient) {
-        if(Platform.OS==="android"){
-           ToastAndroid.show('Paciente atualizado!', ToastAndroid.LONG);
+        if (Platform.OS === "android") {
+          ToastAndroid.show('Paciente atualizado!', ToastAndroid.LONG);
         }
-        else{
+        else {
           Alert.alert("Paciente", "Atualizado com sucesso")
         }
         return
       }
-      
+
       navigation.navigate("PatientEvaluation");
       setLoading(false);
       reset();
     } catch (error) {
       setLoading(false);
-     
+      Alert.alert("Erro", "Erro ao cadastrar paciente")
       if (!error?.response) {
-       // return setError("chewing_complaint", { message: "Sem conexão com a internet, tente novamente" })
+        // return setError("chewing_complaint", { message: "Sem conexão com a internet, tente novamente" })
       }
 
     }
@@ -112,7 +110,7 @@ const Anamnese = ({ navigation, route }) => {
 
   return (
     <KeyboardView style={styles.container}>
-   
+
       <ScrollView style={styles.containerChildren}>
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
@@ -171,7 +169,7 @@ const Anamnese = ({ navigation, route }) => {
                   setIsFocus(false);
                 }}
               />
-  
+
             </View>
           )}
           name='current_food_intake_method'
@@ -206,7 +204,7 @@ const Anamnese = ({ navigation, route }) => {
         />
         <ErrorMessage name={"food_profile"} errors={errors} />
 
-      
+
 
         <LabelInput value='Motivo da consulta' />
         <Controller control={control}

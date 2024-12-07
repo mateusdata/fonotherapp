@@ -60,6 +60,7 @@ const CreatePacient = ({ navigation }) => {
   const schema = yup.object({
     name: yup
       .string()
+      .max(50, "Tamanho máximo excedido: 50 caracteres")
       .required("Paciente é obrigatório")
       .matches(/^(?!^\d+$).+$/, {
         message: 'Não são permitidas entradas numéricas'
@@ -87,7 +88,7 @@ const CreatePacient = ({ navigation }) => {
       .required("Obrigatório"),
 
     last_name: yup.string(),
-    additional_information: yup.string().nullable().optional()
+    additional_information: yup.string().max(100, "Tamanho máximo excedido: 100 caracteres").nullable().optional()
 
   }).required();
 
@@ -123,7 +124,7 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      setError("additional_information", { message: "Ocorreu um erro" });
+        setError("additional_information", { message: "Ocorreu um erro, tente novamente." });
     }
   };
 

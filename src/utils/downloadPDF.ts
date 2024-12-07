@@ -26,7 +26,7 @@ export default async function downloadPDF(pdfUri: string, pdfName: string, token
                 await fileSave(downloadResponse?.uri, pdfName)
             }
             setLoading(false)
-        }, 100);
+        },0);
     } catch (error) {
         Alert.alert("Download", "Não foi possível realizar o download.")
         console.error(error)

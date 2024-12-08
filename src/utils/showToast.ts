@@ -8,16 +8,17 @@ interface ToastOptions {
   text2?: string;
   position?: "bottom" | "top";
   visibilityTime?: number;
+  bottomOffset?: number
 }
 
-export const showToast = ({ type, text1, text2, position, visibilityTime }: ToastOptions) => {
+export const showToast = ({ type, text1, text2, position, visibilityTime, bottomOffset }: ToastOptions) => {
   Toast.show({
     type: type,
     text1: text1,
     text2: text2,
     visibilityTime: visibilityTime ? visibilityTime : 2000,
     position: position ? position : 'bottom',
-    bottomOffset: 35,
+    bottomOffset: bottomOffset ? bottomOffset: 35,
         
   });
 };

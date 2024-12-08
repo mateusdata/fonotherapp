@@ -35,7 +35,7 @@ async function setInterceptors(setUser: Function, logOut: any) {
   api.interceptors.response.use(
 
     (response) => {
-      
+  
       (JSON.stringify(response.data, null, 2))
       if (response.status === 202) {
         Alert.alert("Atenção", response?.data?.message)
@@ -44,15 +44,10 @@ async function setInterceptors(setUser: Function, logOut: any) {
       return response;
     },
     async (error) => {
-
+     
       if (!error.response) {
         isSessionExpiredToastShown = true;
-        showToast({
-          type: "error",
-          text1: "Você perdeu a conexão com a internet",
-          text2: "Verifique sua conexão",
-          position: "top"
-        });
+        Alert.alert(" Você perdeu a conexão com a internet", "Por favor, verifique sua conexão e tente novamente")
       }
 
       if (error.response.status === 500) {
@@ -60,8 +55,9 @@ async function setInterceptors(setUser: Function, logOut: any) {
         showToast({
           type: "error",
           text1: "Ocorreu um erro",
-          text2: "Tente novamente mais tarde 🙁",
-          position: "top"
+          position: "bottom",
+          bottomOffset: 100
+  
         });
 
       }

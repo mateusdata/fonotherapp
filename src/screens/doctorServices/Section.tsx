@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Platform, Vibration } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Platform, Vibration, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
@@ -17,7 +17,6 @@ import HeaderSheet from '../../components/HeaderSheet';
 import { useAuth } from '../../context/AuthProvider';
 import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
-import Toast from '../../components/toast';
 import { videoUrl } from '../../utils/videoUrl';
 import Segmenteds from '../../components/Segmenteds';
 import { useVideoPlayer, VideoView } from 'expo-video';
@@ -26,11 +25,10 @@ import LinearCustomGradient from '../../components/LinearCustomGradient';
 import { heightPercentage } from '../../utils/widthScreen';
 import KeyboardView from '../../components/KeyboardView';
 import { vibrateFeedbackWarning } from '../../utils/vibrateFeedbackWarning';
+import { showToast } from '../../utils/showToast';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
-  const [showToast, setShowToast] = useState<boolean>(false);
-  const [mensageToast, setMensageToast] = useState<string>("");
   const [videosFono, setVideosFono] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -161,8 +159,7 @@ export default function Section({ navigation }) {
       };
       exercisePlans = [...exercisePlans, data];
     } else {
-      setMensageToast("Ocorreu um error");
-      setShowToast(true);
+      Alert.alert("Ocorreu um error");
       return;
     }
 
@@ -179,22 +176,23 @@ export default function Section({ navigation }) {
       setLoadingBottom(false)
       setThereSession(true)
 
-      setMensageToast("Sessão criada")
+      showToast({
+        type: "success",
+        text1: "Sessão criada",
+        position: "bottom"
+      });
+
       vibrateFeedback()
-      setShowToast(true)
       reset()
 
     } catch (error) {
       setLoadingBottom(false)
-      setMensageToast(!error.response ? "Sem conexão com a internet" : "Erro ao criar sessão")
-      setShowToast(true)
-
+      Alert.alert("Ocorreu um erro")
     }
   };
 
   const onError = (error) => {
-    setMensageToast("Error: atribua um exercicio")
-    setShowToast(true)
+
 
   }
 
@@ -207,19 +205,16 @@ export default function Section({ navigation }) {
         setValue("ses_id", session.data.ses_id);
         handleSubmit(onSubmit, onError)()
       } catch (error) {
-        setMensageToast("Ocoreu um erro")
-        setShowToast(true)
+        Alert.alert("Ocoreu um erro")
 
 
       }
       return
     }
 
-    setMensageToast("Error: atribua um exercicio")
     Haptics.notificationAsync(
       Haptics.NotificationFeedbackType.Error
     )
-    setShowToast(true)
     setLoadingBottom(false)
   }
   const onOpenChange = () => {
@@ -245,10 +240,10 @@ export default function Section({ navigation }) {
         }}>
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8 }}>
           <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "orange" : colorPrimary} />
-          <Text numberOfLines={3} ellipsizeMode="tail" style={{ flexShrink: 1, padding: 8 , color: isExerciseAdded ? "orange" : "black" }}>
+          <Text numberOfLines={3} ellipsizeMode="tail" style={{ flexShrink: 1, padding: 8, color: isExerciseAdded ? "orange" : "black" }}>
             {item?.name}
           </Text>
-        
+
         </View>
       </Pressable>
     );
@@ -311,7 +306,6 @@ export default function Section({ navigation }) {
         </View>
       </View>
 
-      <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} bottom={65} />
       <Sheet
         modal
         open={modalVisible}

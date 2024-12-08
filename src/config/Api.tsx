@@ -35,10 +35,7 @@ async function setInterceptors(setUser: Function, logOut: any) {
   api.interceptors.response.use(
 
     (response) => {
-
-      //console.log(response);
-      //alert(JSON.stringify(response.data, null, 2))
-      //console.log(response.data);
+      
       (JSON.stringify(response.data, null, 2))
       if (response.status === 202) {
         Alert.alert("Atenção", response?.data?.message)
@@ -47,27 +44,43 @@ async function setInterceptors(setUser: Function, logOut: any) {
       return response;
     },
     async (error) => {
-      // Verifique se o erro é um 401
-      console.log(error.response.status);
-      if (!error.response && !isSessionExpiredToastShown) {
+
+      if (!error.response) {
         isSessionExpiredToastShown = true;
-        showToast("error", "Você perdeu a conexão com a internet", "Verifique sua conexão", "top")
+        showToast({
+          type: "error",
+          text1: "Você perdeu a conexão com a internet",
+          text2: "Verifique sua conexão",
+          position: "top"
+        });
+      }
+
+      if (error.response.status === 500) {
+        isSessionExpiredToastShown = true;
+        showToast({
+          type: "error",
+          text1: "Ocorreu um erro",
+          text2: "Tente novamente mais tarde 🙁",
+          position: "top"
+        });
+
       }
 
       if (error.response.status === 401) {
         try {
-          // Se o toast ainda não foi mostrado, mostre-o e marque como mostrado
-          // isSessionExpiredToastShown = true;
-          showToast("error", "Sessão expirada", "faça login novamente", "bottom")
 
-          // Limpe o AsyncStorage e faça logout
+          showToast({
+            type: "error",
+            text1: "Sessão expirada",
+            text2: "Faça login novamente",
+            position: "bottom"
+          });
           await logOut();
         } catch (asyncStorageError) {
           console.error("Error removing user from AsyncStorage:", asyncStorageError);
         }
       }
 
-      // Rejeite a promessa com o erro original
       return Promise.reject(error);
     }
   );

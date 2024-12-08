@@ -13,6 +13,7 @@ import { Button } from 'react-native-paper';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 dayjs.locale('pt-br');
 import { useAuth } from '../../context/AuthProvider';
+import { showToast } from '../../utils/showToast';
 
 const AddEventScreen = ({ navigation }) => {
     const [isAllDay, setIsAllDay] = useState(true);
@@ -90,9 +91,14 @@ const AddEventScreen = ({ navigation }) => {
 
             AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
             vibrateFeedback()
-            if (Platform.OS === "android") {
-                ToastAndroid.show("Evento criado", ToastAndroid.BOTTOM);
-            }
+            setTimeout(() => {
+                showToast({
+                    type: "success",
+                    text1: "Evento criado",
+                    position: "bottom"
+                });
+            }, 1000);
+              
             navigation.goBack();
 
         } catch (error) {

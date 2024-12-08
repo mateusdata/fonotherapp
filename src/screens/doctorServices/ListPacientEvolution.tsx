@@ -8,6 +8,7 @@ import LoadingComponent from '../../components/LoadingComponent';
 import utc from 'dayjs/plugin/utc';
 import { useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '../../context/AuthProvider'
+import { showToast } from '../../utils/showToast';
 
 dayjs.extend(utc);
 
@@ -88,8 +89,12 @@ export default function PatientEvolutionList({ navigation, route }) {
               setEvolutions((prevEvolutions) =>
                 prevEvolutions.filter((evolution) => evolution.rec_id !== rec_id)
               );
-              Alert.alert('Sucesso', 'Evolução excluída com sucesso.');
-            } catch (error) {
+              showToast({
+                type: "success",
+                text1: "Evolução excluída",
+                position: "bottom"
+              });
+                          } catch (error) {
               console.error('Erro ao excluir a evolução:', error);
               Alert.alert('Erro', 'Não foi possível excluir a evolução.');
             } finally {

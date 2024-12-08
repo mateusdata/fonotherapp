@@ -10,16 +10,15 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { api } from '../../config/Api'
 import ErrorMessage from '../../components/errorMessage'
 import { FormatPacient } from '../../interfaces/globalInterface';
-import Toast from '../../components/toast';
 import LabelInput from '../../components/LabelInput';
 import { colorPrimary } from '../../style/ColorPalette';
+import { showToast } from '../../utils/showToast';
 
 
 
 const UpdatePacient = ({ route }) => {
     const [loading, setLoading] = useState<boolean>(false)
     const { pacient }: { pacient: FormatPacient } = route.params
-    const [showToast, setShowToast] = useState<boolean>(false);
 
     const formatCpf = cpf;
 
@@ -49,7 +48,8 @@ const UpdatePacient = ({ route }) => {
         try {
             const response = await api.put(`/pacient/${pacient?.pac_id}`, data);
             setLoading(false);
-            setShowToast(true)
+            showToast({ type: "success", text1: "Paciente atualizado", position: "bottom" });
+
         } catch (e) {
             if (e?.response) {
                 setLoading(false);
@@ -67,7 +67,7 @@ const UpdatePacient = ({ route }) => {
                 <Text>{false && JSON.stringify(pacient?.person, null, 2)}</Text>
                 <View style={styles.containerChildren}>
 
-                    <LabelInput value='Nome'/>
+                    <LabelInput value='Nome' />
                     <Controller control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
@@ -84,24 +84,24 @@ const UpdatePacient = ({ route }) => {
 
 
 
-                   { false && 
-                    <>
-                     <Controller control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <SafeAreaProvider>
-                                <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
-                                 
-                                </View>
-                            </SafeAreaProvider>
+                    {false &&
+                        <>
+                            <Controller control={control}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <SafeAreaProvider>
+                                        <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
 
-                        )}
+                                        </View>
+                                    </SafeAreaProvider>
 
-                        name='birthday'
-                    />
-                    <ErrorMessage name={"birthday"} errors={errors} />
+                                )}
 
-                    </>
-                   }
+                                name='birthday'
+                            />
+                            <ErrorMessage name={"birthday"} errors={errors} />
+
+                        </>
+                    }
 
                 </View>
 
@@ -114,7 +114,6 @@ const UpdatePacient = ({ route }) => {
 
 
             </View>
-            <Toast visible={showToast} mensage={"Paciente atualizado"} setVisible={setShowToast} />
 
 
 

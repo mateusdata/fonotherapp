@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-import { yupResolver } from "@hookform/resolvers/yup"
+import { zodResolver } from "@hookform/resolvers/zod"
 import * as yup from "yup"
 import { ScrollView } from 'react-native-gesture-handler';
 import { cpf } from 'cpf-cnpj-validator';
@@ -17,6 +17,7 @@ import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
 import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
+import { z } from "zod";
 
 
 
@@ -57,44 +58,55 @@ const CreatePacient = ({ navigation }) => {
   const today = new Date();
   const twoYearsAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
 
-  const schema = yup.object({
-    name: yup
+  const schema = z.object({
+    name: z
       .string()
-      .max(50, "Tamanho máximo excedido: 50 caracteres")
-      .required("Paciente é obrigatório")
-      .matches(/^(?!^\d+$).+$/, {
-        message: 'Não são permitidas entradas numéricas'
+      .min(1, "Paciente é obrigatório") // Validação para campo não vazio
+      .max(60, "Tamanho máximo excedido: 60 caracteres")
+      .refine((value) => !/^\d+$/.test(value), {
+        message: "Não são permitidas entradas numéricas",
       }),
 
-    cpf: yup
+    cpf: z
       .string()
-      .matches(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/, {
-        message: "CPF inválido",
-        excludeEmptyString: false
-      })
-      .required("CPF obrigatório"),
-
-    birthday: yup
+      .min(1, "CPF obrigatório") // Validação para campo não vazio
+      .regex(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/, "CPF inválido").transform((value) => {
+        return value.replace(/\D/g, "");
+      }),
+    birthday: z
       .string()
-      .transform((value, originalValue) => {
-        if (originalValue) {
-          const [day, month, year] = originalValue.split('/');
+      .min(1, "Obrigatório") // Validação para campo não vazio
+      .transform((value) => {
+        if (value) {
+          const [day, month, year] = value.split("/");
           return `${year}-${month}-${day}`;
         }
-        return originalValue;
+        return value;
       })
-      .test('is-date', 'Data inválida', value => dayjs(value, 'YYYY-MM-DD', true).isValid())
-      .transform((value) => dayjs(value).format('YYYY-MM-DD'))
-      .required("Obrigatório"),
+      .refine(
+        (value) => dayjs(value, "YYYY-MM-DD", true).isValid(),
+        "Data inválida"
+      )
+      .refine(
+        (value) => dayjs(value).isAfter(dayjs("1920-01-01")),
+        "Data deve ser posterior a 01/01/1920"
+      )
+      .transform((value) => dayjs(value).format("YYYY-MM-DD")),
 
-    last_name: yup.string(),
-    additional_information: yup.string().max(100, "Tamanho máximo excedido: 100 caracteres").nullable().optional()
+    last_name: z.string().optional(),
+    additional_information: z
+      .string()
+      .max(100, "Tamanho máximo excedido: 100 caracteres")
+      .nullable()
+      .optional(),
+  });
 
-  }).required();
+
+
 
   const { reset, handleSubmit, watch, setValue, formState: { errors }, control, setError } = useForm({
-    resolver: yupResolver(schema),
-    mode: 'all',
+    resolver: zodResolver(schema),
+    mode: 'onSubmit',
     defaultValues: {
       name: "",
       last_name: ",",
@@ -109,11 +121,12 @@ const CreatePacient = ({ navigation }) => {
     //return alert(JSON.stringify(data, null, 2))
     try {
       //comentar essa linha para não validar o cpf
-     //  if (!cpf.isValid(data.cpf)) {
+      //  if (!cpf.isValid(data.cpf)) {
       //   setError("cpf", { message: "CPF inválido" });
       //   setLoading(false);
-     //    return;
+      //    return;
       // }
+
 
       setLoading(true);
       const response = await api.post("/pacient", { ...data, doc_id: user?.doctor?.doc_id });
@@ -124,7 +137,14 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-        setError("additional_information", { message: "Ocorreu um erro, tente novamente." });
+      console.log((error.response.data.issues.find((issue) => issue.path[0] === "cpf")));
+      if((error.response.data.issues.find((issue) => issue.path[0] === "cpf"))){
+        setError("cpf", { message: "Paciente já existente no sistema" });
+      }
+      if((error.response.data.issues.find((issue) => issue.path[0] === "birthday"))){
+        setError("birthday", { message: "Data inválida" });
+      }
+    
     }
   };
 

@@ -8,6 +8,7 @@ import LoadingComponent from '../../components/LoadingComponent';
 import utc from 'dayjs/plugin/utc';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
 import { useFocusEffect } from '@react-navigation/native';
+import { showToast } from '../../utils/showToast';
 
 dayjs.extend(utc);
 
@@ -104,7 +105,12 @@ export default function MyAppointments({ navigation }) {
               setAppointments((prevAppointments) =>
                 prevAppointments.filter((appointment) => appointment.app_id !== eventId)
               );
-              Alert.alert('Sucesso', 'Evento excluído com sucesso.');
+              showToast({
+                type: "success",
+                text1: "Evento excluído.",
+                position: "bottom"
+              });
+              
               setIsLoading(false)
 
               handleRefresh()

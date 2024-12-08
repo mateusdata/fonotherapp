@@ -9,6 +9,7 @@ import utc from 'dayjs/plugin/utc';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
 import { useFocusEffect } from '@react-navigation/native';
 import { colorPrimary } from '../../style/ColorPalette';
+import { showToast } from '../../utils/showToast';
 
 dayjs.extend(utc);
 
@@ -80,8 +81,12 @@ export default function FinanceScreen({ navigation }) {
               setAppointments((prevAppointments) =>
                 prevAppointments.filter((appointment) => appointment.rem_id !== eventId)
               );
-              Alert.alert('Sucesso', 'Evento excluído com sucesso.');
-              setIsLoading(false)
+              showToast({
+                type: "success",
+                text1: "Evento excluído.",
+                position: "bottom"
+              });
+                            setIsLoading(false)
               handleRefresh()
             } catch (error) {
               console.error('Erro ao excluir o evento:', error);

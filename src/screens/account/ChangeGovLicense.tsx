@@ -1,23 +1,21 @@
 import * as React from 'react';
-import { Button, Snackbar, TextInput } from 'react-native-paper';
+import { Button,  TextInput } from 'react-native-paper';
 import { View, StyleSheet, Keyboard, Text } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Context } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
 import { getUser } from '../../utils/getUser';
 import { useAuth } from '../../context/AuthProvider';
+import { showToast } from '../../utils/showToast';
 
 
 export default function ChangeGovLicense() {
     const { user, setUser } = useAuth();
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [showToast, setShowToast] = React.useState<boolean>(false);
 
     Keyboard.isVisible();
 
@@ -36,8 +34,14 @@ export default function ChangeGovLicense() {
         setLoading(true);
         try {
             const response = await api.put(`/doctor/${user?.doctor?.doc_id}`, data);
-            setShowToast(true);           
             await getUser(setUser)
+
+            showToast({
+                type: "success",
+                text1: "CRFA atualizado",
+                position: "bottom"
+              });
+
         } catch (e) {
             setError("gov_license", { message: "Ocorreu um erro" });
         } finally {
@@ -70,17 +74,8 @@ export default function ChangeGovLicense() {
                     name='gov_license'
                 />
                 <ErrorMessage name={"gov_license"} errors={errors} />
-                <Snackbar
-                    onDismiss={() => { setShowToast(!showToast) }}
-                    duration={2000}
-                    visible={showToast}
-                    action={{ label: "Fechar" }}
-                >
-                    CRFA Atualizada
-                </Snackbar>
-            </View>
-
-            <Button
+                
+                <Button
                 loading={loading}
                 buttonColor='#36B3B1'
                 textColor='white'
@@ -89,6 +84,9 @@ export default function ChangeGovLicense() {
             >
                 {user?.doctor?.gov_license ? "Alterar CRFA" : "Criar CRFA"}
             </Button>
+            </View>
+
+          
         </View>
     );
 }

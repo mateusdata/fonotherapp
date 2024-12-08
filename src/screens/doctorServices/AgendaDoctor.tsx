@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorPrimary } from '../../style/ColorPalette';
 import dayjs from 'dayjs';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
+import { showToast } from '../../utils/showToast';
 
 const AgendaDoctor = () => {
   const [agendaItems, setAgendaItems] = useState({});
@@ -74,7 +75,13 @@ const AgendaDoctor = () => {
       setModalVisible(false);
       setNewEvent({ date: '', name: '', time: '' });
       vibrateFeedback()
-      Alert.alert("Novo evento", "Novo evento criado com sucesso")
+      setTimeout(() => {
+        showToast({
+          type: "success",
+          text1: "Evento criado",
+          position: "bottom"
+        });
+      }, 1000);
     } else {
       alert('Preencha todos os campos para adicionar um evento.');
     }
@@ -83,8 +90,8 @@ const AgendaDoctor = () => {
   return (
     <View style={styles.container}>
 
-      <CalendarProvider 
-      date='2024-10-24'
+      <CalendarProvider
+        date='2024-10-24'
 
       >
 

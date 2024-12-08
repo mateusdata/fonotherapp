@@ -7,6 +7,7 @@ import { vibrateFeedback } from "../../utils/vibrateFeedback";
 import { colorGreen, colorPrimary, colorSecundary } from "../../style/ColorPalette";
 import { vibrateFeedbackWarning } from "../../utils/vibrateFeedbackWarning";
 import { vibrateFeedbackError } from "../../utils/vibrateFeedbackError";
+import { showToast } from "../../utils/showToast";
 
 export default function UpdatePatientEvaluation({ navigation, route }) {
   const { pacient, answered } = route.params;
@@ -52,10 +53,12 @@ export default function UpdatePatientEvaluation({ navigation, route }) {
       await api.post('/update-questionnaire', updatedQuestionnaire);
       vibrateFeedback()
       console.log("Respostas enviadas:", updatedQuestionnaire);
-      if (Platform.OS === "ios") {
-        return Alert.alert(answered?.name, "atualizada com sucesso");
-      }
-      return ToastAndroid.show(`${answered?.name} atualizada com sucesso`, ToastAndroid.LONG);
+      showToast({
+        type: "success",
+        text1: `${answered?.name} atualizada`,
+        position: "bottom"
+      });
+      
 
     } catch (error) {
       console.error("Erro ao salvar respostas:", error);

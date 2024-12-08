@@ -8,7 +8,6 @@ import { api } from '../../config/Api';
 import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonSmall from '../../components/SkelectonSmall';
-import Toast from '../../components/toast';
 import { colorPrimary } from '../../style/ColorPalette';
 import { handleShareApp } from '../../utils/handleShareApp';
 import { Sheet } from 'tamagui';

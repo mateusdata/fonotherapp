@@ -1,15 +1,23 @@
 import Toast from "react-native-toast-message";
 import { colorRed } from "../style/ColorPalette";
 
-export const showToast = (type: "error" | "info" | "success", text1: string, text2: string, position: "bottom" | "top") => {
+// Interface para os tipos de Toast
+interface ToastOptions {
+  type: "error" | "info" | "success";
+  text1: string;
+  text2?: string;
+  position?: "bottom" | "top";
+  visibilityTime?: number;
+}
+
+export const showToast = ({ type, text1, text2, position, visibilityTime }: ToastOptions) => {
   Toast.show({
     type: type,
     text1: text1,
     text2: text2,
-    visibilityTime: 6000,
-    text1Style: { fontSize: 13, color: "black" },
-    text2Style: { fontSize: 13, color: "black" },
-    position: position,
-    bottomOffset: 50
+    visibilityTime: visibilityTime ? visibilityTime : 2000,
+    position: position ? position : 'bottom',
+    bottomOffset: 35,
+        
   });
-}
+};

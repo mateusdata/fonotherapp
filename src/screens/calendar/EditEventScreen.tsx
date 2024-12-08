@@ -12,6 +12,7 @@ import { AgendaNotification } from '../../utils/AgendaNotification';
 import { Button } from 'react-native-paper';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import { useAuth } from '../../context/AuthProvider';
+import { showToast } from '../../utils/showToast';
 
 dayjs.locale('pt-br');
 
@@ -104,9 +105,14 @@ const EditEventScreen = ({ navigation, route }) => {
             });
             vibrateFeedback()
 
-            if (Platform.OS === "android") {
-                ToastAndroid.show("Evento atualizado", ToastAndroid.BOTTOM);
-            }
+            setTimeout(() => {
+                showToast({
+                  type: "success",
+                  text1: "Evento ataualizado",
+                  position: "bottom"
+                });
+              }, 1000);
+              
             AgendaNotification(`Novo evento`, `Lembre de ${title}`, 20, fullDateTime);
 
             navigation.goBack();

@@ -64,7 +64,7 @@ const PrivateRoutes = () => {
 
   return (
     <>
-      <StatusBar animated hideTransitionAnimation='fade' style='light' />
+      <StatusBar animated hideTransitionAnimation='fade' style='dark' />
 
       <AppStack.Navigator id={undefined} screenOptions={{
         animation: Platform.OS === "ios" ? "fade_from_bottom" : "slide_from_right",

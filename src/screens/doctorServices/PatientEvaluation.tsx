@@ -11,8 +11,9 @@ import { colorPrimary } from '../../style/ColorPalette'
 import { ContextPacient } from "../../context/PacientContext";
 import LoadingComponent from "../../components/LoadingComponent";
 import SkelectonView from "../../components/SkelectonView";
-import Toast from "../../components/toast";
 import LabelInput from "../../components/LabelInput";
+
+//Perguntas e respostas
 
 const PatientEvaluation = ({ navigation }) => {
   const [showToast, setShowToast] = useState<boolean>(false);
@@ -95,12 +96,7 @@ const PatientEvaluation = ({ navigation }) => {
       setLoading(false)
 
     } catch (error) {
-     
       setLoading(false)
-     
-      if (!error.response) {
-        setShowToast(true)
-      }
     }
   };
 
@@ -175,8 +171,6 @@ const PatientEvaluation = ({ navigation }) => {
           Próximo
         </Button>
       </View>
-      <Toast visible={showToast} mensage={"Atribua pelo menos um campo"} setVisible={setShowToast} duration={2000} />
-
     </View>
   );
 };

@@ -11,12 +11,12 @@ import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
 import { useAuth } from '../../context/AuthProvider';
+import { showToast } from '../../utils/showToast';
 
 
 export default function ChangeEmail() {
   const { user, setUser } = useAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [showToast, setShowToast] = React.useState<boolean>(false)
   Keyboard.isVisible()
   const schema = yup.object({
     email: yup.string().email("Email inválido").min(3, "Email muito pequeno").required("Obrigatorio").matches(/^(?!^\d+$).+$/, { message: "Números não sãoo permitidos" })
@@ -31,12 +31,17 @@ export default function ChangeEmail() {
   const onSubmit = async (data: any) => {
     setLoading(true);
     api.put(`/user/${user?.use_id}`, data).then(async (response) => {
-      setShowToast(true);
       try {
         const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
         const updatedUser = { ...recoveryUser, ...response.data };
         setUser(updatedUser);
         await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
+        showToast({
+          type: "success",
+          text1: "E-mail atualizado",
+          position: "bottom"
+        });
+        
       } catch (error) {
       }
       setLoading(false);
@@ -68,13 +73,7 @@ export default function ChangeEmail() {
           name='email'
         />
         <ErrorMessage name={"email"} errors={errors} />
-        <Snackbar onDismiss={() => { setShowToast(!showToast) }}
-          duration={2000}
-          visible={showToast}
-          action={{ label: "Fechar" }}
-        >
-          Email Atualizado
-        </Snackbar>
+      
       </View>
 
       <Button

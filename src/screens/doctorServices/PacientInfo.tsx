@@ -15,9 +15,11 @@ import ErrorMessage from '../../components/errorMessage';
 import dayjs from 'dayjs';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import { FormatPacient } from '../../interfaces/globalInterface';
+import { showToast } from '../../utils/showToast';
+import Toast from 'react-native-toast-message';
 
 const schema = yup.object({
-  name: yup.string().required('O nome é obrigatório'),
+  name: yup.string().max(60, "Tamanho máximo excedido: 60 caracteres").required('O nome é obrigatório'),
   cpf: yup.string().optional(),
   additional_information: yup.string().nullable().optional(),
   birthday: yup
@@ -83,10 +85,15 @@ const PatientUpdate = ({ navigation }) => {
       fetchData();
       setLoading(false);
       vibrateFeedback();
-      Alert.alert("Paciente", 'atualizado com sucesso!');
+      showToast({
+        type: "success",
+        text1: "Paciente atualizado",
+        position: "bottom"
+      });
+
+      
     } catch (error) {
-      console.error(error);
-      Alert.alert('Erro ao atualizar paciente', 'Tente novamente mais tarde.');
+
     } finally {
       setLoading(false);
     }
@@ -106,6 +113,7 @@ const PatientUpdate = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+
       <LabelInput value="Nome" />
       <Controller
         control={control}

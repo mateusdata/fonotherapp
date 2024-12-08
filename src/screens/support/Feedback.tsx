@@ -7,10 +7,8 @@ import { Context, useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
-import Toast from '../../components/toast';
 
 const Feedback = () => {
-    const [showToast, setShowToast] = useState(false);
     const [mensageToast, setMensageToast] = useState("")
     const { register, trigger, setValue, handleSubmit, watch, formState: { errors }, reset } = useForm({
         defaultValues: {
@@ -59,7 +57,7 @@ const Feedback = () => {
                 <Button mode='contained-tonal' buttonColor={colorPrimary} textColor='white' onPress={handleSubmit(onSubmit)}>Enviar Feedback</Button>
 
             </View>
-            <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} duration={6000} />
+          
 
         </>
 

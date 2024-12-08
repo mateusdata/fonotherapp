@@ -9,11 +9,11 @@ import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import { colorPrimary } from '../../style/ColorPalette';
+import { showToast } from '../../utils/showToast';
 
 export default function ChangeCredential() {
   const { user, setUser } = useAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [showToast, setShowToast] = React.useState<boolean>(false);
   const [currentPasswordVisible, setCurrentPasswordVisible] = React.useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = React.useState(false);
 
@@ -36,7 +36,13 @@ export default function ChangeCredential() {
       setLoading(true);
       const response = await api.post(`/password`, data);
       setLoading(false);
-      setShowToast(true);
+
+      showToast({
+        type: "success",
+        text1: "Senha atualizada",
+        position: "bottom"
+      });
+
       reset();
     } catch (error) {
       setLoading(false);
@@ -99,15 +105,6 @@ export default function ChangeCredential() {
           name='new_password'
         />
         <ErrorMessage name={"new_password"} errors={errors} />
-
-        <Snackbar
-          onDismiss={() => setShowToast(false)}
-          duration={2000}
-          visible={showToast}
-          action={{ label: "Fechar" }}
-        >
-          Senha Atualizada
-        </Snackbar>
       </View>
 
       <Button

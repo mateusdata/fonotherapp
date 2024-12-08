@@ -17,8 +17,8 @@ import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
 import KeyboardView from '../../components/KeyboardView';
 import { FormatPacient } from '../../interfaces/globalInterface';
-import Toast from '../../components/toast';
 import { useAuth } from '../../context/AuthProvider'
+import { showToast } from '../../utils/showToast';
 
 
 interface FormatAnamnese {
@@ -54,13 +54,12 @@ const Anamnese = ({ navigation, route }) => {
   const { isDevelopment, setIsdevelopment } = useGlobal();
   const [isFocus, setIsFocus] = useState(false);
   const [isFocusEducation, setIsFocusEducation] = useState(false);
-  const [showToast, setShowToast] = useState<boolean>(false);
   const { pacient } = route?.params || {};
   const schema = yup.object({
     education: yup.string().nullable().optional(),
-    base_diseases: yup.string().max(150, "Tamanho máximo excedido: 150 caracteres").required("Campo obrigatório"),
-    food_profile: yup.string().max(150, "Tamanho máximo excedido: 150 caracteres").required("Campo obrigatório"),
-    consultation_reason: yup.string().max(150, "Tamanho máximo excedido: 150 caracteres").required("Campo obrigatório"),
+    base_diseases: yup.string().max(300, "Tamanho máximo excedido: 300 caracteres").required("Campo obrigatório"),
+    food_profile: yup.string().max(300, "Tamanho máximo excedido: 300 caracteres").required("Campo obrigatório"),
+    consultation_reason: yup.string().max(300, "Tamanho máximo excedido: 300 caracteres").required("Campo obrigatório"),
     current_food_intake_method: yup.string().nullable().optional(),
   }).required();
 
@@ -90,7 +89,11 @@ const Anamnese = ({ navigation, route }) => {
           ToastAndroid.show('Paciente atualizado!', ToastAndroid.LONG);
         }
         else {
-          Alert.alert("Paciente", "Atualizado com sucesso")
+          showToast({
+            type: "success",
+            text1: "Evento excluído.",
+            position: "bottom"
+          });
         }
         return
       }
@@ -100,7 +103,6 @@ const Anamnese = ({ navigation, route }) => {
       reset();
     } catch (error) {
       setLoading(false);
-      Alert.alert("Erro", "Erro ao cadastrar paciente")
       if (!error?.response) {
         // return setError("chewing_complaint", { message: "Sem conexão com a internet, tente novamente" })
       }

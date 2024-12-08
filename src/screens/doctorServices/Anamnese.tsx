@@ -85,16 +85,12 @@ const Anamnese = ({ navigation, route }) => {
       setPacient(response?.data?.person);
       setLoading(false);
       if (pacient) {
-        if (Platform.OS === "android") {
-          ToastAndroid.show('Paciente atualizado!', ToastAndroid.LONG);
-        }
-        else {
-          showToast({
-            type: "success",
-            text1: "Evento excluído.",
-            position: "bottom"
-          });
-        }
+        showToast({
+          type: "success",
+          text1: "Anamnese atualizado",
+          position: "bottom"
+        });
+  
         return
       }
 
@@ -227,7 +223,7 @@ const Anamnese = ({ navigation, route }) => {
 
         <View style={{ marginBottom: 40 }}>
 
-          <Button icon="arrow-right"
+          <Button icon="update"
             disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
             {pacient ? "Atualizar" : "   Próximo"}
           </Button>

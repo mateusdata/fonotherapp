@@ -26,7 +26,6 @@ import DischargeReportPdf from '../../screens/doctorServices/DischargeReportPdf'
 import FrequentlyAskedQuestions from '../../screens/support/FrequentlyAskedQuestions';
 import ChangeGovLicense from '../../screens/account/ChangeGovLicense';
 import ChangePhone from '../../screens/account/ChangePhone';
-import UpdatePacient from '../../screens/doctorServices/UpdatePacient';
 import { Ionicons } from '@expo/vector-icons'
 import AccessHistory from '../../screens/doctorServices/AccessHistory';
 import AgendaDoctor from '../../screens/doctorServices/AgendaDoctor';
@@ -122,7 +121,6 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerTitleAlign: "center", headerTitle: "Meu CRFA", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
         <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{ headerTitleAlign: "center", headerTitle: "Meu Telefone", presentation: "modal", animation: Platform.OS === "ios" ? null : "slide_from_right" }} />
 
-        <AppStack.Screen name='UpdatePacient' component={UpdatePacient} options={{ headerTitleAlign: "center", headerTitle: "Atualizar paciente" }} />
 
         <AppStack.Screen name='Configuration' component={Configuration} options={{ headerTitleAlign: "center", headerTitle: "Configurações" }} />
         <AppStack.Screen name='AccessHistory' component={AccessHistory} options={{ headerTitleAlign: "center", headerTitle: "Historico de acesso" }} />

@@ -96,7 +96,7 @@ const CreatePacient = ({ navigation }) => {
     last_name: z.string().optional(),
     additional_information: z
       .string()
-      .max(100, "Tamanho máximo excedido: 100 caracteres")
+      .max(300, "Tamanho máximo excedido: 300 caracteres")
       .nullable()
       .optional(),
   });
@@ -121,11 +121,11 @@ const CreatePacient = ({ navigation }) => {
     //return alert(JSON.stringify(data, null, 2))
     try {
       //comentar essa linha para não validar o cpf
-      //  if (!cpf.isValid(data.cpf)) {
-      //   setError("cpf", { message: "CPF inválido" });
-      //   setLoading(false);
-      //    return;
-      // }
+      if (!cpf.isValid(data.cpf)) {
+        setError("cpf", { message: "CPF inválido" });
+        setLoading(false);
+        return;
+      }
 
 
       setLoading(true);
@@ -138,13 +138,13 @@ const CreatePacient = ({ navigation }) => {
     } catch (error) {
       setLoading(false);
       console.log((error.response.data.issues.find((issue) => issue.path[0] === "cpf")));
-      if((error.response.data.issues.find((issue) => issue.path[0] === "cpf"))){
+      if ((error.response.data.issues.find((issue) => issue.path[0] === "cpf"))) {
         setError("cpf", { message: "Paciente já existente no sistema" });
       }
-      if((error.response.data.issues.find((issue) => issue.path[0] === "birthday"))){
+      if ((error.response.data.issues.find((issue) => issue.path[0] === "birthday"))) {
         setError("birthday", { message: "Data inválida" });
       }
-    
+
     }
   };
 

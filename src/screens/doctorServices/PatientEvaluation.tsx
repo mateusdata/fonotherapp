@@ -13,7 +13,7 @@ import LoadingComponent from "../../components/LoadingComponent";
 import SkelectonView from "../../components/SkelectonView";
 import LabelInput from "../../components/LabelInput";
 
-//Perguntas e respostas
+// Perguntas e respostas
 
 const PatientEvaluation = ({ navigation }) => {
   const [showToast, setShowToast] = useState<boolean>(false);
@@ -26,8 +26,6 @@ const PatientEvaluation = ({ navigation }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { setIsFromRegistration, isFromRegistration } = useGlobal();
 
-
-
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
@@ -35,7 +33,7 @@ const PatientEvaluation = ({ navigation }) => {
           setIsLoading(true)
           const response = await api.get(`/next-questionnaire/${pac_id}`);
           setAnalysis(response.data);
-         
+
           setIsLoading(false);
 
         } catch (error) {
@@ -48,7 +46,6 @@ const PatientEvaluation = ({ navigation }) => {
       fetchData();
     }, [nextQuestinnaire, isFromRegistration])
   );
-
 
   useLayoutEffect(() => {
     navigation.setOptions({ headerTitle: analysis?.name ? analysis?.name : "", headerShown: isFromRegistration ? false : true });
@@ -63,19 +60,21 @@ const PatientEvaluation = ({ navigation }) => {
     })).min(1)
   });
 
+  const onErrorMessage = (error: any) => {
+    Alert.alert("Erro", "Escolha uma alternativa");
+  }
 
   if (isFromRegistration) {
     return <LoadingComponent />;
   }
   if (isLoading && !analysis?.sections) {
     return <>
-
       <SkelectonView delay={100} />
     </>;
   }
 
-
   const onSubmit = async () => {
+
     let formattedAnswers: any = Object.values(selectedAnswers).map((answer: any) => ({
       que_id: answer.que_id,
       alternative: answer.value
@@ -86,10 +85,11 @@ const PatientEvaluation = ({ navigation }) => {
       answers: formattedAnswers
     };
     try {
+
       setLoading(true)
       answerSchema.parse(data); // Validate data against schema
       const response = await api.post("/answer-questionnaire", data);
-     
+
       setAnalysis({});
       setSelectedAnswers({});
       setnextQuestinnaire(!nextQuestinnaire);
@@ -100,9 +100,29 @@ const PatientEvaluation = ({ navigation }) => {
     }
   };
 
+  const handleValueChange = (selectedValue, question) => {
+    const currentSelection = selectedAnswers[question.que_id]?.value;
+    if (currentSelection === selectedValue) {
+      const newAnswers = { ...selectedAnswers };
+      delete newAnswers[question.que_id];
+      setSelectedAnswers(newAnswers);
+      
+    } else {
+      setSelectedAnswers((prevAnswers) => ({
+        ...prevAnswers,
+        [question.que_id]: {
+          que_id: question.que_id,
+          name: question.name,
+          value: selectedValue,
+          comment: selectedAnswers[question.que_id]?.comment
+        }
+      }));
+    }
+  };
+
   return (
     <View style={{ padding: 15, flex: 1 }}>
-
+      <Text>{false && JSON.stringify(selectedAnswers)}</Text>
       <ScrollView style={{ flex: 0.9, marginBottom: 50 }}>
         {analysis?.sections?.map((section, sectionIndex) => (
           <View key={sectionIndex} style={{ borderBottomWidth: 1 }}>
@@ -110,21 +130,13 @@ const PatientEvaluation = ({ navigation }) => {
             {section?.questions?.map((question, questionIndex) => (
               <View key={questionIndex}>
                 <RadioButton.Group
-                  onValueChange={(selectedValue) => setSelectedAnswers((prevAnswers) => ({
-                    ...prevAnswers,
-                    [question.que_id]: {
-                      que_id: question.que_id,
-                      name: question.name,
-                      value: selectedValue,
-                      comment: selectedAnswers[question?.que_id]?.comment
-                    }
-                  }))}
+                  onValueChange={(selectedValue) => handleValueChange(selectedValue, question)}
                   value={selectedAnswers[question.que_id]?.value ?? null}
                 >
-                  <Text >{question.name}</Text>
+                  <Text>{question.name}</Text>
                   {question?.alternatives?.map((alternative, alternativeIndex) => (
                     <RadioButton.Item
-                     uncheckedColor={"black"}
+                      uncheckedColor={"black"}
                       mode="android"
                       key={alternativeIndex}
                       color={colorPrimary}
@@ -138,11 +150,11 @@ const PatientEvaluation = ({ navigation }) => {
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                   {question?.has_comments &&
                     <TextInput
-                    activeOutlineColor={colorPrimary}
+                      activeOutlineColor={colorPrimary}
                       onChangeText={(selectedValue) => setSelectedAnswers((prevAnswers) => ({
                         ...prevAnswers,
                         [question.que_id]: {
-                          ...selectedAnswers[question?.que_id],
+                          ...selectedAnswers[question.que_id],
                           comment: selectedValue
                         }
                       }))}
@@ -159,7 +171,6 @@ const PatientEvaluation = ({ navigation }) => {
         ))}
       </ScrollView>
 
-
       <View style={{
         position: "absolute",
         margin: Platform.OS === "ios" ? 16 : 28,
@@ -167,7 +178,11 @@ const PatientEvaluation = ({ navigation }) => {
         bottom: Platform.OS === "ios" ? 15 : 0, flex: 1
       }}>
         <Button icon="arrow-right"
-          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+          loading={loading}
+          disabled={loading}
+          buttonColor={colorPrimary}
+          mode="contained"
+          onPress={handleSubmit(onSubmit)}>
           Próximo
         </Button>
       </View>

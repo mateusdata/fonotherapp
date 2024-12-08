@@ -13,6 +13,9 @@ import { handleShareApp } from '../../utils/handleShareApp';
 import { Sheet } from 'tamagui';
 import HeaderSheet from '../../components/HeaderSheet';
 import BottomSheetWelcome from '../../components/BottomSheetWelcome';
+import { requestNotificationPermissions } from '../../utils/requestNotificationPermissions';
+
+
 const { width, height } = Dimensions.get('window');
 
 const Home = ({ navigation }: { navigation: any }) => {
@@ -28,6 +31,9 @@ const Home = ({ navigation }: { navigation: any }) => {
       setIsFromRegistration(false);
       setThereSession(false);
       fetchData();
+     setTimeout(() => {
+      requestNotificationPermissions();
+     }, 2000);
     }, [pac_id, thereSession, user?.doctor?.doc_id])
   );
 

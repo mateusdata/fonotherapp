@@ -139,7 +139,7 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
       console.log((error.response.data.issues.find((issue) => issue.path[0] === "cpf")));
       if ((error.response.data.issues.find((issue) => issue.path[0] === "cpf"))) {
-        setError("cpf", { message: "Paciente já existente no sistema" });
+        setError("cpf", { message: "Este paciente já está cadastrado" });
       }
       if ((error.response.data.issues.find((issue) => issue.path[0] === "birthday"))) {
         setError("birthday", { message: "Data inválida" });

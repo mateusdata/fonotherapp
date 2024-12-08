@@ -8,31 +8,17 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import PacientContext from './src/context/PacientContext';
 import GlobalContext from './src/context/GlobalContext';
-import * as Notifications from 'expo-notifications';
 import Toast, { BaseToast } from 'react-native-toast-message';
-import { Alert } from 'react-native';
-import { colorPrimary } from './src/style/ColorPalette';
 import { toastConfig } from './src/utils/toastConfig';
 
 
 
 export default function App() {
+  
   const [tamaguiLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
-
-  useEffect(() => {
-    const requestNotificationPermissions = async () => {
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Permissão para notificações não concedida');
-      }
-    };
-    requestNotificationPermissions();
-   
-  }, []);
-
   const [fontsLoaded] = useFonts({
     Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
   });
@@ -40,6 +26,8 @@ export default function App() {
   if (!fontsLoaded || !tamaguiLoaded) {
     return null;
   }
+
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>

@@ -31,9 +31,8 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
           setShowImage(JSON.parse(recoveryShowImage));
 
         }
-
-        if (user?.profile_picture_url?.match(/\.(jpg|jpeg|png)$/)) {
-          setImage(user.profile_picture_url);
+        if (user !== null) {
+          setImage(user?.profile_picture_url);
         }
 
       } catch (error) {
@@ -65,7 +64,8 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       vibrateFeedback();
-      getUser(setUser);
+      const result = await getUser(setUser);
+      setImage(`${result?.profile_picture_url}?t=${new Date().getTime()}`);
 
       console.log('Upload realizado com sucesso:', res.data);
       setIsSheetOpen(false);
@@ -85,7 +85,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
 
     if (!result.canceled && result.assets?.[0]?.uri) {
       const selectedImageUri = result.assets[0].uri;
-      setImage(selectedImageUri);
+
       await handleUploadImage(selectedImageUri);
     }
   };
@@ -106,7 +106,6 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
 
     if (!result.canceled && result.assets?.[0]?.uri) {
       const selectedImageUri = result.assets[0].uri;
-      setImage(selectedImageUri);
       await handleUploadImage(selectedImageUri);
     }
   };
@@ -152,7 +151,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
     if (user?.profile_picture_url?.match(/\.(jpg|jpeg|png)$/) && showImage) {
       navigation.navigate('UserPhoto', { image: image });
     }
-  
+
   }
 
   return (
@@ -170,7 +169,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
         </Pressable>
         <Text style={styles.userName}>
           {user?.person?.name?.charAt(0)?.toUpperCase() + user?.person?.name?.slice(1)}
-        
+
         </Text>
       </View>
 
@@ -195,7 +194,7 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
               <Text style={styles.optionText}>Tirar foto</Text>
             </TouchableOpacity>
 
-            
+
             <TouchableOpacity style={styles.option} onPress={confirmRemoveImage}>
               <MaterialCommunityIcons name="trash-can" size={24} color="red" />
               <Text style={[styles.optionText, { color: 'red' }]}>Apagar foto</Text>
@@ -211,7 +210,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: height > 700 ?  15 :0,
+    padding: height > 700 ? 15 : 0,
   },
   avatarContainer: {
     position: 'relative',
@@ -233,7 +232,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     marginTop: 10,
-    color:colorPrimary
+    color: colorPrimary
   },
   option: {
     flexDirection: 'row',

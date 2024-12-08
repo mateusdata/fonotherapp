@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Searchbar } from 'react-native-paper';
 
 import { api } from '../../config/Api'
-import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
+import { colorPrimary, colorSecundary } from '../../constants/ColorPalette'
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 

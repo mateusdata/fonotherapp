@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Switch } from 'react-native-paper';
 import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 
 const SecuritySettings = () => {
     const { useBiometrics, setUseBiometrics } = useGlobal();;

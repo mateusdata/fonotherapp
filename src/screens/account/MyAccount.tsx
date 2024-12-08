@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../../context/AuthProvider';
 import { useAuth } from '../../context/AuthProvider';
 import UploadAvatar from '../../components/UploadAvatar';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import { height } from '../../utils/widthScreen';
 
 const MyAccount = ({ navigation }) => {

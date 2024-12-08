@@ -7,7 +7,7 @@ import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import SkelectonView from '../../components/SkelectonView';
 import MaskInput, { Masks } from 'react-native-mask-input';
-import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
+import { colorPrimary, colorSecundary } from '../../constants/ColorPalette';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';

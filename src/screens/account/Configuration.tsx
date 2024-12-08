@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, Linking, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import { useNavigation } from '@react-navigation/native';
 
 type ConfigOption = {

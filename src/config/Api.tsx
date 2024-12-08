@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert, ToastAndroid } from 'react-native';
-import { colorRed } from '../style/ColorPalette';
+import { colorRed } from '../constants/ColorPalette';
 import { showToast } from '../utils/showToast';
 
 const api = axios.create({

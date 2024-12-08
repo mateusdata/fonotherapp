@@ -6,7 +6,7 @@ import { Sheet } from 'tamagui';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { colorRed, colorSecundary } from '../../style/ColorPalette';
+import { colorRed, colorSecundary } from '../../constants/ColorPalette';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';
 import { videoUrl } from '../../utils/videoUrl';

@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as  Animatable from "react-native-animatable"
 import { api } from '../../config/Api';
 import { LinearGradient } from 'expo-linear-gradient';
-import { styleGradient } from '../../style/styleGradient';
+import { styleGradient } from '../../constants/styleGradient';
 import PrimaryButton from '../../components/primaryButton';
 
 const { width, fontScale, height } = Dimensions.get("screen")

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import { colorPrimary } from '../style/ColorPalette'
+import { colorPrimary } from '../constants/ColorPalette'
 
 const HeaderSheet = () => {
     return (

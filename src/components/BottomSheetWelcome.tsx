@@ -3,10 +3,10 @@ import { Platform, View, Text, Image } from 'react-native';
 import HeaderSheet from './HeaderSheet';
 import { Sheet } from 'tamagui';
 import { FontAwesome } from '@expo/vector-icons'; // Certifique-se de que o pacote está instalado
-import { colorPrimary } from '../style/ColorPalette';
+import { colorPrimary } from '../constants/ColorPalette';
 import { Context, useAuth } from '../context/AuthProvider';
 import { LinearGradient } from 'expo-linear-gradient';
-import { styleGradient } from '../style/styleGradient';
+import { styleGradient } from '../constants/styleGradient';
 import LinearCustomGradient from './LinearCustomGradient';
 
 export default function BottomSheetWelcome({ size }: any) {

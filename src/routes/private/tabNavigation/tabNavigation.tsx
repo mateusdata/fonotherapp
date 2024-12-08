@@ -5,7 +5,7 @@ import { BottomNavigation, TouchableRipple } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { StatusBar } from 'expo-status-bar';
-import { colorPrimary } from '../../../style/ColorPalette';
+import { colorPrimary } from '../../../constants/ColorPalette';
 import { View } from 'react-native-animatable';
 import { Image, Text } from 'react-native';
 import Home from '../../../screens/doctorServices/Home';

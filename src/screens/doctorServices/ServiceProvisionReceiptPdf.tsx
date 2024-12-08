@@ -11,7 +11,7 @@ import { ContextGlobal } from '../../context/GlobalContext'
 import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
 
-import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette'
+import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../../constants/ColorPalette'
 import ErrorMessage from '../../components/errorMessage'
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonView from '../../components/SkelectonView';

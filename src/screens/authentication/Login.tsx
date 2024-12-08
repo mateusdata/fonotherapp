@@ -11,9 +11,9 @@ import * as yup from "yup"
 import { useAuth } from '../../context/AuthProvider';
 import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import { api } from '../../config/Api';
-import { styleGradient } from '../../style/styleGradient';
+import { styleGradient } from '../../constants/styleGradient';
 import LabelInput from '../../components/LabelInput';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import ErrorMessage from '../../components/errorMessage';
 import { getUser } from '../../utils/getUser';
 import KeyboardView from '../../components/KeyboardView';

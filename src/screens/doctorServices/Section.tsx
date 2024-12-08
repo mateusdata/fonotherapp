@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Sheet } from 'tamagui';
 
 import { api } from '../../config/Api'
-import { colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette'
+import { colorPrimary, colorRed, colorSecundary } from '../../constants/ColorPalette'
 import { ContextPacient } from '../../context/PacientContext';
 import SkelectonView from '../../components/SkelectonView';
 import HeaderSheet from '../../components/HeaderSheet';

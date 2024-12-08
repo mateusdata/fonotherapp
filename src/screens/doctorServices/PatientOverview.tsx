@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { colorGreen, colorPrimary } from '../../style/ColorPalette';
+import { colorGreen, colorPrimary } from '../../constants/ColorPalette';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import downloadPDF from '../../utils/downloadPDF';
 import SkelectonView from '../../components/SkelectonView';

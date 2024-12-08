@@ -5,7 +5,7 @@ import { Accordion, Paragraph, Square, YStack } from 'tamagui';
 import { ScrollView } from 'react-native-gesture-handler';
 import { api } from '../../config/Api';
 import LoadingComponent from '../../components/LoadingComponent';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 
 interface FormatFac {
   faq_id: number;

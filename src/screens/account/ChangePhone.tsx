@@ -6,7 +6,7 @@ import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
-import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
+import { colorPrimary, colorSecundary } from '../../constants/ColorPalette';
 import ErrorMessage from '../../components/errorMessage';
 import { getUser } from '../../utils/getUser';
 import { useAuth } from '../../context/AuthProvider';

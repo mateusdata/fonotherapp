@@ -1,5 +1,5 @@
 import { BaseToast } from "react-native-toast-message";
-import { colorPrimary, colorRed } from "../style/ColorPalette";
+import { colorPrimary, colorRed } from "../constants/ColorPalette";
 
 export const toastConfig = {
   success: (props) => (

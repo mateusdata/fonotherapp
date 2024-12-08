@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import { Agenda, CalendarProvider } from 'react-native-calendars';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import ButtonEvents from '../../components/ButtonEvents';
 import dayjs from 'dayjs';
 import { api } from '../../config/Api';

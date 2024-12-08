@@ -4,7 +4,7 @@ import { Button, RadioButton, TextInput } from "react-native-paper";
 import { api } from "../../config/Api";
 import { useAuth } from "../../context/AuthProvider";
 import { vibrateFeedback } from "../../utils/vibrateFeedback";
-import { colorGreen, colorPrimary, colorSecundary } from "../../style/ColorPalette";
+import { colorGreen, colorPrimary, colorSecundary } from "../../constants/ColorPalette";
 import { vibrateFeedbackWarning } from "../../utils/vibrateFeedbackWarning";
 import { vibrateFeedbackError } from "../../utils/vibrateFeedbackError";
 import { showToast } from "../../utils/showToast";

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, Text, View, StyleSheet, ScrollView } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthProvider';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 
 const MyInformation = ({ navigation }) => {
   const { user } = useAuth();

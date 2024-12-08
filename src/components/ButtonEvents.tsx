@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FAB, Portal, PaperProvider } from 'react-native-paper';
-import { colorPrimary } from '../style/ColorPalette';
+import { colorPrimary } from '../constants/ColorPalette';
 import { useNavigation } from '@react-navigation/native';
 import { vibrateFeedbackWarning } from '../utils/vibrateFeedbackWarning';
 

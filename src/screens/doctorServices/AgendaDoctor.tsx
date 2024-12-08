@@ -4,7 +4,7 @@ import { Text, Modal, TextInput, Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Agenda, CalendarProvider } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import dayjs from 'dayjs';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import { showToast } from '../../utils/showToast';

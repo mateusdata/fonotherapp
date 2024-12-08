@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context, useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { colorRed } from '../../style/ColorPalette';
+import { colorRed } from '../../constants/ColorPalette';
 
 
 const AccompanyPatient = ({ navigation }) => {

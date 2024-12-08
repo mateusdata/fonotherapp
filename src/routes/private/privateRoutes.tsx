@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Context, useAuth } from '../../context/AuthProvider';
 import TabsNavigation from './tabNavigation/tabNavigation';
 import { StatusBar } from 'expo-status-bar';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import CreatePacient from '../../screens/doctorServices/CreatePacient';
 import Anamnese from '../../screens/doctorServices/Anamnese';
 import MyInformation from '../../screens/account/MyInformation';

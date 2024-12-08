@@ -6,7 +6,7 @@ import { Button } from 'react-native-paper';
 import { Context, useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import ErrorMessage from '../../components/errorMessage';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 
 const Feedback = () => {
     const [mensageToast, setMensageToast] = useState("")

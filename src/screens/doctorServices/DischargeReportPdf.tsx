@@ -9,7 +9,7 @@ import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Context, useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
-import { background, colorGray, colorGreen, colorPrimary, colorRed, colorSecundary } from '../../style/ColorPalette';
+import { background, colorGray, colorGreen, colorPrimary, colorRed, colorSecundary } from '../../constants/ColorPalette';
 import { ContextGlobal } from '../../context/GlobalContext';
 import ErrorMessage from '../../components/errorMessage';
 import { FormatPacient } from '../../interfaces/globalInterface';

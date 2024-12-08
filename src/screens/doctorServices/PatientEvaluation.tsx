@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ContextGlobal, useGlobal } from '../../context/GlobalContext'
 import { api } from '../../config/Api'
 
-import { colorPrimary } from '../../style/ColorPalette'
+import { colorPrimary } from '../../constants/ColorPalette'
 import { ContextPacient } from "../../context/PacientContext";
 import LoadingComponent from "../../components/LoadingComponent";
 import SkelectonView from "../../components/SkelectonView";

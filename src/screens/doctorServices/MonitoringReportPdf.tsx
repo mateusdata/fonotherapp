@@ -13,7 +13,7 @@ import { ContextGlobal } from '../../context/GlobalContext'
 import downloadPDF from '../../utils/downloadPDF'
 import { api } from '../../config/Api'
 
-import { colorPrimary, colorSecundary } from '../../style/ColorPalette'
+import { colorPrimary, colorSecundary } from '../../constants/ColorPalette'
 import ErrorMessage from '../../components/errorMessage'
 import LabelInput from '../../components/LabelInput'
 import KeyboardView from '../../components/KeyboardView'

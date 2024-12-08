@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ScrollView } from 'react-native-gesture-handler';
 import { api } from '../../config/Api';
-import { background, colorPrimary } from '../../style/ColorPalette';
+import { background, colorPrimary } from '../../constants/ColorPalette';
 import KeyboardView from '../../components/KeyboardView';
 import ErrorMessage from '../../components/errorMessage';
 import LabelInput from '../../components/LabelInput';

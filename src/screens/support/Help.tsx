@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Pressable, Linking, StyleSheet, Alert, Platform, Text } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 
 const Help = () => {
 

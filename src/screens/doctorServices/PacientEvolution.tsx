@@ -4,7 +4,7 @@ import { TextInput, Button, Text, IconButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { api } from '../../config/Api';
-import { colorGray, colorPrimary, colorRed } from '../../style/ColorPalette';
+import { colorGray, colorPrimary, colorRed } from '../../constants/ColorPalette';
 import { vibrateFeedback } from '../../utils/vibrateFeedback';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useAuth } from '../../context/AuthProvider'

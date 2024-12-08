@@ -8,7 +8,7 @@ import { useAuth } from '../../context/AuthProvider';
 import { api } from '../../config/Api';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import { showToast } from '../../utils/showToast';
 
 export default function ChangeCredential() {

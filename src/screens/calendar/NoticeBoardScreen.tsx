@@ -8,7 +8,7 @@ import LoadingComponent from '../../components/LoadingComponent';
 import utc from 'dayjs/plugin/utc';
 import NotFoudMessageList from '../../components/NotFoudMessageList';
 import { useFocusEffect } from '@react-navigation/native';
-import { colorPrimary } from '../../style/ColorPalette';
+import { colorPrimary } from '../../constants/ColorPalette';
 import { showToast } from '../../utils/showToast';
 
 dayjs.extend(utc);

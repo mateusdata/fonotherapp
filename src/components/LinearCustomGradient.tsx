@@ -1,7 +1,7 @@
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient'; 
 import { StyleSheet } from 'react-native';
-import { styleGradient } from '../style/styleGradient';
+import { styleGradient } from '../constants/styleGradient';
 
 const LinearCustomGradient = () => {
   return (

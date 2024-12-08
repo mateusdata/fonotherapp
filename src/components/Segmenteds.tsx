@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
-import { colorPrimary } from '../style/ColorPalette';
+import { colorPrimary } from '../constants/ColorPalette';
 
 const Segmenteds = ({setVideosType, videosType, }:{setVideosType?:any, videosType: any}) => {
 

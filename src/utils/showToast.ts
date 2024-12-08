@@ -1,5 +1,5 @@
 import Toast from "react-native-toast-message";
-import { colorRed } from "../style/ColorPalette";
+import { colorRed } from "../constants/ColorPalette";
 
 // Interface para os tipos de Toast
 interface ToastOptions {

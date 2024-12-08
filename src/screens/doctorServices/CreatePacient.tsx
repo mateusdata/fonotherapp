@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import { Context, useAuth } from '../../context/AuthProvider';
 import { ContextPacient } from '../../context/PacientContext';
 import { api } from '../../config/Api';
-import { colorPrimary, colorSecundary } from '../../style/ColorPalette';
+import { colorPrimary, colorSecundary } from '../../constants/ColorPalette';
 import { ContextGlobal, useGlobal } from '../../context/GlobalContext';
 import LabelInput from '../../components/LabelInput';
 import ErrorMessage from '../../components/errorMessage';

@@ -12,7 +12,7 @@ import { useAuth } from '../context/AuthProvider';
 import { getUser } from '../utils/getUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { colorPrimary } from '../style/ColorPalette';
+import { colorPrimary } from '../constants/ColorPalette';
 import { height } from '../utils/widthScreen';
 
 export default function UploadAvatar({ user }: { user: FormatUser }) {

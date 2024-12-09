@@ -3,6 +3,7 @@ import { Alert, Pressable, Text, View, StyleSheet, ScrollView } from 'react-nati
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthProvider';
 import { colorPrimary } from '../../constants/ColorPalette';
+import { height } from '../../utils/widthScreen';
 
 const MyInformation = ({ navigation }) => {
   const { user } = useAuth();
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    paddingVertical: 16,
+    paddingVertical: height > 700 ? 16 : 5,
     paddingHorizontal: 16,
     borderRadius: 8,
     marginBottom: 12,

@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert, ToastAndroid } from 'react-native';
 import { colorRed } from '../constants/ColorPalette';
 import { showToast } from '../utils/showToast';
+import NetInfo from '@react-native-community/netinfo';
 
 const api = axios.create({
   baseURL: 'https://api.fonotherapp.com.br',
@@ -45,10 +46,11 @@ async function setInterceptors(setUser: Function, logOut: any) {
     },
     async (error) => {
      
-      if (!error.response) {
-        isSessionExpiredToastShown = true;
-        Alert.alert(" Você perdeu a conexão com a internet", "Por favor, verifique sua conexão e tente novamente")
-      }
+    const state = await NetInfo.fetch();
+    if (!state.isConnected) {
+      Alert.alert("Você perdeu a conexão com a internet", "Por favor, verifique sua conexão e tente novamente");
+      return;
+    }
 
       if (error.response.status === 500) {
         isSessionExpiredToastShown = true;
@@ -56,8 +58,7 @@ async function setInterceptors(setUser: Function, logOut: any) {
           type: "error",
           text1: "Ocorreu um erro",
           position: "bottom",
-          bottomOffset: 100
-  
+          
         });
 
       }

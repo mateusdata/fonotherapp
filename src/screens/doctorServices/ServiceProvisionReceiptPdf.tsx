@@ -44,11 +44,7 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
 
   async function getPdf(values: any) {
     try {
-      setLoading(true);
-     
-
       const response: any = await api.post(`/service-term/${pacient?.pac_id}`, values)
-
       await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
     } catch (error) {
       console.error("Ocorreu um erro", error)
@@ -58,15 +54,8 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
   }
 
   return (
-    <KeyboardView style={{ padding: 10 }}>
-      <View >
-        <Text  style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-          Recibo de prestação de serviço de
-        </Text>
-        <Text  style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
-          {pacient.name}
-        </Text>
-      </View>
+    <KeyboardView style={{ padding: 20 }}>
+     
       <View>
 
         <LabelInput value='Preço' />

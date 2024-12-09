@@ -64,11 +64,11 @@ export default function Finance({ navigation }) {
     const handleDownloadExcel = async () => {
         const url = 'https://api.fonotherapp.com.br/spreadsheet';
         const destination = FileSystem.documentDirectory + 'Controle_financeiro.xlsx';
-        
+
         try {
             const { uri } = await FileSystem.downloadAsync(url, destination);
             console.log('Arquivo baixado para:', uri);
-    
+
             // Compartilhar o arquivo baixado
             if (Platform.OS === "android") {
                 const directoryUri = FileSystem.cacheDirectory + "Controle_financeiro.xlsx";
@@ -82,7 +82,7 @@ export default function Finance({ navigation }) {
             console.error("Erro ao baixar o arquivo:", error);
         }
     };
-    
+
 
     const renderFooter = () => {
         if (!isLoading) return null;
@@ -106,29 +106,35 @@ export default function Finance({ navigation }) {
 
     return (
         <View style={styles.container}>
-            {false && <Text style={styles.title}>Relatórios financeiros</Text>}
 
             <View style={styles.listContainer}>
-                <FlatList
-                    data={sessionsHistory}
-                    keyExtractor={(item, index) => `${item?.rep_id}-${index}`} // Garante a unicidade da chave
-                    onEndReached={handleEndReached}
-                    onEndReachedThreshold={0.1}
-                    ListFooterComponent={renderFooter}
-                    renderItem={({ item }) => (
-                        <Pressable
-                            style={styles.pressable}
-                            onPress={() => downloadPdf(item?.rep_id)} // Navegar para o perfil do paciente
-                        >
-                            <List.Item
-                                title={item.pacient.name} // Nome do paciente
-                                description={`Sessão: ${dayjs(item.created_at).format('DD/MM/YYYY - HH:mm')}`} // Data da sessão
-                                left={(props) => <List.Icon {...props} icon="file-document" color='#FF4D4D' />}
-                            />
-                            <Divider />
-                        </Pressable>
-                    )}
-                />
+                {
+                    isEmpty ? 
+                    <View style={{bottom:15}}>
+                        <NotFoudMessageList />
+                    </View> :
+
+                        < FlatList
+                            data={sessionsHistory}
+                            keyExtractor={(item, index) => `${item?.rep_id}-${index}`} // Garante a unicidade da chave
+                            onEndReached={handleEndReached}
+                            onEndReachedThreshold={0.1}
+                            ListFooterComponent={renderFooter}
+                            renderItem={({ item }) => (
+                                <Pressable
+                                    style={styles.pressable}
+                                    onPress={() => downloadPdf(item?.rep_id)} // Navegar para o perfil do paciente
+                                >
+                                    <List.Item
+                                        title={item.pacient.name} // Nome do paciente
+                                        description={`Sessão: ${dayjs(item.created_at).format('DD/MM/YYYY - HH:mm')}`} // Data da sessão
+                                        left={(props) => <List.Icon {...props} icon="file-document" color='#FF4D4D' />}
+                                    />
+                                    <Divider />
+                                </Pressable>
+                            )}
+                        />
+                }
             </View>
             <View style={styles.fixedButtonContainer}>
                 <Button
@@ -137,7 +143,7 @@ export default function Finance({ navigation }) {
                     buttonColor='#1D6F42'
                     onPress={handleDownloadExcel}
                     style={{
-                        bottom: 20,
+                        bottom: 50,
                         left: 0,
                         right: 0,
                         alignItems: 'center',
@@ -167,6 +173,8 @@ const styles = StyleSheet.create({
     listContainer: {
         flexGrow: 1,
         width: '100%',
+        height: "95%",
+        maxHeight: "95%",
     },
     downloadButton: {
         marginTop: 15,

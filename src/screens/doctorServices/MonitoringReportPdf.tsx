@@ -25,15 +25,15 @@ const MonitoringReportPdf = ({ route }: any) => {
     const [loading, setLoading] = useState(false);
 
     const schema = yup.object({
-        diagnoses: yup.string().required("Campo obrigatório"),
-        structural_assessment: yup.string().required("Campo obrigatório"),
-        functional_assessment: yup.string().required("Campo obrigatório"),
-        swallowing_assessment: yup.string().required("Campo obrigatório"),
-        general_guidelines: yup.string().required("Campo obrigatório"),
-        conclusion: yup.string().required("Campo obrigatório"),
-        next_steps: yup.string().required("Campo obrigatório"),
-       
-    });
+        diagnoses: yup.string().max(300, "Valor máximo excedido: 300 caracteres").required("Campo obrigatório"),
+        structural_assessment: yup.string().max(300, "Valor máximo excedido: 300 caracteres").required("Campo obrigatório"),
+        functional_assessment: yup.string().max(300, "Valor máximo excedido: 300 caracteres").required("Campo obrigatório"),
+        swallowing_assessment: yup.string().max(300, "Valor máximo excedido: 300 caracteres").required("Campo obrigatório"),
+        general_guidelines: yup.string().max(300, "Valor máximo excedido: 300 caracteres").required("Campo obrigatório"),
+        conclusion: yup.string().max(300, "Valor máximo excedido: 300 caracteres").required("Campo obrigatório"),
+        next_steps: yup.string().max(300, "Valor máximo excedido: 300 caracteres").required("Campo obrigatório"),
+      });
+      
 
     const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
         defaultValues: {
@@ -51,25 +51,18 @@ const MonitoringReportPdf = ({ route }: any) => {
 
     async function getPdf(values: any) {
         try {
-            setLoading(true);
-           
-
             const response: any = await api.post(`/follow-up-report/${pacient?.pac_id}`, values)
-
             await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, accessToken, setLoading)
         } catch (error) {
             console.error("Ocorreu um erro", error)
+            setLoading(false);
         }
     }
 
 
     return (
         <KeyboardView>
-        <ScrollView style={{ padding: 10, }}>
-            <Text  style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-                Relatório de Acompanhamento - Paciente   {pacient.person.name}
-            </Text>
-
+        <ScrollView style={{ padding: 20, }}>
             <View>
 
                 <LabelInput value='Diagnóstico(s)' />

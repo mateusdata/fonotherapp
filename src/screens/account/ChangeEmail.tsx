@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    padding: 8,
+    padding: 20,
   },
   input: {
     marginBottom: 10,

@@ -2,31 +2,33 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 import { vibrateFeedback } from "./vibrateFeedback";
+import { set } from "react-hook-form";
 
 export default async function downloadPDF(pdfUri: string, pdfName: string, token: string, setLoading: any) {
     try {
-        setTimeout( async() => {
-            const fileUri = FileSystem.documentDirectory + pdfName
-
-            const downloadResumable = FileSystem.createDownloadResumable(
-                pdfUri,
-                fileUri,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
+        setLoading(true)
+        await new Promise((resolve) => setTimeout(resolve, 1))
+        const fileUri = FileSystem.documentDirectory + pdfName
+      
+        const downloadResumable = FileSystem.createDownloadResumable(
+            pdfUri,
+            fileUri,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 },
+            },
 
-            )
+        )
 
-            const downloadResponse = await downloadResumable.downloadAsync()
+        const downloadResponse = await downloadResumable.downloadAsync()
 
-            if (downloadResponse?.uri) {
-                vibrateFeedback()
-                await fileSave(downloadResponse?.uri, pdfName)
-            }
-            setLoading(false)
-        },0);
+        if (downloadResponse?.uri) {
+            vibrateFeedback()
+            await fileSave(downloadResponse?.uri, pdfName)
+        }
+        setLoading(false)
+
     } catch (error) {
         Alert.alert("Download", "Não foi possível realizar o download.")
         console.error(error)

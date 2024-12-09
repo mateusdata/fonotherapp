@@ -21,28 +21,32 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
   const [showImage, setShowImage] = useState<boolean>(true);
   const { setUser } = useAuth();
   const navigation: any = useNavigation();
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const loadImage = async () => {
       try {
         const recoveryShowImage = await AsyncStorage.getItem('showImage');
-        await getUser(setUser);
         if (recoveryShowImage !== null) {
           setShowImage(JSON.parse(recoveryShowImage));
-
+          setLoading(false)
         }
-        if (user !== null) {
+        if (user.profile_picture_url !== null) {
           setImage(user?.profile_picture_url);
         }
-
+        setLoading(false)
       } catch (error) {
         console.error('Erro ao carregar imagem:', error);
+        setLoading(false)
       }
     };
 
     loadImage();
   }, []);
 
+
+  if(loading) {
+    return null;
+  }
 
   const handleUploadImage = async (selectedImageUri: string) => {
     try {
@@ -148,10 +152,9 @@ export default function UploadAvatar({ user }: { user: FormatUser }) {
 
   const openPhoto = () => {
     setIsSheetOpen(false);
-    if (user?.profile_picture_url?.match(/\.(jpg|jpeg|png)$/) && showImage) {
+    if (user?.profile_picture_url !== null && showImage) {
       navigation.navigate('UserPhoto', { image: image });
     }
-
   }
 
   return (

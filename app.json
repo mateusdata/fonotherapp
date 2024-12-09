@@ -56,7 +56,8 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      "react-native-google-mobile-ads"
     ],
     "doctor": {
       "reactNativeDirectoryCheck": {

@@ -56,38 +56,26 @@ const CreateAccount = ({ navigation }: any) => {
   });
 
 
-
   const onSubmit = async (data) => {
-
     try {
-      setLoadingAuth(true);
       setLoading(true);
-
-      const response = await api.post("/user", data)
+      const response = await api.post("/user", data);
       const login = await api.post("/login", data);
       await AsyncStorage.setItem("accessToken", JSON.stringify(login?.data?.token));
       setAccessToken(login?.data?.token)
-      await getUser(setUser)
-      setLoading(false);
+      setLoadingAuth(true);
+      await getUser(setUser);
       setLoadingAuth(false);
       setShowSheetWelcome(true)
-
-      // WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à fonotherApp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
-      reset();
+      
     } catch (error) {
-      setLoadingAuth(false);
-      ;
-
-      if (error.response) {
-        setError("password", { message: "Ocorreu um error" })
-        return setLoading(false)
-
-      }
-      setError("password", { message: "sem conexão com a internet" })
-
-      setLoading(false)
+     
+      console.log(error.response);
+      setLoading(false);
+      
     }
   };
+
 
   return (
     <View style={styles.container}>
@@ -107,7 +95,7 @@ const CreateAccount = ({ navigation }: any) => {
 
         <View style={styles.contentContainer}>
           <View style={{ gap: 10, marginTop: 10 }}>
-            <Text  style={{
+            <Text style={{
               fontSize: 25,
               marginBottom: 0,
               marginTop: 0,
@@ -179,11 +167,11 @@ const CreateAccount = ({ navigation }: any) => {
                     secureTextEntry={!passwordVisible}
                     onChangeText={onChange}
                     value={value}
-                    right={ watch("password") && <TextInput.Icon 
-                      icon={passwordVisible ? "eye-off" : "eye"} 
-                      onPress={() => setPasswordVisible(!passwordVisible)} 
+                    right={watch("password") && <TextInput.Icon
+                      icon={passwordVisible ? "eye-off" : "eye"}
+                      onPress={() => setPasswordVisible(!passwordVisible)}
                     />
-                   }
+                    }
 
                   />
                 )}
@@ -243,7 +231,7 @@ const styles = StyleSheet.create({
     padding: 5,
     top: 15
   },
-  titleText: {   
+  titleText: {
     fontSize: 25,
     marginBottom: 0,
     marginTop: 0,
@@ -260,10 +248,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 15,
   },
-  footerText: {   
+  footerText: {
     color: "gray",
   },
-  linkText: {   
+  linkText: {
     color: "#407AFF",
   },
   eyeIcon: {

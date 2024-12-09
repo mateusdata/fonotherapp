@@ -8,11 +8,12 @@ export const getUser = async (setUser: Function) => {
         const response = await api.get(`/my-user`);
         await AsyncStorage.removeItem("usuario");
         await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
-        const user: FormatUser = response.data;
+        const user: FormatUser = response?.data;
         if (user?.profile_picture_url !== null) {
             const newUser = {
                 ...user,
-                profile_picture_url: user?.profile_picture_url + "?" + new Date().getTime()
+                profile_picture_url: user?.profile_picture_url + "?t=" + new Date().getTime()
+
             }
             setUser(newUser)
         } else {

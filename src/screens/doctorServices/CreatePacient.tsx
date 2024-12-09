@@ -121,11 +121,15 @@ const CreatePacient = ({ navigation }) => {
     //return alert(JSON.stringify(data, null, 2))
     try {
       //comentar essa linha para não validar o cpf
+     
+     
       if (!cpf.isValid(data.cpf)) {
         setError("cpf", { message: "CPF inválido" });
         setLoading(false);
         return;
       }
+        
+  
 
 
       setLoading(true);

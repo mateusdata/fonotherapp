@@ -20,7 +20,8 @@
       "bundleIdentifier": "com.projetofono.fonotherapp",
       "infoPlist": {
         "NSFileProtection": "CompleteUnlessOpen",
-        "NSFaceIDUsageDescription": "Allow $(FonotherApp) to use Face ID.",
+        "NSFaceIDUsageDescription": "Usamos o Face ID para facilitar o login e proteger seus dados.",
+        "NSCameraUsageDescription": "Este aplicativo usa a câmera para permitir tirar foto de perfil.",
         "ITSAppUsesNonExemptEncryption": false,
         "LSApplicationQueriesSchemes": [
           "whatsapp"
@@ -44,11 +45,18 @@
       [
         "expo-video",
         {
-          "supportsBackgroundPlayback": true,
-          "supportsPictureInPicture": true
+          "supportsBackgroundPlayback": false,
+          "supportsPictureInPicture": false
         }
       ],
-      "expo-image-picker"
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to choose a profile picture for the user.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access the camera to take a profile picture for the user"
+        }
+      ],
+      "expo-local-authentication"
     ],
     "doctor": {
       "reactNativeDirectoryCheck": {

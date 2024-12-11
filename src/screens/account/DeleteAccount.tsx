@@ -65,7 +65,7 @@ export default function DeleteAccount() {
         />
       </View>
       <Button textColor='white' buttonColor={colorRed} onPress={handleLogin} >
-        Deletar Conta
+        Apagar Conta
       </Button>
     </View>
   )

@@ -123,7 +123,7 @@ const CreatePacient = ({ navigation }) => {
       //comentar essa linha para não validar o cpf
      
      
-      if (!cpf.isValid(data.cpf)) {
+      if (!__DEV__ &&  !cpf.isValid(data.cpf)) {
         setError("cpf", { message: "CPF inválido" });
         setLoading(false);
         return;
@@ -277,27 +277,3 @@ const styles = StyleSheet.create({
   }
 });
 
-
-/*
-import React from 'react';
-import MaskInput, { Masks } from 'react-native-mask-input';
-import { colorSecundary } from '../style/ColorPalette';
-
-export default function MyComponent() {
-  const [phone, setPhone] = React.useState('');
-
-  return (
-    <MaskInput
-      style={{borderWidth:2, borderColor:colorSecundary, padding:10}}
-      value={phone}
-      placeholder='Data de nascimento'
-      cursorColor={"gray"}
-      onChangeText={(masked, unmasked) => {
-        setPhone(masked); // you can use the unmasked value as well
-      }}
-      mask={Masks.DATE_DDMMYYYY}
-    />
-  );
-}
-
-*/

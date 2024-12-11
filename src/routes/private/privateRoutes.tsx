@@ -64,7 +64,7 @@ const PrivateRoutes = () => {
 
   return (
     <>
-      <StatusBar animated hideTransitionAnimation='fade' style='dark' />
+      <StatusBar animated hideTransitionAnimation='fade' style='light' />
 
       <AppStack.Navigator id={undefined} screenOptions={{
         animation: Platform.OS === "ios" ? "fade_from_bottom" : "slide_from_right",
@@ -202,13 +202,14 @@ const PrivateRoutes = () => {
           options={{
             headerTitle: "Apagar Conta",
             headerTitleAlign: "center",
-            headerTintColor: "black",
+            headerTintColor: "white",
             headerStyle: {
-              backgroundColor: "white"
+              backgroundColor: colorPrimary
             },
             headerShown: true,
+          
             animation: null,
-            presentation: "transparentModal"
+            presentation: Platform.OS === "ios" ? "transparentModal" : "modal",
 
           }}
         />

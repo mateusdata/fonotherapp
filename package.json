@@ -60,7 +60,8 @@
     "tamagui": "^1.117.2",
     "xlsx": "^0.18.5",
     "yup": "^1.4.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "expo-dev-client": "~5.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

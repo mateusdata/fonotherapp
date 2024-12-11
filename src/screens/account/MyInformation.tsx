@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, Text, View, StyleSheet, ScrollView } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthProvider';
-import { colorPrimary } from '../../constants/ColorPalette';
+import { colorPrimary, colorRed } from '../../constants/ColorPalette';
 import { height } from '../../utils/widthScreen';
 
 const MyInformation = ({ navigation }) => {
@@ -40,6 +40,11 @@ const MyInformation = ({ navigation }) => {
           label="Telefone"
           onPress={() => navigation.navigate("ChangePhone")}
         />
+        <MenuItem
+          icon={<Ionicons name="trash-outline" size={28} color={colorRed} />}
+          label="Apagar conta"
+          onPress={() => navigation.navigate("DeleteAccount")}
+        />
       </View>
     </ScrollView>
   );
@@ -49,9 +54,9 @@ const MenuItem = ({ icon, label, onPress }) => (
   <Pressable style={styles.menuItem} onPress={onPress} android_ripple={{ color: colorPrimary }}>
     <View style={styles.menuIconLabel}>
       {icon}
-      <Text style={styles.menuLabel}>{label}</Text>
+      <Text style={[styles.menuLabel, { color: label === "Apagar conta" && colorRed }]}>{label}</Text>
     </View>
-    <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
+    <MaterialIcons name="arrow-forward-ios" size={18} color={label === "Apagar conta" ? colorRed : colorPrimary} />
   </Pressable>
 );
 

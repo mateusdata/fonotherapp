@@ -19,7 +19,7 @@ export const ContextGlobal = createContext<FormatGlobal>({} as FormatGlobal);
 const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
     const [thereSession, setThereSession] = useState<boolean>(false);
     const [isFromRegistration, setIsFromRegistration] = useState<boolean>(false);
-    const [isDevelopment, setIsdevelopment] = useState<boolean>(false);
+    const [isDevelopment, setIsdevelopment] = useState<boolean>(__DEV__);
     const [useBiometrics, setUseBiometrics] = useState<boolean>(false);
 
     // Recuperar o valor de useBiometrics do localStorage ao inicializar

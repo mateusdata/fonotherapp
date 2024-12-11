@@ -49,6 +49,7 @@ import { getUser } from '../../utils/getUser';
 import PatientEvaluation from '../../screens/doctorServices/PatientEvaluation';
 import UpdatePatientEvaluation from '../../screens/doctorServices/UpdatePatientEvaluation';
 import UserPhoto from '../../screens/account/UserPhoto';
+import DeleteAccount from '../../screens/account/DeleteAccount';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
@@ -190,10 +191,28 @@ const PrivateRoutes = () => {
         {/*Rotas de atualização das analises funcional e estrutural */}
 
         <AppStack.Screen name='UpdatePatientEvaluation' component={UpdatePatientEvaluation} options={{ headerTitleAlign: "center", headerTitle: "Atualização" }} />
-      
+
         {/*Rotas de visualização de fotoss */}
-        
+
         <AppStack.Screen name='UserPhoto' component={UserPhoto} options={{ headerTitleAlign: "center", headerTitle: "Foto de perfil" }} />
+
+
+        {/*Rotas de Excluir conta */}
+        <AppStack.Screen name='DeleteAccount' component={DeleteAccount}
+          options={{
+            headerTitle: "Apagar Conta",
+            headerTitleAlign: "center",
+            headerTintColor: "black",
+            headerStyle: {
+              backgroundColor: "white"
+            },
+            headerShown: true,
+            animation: null,
+            presentation: "transparentModal"
+
+          }}
+        />
+
 
       </AppStack.Navigator>
     </>

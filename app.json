@@ -52,8 +52,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to choose a profile picture for the user.",
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access the camera to take a profile picture for the user"
+          "photosPermission": "Permitir acessar suas fotos para selecionar uma imagem que será usada como foto de perfil no aplicativo.",
+          "cameraPermission": "Permitir acessar a câmera para tirar uma foto que será usada como foto de perfil no aplicativo."
         }
       ],
       "expo-local-authentication"
